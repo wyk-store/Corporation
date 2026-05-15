@@ -6,9 +6,8 @@
 <title>WYK — Carrefour Haïti</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700;9..40,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
 <style>
-/* Vos styles CSS originaux (inchangés) */
 :root{
   --bg:#FAFAF8;--surface:#FFFFFF;--s2:#F5F5F3;--s3:#EDEDE9;
   --red:#E8192C;--red-d:#C0111F;--red-s:rgba(232,25,44,.08);
@@ -53,19 +52,11 @@ svg{display:block;flex-shrink:0}
 .ticker-edit-btn.visible{display:block}
 
 /* ── HEADER ── */
-header{
-  position:sticky;top:0;z-index:90;
-  background:var(--glass);
-  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
-  border-bottom:1px solid var(--gbdr);
-  height:58px;display:flex;align-items:center;
-  justify-content:space-between;padding:0 16px;
-  transition:background .3s;
-}
+header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-bottom:1px solid var(--gbdr);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;transition:background .3s}
 .h-left{display:flex;align-items:center;gap:8px}
 .burger{width:36px;height:36px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:background var(--ease);color:var(--text)}
 .burger:hover{background:var(--s2)}
-.burger span{display:block;width:16px;height:1.5px;background:var(--text);border-radius:2px;transition:transform var(--ease),opacity var(--ease)}
+.burger span{display:block;width:16px;height:1.5px;background:var(--text);border-radius:2px}
 .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--text);letter-spacing:-.03em}
 .logo em{font-style:normal;color:var(--red)}
 .desk-nav{display:none;align-items:center;gap:2px;margin-left:4px}
@@ -87,27 +78,18 @@ header{
 .ov{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.4);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity var(--ease)}
 .ov.on{opacity:1;pointer-events:all}
 
-/* ══════════════════════════
-   DRAWER — popup card stack
-══════════════════════════ */
-.drawer{
-  position:fixed;top:0;left:0;bottom:0;
-  width:min(300px,88vw);z-index:110;
-  transform:translateX(-110%);
-  transition:transform .32s cubic-bezier(.32,0,.18,1);
-  display:flex;flex-direction:column;gap:7px;
-  padding:10px;overflow-y:auto;scrollbar-width:none;
-}
+/* ── DRAWER ── */
+.drawer{position:fixed;top:0;left:0;bottom:0;width:min(300px,88vw);z-index:110;transform:translateX(-110%);transition:transform .32s cubic-bezier(.32,0,.18,1);display:flex;flex-direction:column;gap:7px;padding:10px;overflow-y:auto;scrollbar-width:none}
 .drawer::-webkit-scrollbar{display:none}
 .drawer.on{transform:translateX(0)}
-.dw-card{background:var(--surface);border:1px solid var(--bdr);border-radius:20px;overflow:hidden;box-shadow:var(--sh2);flex-shrink:0;}
+.dw-card{background:var(--surface);border:1px solid var(--bdr);border-radius:20px;overflow:hidden;box-shadow:var(--sh2);flex-shrink:0}
 .dw-topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 15px}
 .dw-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text);letter-spacing:-.03em}
 .dw-logo em{font-style:normal;color:var(--red)}
 .dw-x{width:28px;height:28px;border-radius:50%;background:var(--s2);display:flex;align-items:center;justify-content:center;color:var(--t2);transition:background var(--ease)}
 .dw-x:hover{background:var(--s3)}
 .dw-x svg{width:12px;height:12px;stroke:currentColor;stroke-width:2.4;fill:none}
-.dw-user-card{display:none;background:linear-gradient(135deg,#141412,#2d1519);border-radius:20px;padding:15px;position:relative;box-shadow:var(--sh2);flex-shrink:0;overflow:hidden;border:1px solid rgba(255,255,255,.06);}
+.dw-user-card{display:none;background:linear-gradient(135deg,#141412,#2d1519);border-radius:20px;padding:15px;position:relative;box-shadow:var(--sh2);flex-shrink:0;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
 .dw-user-card::before{content:'';position:absolute;right:-8px;top:-18px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(232,25,44,.22),transparent 70%)}
 .dw-user-card.on{display:block}
 .dw-uc-row{display:flex;align-items:center;gap:10px;position:relative;z-index:1}
@@ -122,10 +104,22 @@ header{
 .dw-item+.dw-item{border-top:1px solid var(--bdr)}
 .dw-item:hover{background:var(--s2)}
 .dw-item.active{color:var(--red);background:var(--red-s)}
-.dw-ico{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background var(--ease)}
+.dw-ico{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .dw-ico svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none}
-.ico-r{background:#fff0f1;color:#e8192c}.ico-b{background:#eff6ff;color:#2563eb}.ico-y{background:#fffbeb;color:#d97706}.ico-g{background:#f0fdf4;color:#16a34a}.ico-p{background:#faf5ff;color:#9333ea}.ico-t{background:#f0fdfa;color:#0d9488}.ico-o{background:#fff7ed;color:#ea580c}.ico-pk{background:#fdf2f8;color:#db2777}
-[data-theme="dark"] .ico-r{background:rgba(232,25,44,.14)}[data-theme="dark"] .ico-b{background:rgba(37,99,235,.14)}[data-theme="dark"] .ico-y{background:rgba(217,119,6,.14)}[data-theme="dark"] .ico-g{background:rgba(22,163,74,.14)}[data-theme="dark"] .ico-p{background:rgba(147,51,234,.14)}[data-theme="dark"] .ico-t{background:rgba(13,148,136,.14)}[data-theme="dark"] .ico-o{background:rgba(234,88,12,.14)}[data-theme="dark"] .ico-pk{background:rgba(219,39,119,.14)}
+.ico-r{background:#fff0f1;color:#e8192c}
+.ico-b{background:#eff6ff;color:#2563eb}
+.ico-y{background:#fffbeb;color:#d97706}
+.ico-g{background:#f0fdf4;color:#16a34a}
+.ico-p{background:#faf5ff;color:#9333ea}
+.ico-t{background:#f0fdfa;color:#0d9488}
+.ico-o{background:#fff7ed;color:#ea580c}
+[data-theme="dark"] .ico-r{background:rgba(232,25,44,.14)}
+[data-theme="dark"] .ico-b{background:rgba(37,99,235,.14)}
+[data-theme="dark"] .ico-y{background:rgba(217,119,6,.14)}
+[data-theme="dark"] .ico-g{background:rgba(22,163,74,.14)}
+[data-theme="dark"] .ico-p{background:rgba(147,51,234,.14)}
+[data-theme="dark"] .ico-t{background:rgba(13,148,136,.14)}
+[data-theme="dark"] .ico-o{background:rgba(234,88,12,.14)}
 .dw-chevron{margin-left:auto;color:var(--t3);transition:transform var(--ease);flex-shrink:0}
 .dw-chevron svg{width:12px;height:12px;stroke:currentColor;stroke-width:2;fill:none}
 .dw-item.sub-open .dw-chevron{transform:rotate(90deg)}
@@ -187,19 +181,14 @@ header{
 .te-add{background:var(--red);color:#fff;border-radius:11px;padding:10px 13px;font-size:.78rem;font-weight:700;display:flex;align-items:center;gap:4px;flex-shrink:0;transition:background var(--ease)}
 .te-add:hover{background:var(--red-d)}
 .te-add svg{width:12px;height:12px;stroke:#fff;stroke-width:2.5;fill:none}
-.te-colors{display:flex;gap:8px;margin:12px 0 4px}
-.te-col-btn{width:26px;height:26px;border-radius:50%;border:2.5px solid transparent;cursor:pointer;transition:transform var(--ease),border-color var(--ease)}
-.te-col-btn:hover{transform:scale(1.1)}
-.te-col-btn.on{border-color:var(--text);transform:scale(1.14)}
 .te-save{width:100%;background:var(--text);color:var(--bg);border-radius:12px;padding:13px;font-weight:700;font-size:.87rem;margin-top:14px;transition:opacity var(--ease),transform var(--ease)}
 .te-save:hover{opacity:.86;transform:translateY(-1px)}
 
 /* ── HERO ── */
-.hero{background:var(--surface);padding:36px 20px 48px;position:relative;overflow:hidden;border-bottom:1px solid var(--bdr);}
+.hero{background:var(--surface);padding:36px 20px 48px;position:relative;overflow:hidden;border-bottom:1px solid var(--bdr)}
 .blob1{position:absolute;right:-40px;top:-30px;width:260px;height:260px;background:radial-gradient(circle,rgba(232,25,44,.06),transparent 68%);border-radius:50%;pointer-events:none}
 .blob2{position:absolute;left:-50px;bottom:-20px;width:220px;height:220px;background:radial-gradient(circle,rgba(255,180,0,.05),transparent 68%);border-radius:50%;pointer-events:none}
 [data-theme="dark"] .blob1{background:radial-gradient(circle,rgba(232,25,44,.11),transparent 68%)}
-[data-theme="dark"] .blob2{background:radial-gradient(circle,rgba(255,180,0,.05),transparent 68%)}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--red-s);border:1px solid rgba(232,25,44,.16);border-radius:100px;padding:5px 12px;font-size:.7rem;font-weight:600;color:var(--red);margin-bottom:16px;animation:fu .5s ease both}
 .pulse{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0;animation:blink 1.4s ease infinite}
 @keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.3)}}
@@ -231,6 +220,7 @@ header{
 .slide-btn svg{width:11px;height:11px;stroke:currentColor;stroke-width:2.5;fill:none}
 .slide-btn:hover{transform:translateY(-1px)}
 .slide-vis{width:40%;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.slide-vis img{width:100%;height:100%;object-fit:cover}
 .slide-ph{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px}
 .slide-ph svg{width:40px;height:40px;opacity:.2;stroke:currentColor;stroke-width:1.4;fill:none}
 .slide-ph span{font-size:.66rem;opacity:.3;font-weight:600;text-align:center}
@@ -257,27 +247,242 @@ header{
 .s-prev{left:10px}.s-next{right:10px}
 .s-prev:hover,.s-next:hover{background:var(--surface);box-shadow:var(--sh2);transform:translateY(-50%) scale(1.06)}
 .s-prev svg,.s-next svg{width:14px;height:14px;stroke:currentColor;stroke-width:2.5;fill:none}
+
+/* ── MARQUEE ── */
+.marq{padding:14px 0;border-bottom:1px solid var(--bdr);background:var(--surface);overflow:hidden;mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent)}
+.marq-track{display:flex;gap:9px;width:max-content;animation:mq 22s linear infinite}
+.marq:hover .marq-track{animation-play-state:paused}
+.cat-chip{display:flex;align-items:center;gap:7px;background:var(--surface);padding:5px 12px 5px 8px;border-radius:100px;border:1px solid var(--bdr);box-shadow:var(--sh1);cursor:pointer;white-space:nowrap;transition:transform var(--ease),box-shadow var(--ease)}
+.cat-chip:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.cat-chip-ico{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cat-chip-ico svg{width:12px;height:12px;stroke:currentColor;stroke-width:2;fill:none}
+.cat-chip span{font-size:.75rem;font-weight:600;color:var(--text)}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── PROMO BAND ── */
+.promo-band{margin:14px 16px 0;border-radius:18px;background:linear-gradient(125deg,#c91222,#ff3d50 55%,#ff6b6b);padding:15px 17px;display:flex;align-items:center;justify-content:space-between;gap:10px;overflow:hidden;position:relative}
+.promo-band::before,.promo-band::after{content:'';position:absolute;border-radius:50%;background:rgba(255,255,255,.07)}
+.promo-band::before{right:-15px;top:-25px;width:90px;height:90px}
+.promo-band::after{right:45px;bottom:-35px;width:65px;height:65px}
+.pb-tag{font-size:.61rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.68);margin-bottom:3px}
+.pb-left h3{font-family:'Syne',sans-serif;font-size:.96rem;font-weight:800;color:#fff;line-height:1.15}
+.pb-left p{font-size:.71rem;color:rgba(255,255,255,.76);margin-top:2px}
+.pb-cta{background:#fff;color:var(--red);padding:8px 13px;border-radius:9px;font-weight:800;font-size:.76rem;flex-shrink:0;position:relative;z-index:1;display:flex;align-items:center;gap:5px;transition:transform var(--ease)}
+.pb-cta svg{width:10px;height:10px;stroke:currentColor;stroke-width:2.5;fill:none}
+.pb-cta:hover{transform:scale(1.05)}
+
+/* ── STATS ── */
+.stats-bar{margin:14px 16px 0;display:grid;grid-template-columns:repeat(3,1fr);background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--gbdr);border-radius:18px;overflow:hidden;box-shadow:var(--sh1)}
+.stat-item{padding:14px 10px;text-align:center;position:relative}
+.stat-item+.stat-item::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:1px;background:var(--bdr)}
+.stat-val{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--text);letter-spacing:-.03em}
+.stat-val em{color:var(--red);font-style:normal}
+.stat-lbl{font-size:.61rem;font-weight:500;color:var(--t3);margin-top:2px}
+
+/* ── SECTION ── */
+.sec{padding:24px 16px}
+.sec+.sec{padding-top:4px}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:14px}
+.sec-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--text);letter-spacing:-.01em}
+.sec-title em{font-style:normal;color:var(--red)}
+.see-all{font-size:.75rem;font-weight:600;color:var(--red);text-decoration:none;display:flex;align-items:center;gap:2px;transition:gap var(--ease)}
+.see-all svg{width:12px;height:12px;stroke:currentColor;stroke-width:2.5;fill:none}
+.see-all:hover{gap:4px}
+
+/* ── PRODUCT GRID ── */
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.prod-card{background:var(--surface);border:1px solid var(--bdr);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform var(--ease),box-shadow var(--ease)}
+.prod-card:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
+.prod-img{width:100%;height:140px;background:var(--s2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.prod-img img{width:100%;height:100%;object-fit:cover}
+.prod-img-ph{display:flex;flex-direction:column;align-items:center;gap:5px}
+.prod-img-ph svg{width:28px;height:28px;stroke:var(--bdr2);stroke-width:1.4;fill:none}
+.prod-img-ph span{font-size:.58rem;color:var(--t3);font-weight:600}
+.prod-badge{position:absolute;top:7px;left:7px;border-radius:6px;padding:2px 7px;font-size:.58rem;font-weight:800;letter-spacing:.04em}
+.badge-new{background:var(--red);color:#fff}
+.badge-promo{background:#f59e0b;color:#fff}
+.badge-pop{background:#8b5cf6;color:#fff}
+.prod-body{padding:10px}
+.prod-name{font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prod-price-row{display:flex;align-items:center;gap:6px}
+.prod-price{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:800;color:var(--red)}
+.prod-old{font-size:.68rem;color:var(--t3);text-decoration:line-through}
+.empty-box{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;padding:40px 20px;text-align:center;background:var(--surface);border-radius:18px;border:1.5px dashed var(--bdr2)}
+.empty-ico{width:48px;height:48px;border-radius:14px;background:var(--s2);display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.empty-ico svg{width:22px;height:22px;stroke:var(--t3);stroke-width:1.5;fill:none}
+.empty-box h4{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:800;color:var(--t2);margin-bottom:5px}
+.empty-box p{font-size:.76rem;color:var(--t3);line-height:1.6;max-width:200px}
+
+/* ── CATEGORIES ── */
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cat-card{background:var(--surface);border:1px solid var(--bdr);border-radius:16px;padding:13px 8px 12px;text-align:center;cursor:pointer;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:5px;transition:transform var(--ease),box-shadow var(--ease),border-color var(--ease)}
+.cat-card:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:var(--bdr2)}
+.cat-ico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:2px}
+.cat-ico svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.8;fill:none}
+.cat-name{font-size:.73rem;font-weight:700;color:var(--text);letter-spacing:-.01em}
+.cat-count{font-size:.6rem;color:var(--t3)}
+
+/* ── SERVICES ── */
+.svc-list{display:flex;flex-direction:column;gap:7px}
+.svc-card{background:var(--surface);border:1px solid var(--bdr);border-radius:16px;padding:13px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:box-shadow var(--ease),border-color var(--ease),transform var(--ease)}
+.svc-card:hover{box-shadow:var(--sh2);border-color:var(--bdr2);transform:translateX(3px)}
+.svc-ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.svc-ico svg{width:19px;height:19px;stroke:currentColor;stroke-width:1.8;fill:none}
+.svc-card h4{font-weight:700;font-size:.83rem;color:var(--text);margin-bottom:2px}
+.svc-card p{font-size:.73rem;color:var(--t2);line-height:1.45}
+.svc-arr{margin-left:auto;color:var(--t3);flex-shrink:0}
+.svc-arr svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none}
+.svc-r{background:#fff0f1;color:#e8192c}
+.svc-b{background:#eff6ff;color:#2563eb}
+.svc-p{background:#faf5ff;color:#9333ea}
+[data-theme="dark"] .svc-r{background:rgba(232,25,44,.14)}
+[data-theme="dark"] .svc-b{background:rgba(37,99,235,.14)}
+[data-theme="dark"] .svc-p{background:rgba(147,51,234,.14)}
+
+/* ── LOCAL BLOCK ── */
+.local-block{margin:0 16px 24px;border-radius:20px;overflow:hidden;background:var(--surface);border:1px solid var(--bdr);box-shadow:var(--sh1)}
+.local-top{height:96px;background:linear-gradient(135deg,#005f73,#0a9396,#94d2bd);display:flex;align-items:center;justify-content:center;gap:16px}
+.local-top svg{width:28px;height:28px;stroke:rgba(255,255,255,.65);stroke-width:1.5;fill:none}
+.local-body{padding:15px}
+.local-body h3{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:800;color:var(--text);margin-bottom:5px}
+.local-body p{font-size:.77rem;color:var(--t2);line-height:1.6;margin-bottom:11px;max-width:300px}
+.local-tags{display:flex;flex-wrap:wrap;gap:5px}
+.ltag{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:4px 9px;font-size:.67rem;font-weight:500;color:var(--t2);display:flex;align-items:center;gap:4px}
+.ltag svg{width:10px;height:10px;stroke:currentColor;stroke-width:2;fill:none}
+
+/* ── POPUP PRODUIT ── */
+.pop-ov{position:fixed;inset:0;z-index:200;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;opacity:0;transition:opacity .24s}
+.pop-ov.on{opacity:1;pointer-events:all}
+.pop-sheet{background:var(--surface);border:1px solid var(--bdr);border-radius:28px 28px 0 0;width:100%;max-width:560px;transform:translateY(100%);transition:transform .34s cubic-bezier(.34,1.08,.64,1);max-height:92vh;overflow-y:auto;box-shadow:0 -12px 50px rgba(0,0,0,.13);position:relative;padding-bottom:34px}
+.pop-ov.on .pop-sheet{transform:translateY(0)}
+.pop-handle{width:34px;height:4px;border-radius:2px;background:var(--bdr2);margin:13px auto 0}
+.pop-img{width:calc(100% - 26px);height:200px;background:var(--s2);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:11px 13px 0;overflow:hidden}
+.pop-img img{width:100%;height:100%;object-fit:cover}
+.pop-img-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;width:100%;height:100%}
+.pop-img-ph svg{width:34px;height:34px;stroke:var(--bdr2);stroke-width:1.4;fill:none}
+.pop-img-ph span{font-size:.68rem;color:var(--bdr2);font-weight:600}
+.pop-body{padding:13px 17px 0}
+.pop-cat{font-size:.65rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.pop-name{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:8px}
+.pop-pr{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.pop-price{font-family:'Syne',sans-serif;font-size:1.32rem;font-weight:800;color:var(--red)}
+.pop-old{font-size:.82rem;color:var(--t3);text-decoration:line-through}
+.pop-desc{font-size:.79rem;color:var(--t2);line-height:1.65;margin-bottom:12px}
+.pop-stock-ok{display:inline-flex;align-items:center;gap:4px;font-size:.68rem;font-weight:700;background:rgba(34,197,94,.1);color:#16a34a;padding:3px 8px;border-radius:100px;margin-bottom:9px}
+.pop-stock-ok svg{width:10px;height:10px;stroke:currentColor;stroke-width:2.5;fill:none}
+.opt-lbl{font-size:.66rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.opt-colors{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:11px}
+.color-dot{width:23px;height:23px;border-radius:50%;cursor:pointer;border:2.5px solid var(--bdr);transition:border-color var(--ease),transform var(--ease)}
+.color-dot:hover,.color-dot.on{border-color:var(--text);transform:scale(1.13)}
+.opt-sizes{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+.size-chip{padding:6px 12px;border-radius:100px;border:1.5px solid var(--bdr);color:var(--t2);font-size:.74rem;font-weight:600;cursor:pointer;transition:all var(--ease)}
+.size-chip:hover,.size-chip.on{border-color:var(--red);color:var(--red);background:var(--red-s)}
+.pop-spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+.pop-spec{background:var(--s2);border:1px solid var(--bdr);border-radius:10px;padding:8px 10px}
+.pop-spec-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--t3);margin-bottom:2px}
+.pop-spec-val{font-size:.77rem;font-weight:600;color:var(--text)}
+.pop-actions{display:flex;gap:7px;padding:0 17px}
+.pop-cart{flex:1;background:var(--red);color:#fff;padding:13px;border-radius:13px;font-weight:700;font-size:.88rem;display:flex;align-items:center;justify-content:center;gap:6px;transition:background var(--ease),transform var(--ease)}
+.pop-cart svg{width:16px;height:16px;stroke:#fff;stroke-width:2.2;fill:none}
+.pop-cart:hover{background:var(--red-d);transform:translateY(-1px)}
+.pop-wish{width:48px;height:48px;border-radius:13px;background:var(--s2);border:1.5px solid var(--bdr);display:flex;align-items:center;justify-content:center;transition:all var(--ease)}
+.pop-wish svg{width:16px;height:16px;stroke:var(--t2);stroke-width:2;fill:none}
+.pop-wish:hover{border-color:var(--red);background:var(--red-s)}
+.pop-wish:hover svg{stroke:var(--red)}
+.pop-wa{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;background:#25D366;color:#fff;padding:12px;border-radius:13px;font-weight:700;font-size:.88rem;margin:9px 0 0;transition:transform var(--ease),box-shadow var(--ease)}
+.pop-wa svg{width:16px;height:16px}
+.pop-wa:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(37,211,102,.36)}
+.pop-wa-wrap{padding:0 17px}
+.pop-close{position:absolute;top:12px;right:12px;width:27px;height:27px;border-radius:50%;background:var(--s2);display:flex;align-items:center;justify-content:center;transition:background var(--ease)}
+.pop-close:hover{background:var(--s3)}
+.pop-close svg{width:12px;height:12px;stroke:var(--t2);stroke-width:2.5;fill:none}
+
+/* ── FOOTER ── */
+footer{background:#0A0A09;position:relative;overflow:hidden;padding:0 0 80px}
+[data-theme="dark"] footer{background:#050504}
+.ft-hero{padding:34px 20px 26px;position:relative;border-bottom:1px solid rgba(255,255,255,.06)}
+.ft-hero::before{content:'';position:absolute;right:-30px;top:-30px;width:180px;height:180px;background:radial-gradient(circle,rgba(232,25,44,.13),transparent 70%);border-radius:50%;pointer-events:none}
+.ft-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:#fff;letter-spacing:-.03em;margin-bottom:7px}
+.ft-logo em{font-style:normal;color:#ff6b6b}
+.ft-tagline{font-size:.78rem;color:rgba(255,255,255,.34);line-height:1.6;max-width:240px;margin-bottom:17px}
+.ft-wa{display:inline-flex;align-items:center;gap:7px;background:#25D366;color:#fff;padding:10px 18px;border-radius:100px;font-weight:700;font-size:.81rem;text-decoration:none;transition:transform var(--ease),box-shadow var(--ease)}
+.ft-wa svg{width:14px;height:14px}
+.ft-wa:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(37,211,102,.38)}
+.ft-glass{margin:16px 16px 0;background:rgba(255,255,255,.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.09);border-radius:15px;padding:14px 15px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ftg-ico{width:32px;height:32px;border-radius:9px;background:rgba(232,25,44,.14);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ftg-ico svg{width:16px;height:16px;stroke:#e8192c;stroke-width:1.8;fill:none}
+.ftg-t{font-size:.78rem;font-weight:600;color:rgba(255,255,255,.7)}
+.ftg-s{font-size:.66rem;color:rgba(255,255,255,.26);margin-top:1px}
+.ftg-btn{background:var(--red);color:#fff;padding:7px 12px;border-radius:8px;font-size:.71rem;font-weight:700;flex-shrink:0;transition:transform var(--ease)}
+.ftg-btn:hover{transform:scale(1.04)}
+.ft-cols{display:grid;grid-template-columns:1fr 1fr;gap:22px 14px;padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.ft-col-t{font-size:.57rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.26);margin-bottom:10px}
+.ft-col a{display:flex;align-items:center;gap:6px;font-size:.78rem;color:rgba(255,255,255,.4);text-decoration:none;padding:3px 0;transition:color var(--ease)}
+.ft-col a svg{width:11px;height:11px;stroke:currentColor;stroke-width:1.8;fill:none;flex-shrink:0}
+.ft-col a:hover{color:rgba(255,255,255,.8)}
+.ft-bottom{padding:13px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.ft-copy{font-size:.65rem;color:rgba(255,255,255,.16)}
+.ft-socials{display:flex;gap:6px}
+.ft-soc{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--ease),transform var(--ease)}
+.ft-soc:hover{background:rgba(255,255,255,.11);transform:translateY(-2px)}
+.ft-soc svg{width:12px;height:12px;stroke:rgba(255,255,255,.44);stroke-width:1.8;fill:none}
+
+/* ── BOTTOM NAV ── */
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:80;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-top:1px solid var(--gbdr);display:flex;height:58px;padding:0 6px;box-shadow:0 -2px 16px rgba(0,0,0,.06)}
+.bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--t3);text-decoration:none;font-size:.55rem;font-weight:600;border-radius:11px;margin:4px 2px;transition:color var(--ease),background var(--ease)}
+.bni svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.7;fill:none}
+.bni:hover{color:var(--text);background:var(--s2)}
+.bni.on{color:var(--red)}
+.bni.on svg{stroke-width:2.2}
+
 /* ── TOAST ── */
 .toast{position:fixed;bottom:68px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--text);color:var(--bg);padding:9px 15px;border-radius:100px;font-size:.79rem;font-weight:500;opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;white-space:nowrap;z-index:500;box-shadow:var(--sh2);display:flex;align-items:center;gap:6px}
 .toast svg{width:13px;height:13px;stroke:#22c55e;stroke-width:2.5;fill:none}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
+/* ── LOADING SKELETON ── */
+.skel{background:linear-gradient(90deg,var(--s2) 25%,var(--s3) 50%,var(--s2) 75%);background-size:200% 100%;animation:skel 1.4s infinite;border-radius:8px}
+@keyframes skel{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
 /* ── RESPONSIVE ── */
 @media(min-width:640px){
   .hero{padding:44px 28px 52px}
-  .slide-in{min-height:228px}
+  .sec{padding:28px 22px}
+  .promo-band,.stats-bar{margin-left:22px;margin-right:22px}
+  .local-block{margin:0 22px 24px}
+  .pgrid{grid-template-columns:repeat(3,1fr)}
 }
 @media(min-width:900px){
   .burger{display:none}
   .desk-nav{display:flex}
   .hero{padding:52px 40px 60px;display:flex;align-items:center;gap:44px;min-height:380px}
-  .slide-in{min-height:250px}
+  .sec{padding:36px 40px}
+  .promo-band,.stats-bar{margin-left:40px;margin-right:40px}
+  .local-block{margin:0 40px 28px}
+  .pgrid{grid-template-columns:repeat(4,1fr)}
+  .cat-grid{grid-template-columns:repeat(6,1fr)}
+  .svc-list{flex-direction:row;gap:10px}
+  .svc-card{flex:1;flex-direction:column;align-items:flex-start;gap:10px}
+  .svc-arr{display:none}
+  .bnav{display:none}
   body{padding-bottom:0}
+  .ft-hero{padding:42px 40px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .ft-tagline{margin-bottom:0}
+  .ft-cols{grid-template-columns:repeat(4,1fr);padding:24px 40px}
+  .ft-glass{margin:16px 40px 0}
+  .ft-bottom{padding:13px 40px}
   header{padding:0 28px}
 }
 @media(min-width:1200px){
   header{padding:0 48px}
   .hero{padding:58px 48px 66px}
+  .sec{padding:40px 48px}
+  .promo-band,.stats-bar{margin-left:48px;margin-right:48px}
+  .local-block{margin:0 48px 32px}
+  .ft-hero{padding:46px 48px 30px}
+  .ft-cols{padding:28px 48px}
+  .ft-glass{margin:16px 48px 0}
+  .ft-bottom{padding:14px 48px}
 }
 </style>
 </head>
@@ -288,21 +493,13 @@ header{
   <div class="ticker-pill" id="tickerPill">
     <button class="ticker-edit-btn" id="tickerEditBtn" onclick="openTickerEditor()">Modifier ✏️</button>
     <div class="ticker-track" id="tickerTrack">
-      <span class="ti"><svg fill="currentColor" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><strong>-20% casques Bluetooth</strong> — Aujourd&#8217;hui seulement</span>
+      <span class="ti"><svg fill="currentColor" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><strong>WYK</strong> — Carrefour Haïti</span>
       <span class="tsep"></span>
-      <span class="ti"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Livraison rapide &#224; Carrefour &#8212; d&#232;s <strong>500 HTG</strong></span>
+      <span class="ti">Chargement des annonces…</span>
       <span class="tsep"></span>
-      <span class="ti"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>Abonnements <strong>Netflix &amp; Spotify</strong> en HTG</span>
+      <span class="ti"><svg fill="currentColor" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><strong>WYK</strong> — Carrefour Haïti</span>
       <span class="tsep"></span>
-      <span class="ti"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>Nouvelle collection <strong>Mode 2026</strong></span>
-      <span class="tsep"></span>
-      <span class="ti"><svg fill="currentColor" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><strong>-20% casques Bluetooth</strong> — Aujourd&#8217;hui seulement</span>
-      <span class="tsep"></span>
-      <span class="ti"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Livraison rapide &#224; Carrefour &#8212; d&#232;s <strong>500 HTG</strong></span>
-      <span class="tsep"></span>
-      <span class="ti"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>Abonnements <strong>Netflix &amp; Spotify</strong> en HTG</span>
-      <span class="tsep"></span>
-      <span class="ti"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>Nouvelle collection <strong>Mode 2026</strong></span>
+      <span class="ti">Chargement des annonces…</span>
       <span class="tsep"></span>
     </div>
   </div>
@@ -312,13 +509,12 @@ header{
 <header>
   <div class="h-left">
     <button class="burger" id="burgerBtn" onclick="toggleDrawer()"><span></span><span></span><span></span></button>
-    <a class="logo" href="#">W<em>YK</em></a>
+    <a class="logo" href="index.html">W<em>YK</em></a>
     <nav class="desk-nav">
-      <a href="#" class="on">Accueil</a>
-      <a href="categories.html">Cat&#233;gories</a>
+      <a href="index.html" class="on">Accueil</a>
+      <a href="categories.html">Catégories</a>
       <a href="#">Offres</a>
       <a href="#">Services</a>
-      <a href="apropos.html">&#192; propos</a>
     </nav>
   </div>
   <div class="h-right">
@@ -328,7 +524,7 @@ header{
     </button>
     <button class="hbtn" onclick="openSearch()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg></button>
     <a class="hbtn" href="compte.html"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></a>
-    <button class="hbtn" onclick="showToast('Panier ouvert')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path stroke-linecap="round" d="M16 10a4 4 0 01-8 0"/></svg><span class="cart-badge" id="cartBadge">0</span></button>
+    <button class="hbtn"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path stroke-linecap="round" d="M16 10a4 4 0 01-8 0"/></svg><span class="cart-badge" id="cartBadge">0</span></button>
   </div>
 </header>
 
@@ -342,57 +538,40 @@ header{
       <button class="dw-x" onclick="closeDrawer()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
   </div>
-
   <div class="dw-user-card" id="dwUserCard">
     <div class="dw-uc-row">
       <div class="dw-uc-av"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div>
       <div><div class="dw-uc-name" id="dwUserName">Utilisateur</div><div class="dw-uc-role">Membre WYK</div></div>
-      <button class="dw-logout" onclick="logoutUser()">D&#233;co.</button>
+      <button class="dw-logout" onclick="logoutUser()">Déco.</button>
     </div>
   </div>
-
   <div class="dw-nav-card">
-    <a class="dw-item active" href="#">
-      <div class="dw-ico ico-r"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>
-      Accueil
+    <a class="dw-item active" href="index.html">
+      <div class="dw-ico ico-r"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>Accueil
     </a>
-    <div class="dw-item" id="itemCat" onclick="toggleSub('itemCat','subCat')">
-      <div class="dw-ico ico-b"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></div>
-      Cat&#233;gories
-      <span class="dw-chevron"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></span>
-    </div>
-    <div class="sub-menu" id="subCat">
-      <a class="sub-link" href="#"><span class="sub-dot" style="background:#e8192c"></span>Mode</a>
-      <a class="sub-link" href="#"><span class="sub-dot" style="background:#2563eb"></span>Tech</a>
-      <a class="sub-link" href="#"><span class="sub-dot" style="background:#16a34a"></span>Services</a>
-      <a class="sub-link" href="#"><span class="sub-dot" style="background:#d97706"></span>Accessoires</a>
-    </div>
+    <a class="dw-item" href="categories.html">
+      <div class="dw-ico ico-b"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></div>Catégories
+    </a>
     <a class="dw-item" href="#">
-      <div class="dw-ico ico-y"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/></svg></div>
-      Offres &amp; Promos
+      <div class="dw-ico ico-y"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/></svg></div>Offres &amp; Promos
     </a>
     <a class="dw-item" href="compte.html">
-      <div class="dw-ico ico-g"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div>
-      Mon compte
+      <div class="dw-ico ico-g"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div>Mon compte
     </a>
   </div>
-
   <div class="dw-nav-card">
-    <a class="dw-item" href="apropos.html"><div class="dw-ico ico-p"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 16v-4M12 8h.01"/></svg></div>&#192; propos</a>
     <a class="dw-item" href="#"><div class="dw-ico ico-t"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></div>Contact</a>
     <a class="dw-item" href="#"><div class="dw-ico ico-o"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg></div>Livraison</a>
-    <div class="dw-item" onclick="showToast('Bient\u00f4t disponible !')">
+    <div class="dw-item" onclick="showToast('Bientôt disponible !')">
       <div class="dw-ico ico-y"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg></div>
-      Jeux &amp; Concours<span class="soon-badge">BIENT&#212;T</span>
+      Jeux &amp; Concours<span class="soon-badge">BIENTÔT</span>
     </div>
   </div>
-
-  <a class="dw-admin-card" id="adminSection" href="#">
+  <a class="dw-admin-card" id="adminSection" href="admin.html">
     <div class="dw-admin-ico"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg></div>
-    <div><div class="dw-admin-t">Espace Admin</div><div class="dw-admin-s">Produits, promos, ticker&#8230;</div></div>
+    <div><div class="dw-admin-t">Espace Admin</div><div class="dw-admin-s">Produits, promos, ticker…</div></div>
     <div class="dw-admin-arr"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></div>
   </a>
-
   <a class="dw-wa" href="https://wa.me/50940300966">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     +509 403 009 66
@@ -403,7 +582,7 @@ header{
 <div class="search-panel" id="searchPanel">
   <div class="s-row">
     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
-    <input type="text" id="searchInput" placeholder="Rechercher un produit, une marque&#8230;">
+    <input type="text" id="searchInput" placeholder="Rechercher un produit, une marque…">
     <button class="s-cancel" onclick="closeSearch()">Annuler</button>
   </div>
   <div class="s-label">Recherches populaires</div>
@@ -411,9 +590,8 @@ header{
     <div class="s-chip"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>Chaussures</div>
     <div class="s-chip"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M15.536 8.464a5 5 0 010 7.072M12 18.19l-4.95-4.95a7 7 0 010-9.9"/></svg>Casques BT</div>
     <div class="s-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Montres</div>
-    <div class="s-chip"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path stroke-linecap="round" d="M12 18h.01"/></svg>T&#233;l&#233;phones</div>
+    <div class="s-chip"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path stroke-linecap="round" d="M12 18h.01"/></svg>Téléphones</div>
     <div class="s-chip"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>Netflix HTG</div>
-    <div class="s-chip"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>Livraison</div>
   </div>
 </div>
 
@@ -428,19 +606,10 @@ header{
       <div class="te-lbl2">Messages actuels</div>
       <div id="teMessageList"></div>
       <div class="te-add-row">
-        <input class="te-input" type="text" id="teNewMsg" placeholder="Ex: -30% sur les v&#234;tements !">
+        <input class="te-input" type="text" id="teNewMsg" placeholder="Ex: -30% sur les vêtements !">
         <button class="te-add" onclick="teAdd()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Ajouter</button>
       </div>
-      <div class="te-lbl2" style="margin-top:13px">Couleur</div>
-      <div class="te-colors">
-        <button class="te-col-btn on" style="background:#E8192C" data-c="#E8192C" onclick="teColor(this,'#E8192C')"></button>
-        <button class="te-col-btn" style="background:#111110" data-c="#111110" onclick="teColor(this,'#111110')"></button>
-        <button class="te-col-btn" style="background:#16a34a" data-c="#16a34a" onclick="teColor(this,'#16a34a')"></button>
-        <button class="te-col-btn" style="background:#2563eb" data-c="#2563eb" onclick="teColor(this,'#2563eb')"></button>
-        <button class="te-col-btn" style="background:#9333ea" data-c="#9333ea" onclick="teColor(this,'#9333ea')"></button>
-        <button class="te-col-btn" style="background:#d97706" data-c="#d97706" onclick="teColor(this,'#d97706')"></button>
-      </div>
-      <button class="te-save" onclick="teApply()">Appliquer les changements</button>
+      <button class="te-save" onclick="teSave()">💾 Sauvegarder dans la DB</button>
     </div>
   </div>
 </div>
@@ -452,18 +621,17 @@ header{
     <button class="pop-close" onclick="closePopup()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>
     <div class="pop-img" id="popImg"></div>
     <div class="pop-body">
-      <div class="pop-cat" id="popCat">Cat&#233;gorie</div>
+      <div class="pop-cat" id="popCat">Catégorie</div>
       <div class="pop-name" id="popName">Produit</div>
       <div id="popStock"></div>
-      <div class="pop-pr"><div class="pop-price" id="popPrice">&#8212;</div><div class="pop-old" id="popOld"></div></div>
+      <div class="pop-pr"><div class="pop-price" id="popPrice">—</div><div class="pop-old" id="popOld"></div></div>
       <div class="pop-desc" id="popDesc"></div>
-      <div id="popSpecsSec" style="display:none"><div class="opt-lbl">Caract&#233;ristiques</div><div class="pop-spec-grid" id="popSpecGrid"></div></div>
       <div id="popColorSec" style="display:none"><div class="opt-lbl">Couleur</div><div class="opt-colors" id="popColors" style="margin-bottom:11px"></div></div>
       <div id="popSizeSec" style="display:none"><div class="opt-lbl">Taille</div><div class="opt-sizes" id="popSizes" style="margin-bottom:14px"></div></div>
     </div>
     <div class="pop-actions">
       <button class="pop-cart" onclick="addToCart();closePopup()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path stroke-linecap="round" d="M16 10a4 4 0 01-8 0"/></svg>Ajouter au panier</button>
-      <button class="pop-wish" onclick="showToast('Ajout\u00e9 aux favoris')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg></button>
+      <button class="pop-wish" onclick="showToast('Ajouté aux favoris')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg></button>
     </div>
     <div class="pop-wa-wrap">
       <button class="pop-wa" id="popWaBtn">
@@ -479,149 +647,530 @@ header{
 <!-- HERO -->
 <section class="hero">
   <div class="blob1"></div><div class="blob2"></div>
-  <div class="hero-badge"><div class="pulse"></div>Exclusivement &#224; Carrefour, Ha&#239;ti</div>
-  <h1>Tout ce que tu<br>veux, <em>livr&#233;.</em></h1>
-  <p>Mode, Tech, Services &#8212; le meilleur de Carrefour Ha&#239;ti en quelques clics. Commande, on livre.</p>
+  <div class="hero-badge"><div class="pulse"></div>Exclusivement à Carrefour, Haïti</div>
+  <h1>Tout ce que tu<br>veux, <em>livré.</em></h1>
+  <p>Mode, Tech, Services — le meilleur de Carrefour Haïti en quelques clics. Commande, on livre.</p>
   <div class="hero-btns">
     <a href="#products" class="btn-r"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>Voir les produits</a>
-    <a href="#" class="btn-g"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>Commander</a>
+    <a href="https://wa.me/50940300966" class="btn-g"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>WhatsApp</a>
   </div>
   <div class="hero-pills">
     <div class="pill"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>Livraison locale</div>
-    <div class="pill"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>V&#233;rifi&#233;</div>
+    <div class="pill"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>Vérifié</div>
     <div class="pill"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>WhatsApp</div>
   </div>
 </section>
 
 <!-- SLIDER -->
-<div class="slider">
-  <div class="slider-track" id="sliderTrack">
-    <div class="slide s-red"><div class="slide-in"><div class="slide-c"><div class="slide-tag">Promo du jour</div><div class="slide-h">-20% sur les casques Bluetooth !</div><div class="slide-p">Offre valable aujourd&#8217;hui seulement &#224; Carrefour.</div><button class="slide-btn" onclick="showToast('Promo activ\u00e9e')">Profiter <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></button></div><div class="slide-vis"><div class="slide-ph"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M15.536 8.464a5 5 0 010 7.072M12 18.19l-4.95-4.95a7 7 0 010-9.9"/></svg><span>Image promo</span></div></div></div></div>
-    <div class="slide s-dark"><div class="slide-in"><div class="slide-c"><div class="slide-tag">&#201;v&#233;nement</div><div class="slide-h">Nouvelle collection Mode 2026</div><div class="slide-p">Chaussures, maillots, sacs &#8212; tout le style &#224; Carrefour.</div><button class="slide-btn" onclick="showToast('Collection charg\u00e9e')">D&#233;couvrir <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></button></div><div class="slide-vis"><div class="slide-ph"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span>Image &#233;v&#233;nement</span></div></div></div></div>
-    <div class="slide s-light"><div class="slide-in"><div class="slide-c"><div class="slide-tag">Service</div><div class="slide-h">Netflix &amp; Spotify en HTG</div><div class="slide-p">Paiement MonCash &amp; NatCash accept&#233;s.</div><button class="slide-btn" onclick="showToast('Redirection\u2026')">Commander <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></button></div><div class="slide-vis"><div class="slide-ph"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg><span>Image service</span></div></div></div></div>
-  </div>
+<div class="slider" id="sliderWrap">
+  <div class="slider-track" id="sliderTrack"></div>
   <button class="s-prev" onclick="slidePrev()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M15 19l-7-7 7-7"/></svg></button>
   <button class="s-next" onclick="slideNext()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5l7 7-7 7"/></svg></button>
   <div class="slider-dots" id="sliderDots"></div>
 </div>
 
+<!-- MARQUEE -->
+<div class="marq" id="marqWrap">
+  <div class="marq-track" id="marqTrack">
+    <!-- filled by JS from categories -->
+  </div>
+</div>
+
+<!-- PROMO BAND -->
+<div class="promo-band">
+  <div class="pb-left"><div class="pb-tag">Promo du jour</div><h3>-20% sur tous les casques Bluetooth !</h3><p>Aujourd'hui seulement</p></div>
+  <button class="pb-cta" onclick="showToast('Promo activée')">Profiter <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></button>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-val" id="statProds">—</div><div class="stat-lbl">Produits</div></div>
+  <div class="stat-item"><div class="stat-val"><em>HT</em>G</div><div class="stat-lbl">Prix local</div></div>
+  <div class="stat-item"><div class="stat-val">24<em>h</em></div><div class="stat-lbl">Livraison</div></div>
+</div>
+
+<!-- PRODUITS -->
+<div class="sec" id="products">
+  <div class="sec-head">
+    <div class="sec-title">Produits <em>populaires</em></div>
+    <a href="categories.html" class="see-all">Tout voir <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
+  </div>
+  <div class="pgrid" id="prodGrid">
+    <div class="empty-box">
+      <div class="empty-ico"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg></div>
+      <h4>Chargement…</h4>
+      <p>Les produits arrivent depuis la base de données.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CATÉGORIES -->
+<div class="sec">
+  <div class="sec-head"><div class="sec-title">Nos <em>catégories</em></div><a href="categories.html" class="see-all">Tout voir <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a></div>
+  <div class="cat-grid" id="catGrid">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div class="sec">
+  <div class="sec-head"><div class="sec-title">Nos <em>services</em></div></div>
+  <div class="svc-list">
+    <div class="svc-card"><div class="svc-ico svc-r"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg></div><div><h4>Livraison de nourriture</h4><p>Commande tes plats — on livre vite à Carrefour.</p></div><div class="svc-arr"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></div></div>
+    <div class="svc-card"><div class="svc-ico svc-b"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg></div><div><h4>Abonnements Netflix &amp; +</h4><p>Netflix, Spotify, Disney+ à tarif local en HTG.</p></div><div class="svc-arr"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></div></div>
+    <div class="svc-card"><div class="svc-ico svc-p"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg></div><div><h4>Création graphique</h4><p>Logos, flyers, posts — design pro pour ton business.</p></div><div class="svc-arr"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></div></div>
+  </div>
+</div>
+
+<!-- LOCAL -->
+<div class="local-block">
+  <div class="local-top">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+  </div>
+  <div class="local-body">
+    <h3>Disponible à Carrefour Haïti</h3>
+    <p>Livraison exclusivement dans la zone de Carrefour. Rejoins notre communauté locale.</p>
+    <div class="local-tags">
+      <div class="ltag"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>Carrefour</div>
+      <div class="ltag"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Livraison rapide</div>
+      <div class="ltag"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Paiement local</div>
+      <div class="ltag"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>WhatsApp</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-hero">
+    <div><div class="ft-logo">W<em>YK</em></div><div class="ft-tagline">La boutique de Carrefour Haïti — Mode, Tech, Services et bien plus.</div></div>
+    <a href="https://wa.me/50940300966" class="ft-wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Contacter sur WhatsApp</a>
+  </div>
+  <div class="ft-glass">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="ftg-ico"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg></div>
+      <div><div class="ftg-t">Jeux &amp; Concours</div><div class="ftg-s">Tirages, surprises &amp; cadeaux — bientôt</div></div>
+    </div>
+    <button class="ftg-btn" onclick="showToast('Bientôt disponible !')">Bientôt</button>
+  </div>
+  <div class="ft-cols">
+    <div class="ft-col">
+      <div class="ft-col-t">Boutique</div>
+      <a href="categories.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>Catégories</a>
+      <a href="#"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/></svg>Offres &amp; Promos</a>
+      <a href="#"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>Nos produits</a>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-t">Support</div>
+      <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 16v-4M12 8h.01"/></svg>À propos</a>
+      <a href="#"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>Livraison</a>
+      <a href="#"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>FAQ</a>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <div class="ft-copy">© 2026 WYK · Carrefour, Haïti 🇭🇹</div>
+    <div class="ft-socials">
+      <div class="ft-soc"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></div>
+      <div class="ft-soc"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+      <div class="ft-soc"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
+    </div>
+  </div>
+</footer>
+
+<nav class="bnav">
+  <a class="bni on" href="index.html"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Accueil</a>
+  <a class="bni" href="categories.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>Catégories</a>
+  <a class="bni" href="#"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/></svg>Offres</a>
+  <a class="bni" href="compte.html"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>Compte</a>
+</nav>
+
+<!-- SUPABASE SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// Toggle Theme
-function toggleTheme() {
-  const root = document.documentElement;
-  const currentTheme = root.getAttribute('data-theme');
-  root.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+// ══════════════════════════════════════════
+// SUPABASE CONFIG
+// ══════════════════════════════════════════
+const SUPA_URL = 'https://byrklytqoucdskzvcoau.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5cmtseXRxb3VjZHNrenZjb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTQ0ODcsImV4cCI6MjA5NDI3MDQ4N30.nH7LKYevuBd9jGmFmv7KMNoJu3X_rDaY1BHXZR1v3wM';
+const ADMIN_UID = 'dcdb1af5-6305-4138-b991-cf3a931740ed';
+const WA_NUMBER = '50940300966';
+
+const { createClient } = supabase;
+const db = createClient(SUPA_URL, SUPA_KEY);
+
+// ══════════════════════════════════════════
+// THEME
+// ══════════════════════════════════════════
+function toggleTheme(){
+  var h=document.documentElement,dark=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',dark?'light':'dark');
+  localStorage.setItem('wyk-theme',dark?'light':'dark');
+}
+(function(){var t=localStorage.getItem('wyk-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();
+
+// ══════════════════════════════════════════
+// UI HELPERS
+// ══════════════════════════════════════════
+function toggleDrawer(){var d=document.getElementById('drawer'),o=document.getElementById('overlay'),open=d.classList.toggle('on');o.classList.toggle('on',open)}
+function closeDrawer(){document.getElementById('drawer').classList.remove('on');document.getElementById('overlay').classList.remove('on')}
+function closeAll(){closeDrawer();closeSearch();closeTickerEditor()}
+function openSearch(){document.getElementById('searchPanel').classList.add('on');setTimeout(function(){document.getElementById('searchInput').focus()},80)}
+function closeSearch(){document.getElementById('searchPanel').classList.remove('on')}
+
+var toastTimer;
+function showToast(msg){
+  var el=document.getElementById('toastEl');
+  document.getElementById('toastMsg').textContent=msg;
+  el.classList.add('on');clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){el.classList.remove('on');},2400);
 }
 
-// Drawer Functions
-function toggleDrawer() {
-  document.getElementById('drawer').classList.add('on');
+var cartCount=0;
+function addToCart(){
+  cartCount++;
+  document.getElementById('cartBadge').textContent=cartCount;
+  showToast('Ajouté au panier');
+}
+
+// ══════════════════════════════════════════
+// SLIDER
+// ══════════════════════════════════════════
+var slideIdx=0, slideTotal=0, sliderTimer;
+var THEME_MAP={red:'s-red',dark:'s-dark',light:'s-light'};
+
+async function loadSlides(){
+  var {data,error}=await db.from('slides').select('*').eq('active',true).order('position');
+  if(error||!data||!data.length){
+    // fallback slides
+    data=[
+      {title:'-20% sur les casques Bluetooth !',subtitle:'Offre valable aujourd\'hui seulement à Carrefour.',tag:'Promo du jour',theme:'red',button_text:'Profiter'},
+      {title:'Nouvelle collection Mode 2026',subtitle:'Chaussures, maillots, sacs — tout le style à Carrefour.',tag:'Événement',theme:'dark',button_text:'Découvrir'},
+      {title:'Netflix & Spotify en HTG',subtitle:'Paiement MonCash & NatCash acceptés.',tag:'Service',theme:'light',button_text:'Commander'}
+    ];
+  }
+  var track=document.getElementById('sliderTrack');
+  var dots=document.getElementById('sliderDots');
+  track.innerHTML='';dots.innerHTML='';
+  slideTotal=data.length;
+  data.forEach(function(s,i){
+    var themeClass=THEME_MAP[s.theme]||'s-red';
+    var imgHtml=s.image_url
+      ?'<img src="'+s.image_url+'" alt="'+s.title+'">'
+      :'<div class="slide-ph"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span>Image slide</span></div>';
+    var slide=document.createElement('div');
+    slide.className='slide '+themeClass;
+    slide.innerHTML='<div class="slide-in"><div class="slide-c"><div class="slide-tag">'+s.tag+'</div><div class="slide-h">'+s.title+'</div><div class="slide-p">'+s.subtitle+'</div><button class="slide-btn" onclick="showToast(\''+s.button_text+'!\')">'+s.button_text+' <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></button></div><div class="slide-vis">'+imgHtml+'</div></div>';
+    track.appendChild(slide);
+    var dot=document.createElement('button');
+    dot.className='sdot'+(i===0?' on':'');
+    dot.onclick=(function(n){return function(){goSlide(n)}})(i);
+    dots.appendChild(dot);
+  });
+  sliderTimer=setInterval(function(){goSlide(slideIdx+1)},5000);
+}
+
+function goSlide(n){
+  if(!slideTotal)return;
+  slideIdx=((n%slideTotal)+slideTotal)%slideTotal;
+  document.getElementById('sliderTrack').style.transform='translateX(-'+slideIdx*100+'%)';
+  document.querySelectorAll('.sdot').forEach(function(d,i){d.classList.toggle('on',i===slideIdx)});
+  clearInterval(sliderTimer);sliderTimer=setInterval(function(){goSlide(slideIdx+1)},5000);
+}
+function slideNext(){goSlide(slideIdx+1)}
+function slidePrev(){goSlide(slideIdx-1)}
+
+// ══════════════════════════════════════════
+// TICKER
+// ══════════════════════════════════════════
+var tickerData=[];
+
+async function loadTicker(){
+  var {data,error}=await db.from('ticker_messages').select('*').eq('active',true).order('position');
+  if(error||!data||!data.length){
+    tickerData=[
+      {id:'t1',message:'-20% casques Bluetooth — Aujourd\'hui seulement'},
+      {id:'t2',message:'Livraison rapide à Carrefour — dès 500 HTG'},
+      {id:'t3',message:'Abonnements Netflix & Spotify en HTG'},
+      {id:'t4',message:'Nouvelle collection Mode 2026'}
+    ];
+  } else {
+    tickerData=data;
+  }
+  renderTicker();
+}
+
+function renderTicker(){
+  var track=document.getElementById('tickerTrack');
+  var msgs=tickerData.map(function(t){
+    return '<span class="ti"><svg fill="currentColor" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'+t.message+'</span><span class="tsep"></span>';
+  }).join('');
+  track.innerHTML=msgs+msgs; // double pour l'effet infini
+}
+
+// ══════════════════════════════════════════
+// TICKER EDITOR (Admin)
+// ══════════════════════════════════════════
+function openTickerEditor(){closeDrawer();renderTeList();document.getElementById('teOverlay').classList.add('on')}
+function closeTickerEditor(){document.getElementById('teOverlay').classList.remove('on')}
+
+function renderTeList(){
+  var list=document.getElementById('teMessageList');
+  list.innerHTML='';
+  tickerData.forEach(function(t,i){
+    var row=document.createElement('div');
+    row.className='te-msg-row';
+    row.innerHTML='<div class="te-msg-txt">'+t.message+'</div><button class="te-del" onclick="teDel(\''+t.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>';
+    list.appendChild(row);
+  });
+  if(!tickerData.length)list.innerHTML='<div style="font-size:.78rem;color:var(--t3);text-align:center;padding:10px">Aucun message</div>';
+}
+
+async function teDel(id){
+  tickerData=tickerData.filter(function(t){return t.id!==id});
+  // Supprimer en DB si c'est un vrai UUID
+  if(id.length>10){
+    await db.from('ticker_messages').delete().eq('id',id);
+  }
+  renderTeList();renderTicker();
+}
+
+async function teAdd(){
+  var inp=document.getElementById('teNewMsg'),val=inp.value.trim();
+  if(!val)return;
+  var newItem={message:val,active:true,position:tickerData.length};
+  var {data,error}=await db.from('ticker_messages').insert([newItem]).select();
+  if(data&&data[0])tickerData.push(data[0]);
+  else tickerData.push({id:'local_'+Date.now(),message:val});
+  inp.value='';renderTeList();renderTicker();
+  showToast('Message ajouté !');
+}
+
+async function teSave(){
+  showToast('Sauvegardé ✓');
+  closeTickerEditor();
+}
+
+document.getElementById('teOverlay').addEventListener('click',function(e){
+  if(e.target===document.getElementById('teOverlay'))closeTickerEditor();
+});
+
+// ══════════════════════════════════════════
+// PRODUCTS
+// ══════════════════════════════════════════
+var allProducts=[];
+
+async function loadProducts(){
+  var {data,error}=await db
+    .from('products')
+    .select('*, categories(name,color), product_images(url,position)')
+    .eq('active',true)
+    .order('created_at',{ascending:false})
+    .limit(8);
+
+  var grid=document.getElementById('prodGrid');
+
+  if(error||!data||!data.length){
+    grid.innerHTML='<div class="empty-box"><div class="empty-ico"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg></div><h4>Aucun produit pour l\'instant</h4><p>L\'administrateur ajoutera bientôt les produits disponibles.</p></div>';
+    return;
+  }
+
+  allProducts=data;
+  document.getElementById('statProds').innerHTML=data.length+'<em>+</em>';
+
+  grid.innerHTML='';
+  data.forEach(function(p){
+    var imgs=(p.product_images||[]).sort(function(a,b){return a.position-b.position});
+    var firstImg=imgs[0]?imgs[0].url:null;
+    var imgHtml=firstImg
+      ?'<img src="'+firstImg+'" alt="'+p.name+'" loading="lazy">'
+      :'<div class="prod-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo</span></div>';
+    var badgeHtml=p.badge?'<span class="prod-badge badge-'+p.badge+'">'+(p.badge==='new'?'NOUVEAU':p.badge==='promo'?'PROMO':'⭐')+'</span>':'';
+    var oldHtml=p.old_price?'<span class="prod-old">'+formatPrice(p.old_price)+'</span>':'';
+
+    var card=document.createElement('div');
+    card.className='prod-card';
+    card.innerHTML='<div class="prod-img">'+imgHtml+badgeHtml+'</div><div class="prod-body"><div class="prod-name">'+p.name+'</div><div class="prod-price-row"><span class="prod-price">'+formatPrice(p.price)+'</span>'+oldHtml+'</div></div>';
+    card.onclick=function(){openPopup(p,imgs)};
+    grid.appendChild(card);
+  });
+}
+
+function formatPrice(n){
+  if(!n&&n!==0)return '—';
+  return Number(n).toLocaleString('fr-HT')+' HTG';
+}
+
+// ══════════════════════════════════════════
+// CATEGORIES
+// ══════════════════════════════════════════
+var CAT_ICONS=[
+  '<path stroke-linecap="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>',
+  '<path stroke-linecap="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>',
+  '<path stroke-linecap="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>',
+  '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+  '<path stroke-linecap="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>',
+  '<rect x="5" y="2" width="14" height="20" rx="2"/><path stroke-linecap="round" d="M12 18h.01"/>',
+];
+var CAT_COLORS=['#fff0f1','#eff6ff','#f0fdf4','#fffbeb','#fdf2f8','#faf5ff'];
+var CAT_TEXT=['#e8192c','#2563eb','#16a34a','#d97706','#db2777','#9333ea'];
+
+async function loadCategories(){
+  var {data,error}=await db.from('categories').select('*').order('name');
+  var grid=document.getElementById('catGrid');
+  var marqTrack=document.getElementById('marqTrack');
+
+  if(error||!data||!data.length){
+    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--t3);font-size:.8rem;">Aucune catégorie pour l\'instant.</div>';
+    // marq par défaut
+    marqTrack.innerHTML=defaultMarq()+defaultMarq();
+    return;
+  }
+
+  // Cat grid
+  grid.innerHTML='';
+  data.forEach(function(cat,i){
+    var bg=cat.color||CAT_COLORS[i%CAT_COLORS.length];
+    var tc=CAT_TEXT[i%CAT_TEXT.length];
+    var ico=CAT_ICONS[i%CAT_ICONS.length];
+    var card=document.createElement('a');
+    card.className='cat-card';
+    card.href='categories.html';
+    card.innerHTML='<div class="cat-ico" style="background:'+bg+'"><svg style="color:'+tc+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">'+ico+'</svg></div><div class="cat-name">'+cat.name+'</div><div class="cat-count">Voir tout</div>';
+    grid.appendChild(card);
+  });
+
+  // Marquee
+  var chips=data.map(function(cat,i){
+    var bg=cat.color||CAT_COLORS[i%CAT_COLORS.length];
+    var tc=CAT_TEXT[i%CAT_TEXT.length];
+    var ico=CAT_ICONS[i%CAT_ICONS.length];
+    return '<div class="cat-chip"><div class="cat-chip-ico" style="background:'+bg+';color:'+tc+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+ico+'</svg></div><span>'+cat.name+'</span></div>';
+  }).join('');
+  marqTrack.innerHTML=chips+chips;
+}
+
+function defaultMarq(){
+  return [
+    {ico:'<path stroke-linecap="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>',bg:'#fff0f1',tc:'#e8192c',name:'Mode'},
+    {ico:'<path stroke-linecap="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>',bg:'#eff6ff',tc:'#2563eb',name:'Tech'},
+    {ico:'<path stroke-linecap="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>',bg:'#f0fdf4',tc:'#16a34a',name:'Services'},
+  ].map(function(c){
+    return '<div class="cat-chip"><div class="cat-chip-ico" style="background:'+c.bg+';color:'+c.tc+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+c.ico+'</svg></div><span>'+c.name+'</span></div>';
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// POPUP PRODUIT
+// ══════════════════════════════════════════
+var currentProd=null;
+
+function openPopup(p,imgs){
+  currentProd=p;
+  imgs=imgs||[];
+  var sorted=imgs.sort(function(a,b){return a.position-b.position});
+  var firstImg=sorted[0]?sorted[0].url:null;
+
+  var imgEl=document.getElementById('popImg');
+  if(firstImg){
+    imgEl.innerHTML='<img src="'+firstImg+'" alt="'+p.name+'">';
+  } else {
+    imgEl.innerHTML='<div class="pop-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Aucune image</span></div>';
+  }
+
+  document.getElementById('popCat').textContent=(p.categories&&p.categories.name)||'Produit';
+  document.getElementById('popName').textContent=p.name;
+  document.getElementById('popPrice').textContent=formatPrice(p.price);
+  document.getElementById('popOld').textContent=p.old_price?formatPrice(p.old_price):'';
+  document.getElementById('popDesc').textContent=p.description||'';
+
+  var sw=document.getElementById('popStock');
+  sw.innerHTML=p.stock>0
+    ?'<div class="pop-stock-ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>En stock ('+p.stock+')</div>'
+    :'<div class="pop-stock-ok" style="background:rgba(239,68,68,.1);color:#ef4444">Rupture de stock</div>';
+
+  // Colors
+  var cd=document.getElementById('popColors'),cs=document.getElementById('popColorSec');
+  cd.innerHTML='';
+  if(p.colors&&p.colors.length){
+    cs.style.display='';
+    p.colors.forEach(function(c,i){
+      var dot=document.createElement('div');
+      dot.className='color-dot'+(i===0?' on':'');
+      dot.style.background=c;
+      dot.onclick=function(){cd.querySelectorAll('.color-dot').forEach(function(x){x.classList.remove('on')});dot.classList.add('on')};
+      cd.appendChild(dot);
+    });
+  } else cs.style.display='none';
+
+  // Sizes
+  var sd=document.getElementById('popSizes'),ssec=document.getElementById('popSizeSec');
+  sd.innerHTML='';
+  if(p.sizes&&p.sizes.length){
+    ssec.style.display='';
+    p.sizes.forEach(function(sz,i){
+      var chip=document.createElement('div');
+      chip.className='size-chip'+(i===0?' on':'');
+      chip.textContent=sz;
+      chip.onclick=function(){sd.querySelectorAll('.size-chip').forEach(function(x){x.classList.remove('on')});chip.classList.add('on')};
+      sd.appendChild(chip);
+    });
+  } else ssec.style.display='none';
+
+  // WA button
+  document.getElementById('popWaBtn').onclick=function(){
+    var sz=sd.querySelector('.size-chip.on');
+    var msg='Bonjour WYK, je veux commander : '+p.name+(sz?' (Taille : '+sz.textContent+')':'')+' — '+formatPrice(p.price)+'. Merci !';
+    window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(msg),'_blank');
+  };
+
+  document.getElementById('productPopup').classList.add('on');
   document.getElementById('overlay').classList.add('on');
 }
-function closeDrawer() {
-  document.getElementById('drawer').classList.remove('on');
-  document.getElementById('overlay').classList.remove('on');
-}
-function toggleSub(itemId, subId) {
-  document.getElementById(itemId).classList.toggle('sub-open');
-  document.getElementById(subId).classList.toggle('on');
-}
-function logoutUser() {
-  showToast("Déconnexion réussie");
-}
 
-// Overlay (Close everything)
-function closeAll() {
-  closeDrawer();
-  closeSearch();
-  closeTickerEditor();
-  closePopup();
-}
-
-// Search
-function openSearch() {
-  document.getElementById('searchPanel').classList.add('on');
-  document.getElementById('searchInput').focus();
-}
-function closeSearch() {
-  document.getElementById('searchPanel').classList.remove('on');
-}
-
-// Toast
-function showToast(msg) {
-  const toast = document.getElementById('toastEl');
-  document.getElementById('toastMsg').innerText = msg;
-  toast.classList.add('on');
-  setTimeout(() => toast.classList.remove('on'), 3000);
-}
-
-// Ticker Editor
-function openTickerEditor() {
-  document.getElementById('teOverlay').classList.add('on');
-}
-function closeTickerEditor() {
-  document.getElementById('teOverlay').classList.remove('on');
-}
-function teAdd() {
-  showToast("Message ajouté !");
-}
-function teColor(btn, color) {
-  document.querySelectorAll('.te-col-btn').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById('tickerPill').style.background = color;
-}
-function teApply() {
-  closeTickerEditor();
-  showToast("Modifications appliquées");
-}
-
-// Popup & Cart
-function closePopup() {
+function closePopup(){
   document.getElementById('productPopup').classList.remove('on');
-}
-let cartCount = 0;
-function addToCart() {
-  cartCount++;
-  document.getElementById('cartBadge').innerText = cartCount;
-  showToast("Produit ajouté au panier");
+  document.getElementById('overlay').classList.remove('on');
+  currentProd=null;
 }
 
-// Slider
-let currentSlide = 0;
-const slides = document.querySelectorAll('.slide');
-const track = document.getElementById('sliderTrack');
-const dotsContainer = document.getElementById('sliderDots');
-
-if(slides.length > 0) {
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'sdot' + (i === 0 ? ' on' : '');
-    dot.onclick = () => goToSlide(i);
-    dotsContainer.appendChild(dot);
-  });
+// ══════════════════════════════════════════
+// AUTH STATE (pour afficher/cacher admin)
+// ══════════════════════════════════════════
+async function checkAuthState(){
+  var {data:{session}}=await db.auth.getSession();
+  if(session&&session.user){
+    var user=session.user;
+    document.getElementById('dwUserCard').classList.add('on');
+    document.getElementById('dwUserName').textContent=user.user_metadata&&user.user_metadata.pseudo?user.user_metadata.pseudo:user.email;
+    if(user.id===ADMIN_UID){
+      document.getElementById('adminSection').classList.add('on');
+      document.getElementById('tickerEditBtn').classList.add('visible');
+    }
+  }
 }
 
-function updateSlider() {
-  track.style.transform = `translateX(-${currentSlide * 100}%)`;
-  document.querySelectorAll('.sdot').forEach((dot, i) => {
-    dot.classList.toggle('on', i === currentSlide);
-  });
+async function logoutUser(){
+  await db.auth.signOut();
+  document.getElementById('dwUserCard').classList.remove('on');
+  document.getElementById('adminSection').classList.remove('on');
+  document.getElementById('tickerEditBtn').classList.remove('visible');
+  showToast('Déconnecté avec succès');
 }
-function slideNext() {
-  currentSlide = (currentSlide + 1) % slides.length;
-  updateSlider();
-}
-function slidePrev() {
-  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-  updateSlider();
-}
-function goToSlide(index) {
-  currentSlide = index;
-  updateSlider();
-}
-// Auto-slide optionnel
-setInterval(slideNext, 5000);
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll()});
+
+(async function init(){
+  await checkAuthState();
+  await loadTicker();
+  await loadSlides();
+  await loadProducts();
+  await loadCategories();
+})();
 </script>
-
 </body>
-  </html>
+</html>
+
