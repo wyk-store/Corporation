@@ -6,11 +6,28 @@
 <title>Mon Compte — WYK</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@690;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--bg:#FAFAF8;--surface:#FFFFFF;--s2:#F5F5F3;--s3:#EDEDE9;--red:#E8192C;--red-d:#C0111F;--red-s:rgba(232,25,44,.08);--text:#0F0F0E;--t2:#44443C;--t3:#8A8A82;--bdr:rgba(0,0,0,.07);--bdr2:rgba(0,0,0,.13);--sh1:0 2px 8px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);--sh2:0 4px 20px rgba(0,0,0,.09),0 1px 4px rgba(0,0,0,.05);--glass:rgba(250,250,248,.9);--gbdr:rgba(0,0,0,.06);--blur:blur(24px);--ease:.22s cubic-bezier(.4,0,.2,1)}
-[data-theme="dark"]{--bg:#0D0D0C;--surface:#161615;--s2:#1E1E1C;--s3:#262624;--text:#F2F2EC;--t2:#A0A098;--t3:#64645C;--bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.13);--sh1:0 2px 8px rgba(0,0,0,.3),0 1px 3px rgba(0,0,0,.18);--sh2:0 4px 20px rgba(0,0,0,.42),0 1px 4px rgba(0,0,0,.22);--glass:rgba(13,13,12,.9);--gbdr:rgba(255,255,255,.07);--red-s:rgba(232,25,44,.13)}
+:root{
+  --bg:#FAFAF8;--surface:#FFFFFF;--s2:#F5F5F3;--s3:#EDEDE9;
+  --red:#E8192C;--red-d:#C0111F;--red-s:rgba(232,25,44,.08);
+  --text:#0F0F0E;--t2:#44443C;--t3:#8A8A82;
+  --bdr:rgba(0,0,0,.07);--bdr2:rgba(0,0,0,.13);
+  --sh1:0 2px 8px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);
+  --sh2:0 4px 20px rgba(0,0,0,.09),0 1px 4px rgba(0,0,0,.05);
+  --sh3:0 16px 48px rgba(0,0,0,.13),0 4px 12px rgba(0,0,0,.07);
+  --glass:rgba(250,250,248,.9);--gbdr:rgba(0,0,0,.06);
+  --blur:blur(24px);--ease:.22s cubic-bezier(.4,0,.2,1)
+}
+[data-theme="dark"]{
+  --bg:#0D0D0C;--surface:#161615;--s2:#1E1E1C;--s3:#262624;
+  --text:#F2F2EC;--t2:#A0A098;--t3:#64645C;
+  --bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.13);
+  --sh1:0 2px 8px rgba(0,0,0,.3);--sh2:0 4px 20px rgba(0,0,0,.42);
+  --sh3:0 16px 48px rgba(0,0,0,.58);
+  --glass:rgba(13,13,12,.9);--gbdr:rgba(255,255,255,.07);--red-s:rgba(232,25,44,.13)
+}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;min-height:100vh;padding-bottom:80px}
@@ -18,15 +35,15 @@ a{text-decoration:none;color:inherit}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
 svg{display:block;flex-shrink:0}
 
-/* LOADING */
-.loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;transition:opacity .3s;gap:12px}
+/* ── LOADING ── */
+.loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:12px;transition:opacity .3s}
 .loading-screen.hide{opacity:0;pointer-events:none}
-.loading-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;color:var(--text);letter-spacing:-.03em;animation:blink 1.2s ease infinite}
+.loading-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;color:var(--text);letter-spacing:-.03em;animation:pulse 1.2s ease infinite}
 .loading-logo em{font-style:normal;color:var(--red)}
 .loading-sub{font-size:.8rem;color:var(--t3)}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* HEADER */
+/* ── HEADER ── */
 header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-bottom:1px solid var(--gbdr);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
 .h-left{display:flex;align-items:center;gap:10px}
 .back-btn{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--text);transition:background var(--ease)}
@@ -34,44 +51,42 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 .back-btn svg{width:18px;height:18px;stroke:currentColor;stroke-width:2;fill:none}
 .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--text);letter-spacing:-.03em}
 .logo em{font-style:normal;color:var(--red)}
+.h-right{display:flex;align-items:center;gap:4px}
 .theme-btn{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--text);transition:background var(--ease),transform var(--ease)}
 .theme-btn:hover{background:var(--s2);transform:rotate(18deg)}
 .theme-btn svg{width:16px;height:16px;stroke-width:1.8;stroke:currentColor;fill:none}
 .icon-sun{display:block}[data-theme="dark"] .icon-sun{display:none}
 .icon-moon{display:none}[data-theme="dark"] .icon-moon{display:block}
 
-/* VIEWS */
+/* ── VIEWS ── */
 .view{display:none}.view.active{display:block}
 
-/* AUTH HERO */
-.auth-hero{padding:36px 18px 6px;text-align:center;position:relative;overflow:hidden}
-.auth-blob{position:absolute;left:50%;top:-50px;transform:translateX(-50%);width:300px;height:300px;pointer-events:none;background:radial-gradient(circle,rgba(232,25,44,.07),transparent 65%);border-radius:50%}
+/* ══════════════════════════════
+   AUTH VIEW
+══════════════════════════════ */
+.auth-hero{padding:40px 18px 8px;text-align:center;position:relative;overflow:hidden}
+.auth-blob{position:absolute;left:50%;top:-40px;transform:translateX(-50%);width:320px;height:320px;background:radial-gradient(circle,rgba(232,25,44,.07),transparent 65%);border-radius:50%;pointer-events:none}
 [data-theme="dark"] .auth-blob{background:radial-gradient(circle,rgba(232,25,44,.13),transparent 65%)}
-.auth-logo-big{width:70px;height:70px;border-radius:22px;background:linear-gradient(135deg,var(--red),#ff5a68);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 8px 32px rgba(232,25,44,.25);position:relative;z-index:1;animation:fu .4s ease both}
-.auth-logo-big span{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;color:#fff;letter-spacing:-.03em}
-.auth-logo-big span em{font-style:normal;color:rgba(255,255,255,.6)}
-.auth-hero h2{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text);letter-spacing:-.03em;margin-bottom:7px;position:relative;z-index:1;animation:fu .4s .06s ease both}
+.auth-logo-wrap{width:72px;height:72px;border-radius:22px;background:linear-gradient(135deg,var(--red),#ff5a68);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 8px 32px rgba(232,25,44,.25);position:relative;z-index:1;animation:fu .4s ease}
+.auth-logo-wrap span{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:#fff;letter-spacing:-.03em}
+.auth-logo-wrap span em{font-style:normal;color:rgba(255,255,255,.55)}
+.auth-hero h2{font-family:'Syne',sans-serif;font-size:1.55rem;font-weight:800;color:var(--text);letter-spacing:-.03em;margin-bottom:8px;position:relative;z-index:1;animation:fu .4s .06s ease both}
 .auth-hero h2 em{font-style:normal;color:var(--red)}
-.auth-hero p{font-size:.84rem;color:var(--t2);line-height:1.65;max-width:270px;margin:0 auto 26px;position:relative;z-index:1;animation:fu .4s .12s ease both}
+.auth-hero p{font-size:.85rem;color:var(--t2);line-height:1.65;max-width:270px;margin:0 auto 26px;position:relative;z-index:1;animation:fu .4s .12s ease both}
 
-/* TABS */
-.auth-tabs{display:flex;margin:0 18px 20px;background:var(--s2);border-radius:13px;padding:3px;border:1px solid var(--bdr)}
+.auth-tabs{display:flex;margin:0 18px 20px;background:var(--s2);border-radius:13px;padding:3px;border:1px solid var(--bdr);animation:fu .4s .18s ease both}
 .tab-btn{flex:1;padding:10px;border-radius:10px;font-size:.86rem;font-weight:700;color:var(--t3);transition:all var(--ease)}
 .tab-btn.on{background:var(--surface);color:var(--text);box-shadow:var(--sh1)}
 
-/* GOOGLE BTN */
 .btn-google{width:100%;background:var(--surface);color:var(--text);border:1.5px solid var(--bdr2);padding:14px;border-radius:13px;font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:center;gap:10px;transition:all var(--ease);box-shadow:var(--sh1)}
 .btn-google:hover{background:var(--s2);transform:translateY(-2px);box-shadow:var(--sh2)}
-.btn-google:active{transform:translateY(0)}
 .g-logo{width:20px;height:20px;flex-shrink:0}
 
-/* DIVIDER */
 .divider{display:flex;align-items:center;gap:12px;margin:16px 0}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--bdr)}
 .divider span{font-size:.71rem;color:var(--t3);font-weight:600;white-space:nowrap}
 
-/* FORM */
-.auth-form{padding:0 18px 24px}
+.auth-form{padding:0 18px 24px;animation:fu .4s .18s ease both}
 .form-group{margin-bottom:13px}
 .form-label{display:flex;align-items:center;justify-content:space-between;font-size:.67rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
 .form-label a{color:var(--red);font-weight:600;text-transform:none;letter-spacing:0;font-size:.72rem}
@@ -83,86 +98,159 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 .finput input{flex:1;background:none;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:.93rem;color:var(--text);min-width:0}
 .finput input::placeholder{color:var(--t3)}
 .pw-toggle{color:var(--t3);padding:2px;transition:color var(--ease)}
-.pw-toggle:hover{color:var(--text)}
 .pw-toggle svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.8;fill:none}
 .field-err{font-size:.72rem;color:#ef4444;margin-top:5px;padding-left:2px;display:none}
 .field-err.show{display:block}
-
-/* PW STRENGTH */
 .pw-strength{margin-top:7px}
 .pw-bars{display:flex;gap:3px;margin-bottom:4px}
 .pw-bar{flex:1;height:3px;border-radius:2px;background:var(--bdr2);transition:background .3s}
 .pw-bar.w{background:#ef4444}.pw-bar.m{background:#f59e0b}.pw-bar.s{background:#22c55e}
 .pw-stxt{font-size:.68rem;color:var(--t3)}
-
-/* SUBMIT BTN */
-.btn-submit{width:100%;background:var(--red);color:#fff;padding:14px;border-radius:13px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.93rem;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 4px 18px rgba(232,25,44,.24);transition:background var(--ease),transform var(--ease),box-shadow var(--ease),opacity var(--ease)}
-.btn-submit:hover{background:var(--red-d);transform:translateY(-2px);box-shadow:0 8px 28px rgba(232,25,44,.36)}
-.btn-submit:active{transform:translateY(0)}
+.btn-submit{width:100%;background:var(--red);color:#fff;padding:14px;border-radius:13px;font-weight:700;font-size:.93rem;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 4px 18px rgba(232,25,44,.24);transition:background var(--ease),transform var(--ease),opacity var(--ease)}
+.btn-submit:hover{background:var(--red-d);transform:translateY(-2px)}
 .btn-submit.loading{opacity:.65;pointer-events:none}
 .btn-submit svg{width:17px;height:17px;stroke:#fff;stroke-width:2.2;fill:none}
-.auth-legal{font-size:.69rem;color:var(--t3);text-align:center;line-height:1.65;margin-top:14px;padding:0 6px}
+.auth-legal{font-size:.69rem;color:var(--t3);text-align:center;line-height:1.65;margin-top:14px}
 .auth-legal a{color:var(--red)}
 
-/* DASHBOARD */
-.profile-card{margin:16px 16px 0;border-radius:20px;overflow:hidden;border:1px solid var(--bdr);box-shadow:var(--sh2)}
-.profile-top{background:linear-gradient(135deg,#141412,#2d1519);padding:22px 18px 18px;position:relative;overflow:hidden;display:flex;align-items:center;gap:14px}
-.profile-top::before{content:'';position:absolute;right:-10px;top:-20px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(232,25,44,.22),transparent 70%)}
-.profile-avatar{width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,var(--red),#ff6b6b);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2.5px solid rgba(255,255,255,.1);box-shadow:0 4px 18px rgba(232,25,44,.28);position:relative;z-index:1}
-.profile-avatar span{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:#fff}
-.profile-info{flex:1;min-width:0;position:relative;z-index:1}
-.profile-email{font-size:.86rem;font-weight:700;color:#fff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.profile-joined{font-size:.71rem;color:rgba(255,255,255,.36)}
-.profile-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(232,25,44,.18);border:1px solid rgba(232,25,44,.3);border-radius:100px;padding:4px 10px;font-size:.63rem;font-weight:700;color:#ff8a94;margin-top:6px}
-.profile-badge svg{width:10px;height:10px;stroke:currentColor;stroke-width:2.5;fill:none}
-.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);background:var(--s2)}
-.pstat{padding:12px 6px;text-align:center;position:relative}
-.pstat+.pstat::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:1px;background:var(--bdr)}
-.pstat-val{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--text);letter-spacing:-.02em}
-.pstat-val em{color:var(--red);font-style:normal}
-.pstat-lbl{font-size:.61rem;color:var(--t3);margin-top:2px;font-weight:500}
+/* ══════════════════════════════
+   DASHBOARD
+══════════════════════════════ */
 
-/* ADMIN BANNER */
-.admin-banner{margin:10px 16px 0;background:linear-gradient(135deg,rgba(232,25,44,.06),rgba(232,25,44,.02));border:1px solid rgba(232,25,44,.16);border-radius:16px;padding:13px 14px;display:none;align-items:center;gap:11px;cursor:pointer;text-decoration:none;transition:box-shadow var(--ease),transform var(--ease)}
+/* Profile hero card */
+.profile-hero{margin:14px 14px 0;border-radius:24px;overflow:hidden;box-shadow:var(--sh3);position:relative}
+.profile-hero-bg{background:linear-gradient(135deg,#0f0e0c 0%,#1e0a0e 50%,#2d1519 100%);padding:22px 18px 0;position:relative;overflow:hidden;min-height:120px}
+.profile-hero-bg::before{content:'';position:absolute;right:-30px;top:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(232,25,44,.25),transparent 70%);pointer-events:none}
+.profile-hero-bg::after{content:'';position:absolute;left:-20px;bottom:-20px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(255,90,104,.08),transparent 70%);pointer-events:none}
+.profile-top-row{display:flex;align-items:center;gap:14px;position:relative;z-index:1;padding-bottom:18px}
+.profile-avatar{width:56px;height:56px;border-radius:17px;background:linear-gradient(135deg,var(--red),#ff6b6b);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2.5px solid rgba(255,255,255,.12);box-shadow:0 6px 20px rgba(232,25,44,.3)}
+.profile-avatar span{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:#fff}
+.profile-info{flex:1;min-width:0}
+.profile-name{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:#fff;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.profile-email-sm{font-size:.71rem;color:rgba(255,255,255,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.profile-member-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(232,25,44,.18);border:1px solid rgba(232,25,44,.3);border-radius:100px;padding:4px 10px;font-size:.62rem;font-weight:700;color:#ff8a94;margin-top:6px}
+.profile-member-badge svg{width:10px;height:10px;stroke:currentColor;stroke-width:2.5;fill:none}
+.edit-profile-btn{width:32px;height:32px;border-radius:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background var(--ease)}
+.edit-profile-btn:hover{background:rgba(255,255,255,.18)}
+.edit-profile-btn svg{width:14px;height:14px;stroke:rgba(255,255,255,.7);stroke-width:2;fill:none}
+
+/* Stats strip */
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface);border-top:1px solid var(--bdr)}
+.pstat{padding:13px 6px;text-align:center;position:relative;cursor:pointer;transition:background var(--ease)}
+.pstat:hover{background:var(--s2)}
+.pstat+.pstat::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:1px;background:var(--bdr)}
+.pstat-val{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;color:var(--text);letter-spacing:-.02em}
+.pstat-val em{color:var(--red);font-style:normal;font-size:.9rem}
+.pstat-lbl{font-size:.6rem;color:var(--t3);margin-top:2px;font-weight:500}
+
+/* Admin banner */
+.admin-banner{margin:10px 14px 0;background:linear-gradient(135deg,rgba(232,25,44,.07),rgba(232,25,44,.02));border:1px solid rgba(232,25,44,.18);border-radius:16px;padding:13px 14px;display:none;align-items:center;gap:11px;cursor:pointer;text-decoration:none;transition:box-shadow var(--ease),transform var(--ease)}
 .admin-banner.show{display:flex}
 .admin-banner:hover{box-shadow:0 4px 20px rgba(232,25,44,.13);transform:translateX(2px)}
 .admin-ico{width:38px;height:38px;border-radius:11px;background:rgba(232,25,44,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .admin-ico svg{width:18px;height:18px;stroke:var(--red);stroke-width:1.8;fill:none}
 .admin-t{font-size:.84rem;font-weight:700;color:var(--red)}
 .admin-s{font-size:.69rem;color:var(--t3);margin-top:2px}
+.admin-arr{margin-left:auto;flex-shrink:0}
 .admin-arr svg{width:14px;height:14px;stroke:var(--red);stroke-width:2.2;fill:none}
 
-/* SECTIONS */
-.sec-lbl{padding:18px 18px 8px;font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3)}
-.action-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:0 16px}
-.action-card{background:var(--surface);border:1px solid var(--bdr);border-radius:16px;padding:14px 13px;cursor:pointer;text-decoration:none;display:flex;flex-direction:column;gap:9px;transition:transform var(--ease),box-shadow var(--ease),border-color var(--ease)}
+/* Section label */
+.sec-lbl{padding:18px 18px 8px;font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);display:flex;align-items:center;justify-content:space-between}
+.sec-lbl-action{font-size:.72rem;font-weight:700;color:var(--red);text-transform:none;letter-spacing:0;cursor:pointer}
+
+/* ── QUICK ACTIONS ── */
+.action-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:0 14px}
+.action-card{background:var(--surface);border:1px solid var(--bdr);border-radius:18px;padding:16px 14px;cursor:pointer;text-decoration:none;display:flex;flex-direction:column;gap:10px;transition:transform var(--ease),box-shadow var(--ease),border-color var(--ease);position:relative;overflow:hidden}
+.action-card::before{content:'';position:absolute;right:-12px;top:-12px;width:60px;height:60px;border-radius:50%;opacity:.06;transition:opacity var(--ease)}
 .action-card:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:var(--bdr2)}
-.ac-ico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center}
-.ac-ico svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.9;fill:none}
-.ac-name{font-size:.82rem;font-weight:700;color:var(--text)}
+.action-card:hover::before{opacity:.12}
+.ac-ico{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.ac-ico svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.9;fill:none}
+.ac-name{font-size:.83rem;font-weight:700;color:var(--text)}
 .ac-sub{font-size:.69rem;color:var(--t3);margin-top:1px}
-.menu-list{padding:0 16px;display:flex;flex-direction:column;gap:5px}
+.ac-badge{position:absolute;top:12px;right:12px;background:var(--red);color:#fff;border-radius:100px;min-width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;padding:0 5px}
+
+/* ── FAVORIS MINI LIST ── */
+.mini-list{padding:0 14px;display:flex;flex-direction:column;gap:6px}
+.mini-item{background:var(--surface);border:1px solid var(--bdr);border-radius:14px;padding:11px 12px;display:flex;align-items:center;gap:11px;transition:background var(--ease),transform var(--ease)}
+.mini-item:hover{background:var(--s2);transform:translateX(3px)}
+.mini-img{width:44px;height:44px;border-radius:10px;background:var(--s2);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.mini-img img{width:100%;height:100%;object-fit:cover}
+.mini-img svg{width:18px;height:18px;stroke:var(--t3);stroke-width:1.4;fill:none}
+.mini-body{flex:1;min-width:0}
+.mini-name{font-size:.82rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-sub{font-size:.69rem;color:var(--t3);margin-top:2px}
+.mini-price{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:800;color:var(--red);flex-shrink:0}
+.mini-rm{width:28px;height:28px;border-radius:8px;background:rgba(239,68,68,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background var(--ease)}
+.mini-rm:hover{background:rgba(239,68,68,.18)}
+.mini-rm svg{width:12px;height:12px;stroke:#ef4444;stroke-width:2.5;fill:none}
+.empty-mini{text-align:center;padding:24px 16px;color:var(--t3);font-size:.79rem}
+.empty-mini svg{width:30px;height:30px;stroke:var(--bdr2);stroke-width:1.3;fill:none;margin:0 auto 8px}
+
+/* ── PANIER MINI ── */
+.cart-item-qty{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.qty-btn{width:24px;height:24px;border-radius:7px;background:var(--s2);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;color:var(--t2);transition:all var(--ease)}
+.qty-btn:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.qty-val{font-size:.8rem;font-weight:700;color:var(--text);min-width:16px;text-align:center}
+.cart-total-bar{margin:10px 14px 0;background:linear-gradient(135deg,var(--red),#ff3d50);border-radius:14px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between}
+.cart-total-lbl{font-size:.78rem;font-weight:600;color:rgba(255,255,255,.7)}
+.cart-total-val{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#fff}
+.cart-wa-btn{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:9px;padding:7px 13px;font-size:.76rem;font-weight:700;display:flex;align-items:center;gap:5px;transition:background var(--ease)}
+.cart-wa-btn:hover{background:rgba(255,255,255,.28)}
+.cart-wa-btn svg{width:13px;height:13px}
+
+/* ── MENU LIST ── */
+.menu-list{padding:0 14px;display:flex;flex-direction:column;gap:5px}
 .menu-item{display:flex;align-items:center;gap:11px;padding:12px;border-radius:13px;cursor:pointer;text-decoration:none;color:var(--text);background:var(--surface);border:1px solid var(--bdr);transition:background var(--ease),border-color var(--ease),transform var(--ease)}
 .menu-item:hover{background:var(--s2);transform:translateX(3px);border-color:var(--bdr2)}
 .mi-ico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .mi-ico svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none}
 .mi-body{flex:1;min-width:0}
 .mi-name{font-size:.83rem;font-weight:600;color:var(--text)}
-.mi-sub{font-size:.7rem;color:var(--t3);margin-top:1px}
-.mi-arr svg{width:13px;height:13px;stroke:var(--t3);stroke-width:2;fill:none}
-.logout-area{padding:14px 16px 0}
-.btn-logout{width:100%;background:var(--s2);color:var(--red);border:1.5px solid rgba(232,25,44,.18);padding:13px;border-radius:13px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.88rem;display:flex;align-items:center;justify-content:center;gap:7px;transition:background var(--ease),border-color var(--ease),transform var(--ease)}
+.mi-sub{font-size:.69rem;color:var(--t3);margin-top:1px}
+.mi-arr{color:var(--t3)}
+.mi-arr svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none}
+
+/* ── LOGOUT ── */
+.logout-area{padding:14px 14px 0}
+.btn-logout{width:100%;background:var(--s2);color:var(--red);border:1.5px solid rgba(232,25,44,.18);padding:13px;border-radius:13px;font-weight:700;font-size:.88rem;display:flex;align-items:center;justify-content:center;gap:7px;transition:all var(--ease)}
 .btn-logout:hover{background:rgba(232,25,44,.08);border-color:rgba(232,25,44,.35);transform:translateY(-1px)}
 .btn-logout svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none}
-.account-foot{padding:18px 18px 4px;text-align:center;font-size:.67rem;color:var(--t3);line-height:1.7}
+.account-foot{padding:16px 18px 4px;text-align:center;font-size:.67rem;color:var(--t3);line-height:1.7}
 .account-foot a{color:var(--red)}
 
+/* ── MODAL EDIT PROFIL ── */
+.modal-ov{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .26s}
+.modal-ov.on{opacity:1;pointer-events:all}
+.modal-sheet{background:var(--surface);border-radius:26px 26px 0 0;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;scrollbar-width:none;transform:translateY(100%);transition:transform .32s cubic-bezier(.32,0,.18,1);padding-bottom:36px;box-shadow:0 -12px 48px rgba(0,0,0,.15)}
+.modal-sheet::-webkit-scrollbar{display:none}
+.modal-ov.on .modal-sheet{transform:translateY(0)}
+.modal-handle{width:36px;height:4px;border-radius:2px;background:var(--bdr2);margin:12px auto}
+.modal-head{padding:4px 18px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr)}
+.modal-title{font-family:'Syne',sans-serif;font-size:.98rem;font-weight:800;color:var(--text)}
+.modal-cls{width:28px;height:28px;border-radius:50%;background:var(--s2);display:flex;align-items:center;justify-content:center;transition:background var(--ease)}
+.modal-cls:hover{background:var(--s3)}
+.modal-cls svg{width:12px;height:12px;stroke:var(--t2);stroke-width:2.5;fill:none}
+.modal-body{padding:16px 18px 0}
+.m-form-group{margin-bottom:13px}
+.m-lbl{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:6px;display:block}
+.m-input{width:100%;background:var(--s2);border:1.5px solid var(--bdr);border-radius:12px;padding:11px 13px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none;transition:border-color var(--ease),box-shadow var(--ease)}
+.m-input:focus{border-color:var(--red);box-shadow:0 0 0 3px var(--red-s);background:var(--surface)}
+.m-input::placeholder{color:var(--t3)}
+.btn-save{width:100%;background:var(--red);color:#fff;padding:13px;border-radius:12px;font-weight:700;font-size:.9rem;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 4px 16px rgba(232,25,44,.22);transition:background var(--ease),transform var(--ease)}
+.btn-save:hover{background:var(--red-d);transform:translateY(-1px)}
+.btn-save svg{width:16px;height:16px;stroke:#fff;stroke-width:2.2;fill:none}
+
 /* ICON COLORS */
-.ico-r{background:#fff0f1;color:#e8192c}.ico-b{background:#eff6ff;color:#2563eb}.ico-y{background:#fffbeb;color:#d97706}.ico-g{background:#f0fdf4;color:#16a34a}.ico-p{background:#faf5ff;color:#9333ea}.ico-t{background:#f0fdfa;color:#0d9488}
-[data-theme="dark"] .ico-r{background:rgba(232,25,44,.14)}[data-theme="dark"] .ico-b{background:rgba(37,99,235,.14)}[data-theme="dark"] .ico-y{background:rgba(217,119,6,.14)}[data-theme="dark"] .ico-g{background:rgba(22,163,74,.14)}[data-theme="dark"] .ico-p{background:rgba(147,51,234,.14)}[data-theme="dark"] .ico-t{background:rgba(13,148,136,.14)}
+.ico-r{background:#fff0f1;color:#e8192c}.ico-b{background:#eff6ff;color:#2563eb}
+.ico-y{background:#fffbeb;color:#d97706}.ico-g{background:#f0fdf4;color:#16a34a}
+.ico-p{background:#faf5ff;color:#9333ea}.ico-t{background:#f0fdfa;color:#0d9488}
+[data-theme="dark"] .ico-r{background:rgba(232,25,44,.14)}[data-theme="dark"] .ico-b{background:rgba(37,99,235,.14)}
+[data-theme="dark"] .ico-y{background:rgba(217,119,6,.14)}[data-theme="dark"] .ico-g{background:rgba(22,163,74,.14)}
+[data-theme="dark"] .ico-p{background:rgba(147,51,234,.14)}[data-theme="dark"] .ico-t{background:rgba(13,148,136,.14)}
 
 /* BOTTOM NAV */
-.bnav{position:fixed;bottom:0;left:0;right:0;z-index:80;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-top:1px solid var(--gbdr);display:flex;height:58px;padding:0 6px;box-shadow:0 -2px 16px rgba(0,0,0,.06)}
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:80;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-top:1px solid var(--gbdr);display:flex;height:58px;padding:0 6px}
 .bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--t3);text-decoration:none;font-size:.55rem;font-weight:600;border-radius:11px;margin:4px 2px;transition:color var(--ease),background var(--ease)}
 .bni svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.7;fill:none}
 .bni:hover{color:var(--text);background:var(--s2)}
@@ -177,61 +265,53 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 @keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-.a1{animation:fu .34s ease both}.a2{animation:fu .34s .06s ease both}.a3{animation:fu .34s .12s ease both}.a4{animation:fu .34s .18s ease both}.a5{animation:fu .34s .24s ease both}
-@media(min-width:640px){body{max-width:480px;margin:0 auto}}
+.a1{animation:fu .34s ease both}.a2{animation:fu .34s .07s ease both}
+.a3{animation:fu .34s .14s ease both}.a4{animation:fu .34s .21s ease both}
+@media(min-width:640px){body{max-width:520px;margin:0 auto}}
 @media(min-width:900px){.bnav{display:none}body{padding-bottom:40px}}
 </style>
 </head>
 <body>
 
-<!-- LOADING -->
 <div class="loading-screen" id="loadingScreen">
   <div class="loading-logo">W<em>YK</em></div>
   <div class="loading-sub">Chargement…</div>
 </div>
 
-<!-- HEADER -->
 <header>
   <div class="h-left">
     <a class="back-btn" href="index.html"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M15 19l-7-7 7-7"/></svg></a>
     <a class="logo" href="index.html">W<em>YK</em></a>
   </div>
-  <button class="theme-btn" onclick="toggleTheme()">
-    <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-    <svg class="icon-moon" viewBox="0 0 24 24"><path stroke-linecap="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-  </button>
+  <div class="h-right">
+    <button class="theme-btn" onclick="toggleTheme()">
+      <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24"><path stroke-linecap="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+    </button>
+  </div>
 </header>
 
-<!-- ═══ VIEW AUTH ═══ -->
+<!-- ═══════════════ AUTH VIEW ═══════════════ -->
 <main id="viewAuth" class="view active" style="padding-bottom:80px">
   <div class="auth-hero">
     <div class="auth-blob"></div>
-    <div class="auth-logo-big a1"><span>W<em>YK</em></span></div>
+    <div class="auth-logo-wrap a1"><span>W<em>YK</em></span></div>
     <h2 class="a2">Bienvenue sur <em>WYK</em></h2>
-    <p class="a3">Connecte-toi pour accéder à ton espace et suivre tes commandes.</p>
+    <p class="a3">Connecte-toi pour accéder à tes favoris, ton panier et ton espace personnel.</p>
   </div>
 
-  <!-- TABS -->
-  <div class="auth-tabs a3">
+  <div class="auth-tabs">
     <button class="tab-btn on" id="tabLogin" onclick="switchTab('login')">Connexion</button>
     <button class="tab-btn" id="tabRegister" onclick="switchTab('register')">S'inscrire</button>
   </div>
 
-  <!-- ── CONNEXION ── -->
-  <div id="formLogin" class="auth-form a4">
-    <!-- Google -->
+  <!-- CONNEXION -->
+  <div id="formLogin" class="auth-form">
     <button class="btn-google" onclick="loginGoogle()">
-      <svg class="g-logo" viewBox="0 0 18 18">
-        <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/>
-        <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/>
-        <path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"/>
-        <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z"/>
-      </svg>
+      <svg class="g-logo" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
       Continuer avec Google
     </button>
-
     <div class="divider"><span>ou avec email</span></div>
-
     <div class="form-group">
       <label class="form-label">Email</label>
       <div class="finput" id="fLoginEmail">
@@ -240,42 +320,35 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">
-        Mot de passe
-        <a href="#" onclick="resetPassword(event)">Oublié ?</a>
-      </label>
+      <label class="form-label">Mot de passe <a href="#" onclick="resetPassword(event)">Oublié ?</a></label>
       <div class="finput" id="fLoginPw">
         <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path stroke-linecap="round" d="M7 11V7a5 5 0 0110 0v4"/></svg>
-        <input type="password" id="loginPw" placeholder="••••••••" autocomplete="current-password">
-        <button type="button" class="pw-toggle" onclick="togglePw('loginPw',this)">
-          <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </button>
+        <input type="password" id="loginPw" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+        <button type="button" class="pw-toggle" onclick="togglePw('loginPw',this)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
       </div>
       <div class="field-err" id="loginErr">Email ou mot de passe incorrect</div>
     </div>
-
     <button class="btn-submit" id="btnLogin" onclick="doLogin()">
       <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
       Se connecter
     </button>
-    <p class="auth-legal">En te connectant, tu acceptes nos <a href="#">CGU</a> et notre <a href="#">Politique de confidentialité</a>.</p>
+    <p class="auth-legal">En continuant, tu acceptes nos <a href="#">CGU</a> et notre <a href="#">Politique de confidentialité</a>.</p>
   </div>
 
-  <!-- ── INSCRIPTION ── -->
-  <div id="formRegister" class="auth-form a4" style="display:none">
-    <!-- Google -->
+  <!-- INSCRIPTION -->
+  <div id="formRegister" class="auth-form" style="display:none">
     <button class="btn-google" onclick="loginGoogle()">
-      <svg class="g-logo" viewBox="0 0 18 18">
-        <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/>
-        <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/>
-        <path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"/>
-        <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z"/>
-      </svg>
+      <svg class="g-logo" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
       S'inscrire avec Google
     </button>
-
     <div class="divider"><span>ou avec email</span></div>
-
+    <div class="form-group">
+      <label class="form-label">Prénom (optionnel)</label>
+      <div class="finput">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <input type="text" id="regName" placeholder="Ex: Jean-Pierre" autocomplete="given-name">
+      </div>
+    </div>
     <div class="form-group">
       <label class="form-label">Email</label>
       <div class="finput">
@@ -289,16 +362,13 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
       <div class="finput">
         <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path stroke-linecap="round" d="M7 11V7a5 5 0 0110 0v4"/></svg>
         <input type="password" id="regPw" placeholder="Minimum 6 caractères" autocomplete="new-password" oninput="checkPwStrength(this.value)">
-        <button type="button" class="pw-toggle" onclick="togglePw('regPw',this)">
-          <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </button>
+        <button type="button" class="pw-toggle" onclick="togglePw('regPw',this)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
       </div>
       <div class="pw-strength">
         <div class="pw-bars"><div class="pw-bar" id="pb1"></div><div class="pw-bar" id="pb2"></div><div class="pw-bar" id="pb3"></div><div class="pw-bar" id="pb4"></div></div>
         <div class="pw-stxt" id="pwTxt">Entre un mot de passe</div>
       </div>
     </div>
-
     <button class="btn-submit" id="btnRegister" onclick="doRegister()">
       <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
       Créer mon compte
@@ -307,82 +377,160 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
   </div>
 </main>
 
-<!-- ═══ VIEW DASHBOARD ═══ -->
+<!-- ═══════════════ DASHBOARD VIEW ═══════════════ -->
 <main id="viewDashboard" class="view" style="padding-bottom:80px">
 
-  <div class="profile-card a1">
-    <div class="profile-top">
-      <div class="profile-avatar"><span id="dashInitial">U</span></div>
-      <div class="profile-info">
-        <div class="profile-email" id="dashEmail">email@exemple.com</div>
-        <div class="profile-joined" id="dashJoined">Membre WYK</div>
-        <div class="profile-badge">
-          <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-          Membre WYK
+  <!-- PROFILE HERO -->
+  <div class="profile-hero a1">
+    <div class="profile-hero-bg">
+      <div class="profile-top-row">
+        <div class="profile-avatar"><span id="dashInitial">U</span></div>
+        <div class="profile-info">
+          <div class="profile-name" id="dashName">Utilisateur WYK</div>
+          <div class="profile-email-sm" id="dashEmail">email@exemple.com</div>
+          <div class="profile-member-badge">
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            Membre WYK
+          </div>
         </div>
+        <button class="edit-profile-btn" onclick="openEditModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>
       </div>
     </div>
     <div class="profile-stats">
-      <div class="pstat"><div class="pstat-val">0</div><div class="pstat-lbl">Commandes</div></div>
-      <div class="pstat"><div class="pstat-val">0</div><div class="pstat-lbl">Favoris</div></div>
-      <div class="pstat"><div class="pstat-val">0 <em>HTG</em></div><div class="pstat-lbl">Dépensé</div></div>
+      <div class="pstat" onclick="scrollToSection('favSection')">
+        <div class="pstat-val" id="statFavs">0</div>
+        <div class="pstat-lbl">Favoris</div>
+      </div>
+      <div class="pstat" onclick="scrollToSection('cartSection')">
+        <div class="pstat-val" id="statCart">0</div>
+        <div class="pstat-lbl">Panier</div>
+      </div>
+      <div class="pstat">
+        <div class="pstat-val" id="statJoined">—</div>
+        <div class="pstat-lbl">Membre depuis</div>
+      </div>
     </div>
   </div>
 
-  <!-- Admin banner -->
-  <a class="admin-banner" id="adminBanner" href="admin.html">
-    <div class="admin-ico">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
-    </div>
-    <div>
-      <div class="admin-t">Espace Admin WYK</div>
-      <div class="admin-s">Gérer produits, promos, ticker…</div>
-    </div>
+  <!-- ADMIN BANNER -->
+  <a class="admin-banner a2" id="adminBanner" href="admin.html">
+    <div class="admin-ico"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg></div>
+    <div><div class="admin-t">Espace Admin WYK</div><div class="admin-s">Gérer produits, promos, ticker…</div></div>
     <div class="admin-arr"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></div>
   </a>
 
+  <!-- ACTIONS RAPIDES -->
   <div class="sec-lbl a2">Mes activités</div>
   <div class="action-grid a3">
-    <a class="action-card" href="#" onclick="showToast('Commandes — bientôt')">
-      <div class="ac-ico ico-b"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg></div>
-      <div><div class="ac-name">Commandes</div><div class="ac-sub">Voir l'historique</div></div>
-    </a>
-    <a class="action-card" href="#" onclick="showToast('Favoris — bientôt')">
+    <div class="action-card" onclick="scrollToSection('favSection')" style="--ac:#e8192c">
+      <div style="position:absolute;right:-12px;top:-12px;width:60px;height:60px;border-radius:50%;background:#e8192c;opacity:.06"></div>
       <div class="ac-ico ico-r"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg></div>
       <div><div class="ac-name">Favoris</div><div class="ac-sub">Produits sauvegardés</div></div>
-    </a>
-    <a class="action-card" href="#" onclick="showToast('Panier — bientôt')">
+      <span class="ac-badge" id="badgeFavs" style="display:none">0</span>
+    </div>
+    <div class="action-card" onclick="scrollToSection('cartSection')">
+      <div style="position:absolute;right:-12px;top:-12px;width:60px;height:60px;border-radius:50%;background:#16a34a;opacity:.06"></div>
       <div class="ac-ico ico-g"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg></div>
-      <div><div class="ac-name">Panier</div><div class="ac-sub">Articles en attente</div></div>
+      <div><div class="ac-name">Mon Panier</div><div class="ac-sub">Articles sélectionnés</div></div>
+      <span class="ac-badge" id="badgeCart" style="display:none">0</span>
+    </div>
+    <a class="action-card" href="https://wa.me/50940300966?text=Bonjour%20WYK%2C%20je%20veux%20suivre%20ma%20commande">
+      <div style="position:absolute;right:-12px;top:-12px;width:60px;height:60px;border-radius:50%;background:#2563eb;opacity:.06"></div>
+      <div class="ac-ico ico-b"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg></div>
+      <div><div class="ac-name">Suivi commande</div><div class="ac-sub">Via WhatsApp</div></div>
     </a>
-    <a class="action-card" href="#" onclick="showToast('Jeux — bientôt !')">
+    <a class="action-card" href="#" onclick="showToast('Jeux &amp; Concours — bientôt ! 🎮')">
+      <div style="position:absolute;right:-12px;top:-12px;width:60px;height:60px;border-radius:50%;background:#d97706;opacity:.06"></div>
       <div class="ac-ico ico-y"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg></div>
-      <div><div class="ac-name">Jeux</div><div class="ac-sub">Bientôt disponible</div></div>
+      <div><div class="ac-name">Jeux &amp; Concours</div><div class="ac-sub">Bientôt disponible 🎮</div></div>
     </a>
   </div>
 
-  <div class="sec-lbl a3">Aide</div>
+  <!-- FAVORIS -->
+  <div id="favSection">
+    <div class="sec-lbl a3">
+      <span>Mes favoris</span>
+      <span class="sec-lbl-action" onclick="clearFavorites()">Tout effacer</span>
+    </div>
+    <div class="mini-list a3" id="favList">
+      <div class="empty-mini"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>Aucun favori pour l'instant.<br>Ajoute des produits depuis les catégories !</div>
+    </div>
+  </div>
+
+  <!-- PANIER -->
+  <div id="cartSection">
+    <div class="sec-lbl a3">
+      <span>Mon panier</span>
+      <span class="sec-lbl-action" onclick="clearCart()">Vider</span>
+    </div>
+    <div class="mini-list a3" id="cartList">
+      <div class="empty-mini"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>Ton panier est vide.<br>Explore les catégories pour ajouter des produits !</div>
+    </div>
+    <div id="cartTotalBar" style="display:none"></div>
+  </div>
+
+  <!-- MENU -->
+  <div class="sec-lbl a4">Aide &amp; Infos</div>
   <div class="menu-list a4">
     <a class="menu-item" href="https://wa.me/50940300966">
-      <div class="mi-ico ico-g"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></div>
-      <div class="mi-body"><div class="mi-name">Support WhatsApp</div><div class="mi-sub">+509 403 009 66</div></div>
+      <div class="mi-ico ico-g"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+      <div class="mi-body"><div class="mi-name">Support WhatsApp</div><div class="mi-sub">+509 403 009 66 — réponse rapide</div></div>
       <div class="mi-arr"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></div>
     </a>
     <a class="menu-item" href="apropos.html">
       <div class="mi-ico ico-b"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 16v-4M12 8h.01"/></svg></div>
-      <div class="mi-body"><div class="mi-name">À propos de WYK</div><div class="mi-sub">Notre histoire</div></div>
+      <div class="mi-body"><div class="mi-name">À propos de WYK</div><div class="mi-sub">Notre histoire, partenariats, affiliation</div></div>
       <div class="mi-arr"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></div>
     </a>
+    <a class="menu-item" href="categories.html">
+      <div class="mi-ico ico-p"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></div>
+      <div class="mi-body"><div class="mi-name">Explorer les produits</div><div class="mi-sub">Mode, Tech, Services…</div></div>
+      <div class="mi-arr"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></div>
+    </a>
+    <div class="menu-item" onclick="openEditModal()">
+      <div class="mi-ico ico-t"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div>
+      <div class="mi-body"><div class="mi-name">Modifier mon profil</div><div class="mi-sub">Nom, adresse de livraison</div></div>
+      <div class="mi-arr"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></div>
+    </div>
   </div>
 
-  <div class="logout-area a5">
+  <div class="logout-area">
     <button class="btn-logout" onclick="doLogout()">
       <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
       Se déconnecter
     </button>
   </div>
-  <div class="account-foot">© 2025 WYK · Carrefour, Haïti 🇭🇹 · <a href="#">CGU</a></div>
+  <div class="account-foot">© 2026 WYK · Carrefour, Haïti 🇭🇹 · <a href="#">CGU</a> · <a href="apropos.html">À propos</a></div>
 </main>
+
+<!-- MODAL EDIT PROFIL -->
+<div class="modal-ov" id="editModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <div class="modal-title">Modifier mon profil</div>
+      <button class="modal-cls" onclick="closeModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="m-form-group">
+        <label class="m-lbl">Prénom / Nom</label>
+        <input class="m-input" type="text" id="editName" placeholder="Ex: Jean-Pierre">
+      </div>
+      <div class="m-form-group">
+        <label class="m-lbl">Numéro WhatsApp</label>
+        <input class="m-input" type="tel" id="editPhone" placeholder="+509 XXXX XXXX">
+      </div>
+      <div class="m-form-group">
+        <label class="m-lbl">Zone de livraison</label>
+        <input class="m-input" type="text" id="editZone" placeholder="Ex: Carrefour, rue Macajoux">
+      </div>
+      <button class="btn-save" onclick="saveProfile()">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>
+        Sauvegarder
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- BOTTOM NAV -->
 <nav class="bnav">
@@ -392,37 +540,25 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
   <a class="bni on" href="#"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>Compte</a>
 </nav>
 
-<div class="toast" id="toastEl">
-  <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-  <span id="toastMsg"></span>
-</div>
+<div class="toast" id="toastEl"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span id="toastMsg"></span></div>
 
 <script>
-/* ══ SUPABASE CONFIG ══ */
 const SUPABASE_URL = 'https://byrklytqoucdskzvcoau.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5cmtseXRxb3VjZHNrenZjb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTQ0ODcsImV4cCI6MjA5NDI3MDQ4N30.nH7LKYevuBd9jGmFmv7KMNoJu3X_rDaY1BHXZR1v3wM';
 const ADMIN_UID = 'dcdb1af5-6305-4138-b991-cf3a931740ed';
 const SITE_URL = 'https://wyk-store.github.io/Corporation';
+const WA = '50940300966';
 
 const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 
 /* ── THEME ── */
-function toggleTheme(){
-  var h=document.documentElement,dark=h.getAttribute('data-theme')==='dark';
-  h.setAttribute('data-theme',dark?'light':'dark');
-  localStorage.setItem('wyk-theme',dark?'light':'dark');
-}
+function toggleTheme(){var h=document.documentElement,dark=h.getAttribute('data-theme')==='dark';h.setAttribute('data-theme',dark?'light':'dark');localStorage.setItem('wyk-theme',dark?'light':'dark')}
 (function(){var t=localStorage.getItem('wyk-theme');if(t)document.documentElement.setAttribute('data-theme',t)})();
 
 /* ── TOAST ── */
 var toastTimer;
-function showToast(msg){
-  var el=document.getElementById('toastEl');
-  document.getElementById('toastMsg').textContent=msg;
-  el.classList.add('on');clearTimeout(toastTimer);
-  toastTimer=setTimeout(function(){el.classList.remove('on')},2600);
-}
+function showToast(msg){var el=document.getElementById('toastEl');document.getElementById('toastMsg').textContent=msg;el.classList.add('on');clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.classList.remove('on')},2600)}
 
 /* ── TABS ── */
 function switchTab(tab){
@@ -434,21 +570,14 @@ function switchTab(tab){
 }
 
 /* ── PW TOGGLE ── */
-function togglePw(id,btn){
-  var inp=document.getElementById(id);
-  var shown=inp.type==='text';
-  inp.type=shown?'password':'text';
-  btn.querySelector('svg').innerHTML=shown?
-    '<path stroke-linecap="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>':
-    '<path stroke-linecap="round" d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22"/>';
-}
+function togglePw(id,btn){var inp=document.getElementById(id);var shown=inp.type==='text';inp.type=shown?'password':'text'}
 
 /* ── PW STRENGTH ── */
 function checkPwStrength(pw){
   var bars=[document.getElementById('pb1'),document.getElementById('pb2'),document.getElementById('pb3'),document.getElementById('pb4')];
   var txt=document.getElementById('pwTxt');
   bars.forEach(function(b){b.className='pw-bar'});
-  if(!pw){txt.textContent='Entre un mot de passe';txt.style.color='';return}
+  if(!pw){txt.textContent='Entre un mot de passe';return}
   var score=0;
   if(pw.length>=6)score++;if(pw.length>=10)score++;
   if(/[A-Z]/.test(pw)&&/[0-9]/.test(pw))score++;
@@ -457,75 +586,154 @@ function checkPwStrength(pw){
   var labels=['','Faible','Moyen','Fort','Très fort'];
   for(var i=0;i<score;i++)bars[i].className='pw-bar '+cls;
   txt.textContent=labels[score]||'Faible';
-  txt.style.color=cls==='w'?'#ef4444':cls==='m'?'#f59e0b':'#22c55e';
 }
 
-/* ── SET BTN LOADING ── */
-function setBtnLoading(id,loading,label,icon){
-  var btn=document.getElementById(id);
-  btn.classList.toggle('loading',loading);
-  if(loading){
-    btn.innerHTML='<svg style="width:17px;height:17px;stroke:#fff;stroke-width:2.2;fill:none;animation:spin .7s linear infinite" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 12a8 8 0 018-8"/></svg>'+label;
-  } else {
-    btn.innerHTML='<svg style="width:17px;height:17px;stroke:#fff;stroke-width:2.2;fill:none" viewBox="0 0 24 24">'+icon+'</svg>'+label;
+/* ── FAVORITES (localStorage) ── */
+function getFavs(){try{return JSON.parse(localStorage.getItem('wyk-favs')||'[]')}catch(e){return[]}}
+function saveFavs(arr){localStorage.setItem('wyk-favs',JSON.stringify(arr))}
+function getCart(){try{return JSON.parse(localStorage.getItem('wyk-cart')||'[]')}catch(e){return[]}}
+function saveCart(arr){localStorage.setItem('wyk-cart',JSON.stringify(arr))}
+
+function renderFavs(){
+  var favs=getFavs();
+  var el=document.getElementById('favList');
+  var badge=document.getElementById('badgeFavs');
+  var stat=document.getElementById('statFavs');
+  stat.textContent=favs.length;
+  if(favs.length){badge.style.display='';badge.textContent=favs.length}
+  else badge.style.display='none';
+
+  if(!favs.length){
+    el.innerHTML='<div class="empty-mini"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>Aucun favori pour l\'instant.<br>Explore les catégories et ajoute des produits !</div>';
+    return;
   }
+  el.innerHTML='';
+  favs.forEach(function(p){
+    var d=document.createElement('div');d.className='mini-item';
+    d.innerHTML='<div class="mini-img">'+(p.img?'<img src="'+p.img+'" alt="'+escHtml(p.name)+'">':'<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14"/></svg>')+'</div>'
+      +'<div class="mini-body"><div class="mini-name">'+escHtml(p.name)+'</div><div class="mini-sub">'+escHtml(p.category||'WYK')+'</div></div>'
+      +'<div class="mini-price">'+fmtPrice(p.price)+'</div>'
+      +'<button class="mini-rm" onclick="removeFav(\''+p.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>';
+    el.appendChild(d);
+  });
 }
 
-/* ══ AUTH FUNCTIONS ══ */
+function removeFav(id){var favs=getFavs().filter(function(f){return f.id!==id});saveFavs(favs);renderFavs();showToast('Retiré des favoris')}
+function clearFavorites(){if(!getFavs().length)return;saveFavs([]);renderFavs();showToast('Favoris effacés')}
 
-/* Google */
-async function loginGoogle(){
-  var {error}=await sb.auth.signInWithOAuth({
-    provider:'google',
-    options:{redirectTo: SITE_URL+'/compte.html'}
+function renderCart(){
+  var cart=getCart();
+  var el=document.getElementById('cartList');
+  var tb=document.getElementById('cartTotalBar');
+  var badge=document.getElementById('badgeCart');
+  var stat=document.getElementById('statCart');
+  var total=cart.reduce(function(s,i){return s+Number(i.price)*i.qty},0);
+  stat.textContent=cart.reduce(function(s,i){return s+i.qty},0);
+  if(cart.length){badge.style.display='';badge.textContent=cart.reduce(function(s,i){return s+i.qty},0)}
+  else badge.style.display='none';
+
+  if(!cart.length){
+    el.innerHTML='<div class="empty-mini"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>Ton panier est vide.<br>Explore et ajoute des produits !</div>';
+    tb.style.display='none';return;
+  }
+  el.innerHTML='';
+  cart.forEach(function(p){
+    var d=document.createElement('div');d.className='mini-item';
+    d.innerHTML='<div class="mini-img">'+(p.img?'<img src="'+p.img+'" alt="'+escHtml(p.name)+'">':'<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16"/></svg>')+'</div>'
+      +'<div class="mini-body"><div class="mini-name">'+escHtml(p.name)+'</div><div class="mini-sub">'+fmtPrice(p.price)+' / unité</div></div>'
+      +'<div class="cart-item-qty">'
+      +'<button class="qty-btn" onclick="updateQty(\''+p.id+'\',-1)">−</button>'
+      +'<span class="qty-val">'+p.qty+'</span>'
+      +'<button class="qty-btn" onclick="updateQty(\''+p.id+'\',1)">+</button>'
+      +'</div>';
+    el.appendChild(d);
   });
+
+  tb.style.display='';
+  var waMsg='Bonjour WYK 👋, voici ma commande :\n'+cart.map(function(p){return '• '+p.name+' x'+p.qty+' — '+fmtPrice(p.price*p.qty)}).join('\n')+'\n\nTotal : '+fmtPrice(total)+'\nMerci !';
+  tb.innerHTML='<div class="cart-total-bar">'
+    +'<div><div class="cart-total-lbl">Total panier</div><div class="cart-total-val">'+fmtPrice(total)+'</div></div>'
+    +'<button class="cart-wa-btn" onclick="orderWhatsApp()"><svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Commander</button>'
+    +'</div>';
+  document.getElementById('cartTotalBar').dataset.msg=waMsg;
+}
+
+function updateQty(id,delta){
+  var cart=getCart();
+  var item=cart.find(function(i){return i.id===id});
+  if(!item)return;
+  item.qty=Math.max(0,item.qty+delta);
+  if(item.qty===0)cart=cart.filter(function(i){return i.id!==id});
+  saveCart(cart);renderCart();
+}
+
+function clearCart(){if(!getCart().length)return;saveCart([]);renderCart();showToast('Panier vidé')}
+
+function orderWhatsApp(){
+  var cart=getCart();
+  if(!cart.length)return;
+  var total=cart.reduce(function(s,i){return s+Number(i.price)*i.qty},0);
+  var msg='Bonjour WYK 👋, voici ma commande :\n'+cart.map(function(p){return '• '+p.name+' x'+p.qty+' — '+fmtPrice(p.price*p.qty)}).join('\n')+'\n\nTotal : '+fmtPrice(total)+'\nMerci !';
+  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');
+}
+
+/* ── PROFILE ── */
+function openEditModal(){
+  var profile=JSON.parse(localStorage.getItem('wyk-profile')||'{}');
+  document.getElementById('editName').value=profile.name||'';
+  document.getElementById('editPhone').value=profile.phone||'';
+  document.getElementById('editZone').value=profile.zone||'';
+  document.getElementById('editModal').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal(){
+  document.getElementById('editModal').classList.remove('on');
+  document.body.style.overflow='';
+}
+
+function saveProfile(){
+  var profile={name:document.getElementById('editName').value.trim(),phone:document.getElementById('editPhone').value.trim(),zone:document.getElementById('editZone').value.trim()};
+  localStorage.setItem('wyk-profile',JSON.stringify(profile));
+  if(profile.name){document.getElementById('dashName').textContent=profile.name;document.getElementById('dashInitial').textContent=profile.name.charAt(0).toUpperCase()}
+  closeModal();showToast('Profil mis à jour ✓');
+}
+
+function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
+
+/* ── AUTH ── */
+async function loginGoogle(){
+  var {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:SITE_URL+'/compte.html'}});
   if(error)showToast('Erreur Google : '+error.message);
 }
 
-/* Login email */
 async function doLogin(){
   var email=document.getElementById('loginEmail').value.trim();
   var pw=document.getElementById('loginPw').value;
-  var errEl=document.getElementById('loginErr');
-  errEl.classList.remove('show');
-
-  if(!email){document.getElementById('fLoginEmail').classList.add('shake');setTimeout(function(){document.getElementById('fLoginEmail').classList.remove('shake')},400);return}
-  if(!pw){document.getElementById('fLoginPw').classList.add('shake');setTimeout(function(){document.getElementById('fLoginPw').classList.remove('shake')},400);return}
-
-  setBtnLoading('btnLogin',true,'Connexion…','');
-  var {data,error}=await sb.auth.signInWithPassword({email:email,password:pw});
-  setBtnLoading('btnLogin',false,'Se connecter','<path stroke-linecap="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>');
-
-  if(error){errEl.classList.add('show');return}
+  document.getElementById('loginErr').classList.remove('show');
+  if(!email||!pw)return;
+  document.getElementById('btnLogin').classList.add('loading');
+  var {data,error}=await sb.auth.signInWithPassword({email,password:pw});
+  document.getElementById('btnLogin').classList.remove('loading');
+  if(error){document.getElementById('loginErr').classList.add('show');return}
   showDashboard(data.user);
 }
 
-/* Register email */
 async function doRegister(){
   var email=document.getElementById('regEmail').value.trim();
   var pw=document.getElementById('regPw').value;
-  var errEl=document.getElementById('regEmailErr');
-  errEl.classList.remove('show');
-
-  if(!email||!email.includes('@')){errEl.classList.add('show');return}
+  var name=document.getElementById('regName').value.trim();
+  document.getElementById('regEmailErr').classList.remove('show');
+  if(!email||!email.includes('@')){document.getElementById('regEmailErr').classList.add('show');return}
   if(pw.length<6){showToast('Mot de passe trop court (min 6 caractères)');return}
-
-  setBtnLoading('btnRegister',true,'Création…','');
-  var {data,error}=await sb.auth.signUp({email:email,password:pw});
-  setBtnLoading('btnRegister',false,'Créer mon compte','<path stroke-linecap="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>');
-
-  if(error){
-    if(error.message.includes('already'))errEl.classList.add('show');
-    else showToast('Erreur : '+error.message);
-    return;
-  }
-  if(data.user){
-    showDashboard(data.user);
-    showToast('Compte créé avec succès ! 🎉');
-  }
+  document.getElementById('btnRegister').classList.add('loading');
+  var {data,error}=await sb.auth.signUp({email,password:pw,options:{data:{full_name:name}}});
+  document.getElementById('btnRegister').classList.remove('loading');
+  if(error){if(error.message.includes('already'))document.getElementById('regEmailErr').classList.add('show');else showToast('Erreur : '+error.message);return}
+  if(name)localStorage.setItem('wyk-profile',JSON.stringify({name}));
+  if(data.user){showDashboard(data.user);showToast('Bienvenue sur WYK 🎉')}
 }
 
-/* Reset password */
 async function resetPassword(e){
   e.preventDefault();
   var email=document.getElementById('loginEmail').value.trim();
@@ -535,7 +743,6 @@ async function resetPassword(e){
   else showToast('Email de réinitialisation envoyé !');
 }
 
-/* Logout */
 async function doLogout(){
   await sb.auth.signOut();
   document.getElementById('viewDashboard').classList.remove('active');
@@ -543,57 +750,49 @@ async function doLogout(){
   showToast('Déconnecté avec succès');
 }
 
-/* ── SHOW DASHBOARD ── */
 function showDashboard(user){
-  var isAdmin = user.id === ADMIN_UID;
-  var email = user.email || 'Utilisateur WYK';
-  var initial = email.charAt(0).toUpperCase();
+  var isAdmin=user.id===ADMIN_UID;
+  var profile=JSON.parse(localStorage.getItem('wyk-profile')||'{}');
+  var displayName=profile.name||(user.user_metadata&&user.user_metadata.full_name)||user.email.split('@')[0];
+  var email=user.email||'';
+  var initial=displayName.charAt(0).toUpperCase();
 
-  document.getElementById('dashInitial').textContent = initial;
-  document.getElementById('dashEmail').textContent = email;
+  document.getElementById('dashInitial').textContent=initial;
+  document.getElementById('dashName').textContent=displayName;
+  document.getElementById('dashEmail').textContent=email;
 
-  var created = user.created_at ? new Date(user.created_at) : new Date();
-  document.getElementById('dashJoined').textContent = 'Membre depuis ' +
-    created.toLocaleDateString('fr-FR',{month:'long',year:'numeric'});
+  var created=user.created_at?new Date(user.created_at):new Date();
+  var months=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+  document.getElementById('statJoined').textContent=months[created.getMonth()]+' '+created.getFullYear();
 
-  // Admin banner
-  document.getElementById('adminBanner').classList.toggle('show', isAdmin);
-
-  // Switch view
+  document.getElementById('adminBanner').classList.toggle('show',isAdmin);
   document.getElementById('viewAuth').classList.remove('active');
   document.getElementById('viewDashboard').classList.add('active');
+
+  renderFavs();
+  renderCart();
 }
 
-/* ══ INIT — check session au démarrage ══ */
+/* ── UTILS ── */
+function fmtPrice(n){return n?Number(n).toLocaleString('fr')+' HTG':'—'}
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+/* ── INIT ── */
 (async function(){
-  // Gérer le callback OAuth Google (après redirect)
-  var {data:{session}, error} = await sb.auth.getSession();
-
-  var ls = document.getElementById('loadingScreen');
-
-  if(session && session.user){
-    showDashboard(session.user);
-  }
-
-  // Cacher le loading
+  var {data:{session}}=await sb.auth.getSession();
+  var ls=document.getElementById('loadingScreen');
+  if(session&&session.user)showDashboard(session.user);
   ls.classList.add('hide');
   setTimeout(function(){ls.style.display='none'},400);
 })();
 
-/* Écouter les changements d'auth (Google OAuth redirect) */
-sb.auth.onAuthStateChange(function(event, session){
-  if((event==='SIGNED_IN'||event==='TOKEN_REFRESHED') && session){
-    showDashboard(session.user);
-    // Cacher loading si encore visible
-    var ls=document.getElementById('loadingScreen');
-    if(ls)ls.classList.add('hide');
-  }
-  if(event==='SIGNED_OUT'){
-    document.getElementById('viewDashboard').classList.remove('active');
-    document.getElementById('viewAuth').classList.add('active');
-  }
+sb.auth.onAuthStateChange(function(event,session){
+  if((event==='SIGNED_IN'||event==='TOKEN_REFRESHED')&&session)showDashboard(session.user);
+  if(event==='SIGNED_OUT'){document.getElementById('viewDashboard').classList.remove('active');document.getElementById('viewAuth').classList.add('active')}
 });
+
+document.getElementById('editModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()});
 </script>
 </body>
-</html>
-
+                                                                                        </html>
