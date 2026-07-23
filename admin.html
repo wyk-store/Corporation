@@ -393,6 +393,9 @@ select.form-input{cursor:pointer}
   <div class="tab" onclick="switchTab('reviews',this)">
     <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>Avis
   </div>
+  <div class="tab" onclick="switchTab('personnel',this)">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Personnel
+  </div>
 </div>
 
 <!-- ═══════ DASHBOARD ═══════ -->
@@ -626,6 +629,24 @@ select.form-input{cursor:pointer}
     <button class="btn-add" onclick="openReviewModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Ajouter</button>
   </div>
   <div id="reviews-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+</div>
+
+<!-- ═══════ PERSONNEL ═══════ -->
+<div class="panel" id="panel-personnel">
+  <div class="sec-hd">
+    <h2>Mes <em>managers</em></h2>
+    <button class="btn-add" onclick="openMgrModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Ajouter</button>
+  </div>
+  <div id="managers-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+
+  <div class="sec-divider" style="margin-top:24px"><span>Tous les employés</span></div>
+  <div id="all-employees-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+
+  <div class="sec-divider" style="margin-top:24px"><span>Historique — managers</span></div>
+  <div id="mgr-logs-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+
+  <div class="sec-divider" style="margin-top:24px"><span>Historique — employés</span></div>
+  <div id="emp-logs-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
 </div>
 
 </div><!-- end adminMain -->
@@ -972,6 +993,59 @@ select.form-input{cursor:pointer}
   </div>
 </div>
 
+<!-- ═══ MODAL MANAGER ═══ -->
+<div class="modal-ov" id="mgrModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <div class="modal-title">Nouveau manager</div>
+      <button class="modal-cls" onclick="closeModal('mgrModal')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-lbl">Nom du manager *</label>
+        <input class="form-input" type="text" id="mgr-name" placeholder="Ex: Sophia Duval">
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Identifiant de connexion *</label>
+        <input class="form-input" type="text" id="mgr-login" placeholder="Ex: sophia1">
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Mot de passe *</label>
+        <input class="form-input" type="text" id="mgr-pw" placeholder="Mot de passe">
+      </div>
+      <button class="btn-submit" id="mgr-submit" onclick="createManager()">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Créer le compte
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL RESET IDENTIFIANTS PERSONNEL ═══ -->
+<div class="modal-ov" id="staffResetModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <div class="modal-title">Modifier les identifiants</div>
+      <button class="modal-cls" onclick="closeModal('staffResetModal')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="sr-id">
+      <div class="form-group">
+        <label class="form-lbl">Nouvel identifiant (laisser vide pour garder l'actuel)</label>
+        <input class="form-input" type="text" id="sr-login" placeholder="Nouvel identifiant">
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Nouveau mot de passe *</label>
+        <input class="form-input" type="text" id="sr-pw" placeholder="Nouveau mot de passe">
+      </div>
+      <button class="btn-submit" id="sr-submit" onclick="resetStaffCreds()">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Enregistrer
+      </button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toastEl"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span id="toastMsg"></span></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1194,6 +1268,7 @@ function switchTab(name,el){
   if(name==='promos'){loadPromos();loadOffers();}
   if(name==='homepage')loadHomeContent();
   if(name==='reviews')loadReviews();
+  if(name==='personnel')loadPersonnel();
 }
 
 // ══════════════════════════════════════════
@@ -1736,11 +1811,123 @@ async function deleteReview(id){
 }
 
 // ══════════════════════════════════════════
+// PERSONNEL (managers + employés + historique)
+// ══════════════════════════════════════════
+function fmtDate(d){try{return new Date(d).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'})}catch(e){return d}}
+var ACTION_LABELS={login:'Connexion',product_created:'Produit ajouté',product_updated:'Produit modifié',product_deleted:'Produit supprimé',categories_created:'Catégorie ajoutée',categories_updated:'Catégorie modifiée',categories_deleted:'Catégorie supprimée',promos_created:'Promo ajoutée',promos_updated:'Promo modifiée',promos_deleted:'Promo supprimée',offers_created:'Offre ajoutée',offers_updated:'Offre modifiée',offers_deleted:'Offre supprimée',slides_created:'Slide ajouté',slides_updated:'Slide modifié',slides_deleted:'Slide supprimé',ticker_messages_created:'Message ticker ajouté',ticker_messages_updated:'Message ticker modifié',ticker_messages_deleted:'Message ticker supprimé',reviews_created:'Avis ajouté',reviews_deleted:'Avis supprimé',about_content_created:'Textes accueil modifiés',account_created:'Compte créé',account_enabled:'Compte réactivé',account_disabled:'Compte suspendu',credentials_reset:'Identifiants modifiés',employee_created:'Employé créé',employee_enabled:'Employé réactivé',employee_disabled:'Employé suspendu',employee_credentials_reset:'Identifiants employé modifiés'};
+
+async function loadPersonnel(){
+  loadManagers();loadAllEmployees();loadMgrLogs();loadEmpLogs();
+}
+async function loadManagers(){
+  var el=document.getElementById('managers-list');
+  el.innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
+  var {data,error}=await db.rpc('admin_list_staff',{p_admin_uid:ADMIN_UID});
+  if(error){el.innerHTML='<div class="empty-state"><p>Erreur de chargement</p></div>';return}
+  var managers=(data||[]).filter(function(s){return s.role==='manager'});
+  if(!managers.length){el.innerHTML='<div class="empty-state"><p>Aucun manager. Clique sur Ajouter !</p></div>';return}
+  el.innerHTML='';
+  var list=document.createElement('div');list.className='data-list';
+  managers.forEach(function(s){
+    var item=document.createElement('div');item.className='data-item';
+    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+s.display_name+'</div><div class="data-item-sub">ID: '+s.login+' · '+(s.active?'<span style="color:#16a34a">Actif</span>':'<span style="color:#ef4444">Suspendu</span>')+'</div></div>'
+      +'<div class="data-item-actions">'
+      +'<label class="toggle" style="margin-right:6px"><input type="checkbox" '+(s.active?'checked':'')+' onchange="toggleStaff(\''+s.id+'\',this.checked)"><div class="toggle-track"></div></label>'
+      +'<button class="btn-edit" onclick="openStaffResetModal(\''+s.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>'
+      +'</div>';
+    list.appendChild(item);
+  });
+  el.appendChild(list);
+}
+async function loadAllEmployees(){
+  var el=document.getElementById('all-employees-list');
+  el.innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
+  var {data,error}=await db.rpc('admin_list_staff',{p_admin_uid:ADMIN_UID});
+  if(error){el.innerHTML='<div class="empty-state"><p>Erreur de chargement</p></div>';return}
+  var employees=(data||[]).filter(function(s){return s.role==='employee'});
+  var managers=(data||[]).filter(function(s){return s.role==='manager'});
+  if(!employees.length){el.innerHTML='<div class="empty-state"><p>Aucun employé pour le moment.</p></div>';return}
+  el.innerHTML='';
+  var list=document.createElement('div');list.className='data-list';
+  employees.forEach(function(s){
+    var mgr=managers.find(function(m){return m.id===s.manager_id});
+    var item=document.createElement('div');item.className='data-item';
+    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+s.display_name+'</div><div class="data-item-sub">ID: '+s.login+' · Manager: '+(mgr?mgr.display_name:'—')+' · '+(s.active?'<span style="color:#16a34a">Actif</span>':'<span style="color:#ef4444">Suspendu</span>')+'</div></div>'
+      +'<div class="data-item-actions">'
+      +'<label class="toggle" style="margin-right:6px"><input type="checkbox" '+(s.active?'checked':'')+' onchange="toggleStaff(\''+s.id+'\',this.checked)"><div class="toggle-track"></div></label>'
+      +'<button class="btn-edit" onclick="openStaffResetModal(\''+s.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>'
+      +'</div>';
+    list.appendChild(item);
+  });
+  el.appendChild(list);
+}
+function openMgrModal(){
+  document.getElementById('mgr-name').value='';document.getElementById('mgr-login').value='';document.getElementById('mgr-pw').value='';
+  openModal('mgrModal');
+}
+async function createManager(){
+  var name=document.getElementById('mgr-name').value.trim();
+  var login=document.getElementById('mgr-login').value.trim();
+  var pw=document.getElementById('mgr-pw').value;
+  if(!name||!login||!pw){showToast('Tous les champs sont requis !',true);return}
+  var btn=document.getElementById('mgr-submit');btn.classList.add('loading');
+  var {error}=await db.rpc('admin_create_manager',{p_admin_uid:ADMIN_UID,p_login:login,p_password:pw,p_display_name:name});
+  btn.classList.remove('loading');
+  if(error){showToast('Erreur: '+error.message,true);return}
+  showToast('Manager créé ✓');closeModal('mgrModal');loadManagers();
+}
+async function toggleStaff(id,active){
+  var {error}=await db.rpc('admin_toggle_staff',{p_admin_uid:ADMIN_UID,p_staff_id:id,p_active:active});
+  if(error){showToast('Erreur',true);loadPersonnel();return}
+  showToast(active?'Compte réactivé':'Compte suspendu');loadManagers();loadAllEmployees();
+}
+function openStaffResetModal(id){
+  document.getElementById('sr-id').value=id;
+  document.getElementById('sr-login').value='';document.getElementById('sr-pw').value='';
+  openModal('staffResetModal');
+}
+async function resetStaffCreds(){
+  var id=document.getElementById('sr-id').value;
+  var login=document.getElementById('sr-login').value.trim();
+  var pw=document.getElementById('sr-pw').value;
+  if(!pw){showToast('Mot de passe requis !',true);return}
+  var btn=document.getElementById('sr-submit');btn.classList.add('loading');
+  var {error}=await db.rpc('admin_reset_staff_password',{p_admin_uid:ADMIN_UID,p_staff_id:id,p_new_password:pw,p_new_login:login||null});
+  btn.classList.remove('loading');
+  if(error){showToast('Erreur: '+error.message,true);return}
+  showToast('Identifiants mis à jour ✓');closeModal('staffResetModal');loadManagers();loadAllEmployees();
+}
+function renderLogList(elId,data){
+  var el=document.getElementById(elId);
+  if(!data||!data.length){el.innerHTML='<div class="empty-state"><p>Aucune activité pour le moment.</p></div>';return}
+  el.innerHTML='';
+  var list=document.createElement('div');list.className='data-list';
+  data.forEach(function(l){
+    var item=document.createElement('div');item.className='data-item';
+    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+(l.staff_login||'—')+' — '+(ACTION_LABELS[l.action]||l.action)+'</div><div class="data-item-sub">'+(l.details||'')+' · '+fmtDate(l.created_at)+'</div></div>';
+    list.appendChild(item);
+  });
+  el.appendChild(list);
+}
+async function loadMgrLogs(){
+  document.getElementById('mgr-logs-list').innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
+  var {data,error}=await db.rpc('admin_get_logs',{p_admin_uid:ADMIN_UID,p_role:'manager'});
+  if(error){document.getElementById('mgr-logs-list').innerHTML='<div class="empty-state"><p>Erreur</p></div>';return}
+  renderLogList('mgr-logs-list',data);
+}
+async function loadEmpLogs(){
+  document.getElementById('emp-logs-list').innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
+  var {data,error}=await db.rpc('admin_get_logs',{p_admin_uid:ADMIN_UID,p_role:'employee'});
+  if(error){document.getElementById('emp-logs-list').innerHTML='<div class="empty-state"><p>Erreur</p></div>';return}
+  renderLogList('emp-logs-list',data);
+}
+
+// ══════════════════════════════════════════
 // MODAL HELPERS
 // ══════════════════════════════════════════
 function openModal(id){document.getElementById(id).classList.add('on');document.body.style.overflow='hidden'}
 function closeModal(id){document.getElementById(id).classList.remove('on');document.body.style.overflow=''}
-var allModals=['productModal','catModal','slideModal','promoModal','offerModal','reviewModal'];
+var allModals=['productModal','catModal','slideModal','promoModal','offerModal','reviewModal','mgrModal','staffResetModal'];
 allModals.forEach(function(id){
   var el=document.getElementById(id);
   if(el)el.addEventListener('click',function(e){if(e.target===this)closeModal(id)});
