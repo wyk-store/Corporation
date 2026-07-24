@@ -1206,6 +1206,7 @@ async function uploadImages(productId){
     var path='products/'+productId+'/'+Date.now()+'_'+i+'.'+ext;
     var {data,error}=await db.storage.from(BUCKET).upload(path,item.file,{upsert:true,contentType:item.file.type});
     if(!error){var {data:{publicUrl}}=db.storage.from(BUCKET).getPublicUrl(path);urls.push(publicUrl);}
+    else{showToast('Erreur upload image: '+error.message,true);}
   }
   return urls;
 }
@@ -1284,7 +1285,7 @@ async function saveProduct(){
   if(selectedImages.filter(Boolean).length&&productId){
     var urls=await uploadImages(productId);
     var allUrls=[...existingImages.filter(Boolean).map(function(i){return i.url}),...urls.filter(function(u){return!existingImages.find(function(e){return e&&e.url===u})})];
-    if(allUrls.length)await supa.rpc('staff_replace_product_images',{p_token:STAFF_TOKEN,p_product_id:productId,p_urls:allUrls});
+    if(allUrls.length){var imgRes=await supa.rpc('staff_replace_product_images',{p_token:STAFF_TOKEN,p_product_id:productId,p_urls:allUrls});if(imgRes.error)showToast('Produit enregistré mais erreur images: '+imgRes.error.message,true);}
   }
   showToast(existingId?'Produit modifié ✓':'Produit ajouté ✓');closeModal('productModal');loadProducts();loadAll();
   btn.classList.remove('loading');btn.innerHTML='<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Enregistrer le produit';
