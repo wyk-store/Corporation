@@ -36,12 +36,23 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 svg{display:block;flex-shrink:0}
 img{display:block}
 
-.loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:12px;transition:opacity .3s}
-.loading-screen.hide{opacity:0;pointer-events:none}
-.loading-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;color:var(--text);letter-spacing:-.03em;animation:pulse 1.2s ease infinite}
+.loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;z-index:999;gap:0;transition:opacity .35s ease,visibility .35s ease;overflow:hidden}
+.loading-screen.hide{opacity:0;pointer-events:none;visibility:hidden}
+.loading-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--text);letter-spacing:-.03em}
 .loading-logo em{font-style:normal;color:var(--red)}
 .loading-sub{font-size:.8rem;color:var(--t3)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.skl-header{width:100%;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;border-bottom:1px solid var(--gbdr)}
+.skl-body{width:100%;max-width:520px;padding:14px;flex:1;overflow:hidden}
+.skl{position:relative;overflow:hidden;background:var(--s2);border-radius:14px}
+.skl::after{content:'';position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);animation:shimmer 1.4s ease-in-out infinite}
+[data-theme="dark"] .skl::after{background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
+@keyframes shimmer{100%{transform:translateX(100%)}}
+.skl-hero{height:150px;border-radius:24px;margin-bottom:16px;animation:fadeInSkl .4s ease both}
+.skl-row{display:flex;gap:10px;margin-bottom:16px;animation:fadeInSkl .4s .06s ease both}
+.skl-card{flex:1;height:76px;border-radius:16px}
+.skl-line{height:14px;border-radius:7px;margin-bottom:10px;animation:fadeInSkl .4s .1s ease both}
+.skl-block{height:120px;border-radius:18px;margin-bottom:14px;animation:fadeInSkl .4s .16s ease both}
+@keyframes fadeInSkl{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-bottom:1px solid var(--gbdr);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
 .h-left{display:flex;align-items:center;gap:10px}
@@ -288,8 +299,22 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 <body>
 
 <div class="loading-screen" id="loadingScreen">
-  <div class="loading-logo">W<em>YK</em></div>
-  <div class="loading-sub">Chargement...</div>
+  <div class="skl-header">
+    <div class="loading-logo">W<em>YK</em></div>
+    <div class="skl skl-card" style="flex:none;width:34px;height:34px;border-radius:10px"></div>
+  </div>
+  <div class="skl-body">
+    <div class="skl skl-hero"></div>
+    <div class="skl-row">
+      <div class="skl skl-card"></div>
+      <div class="skl skl-card"></div>
+      <div class="skl skl-card"></div>
+    </div>
+    <div class="skl skl-line" style="width:40%"></div>
+    <div class="skl skl-block"></div>
+    <div class="skl skl-line" style="width:55%"></div>
+    <div class="skl skl-block"></div>
+  </div>
 </div>
 
 <header>
@@ -558,6 +583,8 @@ function getFavs(){try{return JSON.parse(localStorage.getItem('wyk_favs')||'[]')
 function saveFavs(a){localStorage.setItem('wyk_favs',JSON.stringify(a))}
 function getCart(){try{return JSON.parse(localStorage.getItem('wyk_cart')||'[]')}catch(e){return[]}}
 function saveCart(a){localStorage.setItem('wyk_cart',JSON.stringify(a))}
+function safeParse(key,fallback){try{var v=localStorage.getItem(key);return v?JSON.parse(v):fallback}catch(e){return fallback}}
+function getProfile(){return safeParse('wyk-profile',{})}
 
 /* ══════════════════════════════════
    RENDU FAVORIS
@@ -743,7 +770,7 @@ document.getElementById('prodPopup').addEventListener('click',function(e){if(e.t
    PROFIL
 ══════════════════════════════════ */
 function openEditModal(){
-  var p=JSON.parse(localStorage.getItem('wyk-profile')||'{}');
+  var p=getProfile();
   document.getElementById('editName').value=p.name||'';
   document.getElementById('editPhone').value=p.phone||'';
   document.getElementById('editZone').value=p.zone||'';
@@ -805,7 +832,7 @@ async function doLogout(){
 
 function showDashboard(user){
   var isAdmin=user.id===ADMIN_UID;
-  var profile=JSON.parse(localStorage.getItem('wyk-profile')||'{}');
+  var profile=getProfile();
   var displayName=profile.name||(user.user_metadata&&user.user_metadata.full_name)||user.email.split('@')[0];
   var initial=displayName.charAt(0).toUpperCase();
 
@@ -833,16 +860,32 @@ function showDashboard(user){
 
 /* ── INIT ── */
 (async function(){
-  var {data:{session}}=await sb.auth.getSession();
   var ls=document.getElementById('loadingScreen');
-  if(session&&session.user)showDashboard(session.user);
-  ls.classList.add('hide');
-  setTimeout(function(){ls.style.display='none'},400);
+  function hideLoader(){
+    if(!ls||ls.dataset.hidden)return;
+    ls.dataset.hidden='1';
+    ls.classList.add('hide');
+    setTimeout(function(){ls.style.display='none'},400);
+  }
+  /* filet de sécurité : si getSession() ne répond jamais (réseau, extension, etc.),
+     on force l'affichage après 6s pour ne jamais rester bloqué sur "Chargement..." */
+  var safety=setTimeout(hideLoader,6000);
+  try{
+    var {data:{session}}=await sb.auth.getSession();
+    if(session&&session.user)showDashboard(session.user);
+  }catch(e){
+    console.error('Init WYK compte :',e);
+  }finally{
+    clearTimeout(safety);
+    hideLoader();
+  }
 })();
 
 sb.auth.onAuthStateChange(function(event,session){
-  if((event==='SIGNED_IN'||event==='TOKEN_REFRESHED')&&session)showDashboard(session.user);
-  if(event==='SIGNED_OUT'){document.getElementById('viewDashboard').classList.remove('active');document.getElementById('viewAuth').classList.add('active')}
+  try{
+    if((event==='SIGNED_IN'||event==='TOKEN_REFRESHED')&&session)showDashboard(session.user);
+    if(event==='SIGNED_OUT'){document.getElementById('viewDashboard').classList.remove('active');document.getElementById('viewAuth').classList.add('active')}
+  }catch(e){console.error('Auth state change WYK :',e)}
 });
 
 document.getElementById('editModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
