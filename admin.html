@@ -2153,18 +2153,29 @@ async function searchPlayers(){
   var list=document.createElement('div');list.className='data-list';
   data.forEach(function(p){
     var item=document.createElement('div');item.className='data-item';
-    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+(p.name||p.email)+'</div><div class="data-item-sub">'+p.email+'</div></div>';
+    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+(p.name||p.email)+(p.banned?' <span style="color:#ef4444;font-size:.65rem">· Suspendu</span>':'')+'</div><div class="data-item-sub">'+p.email+'</div></div>';
     var sel=document.createElement('select');sel.className='form-input';sel.style.cssText='width:auto;margin-right:6px';
     Object.keys(GAME_LABELS).forEach(function(g){var o=document.createElement('option');o.value=g;o.textContent=GAME_LABELS[g];sel.appendChild(o);});
     var inp=document.createElement('input');inp.className='form-input';inp.type='number';inp.value='1';inp.style.cssText='width:60px;margin-right:6px';
     var btn=document.createElement('button');btn.className='btn-edit';btn.innerHTML='<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>';
     btn.onclick=function(){grantAttempts(p.user_id,sel.value,Number(inp.value)||1)};
+    var banBtn=document.createElement('button');banBtn.className='btn-edit';banBtn.style.cssText=p.banned?'color:#16a34a':'color:#ef4444';
+    banBtn.innerHTML=p.banned?'<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>':'<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>';
+    banBtn.title=p.banned?'Réactiver ce compte':'Suspendre ce compte';
+    banBtn.onclick=function(){toggleBan(p.user_id,!p.banned)};
     var actions=document.createElement('div');actions.className='data-item-actions';actions.style.cssText='flex-wrap:wrap;gap:4px';
-    actions.appendChild(sel);actions.appendChild(inp);actions.appendChild(btn);
+    actions.appendChild(sel);actions.appendChild(inp);actions.appendChild(btn);actions.appendChild(banBtn);
     item.appendChild(actions);
     list.appendChild(item);
   });
   el.appendChild(list);
+}
+async function toggleBan(userId,banned){
+  if(banned&&!confirm('Suspendre ce compte ? Il ne pourra plus jouer.'))return;
+  var {error}=await db.rpc('admin_toggle_player_ban',{p_admin_uid:ADMIN_UID,p_user_id:userId,p_banned:banned});
+  if(error){showToast('Erreur: '+error.message,true);return}
+  showToast(banned?'Compte suspendu':'Compte réactivé');
+  searchPlayers();loadGameHistory();
 }
 async function grantAttempts(userId,gameId,extra){
   var {error}=await db.rpc('admin_grant_extra_attempts',{p_admin_uid:ADMIN_UID,p_user_id:userId,p_game_id:gameId,p_extra:extra});
@@ -2183,7 +2194,17 @@ async function loadGameHistory(){
   var list=document.createElement('div');list.className='data-list';
   data.forEach(function(p){
     var item=document.createElement('div');item.className='data-item';
-    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+(p.user_name||'—')+' — '+(GAME_LABELS[p.game_id]||p.game_id)+'</div><div class="data-item-sub">'+(p.won?'<span style="color:#16a34a">Gagné</span>':'<span style="color:var(--t2)">Perdu</span>')+' · Score: '+p.score+' · '+fmtDateJ(p.played_at)+'</div></div>';
+    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+(p.user_name||'—')+(p.banned?' <span style="color:#ef4444;font-size:.65rem">· Suspendu</span>':'')+' — '+(GAME_LABELS[p.game_id]||p.game_id)+'</div><div class="data-item-sub">'+(p.won?'<span style="color:#16a34a">Gagné</span>':'<span style="color:var(--t2)">Perdu</span>')+' · Score: '+p.score+' · '+fmtDateJ(p.played_at)+'</div></div>';
+    var plusBtn=document.createElement('button');plusBtn.className='btn-edit';plusBtn.title='+1 essai aujourd\'hui pour ce jeu';
+    plusBtn.innerHTML='<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>';
+    plusBtn.onclick=function(){grantAttempts(p.user_id,p.game_id,1)};
+    var banBtn=document.createElement('button');banBtn.className='btn-edit';banBtn.style.cssText=p.banned?'color:#16a34a':'color:#ef4444';
+    banBtn.innerHTML=p.banned?'<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>':'<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>';
+    banBtn.title=p.banned?'Réactiver ce compte':'Suspendre ce compte';
+    banBtn.onclick=function(){toggleBan(p.user_id,!p.banned)};
+    var actions=document.createElement('div');actions.className='data-item-actions';
+    actions.appendChild(plusBtn);actions.appendChild(banBtn);
+    item.appendChild(actions);
     list.appendChild(item);
   });
   el.appendChild(list);
