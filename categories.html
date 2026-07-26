@@ -1045,7 +1045,8 @@ function buildSimilar(cat,excludeId){
   if(!others.length){sc.innerHTML='<div style="font-size:.76rem;color:var(--t3);padding:4px">Pas d\'autres produits.</div>';return}
   others.slice(0,8).forEach(function(p){
     var c=document.createElement('div');c.className='sim-card';
-    var imgH=p.imgs&&p.imgs[0]?'<img src="'+escH(p.imgs[0])+'" alt="'+escH(p.name)+'" loading="lazy" onerror="this.parentElement.innerHTML=\''+PH_SVG.replace(/'/g,"&#39;")+'\'">':PH_SVG;
+    var phEsc=PH_SVG.replace(/"/g,'&quot;').replace(/'/g,"&#39;");
+    var imgH=p.imgs&&p.imgs[0]?'<img src="'+escH(p.imgs[0])+'" alt="'+escH(p.name)+'" loading="lazy" onerror="this.parentElement.innerHTML=\''+phEsc+'\'">':PH_SVG;
     c.innerHTML='<div class="sim-img">'+imgH+'</div><div class="sim-body"><div class="sim-name">'+escH(p.name)+'</div><div class="sim-price">'+formatPrice(p.price)+'</div></div>';
     c.onclick=function(){openProd(p.id,cat?cat.id:null)};
     sc.appendChild(c);
