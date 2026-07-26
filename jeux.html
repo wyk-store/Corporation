@@ -86,7 +86,16 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
 /* ── GAME CARDS GRID ── */
 .games-section{padding:18px 14px}
 .games-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.game-card{background:var(--surface);border:1px solid var(--bdr);border-radius:18px;overflow:hidden;cursor:pointer;transition:all var(--ease);position:relative}
+.game-card{background:var(--surface);border:1px solid var(--bdr);border-radius:18px;overflow:hidden;cursor:pointer;transition:all var(--ease);position:relative;opacity:0;animation:card-in .5s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes card-in{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.games-grid .game-card:nth-child(1){animation-delay:.02s}
+.games-grid .game-card:nth-child(2){animation-delay:.08s}
+.games-grid .game-card:nth-child(3){animation-delay:.14s}
+.games-grid .game-card:nth-child(4){animation-delay:.2s}
+.games-grid .game-card:nth-child(5){animation-delay:.26s}
+.games-grid .game-card:nth-child(6){animation-delay:.32s}
+.gc-quota.urgent{animation:urgent-pulse 1.2s ease infinite}
+@keyframes urgent-pulse{0%,100%{opacity:1}50%{opacity:.45}}
 .game-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.5);border-color:var(--bdr2)}
 .game-card:active{transform:scale(.97)}
 .gc-accent{height:2px;width:100%}
@@ -94,6 +103,7 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
 .gc-emoji{font-size:1.6rem;margin-bottom:8px;display:block}
 .gc-name{font-family:'Syne',sans-serif;font-weight:800;font-size:.84rem;color:var(--text);margin-bottom:4px;letter-spacing:-.01em}
 .gc-desc{font-size:.66rem;color:var(--t2);line-height:1.5;margin-bottom:10px}
+.gc-quota{font-size:.62rem;color:var(--gold);font-weight:700;margin:-5px 0 8px;min-height:12px}
 .gc-footer{display:flex;align-items:center;justify-content:space-between}
 .gc-badge{display:inline-flex;align-items:center;gap:3px;border-radius:6px;padding:3px 7px;font-size:.55rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
 .gc-badge-live{background:var(--green-s);color:var(--green);border:1px solid var(--green-m)}
@@ -155,6 +165,11 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
 .rb-code{display:inline-flex;align-items:center;gap:8px;background:var(--gold-s);border:1px solid var(--gold-m);border-radius:12px;padding:10px 16px;font-family:var(--mono);font-size:.9rem;font-weight:700;color:var(--gold);cursor:pointer;transition:all var(--ease);margin-bottom:10px}
 .rb-code:hover{background:var(--gold-m)}
 .rb-code svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none}
+.rb-code-row{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:10px}
+.rb-code-display{background:var(--gold-s);border:1px solid var(--gold-m);border-radius:12px;padding:10px 20px;font-family:var(--mono);font-size:1.05rem;font-weight:800;letter-spacing:.06em;color:var(--gold)}
+.rb-copy-btn{display:flex;align-items:center;gap:7px;background:var(--gold);color:#000;padding:11px 20px;border-radius:100px;font-weight:800;font-size:.83rem;justify-content:center;transition:all var(--ease)}
+.rb-copy-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(245,200,66,.3)}
+.rb-copy-btn svg{width:15px;height:15px;stroke:#000;stroke-width:2.2;fill:none}
 .rb-already{background:rgba(100,100,120,.12);border:1px solid var(--bdr);border-radius:12px;padding:10px 16px;font-size:.75rem;color:var(--t2);display:none}
 .rb-wa{display:flex;align-items:center;gap:7px;background:#25D366;color:#fff;padding:11px 18px;border-radius:100px;font-weight:700;font-size:.83rem;justify-content:center;transition:all var(--ease);margin-top:8px}
 .rb-wa:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(37,211,102,.3)}
@@ -361,6 +376,35 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
 .wyk-badge-gold{background:var(--gold)}
 .wyk-badge-red{background:var(--red)}
 
+/* ── BADGES ── */
+.wyk-badge{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;flex-shrink:0}
+.wyk-badge svg{width:10px;height:10px;stroke:#fff;stroke-width:3;fill:none}
+.wyk-badge-blue{background:#2196F3}
+.wyk-badge-gold{background:var(--gold)}
+.wyk-badge-red{background:var(--red)}
+
+/* ── PROFILE CARD ── */
+.profile-card{margin:0 14px 16px;background:var(--surface);border:1px solid var(--bdr);border-radius:18px;padding:14px}
+.pc-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.pc-av{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--red),#ff5a6a);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;color:#fff;flex-shrink:0}
+.pc-info{flex:1;min-width:0}
+.pc-name{font-family:'Syne',sans-serif;font-weight:800;font-size:.86rem;color:var(--text);display:flex;align-items:center;gap:6px}
+.pc-rank{font-size:.68rem;color:var(--gold);margin-top:2px;font-weight:700}
+.pc-badge-req{font-size:.62rem;font-weight:700;color:var(--purple);background:var(--purple-s);border:1px solid rgba(176,110,255,.2);border-radius:100px;padding:6px 10px;white-space:nowrap;flex-shrink:0;transition:all var(--ease)}
+.pc-badge-req:hover{background:rgba(176,110,255,.18)}
+.pc-quotas{display:flex;gap:6px;flex-wrap:wrap}
+.pc-quota-loading{font-size:.68rem;color:var(--t3)}
+.pc-quota-pill{display:flex;align-items:center;gap:5px;background:var(--s2);border:1px solid var(--bdr2);border-radius:10px;padding:6px 9px;font-size:.66rem;color:var(--t2);font-weight:600}
+.pc-quota-pill strong{color:var(--text);font-family:var(--mono)}
+.pc-quota-pill.empty{opacity:.5}
+.pc-quota-pill.off{opacity:.4;text-decoration:line-through}
+.pc-reset-timer{margin-top:8px;font-size:.62rem;color:var(--t3);text-align:center}
+.pc-reset-timer strong{color:var(--cyan);font-family:var(--mono)}
+
+/* skeleton loading */
+.skel{background:linear-gradient(90deg,var(--s2) 25%,var(--s3) 50%,var(--s2) 75%);background-size:200% 100%;animation:skel-shine 1.4s ease infinite;border-radius:8px}
+@keyframes skel-shine{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
 /* ── RESPONSIVE ── */
 @media(min-width:600px){.games-grid{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:900px){.bnav{display:none}body{padding-bottom:0}}
@@ -393,9 +437,22 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
   <p class="hero-desc">6 jeux, des récompenses réelles en codes promo WYK. Connecte-toi pour jouer et gagner.</p>
   <div class="hero-chips">
     <div class="hero-chip"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>Jeu équitable</div>
-    <div class="hero-chip"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>IA intégrée</div>
     <div class="hero-chip"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 8v13m0-13V6a4 4 0 00-4-4H5.45a4 4 0 00-3.393 6.1L5 12m7-4h10m-10 0a4 4 0 014-4h2.55a4 4 0 013.392 6.1L17 12m-5-4v13"/></svg>Récompenses réelles</div>
   </div>
+</div>
+
+<!-- PROFIL JOUEUR -->
+<div class="profile-card" id="profileCard" style="display:none">
+  <div class="pc-top">
+    <div class="pc-av" id="pcAv">?</div>
+    <div class="pc-info">
+      <div class="pc-name" id="pcName">Joueur <span id="pcBadge"></span></div>
+      <div class="pc-rank" id="pcRank">Chargement du classement…</div>
+    </div>
+    <a class="pc-badge-req" id="pcBadgeReq" href="#" target="_blank">✨ Demander mon badge</a>
+  </div>
+  <div class="pc-quotas" id="pcQuotas"><div class="pc-quota-loading">Chargement des essais du jour…</div></div>
+  <div class="pc-reset-timer" id="pcResetTimer"></div>
 </div>
 
 <!-- TABS -->
@@ -422,7 +479,7 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
         <div class="gc-inner">
           <span class="gc-emoji">🎯</span>
           <div class="gc-name">Devine le Nombre</div>
-          <div class="gc-desc">1 à 100 · 7 essais · Trouve le mystère</div>
+          <div class="gc-desc">1 à 100 · 7 essais · Trouve le mystère</div><div class="gc-quota" id="gcq-guess"></div>
           <div class="gc-footer">
             <div class="gc-badge gc-badge-classic"><div class="gc-dot" style="background:var(--cyan)"></div>Classique</div>
             <div class="gc-play-arrow gc-red"><svg viewBox="0 0 24 24"><polygon fill="currentColor" points="5 3 19 12 5 21 5 3"/></svg></div>
@@ -435,7 +492,7 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
         <div class="gc-inner">
           <span class="gc-emoji">🧠</span>
           <div class="gc-name">Quiz IA</div>
-          <div class="gc-desc">Questions générées par Claude · 5 questions</div>
+          <div class="gc-desc">Questions générées par Claude · 5 questions</div><div class="gc-quota" id="gcq-quiz"></div>
           <div class="gc-footer">
             <div class="gc-badge gc-badge-ai"><div class="gc-dot" style="background:var(--purple)"></div>IA Live</div>
             <div class="gc-play-arrow gc-purple"><svg viewBox="0 0 24 24"><polygon fill="currentColor" points="5 3 19 12 5 21 5 3"/></svg></div>
@@ -448,7 +505,7 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
         <div class="gc-inner">
           <span class="gc-emoji">🎡</span>
           <div class="gc-name">Roue des Prix</div>
-          <div class="gc-desc">Tournez · Gagnez · Une chance par jour</div>
+          <div class="gc-desc">Tournez · Gagnez · Une chance par jour</div><div class="gc-quota" id="gcq-wheel"></div>
           <div class="gc-footer">
             <div class="gc-badge gc-badge-live"><div class="gc-dot" style="background:var(--green)"></div>Live</div>
             <div class="gc-play-arrow gc-gold"><svg viewBox="0 0 24 24"><polygon fill="currentColor" points="5 3 19 12 5 21 5 3"/></svg></div>
@@ -461,7 +518,7 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
         <div class="gc-inner">
           <span class="gc-emoji">🔐</span>
           <div class="gc-name">Code Secret</div>
-          <div class="gc-desc">4 chiffres · 5 essais · Brisez le code</div>
+          <div class="gc-desc">4 chiffres · 5 essais · Brisez le code</div><div class="gc-quota" id="gcq-code"></div>
           <div class="gc-footer">
             <div class="gc-badge gc-badge-classic"><div class="gc-dot" style="background:var(--cyan)"></div>Classique</div>
             <div class="gc-play-arrow gc-cyan"><svg viewBox="0 0 24 24"><polygon fill="currentColor" points="5 3 19 12 5 21 5 3"/></svg></div>
@@ -474,7 +531,7 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
         <div class="gc-inner">
           <span class="gc-emoji">🐍</span>
           <div class="gc-name">Snake WYK — Vrai Jeu Vidéo</div>
-          <div class="gc-desc">Mange les fruits WYK · Score 50+ = récompense · Contrôles tactiles</div>
+          <div class="gc-desc">Mange les fruits WYK · Score 50+ = récompense · Contrôles tactiles</div><div class="gc-quota" id="gcq-snake"></div>
           <div class="gc-footer">
             <div class="gc-badge gc-badge-live"><div class="gc-dot" style="background:var(--green)"></div>Arcade</div>
             <div class="gc-play-arrow gc-green"><svg viewBox="0 0 24 24"><polygon fill="currentColor" points="5 3 19 12 5 21 5 3"/></svg></div>
@@ -487,7 +544,7 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
         <div class="gc-inner">
           <span class="gc-emoji">🃏</span>
           <div class="gc-name">Memory WYK — Jeu de Mémoire</div>
-          <div class="gc-desc">Retrouve les paires d'emojis · Moins de 20 coups = récompense</div>
+          <div class="gc-desc">Retrouve les paires d'emojis · Moins de 20 coups = récompense</div><div class="gc-quota" id="gcq-memory"></div>
           <div class="gc-footer">
             <div class="gc-badge gc-badge-classic"><div class="gc-dot" style="background:var(--cyan)"></div>Mémoire</div>
             <div class="gc-play-arrow gc-red"><svg viewBox="0 0 24 24"><polygon fill="currentColor" points="5 3 19 12 5 21 5 3"/></svg></div>
@@ -662,7 +719,7 @@ async function initAuth(){
   if(session&&session.user){
     _user=session.user;
     _isAdmin=_user.id===ADMIN_UID;
-    const name=_user.user_metadata?.pseudo||_user.email?.split('@')[0]||'Joueur';
+    const name=(_user.user_metadata&&_user.user_metadata.pseudo)||(_user.email&&_user.email.split('@')[0])||'Joueur';
     const initials=name.slice(0,2).toUpperCase();
     document.getElementById('userAv').textContent=initials;
     document.getElementById('userName').textContent=name;
@@ -671,10 +728,81 @@ async function initAuth(){
     if(_isAdmin){document.getElementById('adminDot').style.display='block'}
     document.getElementById('authGate').style.display='none';
     document.getElementById('gamesGrid').style.display='block';
+    document.getElementById('profileCard').style.display='block';
+    document.getElementById('pcAv').textContent=initials;
+    loadProfileCard(name);
   } else {
     document.getElementById('authGate').style.display='flex';
     document.getElementById('gamesGrid').style.display='none';
+    document.getElementById('profileCard').style.display='none';
   }
+}
+
+/* ═══════════════════════════════════════
+   PROFIL JOUEUR (badge, classement, quotas)
+═══════════════════════════════════════ */
+let _isBanned=false;
+const BADGE_NAMES={blue:'Certifié',gold:'Équipe WYK',red:'Admin WYK'};
+async function loadProfileCard(name){
+  document.getElementById('pcQuotas').innerHTML=Array.from({length:6}).map(()=>'<div class="skel" style="width:78px;height:26px"></div>').join('');
+  document.getElementById('pcRank').innerHTML='<span class="skel" style="display:inline-block;width:140px;height:12px"></span>';
+  startResetCountdown();
+  const gids=['guess','quiz','wheel','code','snake','memory'];
+  const [statusRes,quotasRes,...rewardResList]=await Promise.all([
+    db.rpc('game_my_status'),
+    db.rpc('game_all_quotas'),
+    ...gids.map(g=>db.rpc('game_reward_info',{p_game_id:g}))
+  ]);
+  const status=(statusRes.data&&statusRes.data[0])||{};
+  _isBanned=!!status.banned;
+  document.getElementById('pcName').innerHTML='Bonjour, '+escH(name)+' <span id="pcBadge">'+badgeHtml(status.badge)+'</span>';
+  if(_isBanned){
+    document.getElementById('pcRank').innerHTML='<span style="color:var(--red)">⛔ Compte suspendu — tu ne peux plus jouer</span>';
+  } else if(status.plays){
+    document.getElementById('pcRank').textContent=(status.my_rank?'🏆 #'+status.my_rank+' au classement · ':'')+status.wins+' victoire'+(status.wins>1?'s':'')+' / '+status.plays+' partie'+(status.plays>1?'s':'');
+  } else {
+    document.getElementById('pcRank').textContent='Joue ta première partie pour apparaître au classement !';
+  }
+  const badgeReqEl=document.getElementById('pcBadgeReq');
+  if(status.badge){
+    badgeReqEl.style.display='none';
+  } else {
+    badgeReqEl.href='https://wa.me/'+WA+'?text='+encodeURIComponent('Bonjour WYK 👋 ! Je voudrais demander un badge de certification sur mon compte joueur ('+name+'). Merci !');
+  }
+  const quotas=quotasRes.data||[];
+  const qEl=document.getElementById('pcQuotas');
+  if(!quotas.length){qEl.innerHTML='<div class="pc-quota-loading">Aucune donnée</div>';}
+  else{
+    qEl.innerHTML=quotas.map(q=>{
+      const label=(GAME_LABELS_SHORT[q.game_id]||q.game_id);
+      const off=!q.active;
+      const empty=!off&&q.remaining<=0;
+      return '<div class="pc-quota-pill'+(off?' off':empty?' empty':'')+'">'+label+' <strong>'+(off?'—':q.remaining+'/'+q.allowed)+'</strong></div>';
+    }).join('');
+  }
+  gids.forEach((g,i)=>{
+    const r=rewardResList[i];
+    const el=document.getElementById('gcq-'+g);
+    if(!el)return;
+    const info=r&&r.data&&r.data[0];
+    if(!info){el.textContent='';return}
+    el.textContent='🎁 '+(info.unlimited?'Récompense disponible':(info.remaining>0?info.remaining+' place'+(info.remaining>1?'s':'')+' restante'+(info.remaining>1?'s':''):'Places épuisées'));
+    el.classList.toggle('urgent',!info.unlimited&&info.remaining>0&&info.remaining<=2);
+  });
+}
+const GAME_LABELS_SHORT={guess:'🎯 Nombre',quiz:'🧠 Quiz',wheel:'🎡 Roue',code:'🔐 Code',snake:'🐍 Snake',memory:'🃏 Memory'};
+let _resetTimerInt=null;
+function startResetCountdown(){
+  clearInterval(_resetTimerInt);
+  const tick=()=>{
+    const now=new Date();
+    const next=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate()+1,0,0,0));
+    const diff=next-now;
+    const h=Math.floor(diff/3600000),m=Math.floor((diff%3600000)/60000);
+    const el=document.getElementById('pcResetTimer');
+    if(el)el.innerHTML='🔄 Essais réinitialisés dans <strong>'+h+'h'+(m<10?'0':'')+m+'</strong>';
+  };
+  tick();_resetTimerInt=setInterval(tick,60000);
 }
 
 /* ═══════════════════════════════════════
@@ -695,6 +823,7 @@ function showRewardBanner(containerId,gameId,won,extra=''){
       let msg='Aucune récompense disponible pour le moment — revenez bientôt !';
       if(r.message==='already_claimed')msg="Tu as déjà réclamé une récompense pour ce jeu.";
       if(r.message==='exhausted')msg='😅 Toutes les places pour ce prix ont été prises — récompenses épuisées !';
+      if(r.message==='account_suspended')msg='⛔ Ton compte a été suspendu, tu ne peux plus réclamer de récompense.';
       el.innerHTML=`<div class="rb-emoji">🎉</div><div class="rb-title">Bravo, tu as gagné !</div><div class="rb-desc">${msg} ${extra}</div><div class="rb-retry" onclick="closeAndRetry('${gameId}')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>Rejouer</div>`;
       confettiBurst();
       return;
@@ -703,7 +832,10 @@ function showRewardBanner(containerId,gameId,won,extra=''){
       <div class="rb-emoji">🎉</div>
       <div class="rb-title">Félicitations !</div>
       <div class="rb-desc">${escH(r.name)} — ${escH(r.value||'')} ${extra}</div>
-      <div class="rb-code" onclick="copyCode('${escH(r.code)}')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>${escH(r.code)} · Copier</div>
+      <div class="rb-code-row">
+        <div class="rb-code-display">${escH(r.code)}</div>
+        <button class="rb-copy-btn" onclick="copyCode('${escH(r.code)}')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copier le code</button>
+      </div>
       <a class="rb-wa" href="https://wa.me/${WA}?text=${encodeURIComponent('Bonjour WYK 👋 ! J\'ai gagné la récompense "'+r.name+'" avec le code : '+r.code+'. Je voudrais l\'utiliser pour ma commande. Merci !')}" target="_blank">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Envoyer sur WhatsApp
@@ -729,7 +861,7 @@ function closeAndRetry(gameId){
 /* ── LEADERBOARD ── */
 async function renderLeaderboard(){
   const el=document.getElementById('lbList');
-  el.innerHTML='<div style="padding:32px;text-align:center;color:var(--t3);font-size:.8rem">Chargement…</div>';
+  el.innerHTML=Array.from({length:6}).map(()=>'<div class="skel" style="height:58px;margin-bottom:7px;border-radius:14px"></div>').join('');
   const {data,error}=await db.rpc('game_leaderboard');
   if(error||!data||!data.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--t3);font-size:.8rem">Pas encore de joueurs. Soyez le premier ! 🚀</div>';return}
   const medals=['🥇','🥈','🥉'];
@@ -745,6 +877,7 @@ async function renderLeaderboard(){
 ═══════════════════════════════════════ */
 async function openGame(id){
   if(!_user){showToast('Connecte-toi pour jouer !',false);return}
+  if(_isBanned){showToast('Ton compte a été suspendu — tu ne peux plus jouer.',false);return}
   const {data,error}=await db.rpc('game_get_state',{p_game_id:id});
   if(error||!data||!data.length){showToast('Erreur de chargement du jeu',false);return}
   const st=data[0];
@@ -779,7 +912,8 @@ async function recordPlay(gameId,won,score){
 ═══════════════════════════════════════ */
 let _guessSecret=0,_guessLeft=0,_guessHistory=[],_guessOver=false,_guessCfg={min:1,max:100,att:7};
 function initGuess(st){
-  _guessCfg={min:st.config?.min||1,max:st.config?.max||100,att:st.config?.att||7};
+  var stCfg=st.config||{};
+  _guessCfg={min:stCfg.min||1,max:stCfg.max||100,att:stCfg.att||7};
   const {min,max,att}=_guessCfg;
   _guessSecret=Math.floor(Math.random()*(max-min+1))+min;
   _guessLeft=att;_guessHistory=[];_guessOver=false;
@@ -859,7 +993,7 @@ async function initQuiz(st){
       })
     });
     const d=await r.json();
-    const txt=d.content?.[0]?.text||'[]';
+    const txt=(d.content&&d.content[0]&&d.content[0].text)||'[]';
     _quizQs=JSON.parse(txt.replace(/```json|```/g,'').trim());
   } catch(e){
     _quizQs=[
@@ -1004,7 +1138,8 @@ function doSpin(){
 ═══════════════════════════════════════ */
 let _codeInput='',_codeLeft=5,_codeOver=false,_codeCfg={secret:'2024',hint:''};
 function initCode(st){
-  _codeCfg={secret:st.config?.secret||'2024',hint:st.config?.hint||'',att:st.allowed_round||5};
+  var stCfg2=st.config||{};
+  _codeCfg={secret:stCfg2.secret||'2024',hint:stCfg2.hint||'',att:st.allowed_round||5};
   const att=5;
   _codeInput='';_codeLeft=att;_codeOver=false;
   const area=document.getElementById('code-area');
@@ -1154,6 +1289,15 @@ function snakeTick(){
   drawSnake();
 }
 
+function drawRoundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
 function drawSnake(){
   const c=document.getElementById('snakeCanvas');if(!c)return;
   const ctx=c.getContext('2d');const S=SNAKE_SIZE;
@@ -1163,7 +1307,7 @@ function drawSnake(){
   _snake.forEach((s,i)=>{
     const alpha=1-i*0.03;
     ctx.fillStyle=`rgba(0,230,118,${Math.max(.3,alpha)})`;
-    ctx.beginPath();ctx.roundRect(s.x*S+1,s.y*S+1,S-2,S-2,4);ctx.fill();
+    drawRoundRect(ctx,s.x*S+1,s.y*S+1,S-2,S-2,4);ctx.fill();
     if(i===0){ctx.fillStyle='#000';ctx.font=`${S-4}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('W',s.x*S+S/2,s.y*S+S/2)}
   });
   ctx.font=`${S-2}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
