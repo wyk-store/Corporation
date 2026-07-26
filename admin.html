@@ -396,6 +396,9 @@ select.form-input{cursor:pointer}
   <div class="tab" onclick="switchTab('personnel',this)">
     <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Personnel
   </div>
+  <div class="tab" onclick="switchTab('jeux',this)">
+    <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path stroke-linecap="round" d="M12 12h.01M17 12h.01M7 9v6M4 12h6"/></svg>Jeux
+  </div>
 </div>
 
 <!-- ═══════ DASHBOARD ═══════ -->
@@ -647,6 +650,78 @@ select.form-input{cursor:pointer}
 
   <div class="sec-divider" style="margin-top:24px"><span>Historique — employés</span></div>
   <div id="emp-logs-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+</div>
+
+<!-- ═══════ JEUX ═══════ -->
+<div class="panel" id="panel-jeux">
+  <div class="sec-hd"><h2>Réglages du <em>jeu</em></h2></div>
+  <div class="form-group">
+    <label class="form-lbl">Jeu</label>
+    <select class="form-input" id="jg-select" onchange="loadGameSettingsForm()">
+      <option value="guess">🎯 Devine le Nombre</option>
+      <option value="quiz">🧠 Quiz IA</option>
+      <option value="wheel">🎡 Roue des Prix</option>
+      <option value="code">🔐 Code Secret</option>
+      <option value="snake">🐍 Snake WYK</option>
+      <option value="memory">🃏 Memory WYK</option>
+    </select>
+  </div>
+  <div class="toggle-row">
+    <span class="toggle-lbl">Jeu accessible aux joueurs</span>
+    <label class="toggle"><input type="checkbox" id="jg-active" checked><div class="toggle-track"></div></label>
+  </div>
+  <div class="form-group">
+    <label class="form-lbl">Message si désactivé</label>
+    <textarea class="form-input" id="jg-disabled-msg" placeholder="Ex: Ce jeu arrive très bientôt, reste connecté !"></textarea>
+  </div>
+  <div class="form-group">
+    <label class="form-lbl">Essais autorisés par jour (par joueur)</label>
+    <input class="form-input" type="number" id="jg-daily-attempts" value="3">
+  </div>
+  <div id="jg-config-fields"></div>
+  <button class="btn-submit" onclick="saveGameSettings()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Enregistrer les réglages</button>
+
+  <div class="sec-divider" style="margin-top:28px"><span>Récompenses & codes promo</span></div>
+  <div class="sec-hd" style="margin-top:0">
+    <h2 style="font-size:1rem">Codes <em>actifs</em></h2>
+    <button class="btn-add" onclick="openRewardModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Ajouter</button>
+  </div>
+  <div id="rewards-admin-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+
+  <div class="sec-divider" style="margin-top:24px"><span>Accorder des essais bonus</span></div>
+  <div class="form-group">
+    <label class="form-lbl">Chercher un joueur (email ou pseudo)</label>
+    <input class="form-input" type="text" id="pl-search" placeholder="Ex: jean@gmail.com" onkeydown="if(event.key==='Enter')searchPlayers()">
+  </div>
+  <button class="btn-submit" onclick="searchPlayers()" style="margin-bottom:10px">Chercher</button>
+  <div id="pl-search-results"></div>
+
+  <div class="sec-divider" style="margin-top:24px"><span>Historique des parties</span></div>
+  <div class="form-group">
+    <select class="form-input" id="hist-game-filter" onchange="loadGameHistory()">
+      <option value="">Tous les jeux</option>
+      <option value="guess">🎯 Devine le Nombre</option>
+      <option value="quiz">🧠 Quiz IA</option>
+      <option value="wheel">🎡 Roue des Prix</option>
+      <option value="code">🔐 Code Secret</option>
+      <option value="snake">🐍 Snake WYK</option>
+      <option value="memory">🃏 Memory WYK</option>
+    </select>
+  </div>
+  <div id="game-history-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+
+  <div class="sec-divider" style="margin-top:24px"><span>Codes réclamés</span></div>
+  <div id="claims-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+
+  <div class="sec-divider" style="margin-top:24px"><span>Badges de certification</span></div>
+  <div class="form-group">
+    <label class="form-lbl">Chercher un compte (email ou pseudo)</label>
+    <input class="form-input" type="text" id="bd-search" placeholder="Ex: marie@gmail.com" onkeydown="if(event.key==='Enter')searchBadgePlayers()">
+  </div>
+  <button class="btn-submit" onclick="searchBadgePlayers()" style="margin-bottom:10px">Chercher</button>
+  <div id="bd-search-results"></div>
+  <div class="sec-divider" style="margin-top:16px"><span>Comptes certifiés</span></div>
+  <div id="badges-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
 </div>
 
 </div><!-- end adminMain -->
@@ -1046,6 +1121,54 @@ select.form-input{cursor:pointer}
   </div>
 </div>
 
+<!-- ═══ MODAL RÉCOMPENSE ═══ -->
+<div class="modal-ov" id="rewardModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <div class="modal-title">Nouvelle récompense</div>
+      <button class="modal-cls" onclick="closeModal('rewardModal')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-lbl">Jeu associé</label>
+        <select class="form-input" id="rw-game">
+          <option value="all">Tous les jeux</option>
+          <option value="guess">🎯 Devine le Nombre</option>
+          <option value="quiz">🧠 Quiz IA</option>
+          <option value="wheel">🎡 Roue des Prix</option>
+          <option value="code">🔐 Code Secret</option>
+          <option value="snake">🐍 Snake WYK</option>
+          <option value="memory">🃏 Memory WYK</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Nom de la récompense</label>
+        <input class="form-input" type="text" id="rw-name" placeholder="Ex: -20% sur ta prochaine commande">
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Code promo</label>
+        <input class="form-input" type="text" id="rw-code" placeholder="WYK20WIN" style="font-family:monospace;text-transform:uppercase">
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Valeur</label>
+        <input class="form-input" type="text" id="rw-value" placeholder="Ex: 20% / 500 HTG">
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Condition de gain</label>
+        <input class="form-input" type="text" id="rw-cond" placeholder="Ex: Score ≥ 50">
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Places limitées (0 = illimité)</label>
+        <input class="form-input" type="number" id="rw-max" value="0">
+      </div>
+      <button class="btn-submit" id="rw-submit" onclick="createReward()">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Ajouter la récompense
+      </button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toastEl"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span id="toastMsg"></span></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1269,6 +1392,7 @@ function switchTab(name,el){
   if(name==='homepage')loadHomeContent();
   if(name==='reviews')loadReviews();
   if(name==='personnel')loadPersonnel();
+  if(name==='jeux')loadJeuxTab();
 }
 
 // ══════════════════════════════════════════
@@ -1923,11 +2047,216 @@ async function loadEmpLogs(){
 }
 
 // ══════════════════════════════════════════
+// JEUX & CONCOURS
+// ══════════════════════════════════════════
+var GAME_LABELS={guess:'🎯 Devine le Nombre',quiz:'🧠 Quiz IA',wheel:'🎡 Roue des Prix',code:'🔐 Code Secret',snake:'🐍 Snake WYK',memory:'🃏 Memory WYK'};
+var _gameSettingsCache={};
+function fmtDateJ(d){try{return new Date(d).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'})}catch(e){return d}}
+
+async function loadJeuxTab(){
+  var {data,error}=await db.rpc('admin_game_list_settings',{p_admin_uid:ADMIN_UID});
+  if(!error&&data){data.forEach(function(g){_gameSettingsCache[g.game_id]=g});}
+  loadGameSettingsForm();
+  loadRewardsAdmin();
+  loadGameHistory();
+  loadClaims();
+  loadBadgesList();
+}
+
+function loadGameSettingsForm(){
+  var gid=document.getElementById('jg-select').value;
+  var g=_gameSettingsCache[gid]||{active:true,disabled_message:'',daily_attempts:3,config:{}};
+  document.getElementById('jg-active').checked=g.active!==false;
+  document.getElementById('jg-disabled-msg').value=g.disabled_message||'';
+  document.getElementById('jg-daily-attempts').value=g.daily_attempts||3;
+  var cfgEl=document.getElementById('jg-config-fields');
+  var cfg=g.config||{};
+  if(gid==='guess'){
+    cfgEl.innerHTML='<div class="form-row"><div class="form-group"><label class="form-lbl">Min</label><input class="form-input" type="number" id="jg-cfg-min" value="'+(cfg.min||1)+'"></div><div class="form-group"><label class="form-lbl">Max</label><input class="form-input" type="number" id="jg-cfg-max" value="'+(cfg.max||100)+'"></div></div><div class="form-group"><label class="form-lbl">Essais pour trouver le nombre (dans une partie)</label><input class="form-input" type="number" id="jg-cfg-att" value="'+(cfg.att||7)+'"></div>';
+  } else if(gid==='code'){
+    cfgEl.innerHTML='<div class="form-group"><label class="form-lbl">Code secret (chiffres)</label><input class="form-input" type="text" id="jg-cfg-secret" value="'+(cfg.secret||'2024')+'" style="font-family:monospace"></div><div class="form-group"><label class="form-lbl">Indice affiché</label><input class="form-input" type="text" id="jg-cfg-hint" value="'+(cfg.hint||'')+'"></div>';
+  } else {
+    cfgEl.innerHTML='';
+  }
+}
+async function saveGameSettings(){
+  var gid=document.getElementById('jg-select').value;
+  var active=document.getElementById('jg-active').checked;
+  var msg=document.getElementById('jg-disabled-msg').value.trim();
+  var att=Number(document.getElementById('jg-daily-attempts').value)||3;
+  var cfg={};
+  if(gid==='guess'){cfg={min:Number(document.getElementById('jg-cfg-min').value)||1,max:Number(document.getElementById('jg-cfg-max').value)||100,att:Number(document.getElementById('jg-cfg-att').value)||7};}
+  else if(gid==='code'){cfg={secret:document.getElementById('jg-cfg-secret').value.trim()||'2024',hint:document.getElementById('jg-cfg-hint').value.trim()};}
+  var {error}=await db.rpc('admin_game_upsert_settings',{p_admin_uid:ADMIN_UID,p_game_id:gid,p_active:active,p_disabled_message:msg,p_daily_attempts:att,p_config:cfg});
+  if(error){showToast('Erreur: '+error.message,true);return}
+  _gameSettingsCache[gid]={game_id:gid,active,disabled_message:msg,daily_attempts:att,config:cfg};
+  showToast('Réglages enregistrés ✓');
+}
+
+function openRewardModal(){
+  document.getElementById('rw-game').value='all';document.getElementById('rw-name').value='';
+  document.getElementById('rw-code').value='';document.getElementById('rw-value').value='';
+  document.getElementById('rw-cond').value='';document.getElementById('rw-max').value='0';
+  openModal('rewardModal');
+}
+async function createReward(){
+  var name=document.getElementById('rw-name').value.trim();
+  var code=document.getElementById('rw-code').value.trim().toUpperCase();
+  if(!name||!code){showToast('Nom et code requis !',true);return}
+  var btn=document.getElementById('rw-submit');btn.classList.add('loading');
+  var {error}=await db.rpc('admin_reward_create',{p_admin_uid:ADMIN_UID,p_game_id:document.getElementById('rw-game').value,p_name:name,p_code:code,p_value:document.getElementById('rw-value').value.trim(),p_condition:document.getElementById('rw-cond').value.trim(),p_max_claims:Number(document.getElementById('rw-max').value)||0});
+  btn.classList.remove('loading');
+  if(error){showToast('Erreur: '+error.message,true);return}
+  showToast('Récompense ajoutée ✓');closeModal('rewardModal');loadRewardsAdmin();
+}
+async function loadRewardsAdmin(){
+  var el=document.getElementById('rewards-admin-list');
+  el.innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
+  var {data,error}=await db.rpc('admin_reward_list',{p_admin_uid:ADMIN_UID});
+  if(error){el.innerHTML='<div class="empty-state"><p>Erreur</p></div>';return}
+  if(!data||!data.length){el.innerHTML='<div class="empty-state"><p>Aucune récompense. Clique sur Ajouter !</p></div>';return}
+  el.innerHTML='';
+  var list=document.createElement('div');list.className='data-list';
+  data.forEach(function(r){
+    var quota=r.max_claims?(r.claims_count+' / '+r.max_claims+' places prises'):'Illimité';
+    var epuise=r.max_claims&&r.claims_count>=r.max_claims;
+    var item=document.createElement('div');item.className='data-item';
+    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+r.name+' <span style="font-family:monospace;color:var(--red);font-size:.7rem">'+r.code+'</span></div><div class="data-item-sub">'+(GAME_LABELS[r.game_id]||'Tous les jeux')+' · '+quota+(epuise?' · <span style="color:#ef4444">Épuisé</span>':'')+'</div></div>'
+      +'<div class="data-item-actions">'
+      +'<label class="toggle" style="margin-right:6px"><input type="checkbox" '+(r.active?'checked':'')+' onchange="toggleReward(\''+r.id+'\',this.checked)"><div class="toggle-track"></div></label>'
+      +'<button class="btn-del" onclick="deleteReward(\''+r.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>'
+      +'</div>';
+    list.appendChild(item);
+  });
+  el.appendChild(list);
+}
+async function toggleReward(id,active){
+  var {error}=await db.rpc('admin_reward_toggle',{p_admin_uid:ADMIN_UID,p_reward_id:id,p_active:active});
+  if(error){showToast('Erreur',true);loadRewardsAdmin();return}
+  showToast(active?'Récompense activée':'Récompense désactivée');
+}
+async function deleteReward(id){
+  if(!confirm('Supprimer cette récompense ?'))return;
+  var {error}=await db.rpc('admin_reward_delete',{p_admin_uid:ADMIN_UID,p_reward_id:id});
+  if(error){showToast('Erreur',true);return}
+  showToast('Récompense supprimée');loadRewardsAdmin();
+}
+
+async function searchPlayers(){
+  var q=document.getElementById('pl-search').value.trim();
+  var el=document.getElementById('pl-search-results');
+  if(!q){el.innerHTML='';return}
+  el.innerHTML='<div class="loading-box"><div class="spinner"></div>Recherche…</div>';
+  var {data,error}=await db.rpc('admin_search_players',{p_admin_uid:ADMIN_UID,p_query:q});
+  if(error||!data||!data.length){el.innerHTML='<div class="empty-state"><p>Aucun compte trouvé</p></div>';return}
+  el.innerHTML='';
+  var list=document.createElement('div');list.className='data-list';
+  data.forEach(function(p){
+    var item=document.createElement('div');item.className='data-item';
+    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+(p.name||p.email)+'</div><div class="data-item-sub">'+p.email+'</div></div>';
+    var sel=document.createElement('select');sel.className='form-input';sel.style.cssText='width:auto;margin-right:6px';
+    Object.keys(GAME_LABELS).forEach(function(g){var o=document.createElement('option');o.value=g;o.textContent=GAME_LABELS[g];sel.appendChild(o);});
+    var inp=document.createElement('input');inp.className='form-input';inp.type='number';inp.value='1';inp.style.cssText='width:60px;margin-right:6px';
+    var btn=document.createElement('button');btn.className='btn-edit';btn.innerHTML='<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>';
+    btn.onclick=function(){grantAttempts(p.user_id,sel.value,Number(inp.value)||1)};
+    var actions=document.createElement('div');actions.className='data-item-actions';actions.style.cssText='flex-wrap:wrap;gap:4px';
+    actions.appendChild(sel);actions.appendChild(inp);actions.appendChild(btn);
+    item.appendChild(actions);
+    list.appendChild(item);
+  });
+  el.appendChild(list);
+}
+async function grantAttempts(userId,gameId,extra){
+  var {error}=await db.rpc('admin_grant_extra_attempts',{p_admin_uid:ADMIN_UID,p_user_id:userId,p_game_id:gameId,p_extra:extra});
+  if(error){showToast('Erreur: '+error.message,true);return}
+  showToast('+'+extra+' essai(s) accordé(s) pour aujourd\'hui ✓');
+}
+
+async function loadGameHistory(){
+  var el=document.getElementById('game-history-list');
+  el.innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
+  var gid=document.getElementById('hist-game-filter').value||null;
+  var {data,error}=await db.rpc('admin_game_history',{p_admin_uid:ADMIN_UID,p_game_id:gid});
+  if(error){el.innerHTML='<div class="empty-state"><p>Erreur</p></div>';return}
+  if(!data||!data.length){el.innerHTML='<div class="empty-state"><p>Aucune partie jouée pour le moment.</p></div>';return}
+  el.innerHTML='';
+  var list=document.createElement('div');list.className='data-list';
+  data.forEach(function(p){
+    var item=document.createElement('div');item.className='data-item';
+    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+(p.user_name||'—')+' — '+(GAME_LABELS[p.game_id]||p.game_id)+'</div><div class="data-item-sub">'+(p.won?'<span style="color:#16a34a">Gagné</span>':'<span style="color:var(--t2)">Perdu</span>')+' · Score: '+p.score+' · '+fmtDateJ(p.played_at)+'</div></div>';
+    list.appendChild(item);
+  });
+  el.appendChild(list);
+}
+
+async function loadClaims(){
+  var el=document.getElementById('claims-list');
+  el.innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
+  var {data,error}=await db.rpc('admin_claims_list',{p_admin_uid:ADMIN_UID});
+  if(error){el.innerHTML='<div class="empty-state"><p>Erreur</p></div>';return}
+  if(!data||!data.length){el.innerHTML='<div class="empty-state"><p>Aucun code réclamé pour le moment.</p></div>';return}
+  el.innerHTML='';
+  var list=document.createElement('div');list.className='data-list';
+  data.forEach(function(c){
+    var item=document.createElement('div');item.className='data-item';
+    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+(c.user_name||'—')+' — '+(c.reward_name||'—')+'</div><div class="data-item-sub">'+(GAME_LABELS[c.game_id]||c.game_id)+' · <span style="font-family:monospace;color:var(--gold)">'+(c.reward_code||'')+'</span> · '+fmtDateJ(c.claimed_at)+'</div></div>';
+    list.appendChild(item);
+  });
+  el.appendChild(list);
+}
+
+var BADGE_LABELS={blue:'🔵 Bleu (client certifié)',gold:'🟡 Jaune (équipe)',red:'🔴 Rouge (admin)'};
+async function searchBadgePlayers(){
+  var q=document.getElementById('bd-search').value.trim();
+  var el=document.getElementById('bd-search-results');
+  if(!q){el.innerHTML='';return}
+  el.innerHTML='<div class="loading-box"><div class="spinner"></div>Recherche…</div>';
+  var {data,error}=await db.rpc('admin_search_players',{p_admin_uid:ADMIN_UID,p_query:q});
+  if(error||!data||!data.length){el.innerHTML='<div class="empty-state"><p>Aucun compte trouvé</p></div>';return}
+  el.innerHTML='';
+  var list=document.createElement('div');list.className='data-list';
+  data.forEach(function(p){
+    var item=document.createElement('div');item.className='data-item';
+    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+(p.name||p.email)+'</div><div class="data-item-sub">'+p.email+'</div></div>';
+    var sel=document.createElement('select');sel.className='form-input';sel.style.cssText='width:auto;margin-right:6px';
+    ['','blue','gold','red'].forEach(function(b){var o=document.createElement('option');o.value=b;o.textContent=b?BADGE_LABELS[b]:'Aucun badge';sel.appendChild(o);});
+    var btn=document.createElement('button');btn.className='btn-edit';btn.innerHTML='<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>';
+    btn.onclick=function(){setBadge(p.user_id,sel.value)};
+    var actions=document.createElement('div');actions.className='data-item-actions';
+    actions.appendChild(sel);actions.appendChild(btn);
+    item.appendChild(actions);
+    list.appendChild(item);
+  });
+  el.appendChild(list);
+}
+async function setBadge(userId,badge){
+  var {error}=await db.rpc('admin_set_badge',{p_admin_uid:ADMIN_UID,p_user_id:userId,p_badge:badge||null});
+  if(error){showToast('Erreur: '+error.message,true);return}
+  showToast(badge?'Badge attribué ✓':'Badge retiré');loadBadgesList();
+}
+async function loadBadgesList(){
+  var el=document.getElementById('badges-list');
+  el.innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
+  var {data,error}=await db.rpc('admin_badges_list',{p_admin_uid:ADMIN_UID});
+  if(error){el.innerHTML='<div class="empty-state"><p>Erreur</p></div>';return}
+  if(!data||!data.length){el.innerHTML='<div class="empty-state"><p>Aucun compte certifié.</p></div>';return}
+  el.innerHTML='';
+  var list=document.createElement('div');list.className='data-list';
+  data.forEach(function(b){
+    var item=document.createElement('div');item.className='data-item';
+    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+(b.name||b.email)+'</div><div class="data-item-sub">'+(BADGE_LABELS[b.badge]||b.badge)+'</div></div>'
+      +'<div class="data-item-actions"><button class="btn-del" onclick="setBadge(\''+b.user_id+'\',null)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button></div>';
+    list.appendChild(item);
+  });
+  el.appendChild(list);
+}
+
+// ══════════════════════════════════════════
 // MODAL HELPERS
 // ══════════════════════════════════════════
 function openModal(id){document.getElementById(id).classList.add('on');document.body.style.overflow='hidden'}
 function closeModal(id){document.getElementById(id).classList.remove('on');document.body.style.overflow=''}
-var allModals=['productModal','catModal','slideModal','promoModal','offerModal','reviewModal','mgrModal','staffResetModal'];
+var allModals=['productModal','catModal','slideModal','promoModal','offerModal','reviewModal','mgrModal','staffResetModal','rewardModal'];
 allModals.forEach(function(id){
   var el=document.getElementById(id);
   if(el)el.addEventListener('click',function(e){if(e.target===this)closeModal(id)});
