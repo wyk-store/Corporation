@@ -354,6 +354,13 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
 .c-piece{position:absolute;width:8px;height:8px;border-radius:2px;animation:c-fall linear forwards}
 @keyframes c-fall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
 
+/* ── BADGES ── */
+.wyk-badge{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;flex-shrink:0}
+.wyk-badge svg{width:10px;height:10px;stroke:#fff;stroke-width:3;fill:none}
+.wyk-badge-blue{background:#2196F3}
+.wyk-badge-gold{background:var(--gold)}
+.wyk-badge-red{background:var(--red)}
+
 /* ── RESPONSIVE ── */
 @media(min-width:600px){.games-grid{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:900px){.bnav{display:none}body{padding-bottom:0}}
@@ -395,7 +402,6 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
 <div class="tabs">
   <div class="tab on" onclick="switchTab('games',this)"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path stroke-linecap="round" d="M12 12h.01M17 12h.01M7 9v6M4 12h6"/></svg>Jeux</div>
   <div class="tab" onclick="switchTab('classement',this)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>Classement</div>
-  <div class="tab" id="adminTab" style="display:none" onclick="switchTab('admin',this)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>Admin</div>
 </div>
 
 <!-- TAB: JEUX -->
@@ -496,126 +502,6 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
 <div class="tab-pane" id="pane-classement">
   <div class="lb-section">
     <div id="lbList"><div style="padding:32px;text-align:center;color:var(--t3);font-size:.8rem">Chargement…</div></div>
-  </div>
-</div>
-
-<!-- TAB: ADMIN -->
-<div class="tab-pane" id="pane-admin">
-  <div class="admin-section">
-    <!-- Info admin -->
-    <div style="background:var(--gold-s);border:1px solid var(--gold-m);border-radius:14px;padding:13px 15px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
-      <div style="font-size:1.2rem">⚙️</div>
-      <div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.86rem;color:var(--gold)">Espace Administrateur</div><div style="font-size:.68rem;color:var(--t2);margin-top:1px">Gère les jeux, récompenses et codes promo</div></div>
-    </div>
-
-    <!-- Config des jeux -->
-    <div class="admin-card">
-      <div class="admin-card-hd">
-        <div style="font-size:1rem">🎮</div>
-        <h3>Configuration des jeux</h3>
-      </div>
-      <div class="admin-card-body">
-        <div class="form-group">
-          <label class="form-label">Jeu cible</label>
-          <select class="form-select" id="adGameSel">
-            <option value="guess">🎯 Devine le Nombre</option>
-            <option value="quiz">🧠 Quiz IA</option>
-            <option value="wheel">🎡 Roue des Prix</option>
-            <option value="code">🔐 Code Secret</option>
-            <option value="snake">🐍 Snake WYK</option>
-            <option value="memory">🃏 Memory WYK</option>
-          </select>
-        </div>
-        <div id="adGameParams">
-          <!-- Paramètres dynamiques selon le jeu sélectionné -->
-          <div class="form-row">
-            <div class="form-group"><label class="form-label">Min</label><input class="form-input" type="number" id="adGuessMin" value="1"></div>
-            <div class="form-group"><label class="form-label">Max</label><input class="form-input" type="number" id="adGuessMax" value="100"></div>
-          </div>
-          <div class="form-group"><label class="form-label">Essais max</label><input class="form-input" type="number" id="adGuessAtt" value="7"></div>
-        </div>
-        <button class="btn-save" onclick="saveGameConfig()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Sauvegarder config</button>
-      </div>
-    </div>
-
-    <!-- Code secret admin -->
-    <div class="admin-card">
-      <div class="admin-card-hd">
-        <div style="font-size:1rem">🔐</div>
-        <h3>Code Secret du jeu</h3>
-      </div>
-      <div class="admin-card-body">
-        <div class="form-group">
-          <label class="form-label">Code à 4 chiffres</label>
-          <input class="form-input" type="text" id="adSecretCode" maxlength="4" placeholder="Ex: 2847" style="font-family:var(--mono);text-align:center;letter-spacing:.3em;font-size:1.2rem">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Indice affiché au joueur</label>
-          <input class="form-input" type="text" id="adCodeHint" placeholder="Ex: C'est l'année de lancement de WYK…">
-        </div>
-        <button class="btn-save" onclick="saveSecretCode()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Sauvegarder le code</button>
-      </div>
-    </div>
-
-    <!-- Récompenses / Codes promo -->
-    <div class="admin-card">
-      <div class="admin-card-hd">
-        <div style="font-size:1rem">🏆</div>
-        <h3>Récompenses &amp; Codes promo</h3>
-      </div>
-      <div class="admin-card-body">
-        <div class="form-group">
-          <label class="form-label">Jeu associé</label>
-          <select class="form-select" id="adRewardGame">
-            <option value="all">Tous les jeux</option>
-            <option value="guess">🎯 Devine le Nombre</option>
-            <option value="quiz">🧠 Quiz IA</option>
-            <option value="wheel">🎡 Roue des Prix</option>
-            <option value="code">🔐 Code Secret</option>
-            <option value="snake">🐍 Snake WYK</option>
-            <option value="memory">🃏 Memory WYK</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Nom de la récompense</label>
-          <input class="form-input" type="text" id="adRName" placeholder="Ex: -20% sur ta prochaine commande">
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Code promo</label>
-            <input class="form-input" type="text" id="adRCode" placeholder="WYK20WIN" style="font-family:var(--mono);text-transform:uppercase">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Valeur</label>
-            <input class="form-input" type="text" id="adRValue" placeholder="Ex: 20% / 500 HTG">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Condition de gain</label>
-          <input class="form-input" type="text" id="adRCond" placeholder="Ex: Score ≥ 50 / Trouver le nombre / Toute victoire">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Usage max (0 = illimité)</label>
-          <input class="form-input" type="number" id="adRQty" value="0" placeholder="0">
-        </div>
-        <button class="btn-save" onclick="addReward()" style="margin-bottom:14px"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Ajouter la récompense</button>
-        <div class="form-label" style="margin-bottom:8px">Récompenses actives</div>
-        <div class="reward-list" id="rewardList">
-          <div style="font-size:.75rem;color:var(--t3);padding:4px">Aucune récompense configurée</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Codes déjà réclamés (read-only log) -->
-    <div class="admin-card">
-      <div class="admin-card-hd">
-        <div style="font-size:1rem">📋</div>
-        <h3>Codes déjà réclamés</h3>
-      </div>
-      <div class="admin-card-body">
-        <div id="claimedList" style="font-size:.75rem;color:var(--t3)">Aucun code réclamé.</div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -739,10 +625,8 @@ const db=createClient(SUPA_URL,SUPA_KEY);
 
 let _user=null;
 let _isAdmin=false;
-let _rewards=[];
-let _claimed=new Set(); // codes déjà réclamés par cet utilisateur
-let _scores=[];
-let _gameConfig={guess:{min:1,max:100,att:7},code:{secret:'2024',hint:"C'est l'année en cours…"}};
+let _gameStates={}; // cache par jeu: {active,disabled_message,config,allowed,used,remaining}
+let _lastReward=null;
 
 /* ── UTILS ── */
 function escH(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
@@ -753,7 +637,11 @@ function showToast(msg,ok=true){
   document.getElementById('toastMsg').textContent=msg;
   el.classList.add('on');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('on'),2800);
 }
-function LS(k,v){if(v===undefined){try{return JSON.parse(localStorage.getItem(k)||'null')}catch{return null}}localStorage.setItem(k,JSON.stringify(v))}
+function badgeHtml(badge){
+  if(!badge)return'';
+  const icons={blue:'<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>',gold:'<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>',red:'<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>'};
+  return `<span class="wyk-badge wyk-badge-${badge}" title="Compte certifié">${icons[badge]||''}</span>`;
+}
 
 /* ── TABS ── */
 function switchTab(id,btn){
@@ -780,105 +668,18 @@ async function initAuth(){
     document.getElementById('userName').textContent=name;
     document.getElementById('userPill').classList.add('show');
     document.getElementById('loginBtn').style.display='none';
-    if(_isAdmin){document.getElementById('adminTab').style.display='flex';document.getElementById('adminDot').style.display='block'}
+    if(_isAdmin){document.getElementById('adminDot').style.display='block'}
     document.getElementById('authGate').style.display='none';
     document.getElementById('gamesGrid').style.display='block';
-    loadClaimedCodes();
-    loadRewards();
   } else {
     document.getElementById('authGate').style.display='flex';
     document.getElementById('gamesGrid').style.display='none';
   }
-  loadGameConfig();
-  loadScores();
 }
 
-/* ── GAME CONFIG (localStorage + Supabase fallback) ── */
-function loadGameConfig(){
-  const cfg=LS('wyk_game_cfg');
-  if(cfg)_gameConfig={..._gameConfig,...cfg};
-}
-function saveGameConfig(){
-  const game=document.getElementById('adGameSel').value;
-  if(game==='guess'){
-    _gameConfig.guess={min:+document.getElementById('adGuessMin').value,max:+document.getElementById('adGuessMax').value,att:+document.getElementById('adGuessAtt').value};
-  }
-  LS('wyk_game_cfg',_gameConfig);
-  showToast('Config sauvegardée ✓');
-}
-function saveSecretCode(){
-  const c=document.getElementById('adSecretCode').value.trim();
-  if(!/^\d{4}$/.test(c)){showToast('Code 4 chiffres requis',false);return}
-  _gameConfig.code={secret:c,hint:document.getElementById('adCodeHint').value.trim()};
-  LS('wyk_game_cfg',_gameConfig);
-  showToast('Code secret mis à jour ✓');
-}
-
-/* ── REWARDS ── */
-function loadRewards(){
-  const saved=LS('wyk_rewards');
-  _rewards=saved||[];
-  renderAdminRewards();
-}
-function addReward(){
-  const name=document.getElementById('adRName').value.trim();
-  const code=document.getElementById('adRCode').value.trim().toUpperCase();
-  if(!name||!code){showToast('Nom et code requis',false);return}
-  const r={id:'r'+Date.now(),game:document.getElementById('adRewardGame').value,name,code,value:document.getElementById('adRValue').value.trim(),cond:document.getElementById('adRCond').value.trim(),qty:+document.getElementById('adRQty').value||0,used:0,claimed_by:[]};
-  _rewards.push(r);
-  LS('wyk_rewards',_rewards);
-  document.getElementById('adRName').value='';document.getElementById('adRCode').value='';document.getElementById('adRValue').value='';document.getElementById('adRCond').value='';
-  renderAdminRewards();showToast('Récompense ajoutée ✓');
-}
-function deleteReward(id){_rewards=_rewards.filter(r=>r.id!==id);LS('wyk_rewards',_rewards);renderAdminRewards();showToast('Supprimée')}
-function renderAdminRewards(){
-  const el=document.getElementById('rewardList');
-  if(!_rewards.length){el.innerHTML='<div style="font-size:.75rem;color:var(--t3);padding:4px">Aucune récompense configurée</div>';return}
-  el.innerHTML=_rewards.map((r,i)=>`
-    <div class="reward-item">
-      <div class="ri-rank">#${i+1}</div>
-      <div class="ri-info">
-        <div class="ri-name">${escH(r.name)}</div>
-        <div class="ri-meta">
-          <span class="ri-code">${escH(r.code)}</span>
-          ${r.value?`<span style="font-size:.6rem;color:var(--t3)">${escH(r.value)}</span>`:''}
-          ${r.claimed_by&&r.claimed_by.length?`<span class="ri-claimed">Réclamé ${r.claimed_by.length}×</span>`:''}
-        </div>
-        <div style="font-size:.6rem;color:var(--t3);margin-top:2px">${escH(r.game==='all'?'Tous jeux':r.game)} · ${r.qty?'Limite: '+r.qty:'Illimité'}</div>
-      </div>
-      <button class="ri-del" onclick="deleteReward('${r.id}')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>
-    </div>`).join('');
-  renderClaimedLog();
-}
-function renderClaimedLog(){
-  const claimed=_rewards.flatMap(r=>(r.claimed_by||[]).map(uid=>({code:r.code,name:r.name,uid})));
-  const el=document.getElementById('claimedList');
-  if(!claimed.length){el.innerHTML='<div style="font-size:.75rem;color:var(--t3)">Aucun code réclamé.</div>';return}
-  el.innerHTML=claimed.map(c=>`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bdr);font-size:.76rem"><span style="font-family:var(--mono);color:var(--gold)">${escH(c.code)}</span><span style="color:var(--t2);flex:1">${escH(c.name)}</span><span style="font-size:.6rem;color:var(--t3)">${c.uid.slice(0,8)}…</span><span style="color:var(--green);font-size:.6rem;font-weight:700">✓ Acquise</span></div>`).join('');
-}
-
-/* ── CLAIMED CODES (par utilisateur) ── */
-function loadClaimedCodes(){
-  const uid=_user?.id||'anon';
-  const saved=LS('wyk_claimed_'+uid);
-  _claimed=new Set(saved||[]);
-}
-function isAlreadyClaimed(rewardId){return _claimed.has(rewardId)}
-function markClaimed(rewardId,code){
-  const uid=_user?.id||'anon';
-  _claimed.add(rewardId);
-  LS('wyk_claimed_'+uid,[..._claimed]);
-  // Marquer dans la récompense
-  const r=_rewards.find(x=>x.id===rewardId);
-  if(r){r.claimed_by=r.claimed_by||[];if(!r.claimed_by.includes(uid))r.claimed_by.push(uid);LS('wyk_rewards',_rewards)}
-}
-
-/* ── FIND REWARD FOR GAME ── */
-function getRewardForGame(gameId){
-  return _rewards.find(r=>(r.game==='all'||r.game===gameId)&&(r.qty===0||(r.claimed_by||[]).length<r.qty));
-}
-
-/* ── REWARD BANNER ── */
+/* ═══════════════════════════════════════
+   REWARD BANNER
+═══════════════════════════════════════ */
 function showRewardBanner(containerId,gameId,won,extra=''){
   const el=document.getElementById(containerId);
   if(!el)return;
@@ -887,97 +688,106 @@ function showRewardBanner(containerId,gameId,won,extra=''){
     el.classList.add('show');
     return;
   }
-  const reward=getRewardForGame(gameId);
-  if(!reward){
-    el.innerHTML=`<div class="rb-emoji">🎉</div><div class="rb-title">Bravo !</div><div class="rb-desc">Tu as gagné ! Aucune récompense configurée pour l'instant — revenez bientôt. ${extra}</div>`;
-    el.classList.add('show');confettiBurst();return;
-  }
-  const alreadyClaimed=isAlreadyClaimed(reward.id);
-  let codeHtml='';
-  if(alreadyClaimed){
-    codeHtml=`<div class="rb-already" style="display:block">✅ Tu as déjà réclamé cette récompense — code : <strong style="font-family:var(--mono)">${escH(reward.code)}</strong><br><small>La récompense est déjà acquise !</small></div>`;
-  } else {
-    codeHtml=`<div class="rb-code" onclick="claimAndCopy('${reward.id}','${reward.code}','${reward.name}')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>${escH(reward.code)} · Copier</div>`;
-  }
-  el.innerHTML=`
-    <div class="rb-emoji">🎉</div>
-    <div class="rb-title">Félicitations !</div>
-    <div class="rb-desc">${escH(reward.name)} — ${escH(reward.value||'')} ${extra}</div>
-    ${codeHtml}
-    <a class="rb-wa" href="https://wa.me/${WA}?text=${encodeURIComponent('Bonjour WYK 👋 ! J\'ai gagné la récompense "'+reward.name+'" avec le code : '+reward.code+'. Je voudrais l\'utiliser pour ma commande. Merci !')}" target="_blank">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Envoyer sur WhatsApp
-    </a>
-    <div class="rb-retry" onclick="closeAndRetry('${gameId}')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>Rejouer</div>`;
+  el.innerHTML=`<div class="rb-emoji">🎉</div><div class="rb-title">Félicitations !</div><div class="rb-desc">Chargement de ta récompense…</div>`;
   el.classList.add('show');
-  if(!alreadyClaimed)confettiBurst();
+  claimReward(gameId).then(r=>{
+    if(!r.ok){
+      let msg='Aucune récompense disponible pour le moment — revenez bientôt !';
+      if(r.message==='already_claimed')msg="Tu as déjà réclamé une récompense pour ce jeu.";
+      if(r.message==='exhausted')msg='😅 Toutes les places pour ce prix ont été prises — récompenses épuisées !';
+      el.innerHTML=`<div class="rb-emoji">🎉</div><div class="rb-title">Bravo, tu as gagné !</div><div class="rb-desc">${msg} ${extra}</div><div class="rb-retry" onclick="closeAndRetry('${gameId}')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>Rejouer</div>`;
+      confettiBurst();
+      return;
+    }
+    el.innerHTML=`
+      <div class="rb-emoji">🎉</div>
+      <div class="rb-title">Félicitations !</div>
+      <div class="rb-desc">${escH(r.name)} — ${escH(r.value||'')} ${extra}</div>
+      <div class="rb-code" onclick="copyCode('${escH(r.code)}')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>${escH(r.code)} · Copier</div>
+      <a class="rb-wa" href="https://wa.me/${WA}?text=${encodeURIComponent('Bonjour WYK 👋 ! J\'ai gagné la récompense "'+r.name+'" avec le code : '+r.code+'. Je voudrais l\'utiliser pour ma commande. Merci !')}" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Envoyer sur WhatsApp
+      </a>
+      <div class="rb-retry" onclick="closeAndRetry('${gameId}')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>Rejouer</div>`;
+    confettiBurst();
+  });
 }
-
-function claimAndCopy(rewardId,code,name){
-  markClaimed(rewardId,code);
+async function claimReward(gameId){
+  const {data,error}=await db.rpc('game_claim_reward',{p_game_id:gameId});
+  if(error||!data||!data.length)return{ok:false,message:'error'};
+  return data[0];
+}
+function copyCode(code){
   if(navigator.clipboard){navigator.clipboard.writeText(code).then(()=>showToast('Code '+code+' copié ! 🎁'))}
   else showToast('Code : '+code);
-  renderAdminRewards();
 }
-
 function closeAndRetry(gameId){
   closeModal('modal-'+gameId);
   setTimeout(()=>openGame(gameId),200);
 }
 
-/* ── SCORES / LEADERBOARD ── */
-function loadScores(){_scores=LS('wyk_scores_global')||[]}
-function saveScore(game,won,score=0){
-  if(!_user)return;
-  const uid=_user.id;
-  const name=_user.user_metadata?.pseudo||_user.email?.split('@')[0]||'Joueur';
-  _scores.push({uid,name,game,won,score,ts:Date.now()});
-  LS('wyk_scores_global',_scores.slice(-500));
-}
-function renderLeaderboard(){
-  const byPlayer={};
-  _scores.forEach(s=>{if(!byPlayer[s.uid])byPlayer[s.uid]={uid:s.uid,name:s.name,wins:0,plays:0,best:0};byPlayer[s.uid].plays++;if(s.won)byPlayer[s.uid].wins++;byPlayer[s.uid].best=Math.max(byPlayer[s.uid].best,s.score||0)});
-  const sorted=Object.values(byPlayer).sort((a,b)=>b.wins-a.wins||b.best-a.best);
+/* ── LEADERBOARD ── */
+async function renderLeaderboard(){
   const el=document.getElementById('lbList');
-  if(!sorted.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--t3);font-size:.8rem">Pas encore de joueurs. Soyez le premier ! 🚀</div>';return}
+  el.innerHTML='<div style="padding:32px;text-align:center;color:var(--t3);font-size:.8rem">Chargement…</div>';
+  const {data,error}=await db.rpc('game_leaderboard');
+  if(error||!data||!data.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--t3);font-size:.8rem">Pas encore de joueurs. Soyez le premier ! 🚀</div>';return}
   const medals=['🥇','🥈','🥉'];
-  el.innerHTML=sorted.slice(0,20).map((p,i)=>{
-    const init=(p.name||'?').slice(0,2).toUpperCase();
+  el.innerHTML=data.slice(0,20).map((p,i)=>{
+    const init=(p.user_name||'?').slice(0,2).toUpperCase();
     const rCls=i<3?`r${i+1}`:'';
-    return `<div class="lb-item"><div class="lb-rank ${rCls}">${i<3?medals[i]:'#'+(i+1)}</div><div class="lb-av">${init}</div><div class="lb-name">${escH(p.name)}</div><div class="lb-score">${p.wins}🏆 / ${p.plays}</div>${i<3?`<div class="lb-medal">${medals[i]}</div>`:''}</div>`;
+    return `<div class="lb-item"><div class="lb-rank ${rCls}">${i<3?medals[i]:'#'+(i+1)}</div><div class="lb-av">${init}</div><div class="lb-name">${escH(p.user_name)} ${badgeHtml(p.badge)}</div><div class="lb-score">${p.wins}🏆 / ${p.plays}</div>${i<3?`<div class="lb-medal">${medals[i]}</div>`:''}</div>`;
   }).join('');
 }
 
 /* ═══════════════════════════════════════
    OPEN GAME
 ═══════════════════════════════════════ */
-function openGame(id){
+async function openGame(id){
   if(!_user){showToast('Connecte-toi pour jouer !',false);return}
+  const {data,error}=await db.rpc('game_get_state',{p_game_id:id});
+  if(error||!data||!data.length){showToast('Erreur de chargement du jeu',false);return}
+  const st=data[0];
+  _gameStates[id]=st;
   document.getElementById('modal-'+id).classList.add('on');
-  // reset reward banner
   const rb=document.getElementById(id+'-reward');
   if(rb){rb.classList.remove('show');rb.innerHTML=''}
-  if(id==='guess')initGuess();
-  else if(id==='quiz')initQuiz();
-  else if(id==='wheel')initWheel();
-  else if(id==='code')initCode();
-  else if(id==='snake')initSnake();
-  else if(id==='memory')initMemory();
+  if(!st.active){
+    const area=document.getElementById(id+'-area');
+    if(area)area.innerHTML=`<div style="text-align:center;padding:32px 16px"><div style="font-size:2.2rem;margin-bottom:10px">🚧</div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;color:var(--text);margin-bottom:8px">Jeu indisponible</div><div style="font-size:.8rem;color:var(--t2);line-height:1.6">${escH(st.disabled_message||"Ce jeu n'est pas encore accessible. Reviens bientôt !")}</div></div>`;
+    return;
+  }
+  if(st.remaining<=0){
+    const area=document.getElementById(id+'-area');
+    if(area)area.innerHTML=`<div style="text-align:center;padding:32px 16px"><div style="font-size:2.2rem;margin-bottom:10px">⏳</div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;color:var(--text);margin-bottom:8px">Essais épuisés pour aujourd'hui</div><div style="font-size:.8rem;color:var(--t2)">Reviens demain pour ${st.allowed} nouvel(le)(s) essai(s) !</div></div>`;
+    return;
+  }
+  if(id==='guess')initGuess(st);
+  else if(id==='quiz')initQuiz(st);
+  else if(id==='wheel')initWheel(st);
+  else if(id==='code')initCode(st);
+  else if(id==='snake')initSnake(st);
+  else if(id==='memory')initMemory(st);
+}
+async function recordPlay(gameId,won,score){
+  const {data,error}=await db.rpc('game_record_play',{p_game_id:gameId,p_won:won,p_score:score||0});
+  if(!error&&data&&data.length)_gameStates[gameId]={..._gameStates[gameId],remaining:data[0].remaining};
 }
 
 /* ═══════════════════════════════════════
    GAME 1: DEVINE LE NOMBRE
 ═══════════════════════════════════════ */
-let _guessSecret=0,_guessLeft=0,_guessHistory=[],_guessOver=false;
-function initGuess(){
-  const {min=1,max=100,att=7}=_gameConfig.guess||{};
+let _guessSecret=0,_guessLeft=0,_guessHistory=[],_guessOver=false,_guessCfg={min:1,max:100,att:7};
+function initGuess(st){
+  _guessCfg={min:st.config?.min||1,max:st.config?.max||100,att:st.config?.att||7};
+  const {min,max,att}=_guessCfg;
   _guessSecret=Math.floor(Math.random()*(max-min+1))+min;
   _guessLeft=att;_guessHistory=[];_guessOver=false;
   document.getElementById('guess-sub').textContent=`Entre ${min} et ${max} · ${att} essais`;
   renderGuess();
 }
 function renderGuess(){
-  const {min=1,max=100,att=7}=_gameConfig.guess||{};
+  const {min,max,att}=_guessCfg;
   const area=document.getElementById('guess-area');
   const pips=Array.from({length:att},(_, i)=>{
     const h=_guessHistory[i];
@@ -1006,7 +816,7 @@ function renderGuess(){
 }
 function submitGuess(){
   if(_guessOver)return;
-  const {min=1,max=100}=_gameConfig.guess||{};
+  const {min,max}=_guessCfg;
   const v=+document.getElementById('guessInp').value;
   if(!v||v<min||v>max){showToast(`Entre ${min} et ${max}`,false);return}
   const won=v===_guessSecret;
@@ -1014,9 +824,10 @@ function submitGuess(){
   _guessHistory.push({v,won});
   if(won||_guessLeft===0){
     _guessOver=true;
-    saveScore('guess',won,_guessHistory.length);
     renderGuess();
-    setTimeout(()=>showRewardBanner('guess-reward','guess',won),400);
+    recordPlay('guess',won,_guessHistory.length).then(()=>{
+      setTimeout(()=>showRewardBanner('guess-reward','guess',won),400);
+    });
     return;
   }
   const diff=Math.abs(v-_guessSecret);
@@ -1034,7 +845,7 @@ function submitGuess(){
 ═══════════════════════════════════════ */
 let _quizQs=[],_quizIdx=0,_quizScore=0,_quizTimer=null,_quizAnswered=false;
 
-async function initQuiz(){
+async function initQuiz(st){
   const area=document.getElementById('quiz-area');
   area.innerHTML=`<div class="quiz-loading"><div class="quiz-loading-dots"><div class="ql-dot"></div><div class="ql-dot"></div><div class="ql-dot"></div></div><p>Claude génère vos questions…</p></div>`;
   _quizIdx=0;_quizScore=0;
@@ -1051,7 +862,6 @@ async function initQuiz(){
     const txt=d.content?.[0]?.text||'[]';
     _quizQs=JSON.parse(txt.replace(/```json|```/g,'').trim());
   } catch(e){
-    // Fallback questions
     _quizQs=[
       {q:"Quelle est la capitale d'Haïti ?",opts:["Port-au-Prince","Cap-Haïtien","Jacmel","Les Cayes"],ans:0},
       {q:"Combien font 7 × 8 ?",opts:["54","56","58","64"],ans:1},
@@ -1067,10 +877,11 @@ function renderQuizQ(){
   clearInterval(_quizTimer);
   if(_quizIdx>=_quizQs.length){
     const won=_quizScore>=3;
-    saveScore('quiz',won,_quizScore);
     const area=document.getElementById('quiz-area');
-    area.innerHTML=`<div style="text-align:center;padding:24px 16px"><div style="font-size:2.5rem;margin-bottom:10px">${won?'🎉':'😔'}</div><div style="font-family:\'Syne\',sans-serif;font-weight:800;font-size:1.05rem;color:var(--text);margin-bottom:6px">${won?'Excellent !':'Presque !'}</div><div style="font-size:.8rem;color:var(--t2)">Score : ${_quizScore} / ${_quizQs.length}</div></div>`;
-    setTimeout(()=>showRewardBanner('quiz-reward','quiz',won,`Score : ${_quizScore}/${_quizQs.length}`),300);
+    area.innerHTML=`<div style="text-align:center;padding:24px 16px"><div style="font-size:2.5rem;margin-bottom:10px">${won?'🎉':'😔'}</div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:var(--text);margin-bottom:6px">${won?'Excellent !':'Presque !'}</div><div style="font-size:.8rem;color:var(--t2)">Score : ${_quizScore} / ${_quizQs.length}</div></div>`;
+    recordPlay('quiz',won,_quizScore).then(()=>{
+      setTimeout(()=>showRewardBanner('quiz-reward','quiz',won,`Score : ${_quizScore}/${_quizQs.length}`),300);
+    });
     return;
   }
   _quizAnswered=false;
@@ -1125,7 +936,7 @@ const WHEEL_SEGS=[
 ];
 let _spinDone=false;
 
-function initWheel(){
+function initWheel(st){
   _spinDone=false;
   const area=document.getElementById('wheel-area');
   area.innerHTML=`
@@ -1180,8 +991,9 @@ function doSpin(){
       const norm=((cur%(Math.PI*2))+(Math.PI*2))%(Math.PI*2);
       const idx=Math.floor(((Math.PI*2-norm)%(Math.PI*2))/arc)%WHEEL_SEGS.length;
       const winner=WHEEL_SEGS[idx]||WHEEL_SEGS[0];
-      saveScore('wheel',winner.win,winner.win?1:0);
-      setTimeout(()=>showRewardBanner('wheel-reward','wheel',winner.win,winner.win?`Segment : ${winner.label}`:''),500);
+      recordPlay('wheel',winner.win,winner.win?1:0).then(()=>{
+        setTimeout(()=>showRewardBanner('wheel-reward','wheel',winner.win,winner.win?`Segment : ${winner.label}`:''),500);
+      });
     }
   };
   requestAnimationFrame(anim);
@@ -1190,12 +1002,13 @@ function doSpin(){
 /* ═══════════════════════════════════════
    GAME 4: CODE SECRET
 ═══════════════════════════════════════ */
-let _codeInput='',_codeLeft=5,_codeOver=false;
-function initCode(){
-  const {secret='2024',hint='',att=5}=_gameConfig.code||{};
+let _codeInput='',_codeLeft=5,_codeOver=false,_codeCfg={secret:'2024',hint:''};
+function initCode(st){
+  _codeCfg={secret:st.config?.secret||'2024',hint:st.config?.hint||'',att:st.allowed_round||5};
+  const att=5;
   _codeInput='';_codeLeft=att;_codeOver=false;
   const area=document.getElementById('code-area');
-  const hintHtml=hint?`<div class="code-hint-box"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>Indice : ${escH(hint)}</div>`:'';
+  const hintHtml=_codeCfg.hint?`<div class="code-hint-box"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>Indice : ${escH(_codeCfg.hint)}</div>`:'';
   area.innerHTML=`${hintHtml}<div class="code-digits" id="codeDigits"></div><div class="code-atts" id="codeAtts"></div><div style="text-align:center;font-size:.68rem;color:var(--t3);margin-bottom:14px" id="codeLeft">${_codeLeft} essai${_codeLeft>1?'s':''} restant${_codeLeft>1?'s':''}</div>
     <div class="numpad">
       ${[1,2,3,4,5,6,7,8,9,'⌫',0,'✓'].map(k=>`<button class="np ${k==='⌫'?'np-del':''} ${k==='✓'?'np-ok':''}" onclick="npCode('${k}')">${k}</button>`).join('')}
@@ -1203,7 +1016,7 @@ function initCode(){
   updateCodeDisplay();
 }
 function updateCodeDisplay(){
-  const {secret='2024'}=_gameConfig.code||{};
+  const secret=_codeCfg.secret;
   const d=document.getElementById('codeDigits');
   const a=document.getElementById('codeAtts');
   if(!d||!a)return;
@@ -1212,14 +1025,14 @@ function updateCodeDisplay(){
     const isActive=!_codeOver&&i===_codeInput.length;
     return `<div class="code-d ${isActive?'active':''}">${_codeInput[i]||''}</div>`;
   }).join('');
-  const {att=5}=_gameConfig.code||{};
+  const att=5;
   a.innerHTML=Array.from({length:att},(_, i)=>`<div class="code-att ${i>=_codeLeft?'used':''}"></div>`).join('');
   const cl=document.getElementById('codeLeft');
   if(cl)cl.textContent=`${_codeLeft} essai${_codeLeft>1?'s':''} restant${_codeLeft>1?'s':''}`;
 }
 function npCode(k){
   if(_codeOver)return;
-  const {secret='2024'}=_gameConfig.code||{};
+  const secret=_codeCfg.secret;
   if(k==='⌫'){_codeInput=_codeInput.slice(0,-1);updateCodeDisplay();return}
   if(k==='✓'){
     if(_codeInput.length<secret.length){showToast(`Entrez ${secret.length} chiffres`,false);return}
@@ -1227,11 +1040,11 @@ function npCode(k){
     _codeLeft--;
     if(won||_codeLeft===0){
       _codeOver=true;
-      saveScore('code',won,_codeLeft);
-      // Flash digits
       const digits=document.querySelectorAll('.code-d');
       digits.forEach(d=>d.classList.add(won?'correct':'wrong'));
-      setTimeout(()=>showRewardBanner('code-reward','code',won),400);
+      recordPlay('code',won,_codeLeft).then(()=>{
+        setTimeout(()=>showRewardBanner('code-reward','code',won),400);
+      });
     } else {
       const digits=document.querySelectorAll('.code-d');
       digits.forEach(d=>{d.classList.add('wrong');setTimeout(()=>d.classList.remove('wrong'),350)});
@@ -1251,7 +1064,7 @@ let _snakeInterval=null,_snakeRunning=false;
 const SNAKE_SIZE=18,SNAKE_COLS=16,SNAKE_ROWS=16;
 let _snake=[],_dir={x:1,y:0},_nextDir={x:1,y:0},_food={},_snakeScore=0,_snakeOver=false;
 
-function initSnake(){
+function initSnake(st){
   const area=document.getElementById('snake-area');
   const W=SNAKE_COLS*SNAKE_SIZE,H=SNAKE_ROWS*SNAKE_SIZE;
   area.innerHTML=`
@@ -1277,9 +1090,7 @@ function initSnake(){
         <div></div>
       </div>
     </div>`;
-  // Keyboard
   document.addEventListener('keydown',snakeKeyHandler);
-  // Touch swipe
   addSnakeTouchSwipe();
 }
 
@@ -1331,16 +1142,13 @@ let _fruitIdx=0;
 function snakeTick(){
   _dir=_nextDir;
   const head={x:_snake[0].x+_dir.x,y:_snake[0].y+_dir.y};
-  // Wall collision
   if(head.x<0||head.x>=SNAKE_COLS||head.y<0||head.y>=SNAKE_ROWS){snakeGameOver();return}
-  // Self collision
   if(_snake.some(s=>s.x===head.x&&s.y===head.y)){snakeGameOver();return}
   _snake.unshift(head);
   if(head.x===_food.x&&head.y===_food.y){
     _snakeScore+=10;_fruitIdx=(_fruitIdx+1)%FRUITS.length;
     document.getElementById('snScore').textContent=_snakeScore;
     placeFood();
-    // Win check
     if(_snakeScore>=50){snakeWin();return}
   } else _snake.pop();
   drawSnake();
@@ -1350,35 +1158,34 @@ function drawSnake(){
   const c=document.getElementById('snakeCanvas');if(!c)return;
   const ctx=c.getContext('2d');const S=SNAKE_SIZE;
   ctx.clearRect(0,0,SNAKE_COLS*S,SNAKE_ROWS*S);
-  // Grid
   ctx.fillStyle='rgba(255,255,255,.015)';
   for(let x=0;x<SNAKE_COLS;x++)for(let y=0;y<SNAKE_ROWS;y++){if((x+y)%2===0)ctx.fillRect(x*S,y*S,S,S)}
-  // Snake
   _snake.forEach((s,i)=>{
     const alpha=1-i*0.03;
     ctx.fillStyle=`rgba(0,230,118,${Math.max(.3,alpha)})`;
     ctx.beginPath();ctx.roundRect(s.x*S+1,s.y*S+1,S-2,S-2,4);ctx.fill();
     if(i===0){ctx.fillStyle='#000';ctx.font=`${S-4}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('W',s.x*S+S/2,s.y*S+S/2)}
   });
-  // Food
   ctx.font=`${S-2}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
   ctx.fillText(FRUITS[_fruitIdx],_food.x*S+S/2,_food.y*S+S/2);
 }
 
 function snakeGameOver(){
   clearInterval(_snakeInterval);_snakeRunning=false;_snakeOver=true;
-  saveScore('snake',false,_snakeScore);
   const c=document.getElementById('snakeCanvas');if(c){const ctx=c.getContext('2d');ctx.fillStyle='rgba(8,8,10,.8)';ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle='#E8192C';ctx.font='bold 16px Syne';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('GAME OVER',c.width/2,c.height/2-12);ctx.fillStyle='#9090A0';ctx.font='12px DM Sans';ctx.fillText('Score : '+_snakeScore,c.width/2,c.height/2+12)}
   document.removeEventListener('keydown',snakeKeyHandler);
-  setTimeout(()=>showRewardBanner('snake-reward','snake',false,`Score final : ${_snakeScore}`),400);
+  recordPlay('snake',false,_snakeScore).then(()=>{
+    setTimeout(()=>showRewardBanner('snake-reward','snake',false,`Score final : ${_snakeScore}`),400);
+  });
 }
 
 function snakeWin(){
   clearInterval(_snakeInterval);_snakeRunning=false;_snakeOver=true;
-  saveScore('snake',true,_snakeScore);
   document.removeEventListener('keydown',snakeKeyHandler);
   confettiBurst();
-  setTimeout(()=>showRewardBanner('snake-reward','snake',true,`Score : ${_snakeScore} 🎮`),300);
+  recordPlay('snake',true,_snakeScore).then(()=>{
+    setTimeout(()=>showRewardBanner('snake-reward','snake',true,`Score : ${_snakeScore} 🎮`),300);
+  });
 }
 
 /* ═══════════════════════════════════════
@@ -1387,7 +1194,7 @@ function snakeWin(){
 const MEM_EMOJIS=['🎯','🧠','🎡','🔐','🐍','🎮','🏆','🎁','⭐','💎','🚀','🌟'];
 let _memCards=[],_memFlipped=[],_memMatched=0,_memMoves=0,_memLocked=false,_memOver=false;
 
-function initMemory(){
+function initMemory(st){
   const pairs=[...MEM_EMOJIS.slice(0,8),...MEM_EMOJIS.slice(0,8)];
   _memCards=pairs.sort(()=>Math.random()-.5).map((e,i)=>({id:i,emoji:e,matched:false,flipped:false}));
   _memFlipped=[];_memMatched=0;_memMoves=0;_memLocked=false;_memOver=false;
@@ -1429,8 +1236,9 @@ function flipMem(id){
       if(_memMatched===8){
         _memOver=true;
         const won=_memMoves<=20;
-        saveScore('memory',won,_memMoves);
-        setTimeout(()=>showRewardBanner('memory-reward','memory',won,`${_memMoves} coups`),300);
+        recordPlay('memory',won,_memMoves).then(()=>{
+          setTimeout(()=>showRewardBanner('memory-reward','memory',won,`${_memMoves} coups`),300);
+        });
         if(won)confettiBurst();
       }
     } else {
@@ -1442,14 +1250,7 @@ function flipMem(id){
 function updateMemDisplay(){
   const m=document.getElementById('memMoves');if(m)m.textContent=_memMoves;
   const p=document.getElementById('memPairs');if(p)p.textContent=`${_memMatched}/8`;
-  _memCards.forEach(c=>{
-    const el=document.querySelector(`.mem-card:nth-child(${c.id+1})`);
-    if(!el)return;
-    el.className=`mem-card ${c.flipped||c.matched?'flipped':''} ${c.matched?'matched':''}`;
-  });
-  // Re-render more reliably
   renderMemory();
-  // Rebind after render
 }
 
 /* ═══════════════════════════════════════
@@ -1475,19 +1276,6 @@ document.getElementById('modal-snake').addEventListener('click',e=>{
     clearInterval(_snakeInterval);_snakeRunning=false;
     document.removeEventListener('keydown',snakeKeyHandler);
     document.getElementById('modal-snake').classList.remove('on');
-  }
-});
-
-/* ═══════════════════════════════════════
-   ADMIN SELECT CHANGE
-═══════════════════════════════════════ */
-document.getElementById('adGameSel').addEventListener('change',function(){
-  const v=this.value;
-  const p=document.getElementById('adGameParams');
-  if(v==='guess'){
-    p.innerHTML=`<div class="form-row"><div class="form-group"><label class="form-label">Min</label><input class="form-input" type="number" id="adGuessMin" value="${_gameConfig.guess?.min||1}"></div><div class="form-group"><label class="form-label">Max</label><input class="form-input" type="number" id="adGuessMax" value="${_gameConfig.guess?.max||100}"></div></div><div class="form-group"><label class="form-label">Essais max</label><input class="form-input" type="number" id="adGuessAtt" value="${_gameConfig.guess?.att||7}"></div>`;
-  } else {
-    p.innerHTML=`<div style="font-size:.76rem;color:var(--t3);padding:4px 0">Configuration via les champs ci-dessous.</div>`;
   }
 });
 
