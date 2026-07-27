@@ -21,6 +21,12 @@
   --ease:.22s cubic-bezier(.4,0,.2,1);--spring:.42s cubic-bezier(.34,1.56,.64,1);
   --mono:'Space Mono',monospace;
 }
+[data-theme="light"]{
+  --bg:#F6F6F9;--surface:#FFFFFF;--s2:#F1F1F5;--s3:#E7E7EE;--s4:#DADAE3;
+  --text:#15151B;--t2:#5C5C6B;--t3:#8B8B98;--t4:#CACAD4;
+  --bdr:rgba(0,0,0,.07);--bdr2:rgba(0,0,0,.13);
+  --sh1:0 2px 10px rgba(0,0,0,.08);--sh2:0 4px 24px rgba(0,0,0,.1);--sh3:0 8px 48px rgba(0,0,0,.14);
+}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;min-height:100vh;padding-bottom:80px}
@@ -424,6 +430,12 @@ header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;ba
     <span id="userName">...</span>
     <div class="h-admin-dot" id="adminDot" style="display:none"></div>
   </div>
+  <button class="h-back" id="soundToggleBtn" onclick="toggleSound()" style="margin-left:auto" title="Activer/couper le son">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14"/></svg>
+  </button>
+  <button class="h-back" id="themeToggleBtn" onclick="toggleTheme()" title="Thème clair/sombre">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+  </button>
   <a href="compte.html" class="h-auth-btn" id="loginBtn">
     <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
     Connexion
@@ -710,7 +722,7 @@ function switchTab(id,btn){
 }
 
 /* ── MODALS ── */
-function closeModal(id){document.getElementById(id).classList.remove('on')}
+function closeModal(id){document.getElementById(id).classList.remove('on');sndClick()}
 document.querySelectorAll('.modal-ov').forEach(ov=>{ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('on')})});
 
 /* ── AUTH ── */
@@ -741,6 +753,65 @@ async function initAuth(){
 /* ═══════════════════════════════════════
    PROFIL JOUEUR (badge, classement, quotas)
 ═══════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   SONS (synthétisés, aucun fichier requis)
+═══════════════════════════════════════ */
+let _audioCtx=null;
+let _soundMuted=localStorage.getItem('wyk_sound_muted')==='1';
+function _ac(){
+  if(!_audioCtx){try{_audioCtx=new (window.AudioContext||window.webkitAudioContext)()}catch(e){return null}}
+  if(_audioCtx&&_audioCtx.state==='suspended')_audioCtx.resume();
+  return _audioCtx;
+}
+function playTone(freq,dur,type,vol){
+  if(_soundMuted)return;
+  const ctx=_ac();if(!ctx)return;
+  const osc=ctx.createOscillator();const gain=ctx.createGain();
+  osc.type=type||'sine';osc.frequency.value=freq;
+  gain.gain.setValueAtTime(vol||.1,ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+dur);
+  osc.connect(gain);gain.connect(ctx.destination);
+  osc.start();osc.stop(ctx.currentTime+dur);
+}
+function sndClick(){playTone(600,.07,'square',.05)}
+function sndTick(){playTone(760,.05,'sine',.05)}
+function sndPop(){playTone(520,.12,'triangle',.08)}
+function sndCorrect(){playTone(880,.12,'sine',.09);setTimeout(()=>playTone(1175,.16,'sine',.09),90)}
+function sndWrong(){playTone(220,.18,'sawtooth',.08)}
+function sndWin(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>playTone(f,.18,'sine',.09),i*90))}
+function sndLose(){playTone(320,.15,'sawtooth',.07);setTimeout(()=>playTone(200,.28,'sawtooth',.07),120)}
+function sndCoin(){playTone(988,.08,'square',.08);setTimeout(()=>playTone(1319,.16,'square',.08),80)}
+function sndSwoosh(){playTone(180,.4,'sawtooth',.035)}
+function toggleSound(){
+  _soundMuted=!_soundMuted;localStorage.setItem('wyk_sound_muted',_soundMuted?'1':'0');
+  if(!_soundMuted)_ac();
+  updateSoundBtn();
+}
+function updateSoundBtn(){
+  const b=document.getElementById('soundToggleBtn');if(!b)return;
+  b.innerHTML=_soundMuted
+    ?'<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"/></svg>'
+    :'<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14"/></svg>';
+}
+
+/* ═══════════════════════════════════════
+   THÈME CLAIR/SOMBRE
+═══════════════════════════════════════ */
+function toggleTheme(){
+  var h=document.documentElement,dark=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',dark?'light':'dark');
+  localStorage.setItem('wyk-theme',dark?'light':'dark');
+  updateThemeBtn();
+}
+function updateThemeBtn(){
+  var b=document.getElementById('themeToggleBtn');if(!b)return;
+  var isDark=document.documentElement.getAttribute('data-theme')==='dark';
+  b.innerHTML=isDark
+    ?'<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>'
+    :'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+}
+(function(){var t=localStorage.getItem('wyk-theme');if(t)document.documentElement.setAttribute('data-theme',t)})();
+
 let _isBanned=false;
 const BADGE_NAMES={blue:'Certifié',gold:'Équipe WYK',red:'Admin WYK'};
 async function loadProfileCard(name){
@@ -812,10 +883,12 @@ function showRewardBanner(containerId,gameId,won,extra=''){
   const el=document.getElementById(containerId);
   if(!el)return;
   if(!won){
+    sndLose();
     el.innerHTML=`<div class="rb-emoji">😔</div><div class="rb-title">Pas cette fois !</div><div class="rb-desc">Réessaie, tu vas y arriver ! ${extra}</div><div class="rb-retry" onclick="closeAndRetry('${gameId}')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>Rejouer</div>`;
     el.classList.add('show');
     return;
   }
+  sndWin();
   el.innerHTML=`<div class="rb-emoji">🎉</div><div class="rb-title">Félicitations !</div><div class="rb-desc">Chargement de ta récompense…</div>`;
   el.classList.add('show');
   claimReward(gameId).then(r=>{
@@ -828,6 +901,7 @@ function showRewardBanner(containerId,gameId,won,extra=''){
       confettiBurst();
       return;
     }
+    sndCoin();
     el.innerHTML=`
       <div class="rb-emoji">🎉</div>
       <div class="rb-title">Félicitations !</div>
@@ -850,6 +924,7 @@ async function claimReward(gameId){
   return data[0];
 }
 function copyCode(code){
+  sndClick();
   if(navigator.clipboard){navigator.clipboard.writeText(code).then(()=>showToast('Code '+code+' copié ! 🎁'))}
   else showToast('Code : '+code);
 }
@@ -1426,6 +1501,8 @@ document.getElementById('modal-snake').addEventListener('click',e=>{
 /* ═══════════════════════════════════════
    INIT
 ═══════════════════════════════════════ */
+updateSoundBtn();
+updateThemeBtn();
 initAuth();
 </script>
 </body>
