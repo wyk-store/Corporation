@@ -21,14 +21,29 @@
   --blur:blur(24px);--ease:.22s cubic-bezier(.4,0,.2,1)
 }
 [data-theme="dark"]{
-  --bg:#0D0D0C;--surface:#161615;--s2:#1E1E1C;--s3:#262624;
-  --text:#F2F2EC;--t2:#A0A098;--t3:#64645C;
-  --bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.13);
-  --sh1:0 2px 8px rgba(0,0,0,.3),0 1px 3px rgba(0,0,0,.18);
-  --sh2:0 4px 20px rgba(0,0,0,.42),0 1px 4px rgba(0,0,0,.22);
-  --sh3:0 16px 48px rgba(0,0,0,.58),0 4px 12px rgba(0,0,0,.3);
-  --glass:rgba(13,13,12,.9);--gbdr:rgba(255,255,255,.07);--red-s:rgba(232,25,44,.13)
+  --bg:#0E0C10;--surface:#191519;--s2:#221D24;--s3:#2C262F;
+  --text:#F5F2F4;--t2:#ADA5AC;--t3:#736B76;
+  --bdr:rgba(255,255,255,.08);--bdr2:rgba(255,255,255,.15);
+  --sh1:0 2px 8px rgba(0,0,0,.34),0 1px 3px rgba(0,0,0,.2);
+  --sh2:0 4px 22px rgba(232,25,44,.08),0 4px 20px rgba(0,0,0,.46),0 1px 4px rgba(0,0,0,.24);
+  --sh3:0 20px 54px rgba(232,25,44,.1),0 16px 48px rgba(0,0,0,.62),0 4px 12px rgba(0,0,0,.32);
+  --glass:rgba(17,14,18,.86);--gbdr:rgba(255,255,255,.08);--red-s:rgba(232,25,44,.16)
 }
+[data-theme="dark"] body{
+  background:
+    radial-gradient(900px 500px at 8% -8%,rgba(232,25,44,.16),transparent 60%),
+    radial-gradient(700px 420px at 100% 0%,rgba(139,92,246,.12),transparent 55%),
+    radial-gradient(800px 480px at 50% 100%,rgba(37,99,235,.09),transparent 60%),
+    var(--bg);
+  background-attachment:fixed;
+}
+[data-theme="dark"] header,[data-theme="dark"] .bnav{background:linear-gradient(180deg,rgba(25,21,25,.92),rgba(17,14,18,.86))}
+[data-theme="dark"] .cat-section,[data-theme="dark"] .feat-card,[data-theme="dark"] .prod-card,[data-theme="dark"] .offre-card,[data-theme="dark"] .pop-sheet,[data-theme="dark"] .cart-float,[data-theme="dark"] .dw-card,[data-theme="dark"] .dw-nav-card{
+  background:linear-gradient(165deg,var(--surface) 0%,var(--s2) 100%);
+}
+[data-theme="dark"] .fchip-all.on,[data-theme="dark"] .fchip.on{background:linear-gradient(135deg,var(--red),#a3122a)}
+[data-theme="dark"] .cf-checkout,[data-theme="dark"] .btn-cart{background:linear-gradient(135deg,var(--red),#9c1226)}
+[data-theme="dark"] .feat-price,[data-theme="dark"] .pop-price,[data-theme="dark"] .prod-price{text-shadow:0 0 14px rgba(232,25,44,.25)}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;padding-bottom:72px}
@@ -52,6 +67,10 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 .hbtn:hover{background:var(--s2)}
 .hbtn svg{width:18px;height:18px;stroke-width:1.8;stroke:currentColor;fill:none}
 .cart-badge{position:absolute;top:5px;right:5px;min-width:14px;height:14px;border-radius:7px;background:var(--red);color:#fff;font-size:.48rem;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--surface);padding:0 2px}
+@keyframes cartBump{0%{transform:scale(1)}30%{transform:scale(1.28) rotate(-8deg)}55%{transform:scale(.94) rotate(4deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes badgePop{0%{transform:scale(.4)}60%{transform:scale(1.35)}100%{transform:scale(1)}}
+#cartHbtn.bump{animation:cartBump .5s cubic-bezier(.34,1.56,.64,1)}
+#cartHbtn.bump .cart-badge{animation:badgePop .5s cubic-bezier(.34,1.56,.64,1)}
 .theme-btn{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--text);transition:background var(--ease),transform var(--ease)}
 .theme-btn:hover{background:var(--s2);transform:rotate(18deg)}
 .theme-btn svg{width:16px;height:16px;stroke-width:1.8;stroke:currentColor;fill:none}
@@ -222,6 +241,17 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 .err-page p{font-size:.82rem;color:var(--t3);line-height:1.5}
 .err-retry{margin-top:6px;background:var(--text);color:var(--bg);border-radius:100px;padding:9px 18px;font-size:.78rem;font-weight:700}
 
+/* ── SKELETON LOADING (neomorphism-friendly shimmer) ── */
+@keyframes shimmerMove{0%{background-position:-300px 0}100%{background-position:300px 0}}
+.sk{background:linear-gradient(90deg,var(--s2) 25%,var(--s3) 37%,var(--s2) 63%);background-size:600px 100%;animation:shimmerMove 1.4s ease-in-out infinite;border-radius:12px}
+.sk-cats{display:flex;flex-direction:column;gap:12px;padding:0 16px 20px}
+.sk-cat-row{height:78px;border-radius:22px}
+.sk-feat-row{display:flex;gap:10px;padding:0 16px}
+.sk-feat-card{width:220px;height:290px;border-radius:20px;flex-shrink:0}
+.sk-offre-card{width:100%;height:190px;border-radius:20px}
+.sk-offres-grid{display:flex;flex-direction:column;gap:12px;padding:0 16px}
+[data-theme="dark"] .sk{background:linear-gradient(90deg,var(--s2) 25%,var(--s3) 37%,var(--s2) 63%);background-size:600px 100%}
+
 /* ── CATS LIST ── */
 .cats-list{padding:0 16px;display:flex;flex-direction:column;gap:12px;padding-bottom:20px}
 .cat-section{border-radius:22px;overflow:hidden;border:1px solid var(--bdr);background:var(--surface);box-shadow:var(--sh1);transition:box-shadow var(--ease),border-color var(--ease)}
@@ -242,13 +272,22 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 .cat-chevron{color:var(--t3);flex-shrink:0;transition:transform .3s ease,color var(--ease)}
 .cat-chevron svg{width:17px;height:17px;stroke:currentColor;stroke-width:2;fill:none}
 .cat-section.open .cat-chevron{transform:rotate(180deg);color:var(--red)}
-.cat-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1)}
-.cat-section.open .cat-body{max-height:1400px}
+.cat-body{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1),opacity .35s ease;opacity:0}
+.cat-section.open .cat-body{max-height:1400px;opacity:1}
 .cat-body-inner{border-top:1px solid var(--bdr);padding:14px 0 16px}
 
-/* ── PRODUCT SCROLL (dans catégorie) ── */
+/* ── PRODUCT SCROLL (dans catégorie) — animation d'apparition fluide en cascade ── */
 .prod-scroll{display:flex;gap:10px;padding:2px 16px 4px;overflow-x:auto;scrollbar-width:none}
 .prod-scroll::-webkit-scrollbar{display:none}
+@keyframes prodPopIn{from{opacity:0;transform:translateY(14px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+.cat-section.just-opened .prod-card{animation:prodPopIn .42s cubic-bezier(.22,1,.36,1) both}
+.cat-section.just-opened .prod-card:nth-child(1){animation-delay:.02s}
+.cat-section.just-opened .prod-card:nth-child(2){animation-delay:.06s}
+.cat-section.just-opened .prod-card:nth-child(3){animation-delay:.1s}
+.cat-section.just-opened .prod-card:nth-child(4){animation-delay:.14s}
+.cat-section.just-opened .prod-card:nth-child(5){animation-delay:.18s}
+.cat-section.just-opened .prod-card:nth-child(6){animation-delay:.22s}
+.cat-section.just-opened .prod-card:nth-child(n+7){animation-delay:.26s}
 .prod-card{width:152px;flex-shrink:0;background:var(--bg);border:1px solid var(--bdr);border-radius:18px;overflow:hidden;cursor:pointer;transition:transform var(--ease),box-shadow var(--ease),border-color var(--ease)}
 .prod-card:hover{transform:translateY(-4px);box-shadow:var(--sh3);border-color:var(--bdr2)}
 .prod-card:active{transform:scale(.97)}
@@ -281,8 +320,12 @@ mark{background:rgba(232,25,44,.15);color:var(--red);border-radius:3px;padding:0
 .offres-grid{display:flex;flex-direction:column;gap:12px;padding:0 16px}
 .offre-card{border-radius:20px;overflow:hidden;background:var(--surface);border:1px solid var(--bdr);box-shadow:var(--sh2);cursor:pointer;transition:transform var(--ease),box-shadow var(--ease)}
 .offre-card:hover{transform:translateY(-3px);box-shadow:var(--sh3)}
-/* IMAGE OFFRE corrigée */
-.offre-img{width:100%;aspect-ratio:16/7;object-fit:contain;display:block;background:var(--s2)}
+/* IMAGE OFFRE — s'adapte à l'orientation réelle de l'image (portrait/paysage/carré),
+   via padding-top en % (technique compatible très vieux navigateurs, pas besoin d'aspect-ratio) */
+.offre-img-wrap{position:relative;width:100%;padding-top:52%;background:var(--s2);overflow:hidden;transition:padding-top .35s cubic-bezier(.4,0,.2,1)}
+.offre-img-wrap.is-portrait{padding-top:112%}
+.offre-img-wrap.is-square{padding-top:92%}
+.offre-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;display:block;background:var(--s2)}
 .offre-img-ph{width:100%;height:140px;background:linear-gradient(135deg,rgba(232,25,44,.08),rgba(232,25,44,.03));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border-bottom:1px solid var(--bdr)}
 .offre-img-ph svg{width:32px;height:32px;stroke:rgba(232,25,44,.35);stroke-width:1.4;fill:none}
 .offre-img-ph span{font-size:.76rem;color:var(--red);font-weight:600}
@@ -401,8 +444,11 @@ mark{background:rgba(232,25,44,.15);color:var(--red);border-radius:3px;padding:0
 .cf-total{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .cf-total-lbl{font-size:.78rem;color:var(--t2);font-weight:500}
 .cf-total-val{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--text)}
-.cf-checkout{width:100%;background:var(--red);color:#fff;padding:12px;border-radius:12px;font-weight:700;font-size:.87rem;display:flex;align-items:center;justify-content:center;gap:7px;transition:background var(--ease)}
+.cf-checkout{width:100%;background:var(--red);color:#fff;padding:12px;border-radius:12px;font-weight:700;font-size:.87rem;display:flex;align-items:center;justify-content:center;gap:7px;transition:background var(--ease),transform var(--ease),padding var(--ease),box-shadow var(--ease)}
 .cf-checkout:hover{background:var(--red-d)}
+@keyframes checkoutGlow{0%,100%{box-shadow:0 4px 16px rgba(232,25,44,.28)}50%{box-shadow:0 8px 26px rgba(232,25,44,.48)}}
+.cf-checkout.cf-checkout-active{padding:15px;font-size:.94rem;transform:scale(1.02);animation:checkoutGlow 1.8s ease-in-out infinite}
+.cf-checkout.cf-checkout-active:hover{transform:scale(1.04)}
 .cf-empty{text-align:center;padding:22px;color:var(--t3);font-size:.8rem}
 
 /* ── BOTTOM NAV ── */
@@ -430,6 +476,59 @@ mark{background:rgba(232,25,44,.15);color:var(--red);border-radius:3px;padding:0
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
 }
+
+/* ── NÉOMORPHISME (surfaces douces, cohérent avec le thème clair/sombre) ── */
+:root{
+  --neo-lightsh:rgba(255,255,255,.85);
+  --neo-darksh:rgba(0,0,0,.09);
+  --neo-flat:6px 6px 14px var(--neo-darksh),-6px -6px 14px var(--neo-lightsh);
+  --neo-inset:inset 3px 3px 8px var(--neo-darksh),inset -3px -3px 8px var(--neo-lightsh);
+}
+[data-theme="dark"]{
+  --neo-lightsh:rgba(255,255,255,.045);
+  --neo-darksh:rgba(0,0,0,.55);
+}
+.feat-card,.prod-card,.offre-card,.cat-section{box-shadow:var(--neo-flat)}
+.feat-card:hover,.prod-card:hover{box-shadow:var(--neo-flat),var(--sh3)}
+.cat-section.open{box-shadow:var(--neo-inset),var(--sh2)}
+.search-bar{box-shadow:var(--neo-inset)}
+.fchip,.cat-count-badge{box-shadow:2px 2px 6px var(--neo-darksh),-2px -2px 6px var(--neo-lightsh)}
+.fchip-all,.fchip.on{box-shadow:0 3px 12px rgba(232,25,44,.28)}
+.cart-float,.pop-sheet{box-shadow:var(--neo-flat),var(--sh3)}
+.cf-qty-btn,.btn-wish{box-shadow:2px 2px 6px var(--neo-darksh),-2px -2px 6px var(--neo-lightsh)}
+
+/* ── COMPATIBILITÉ VIEUX ANDROID (ex: Android 8 / vieux Chrome) ──
+   Ces navigateurs ne supportent pas flex/grid "gap" ni "aspect-ratio",
+   ce qui peut faire disparaître ou écraser les images (hauteur 0). */
+@supports not (gap:1px){
+  .filter-row>*,.featured-grid>*,.prod-scroll>*,.sim-scroll>*{margin-right:10px}
+  .cats-list>*,.offres-grid>*{margin-bottom:12px}
+  .drawer{gap:0}
+  .drawer>*{margin-bottom:7px}
+  .pop-actions>*{margin-right:8px}
+}
+/* object-fit sur <img> peut être ignoré sur de très vieux WebView : on garde une hauteur fixe garantie */
+.feat-img,.prod-img,.gall-slide,.sim-img,.cf-item-img,.cat-header-ico{min-height:1px}
+img{max-width:100%;border:0}
+/* Fallback si object-fit non supporté (vieux WebView Android) : l'image est masquée
+   et remplacée par un fond en background-image (voir applyObjectFitFallback en JS) */
+.of-fallback{background-repeat:no-repeat;background-position:center center}
+.of-fallback img{opacity:0 !important;position:absolute}
+/* fallback si backdrop-filter indisponible : fond opaque au lieu de transparent illisible */
+@supports not (backdrop-filter:blur(1px)) and not (-webkit-backdrop-filter:blur(1px)){
+  header,.bnav{background:var(--surface) !important}
+  .ov{background:rgba(0,0,0,.55)}
+  .pop-ov{background:rgba(0,0,0,.7)}
+}
+/* évite les soucis de rendu font-variation sur anciens WebView */
+@supports not (font-variation-settings:normal){
+  body{font-family:'DM Sans',Arial,sans-serif}
+}
+/* désactive les animations lourdes (shimmer, stagger) sur très vieux moteurs sans keyframes fiables */
+@supports not (animation-name:test){
+  .sk{animation:none;background:var(--s2)}
+  .cat-section.just-opened .prod-card{animation:none;opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
@@ -447,7 +546,7 @@ mark{background:rgba(232,25,44,.15);color:var(--red);border-radius:3px;padding:0
     </button>
     <button class="hbtn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg></button>
     <a class="hbtn" href="compte.html"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></a>
-    <button class="hbtn" onclick="toggleCart()">
+    <button class="hbtn" id="cartHbtn" onclick="toggleCart()">
       <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path stroke-linecap="round" d="M16 10a4 4 0 01-8 0"/></svg>
       <span class="cart-badge" id="cartBadge" style="display:none">0</span>
     </button>
@@ -518,6 +617,24 @@ mark{background:rgba(232,25,44,.15);color:var(--red);border-radius:3px;padding:0
   </button>
 </div>
 
+<!-- ★ SECTION NOUVEAUTÉS / VEDETTE — placée en premier (avant les catégories) -->
+<div class="featured-section" id="featuredSection" style="display:none">
+  <div class="featured-head">
+    <div>
+      <div class="featured-eyebrow">Sélection WYK</div>
+      <div class="featured-title">Nouveautés &amp; <em>Vedette</em></div>
+    </div>
+    <a href="#" class="featured-see" onclick="scrollToAll();return false">
+      Voir tout<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg>
+    </a>
+  </div>
+  <div class="featured-grid" id="featuredGrid">
+    <div class="sk-feat-row">
+      <div class="sk sk-feat-card"></div><div class="sk sk-feat-card"></div><div class="sk sk-feat-card"></div>
+    </div>
+  </div>
+</div>
+
 <!-- BLOC RÉORDONNABLE : catégories/résultats passe au-dessus de "Nouveautés" pendant une recherche -->
 <div id="catsSection">
   <!-- PAGE HEAD -->
@@ -534,22 +651,13 @@ mark{background:rgba(232,25,44,.15);color:var(--red);border-radius:3px;padding:0
 
   <!-- CATEGORIES LIST -->
   <div class="cats-list a2" id="catsList">
-    <div class="loading-page"><div class="spinner"></div><p>Chargement des catégories…</p></div>
-  </div>
-</div>
-
-<!-- ★ SECTION NOUVEAUTÉS / VEDETTE -->
-<div class="featured-section" id="featuredSection" style="display:none">
-  <div class="featured-head">
-    <div>
-      <div class="featured-eyebrow">Sélection WYK</div>
-      <div class="featured-title">Nouveautés &amp; <em>Vedette</em></div>
+    <div class="sk-cats">
+      <div class="sk sk-cat-row"></div>
+      <div class="sk sk-cat-row"></div>
+      <div class="sk sk-cat-row"></div>
+      <div class="sk sk-cat-row"></div>
     </div>
-    <a href="#" class="featured-see" onclick="scrollToAll();return false">
-      Voir tout<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg>
-    </a>
   </div>
-  <div class="featured-grid" id="featuredGrid"></div>
 </div>
 
 <!-- SECTION OFFRES / FLYERS -->
@@ -561,7 +669,10 @@ mark{background:rgba(232,25,44,.15);color:var(--red);border-radius:3px;padding:0
     </div>
   </div>
   <div class="offres-grid" id="offresGrid">
-    <div class="offres-empty"><div class="spinner" style="width:22px;height:22px;margin:0 auto 10px"></div><p>Chargement des offres…</p></div>
+    <div class="sk-offres-grid">
+      <div class="sk sk-offre-card"></div>
+      <div class="sk sk-offre-card"></div>
+    </div>
   </div>
 </div>
 
@@ -626,7 +737,7 @@ mark{background:rgba(232,25,44,.15);color:var(--red);border-radius:3px;padding:0
   <div class="cf-items" id="cfItems"><div class="cf-empty">Votre panier est vide</div></div>
   <div class="cf-footer" id="cfFooter" style="display:none">
     <div class="cf-total"><span class="cf-total-lbl">Total</span><span class="cf-total-val" id="cfTotal">0 HTG</span></div>
-    <button class="cf-checkout" onclick="checkoutWA()">
+    <button class="cf-checkout" id="cfCheckoutBtn" onclick="checkoutWA()">
       <svg viewBox="0 0 24 24" fill="currentColor" style="width:15px;height:15px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       Commander sur WhatsApp
     </button>
@@ -663,6 +774,20 @@ function formatPrice(n){if(!n&&n!==0)return '—';return Number(n).toLocaleStrin
 function escH(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function highlight(text,q){if(!q||!text)return escH(text||'');var esc=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return escH(text).replace(new RegExp('('+esc+')','gi'),'<mark>$1</mark>')}
 var PH_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>';
+
+/* ── FALLBACK object-fit pour très vieux navigateurs (ex Android 8 / vieux WebView) ──
+   Certains WebView anciens ignorent object-fit sur <img>. On détecte le support une fois,
+   et si absent, on bascule chaque image concernée en background-image (object-fit:contain simulé). */
+var OBJECT_FIT_SUPPORTED=(function(){
+  try{return 'objectFit' in document.documentElement.style}catch(e){return true}
+})();
+function objectFitFallback(imgEl,mode){
+  if(OBJECT_FIT_SUPPORTED||!imgEl||!imgEl.parentElement)return;
+  var wrap=imgEl.parentElement;
+  wrap.classList.add('of-fallback');
+  wrap.style.backgroundImage='url("'+imgEl.getAttribute('src')+'")';
+  wrap.style.backgroundSize=mode||'contain';
+}
 
 /* ── DRAWER ── */
 function toggleDrawer(){var d=document.getElementById('drawer'),o=document.getElementById('overlay'),open=d.classList.toggle('on');o.classList.toggle('on',open)}
@@ -718,8 +843,8 @@ function renderCartFloat(){
   });
   document.getElementById('cfTotal').textContent=formatPrice(getTotalPrice(cart));
 }
-function changeQty(key,delta){var cart=getCart();var item=cart.find(function(i){return i.key===key});if(!item)return;item.qty+=delta;if(item.qty<=0)cart=cart.filter(function(i){return i.key!==key});saveCart(cart);updateCartBadge();renderCartFloat()}
-function removeCartItem(key){saveCart(getCart().filter(function(i){return i.key!==key}));updateCartBadge();renderCartFloat()}
+function changeQty(key,delta){var cart=getCart();var item=cart.find(function(i){return i.key===key});if(!item)return;item.qty+=delta;if(item.qty<=0)cart=cart.filter(function(i){return i.key!==key});saveCart(cart);updateCartBadge();renderCartFloat();refreshCheckoutBtnState()}
+function removeCartItem(key){saveCart(getCart().filter(function(i){return i.key!==key}));updateCartBadge();renderCartFloat();refreshCheckoutBtnState()}
 function checkoutWA(){var cart=getCart();if(!cart.length)return;var lines=cart.map(function(i){return '• '+i.name+' x'+i.qty+' — '+formatPrice(i.price*i.qty)}).join('\n');var msg='Bonjour WYK 👋, je voudrais commander :\n\n'+lines+'\n\n*Total : '+formatPrice(getTotalPrice(cart))+'*\n\nMerci !';window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(msg),'_blank')}
 
 /* ── FAVORIS ── */
@@ -742,7 +867,9 @@ var curImgs=[];
 var searchTimeout=null;
 var searchLayoutActive=false;
 
-/* ── RÉORGANISATION AU SCAN (catégories au-dessus de "Nouveautés" pendant une recherche) ── */
+/* ── RÉORGANISATION AU SCAN (catégories au-dessus de "Nouveautés" pendant une recherche) ──
+   Par défaut : Nouveautés/Vedette AVANT les catégories.
+   Pendant une recherche : Catégories/Résultats AVANT Nouveautés (pour voir les résultats direct). */
 function updateSearchLayout(active){
   if(active===searchLayoutActive)return;
   searchLayoutActive=active;
@@ -797,17 +924,16 @@ function buildFeatured(){
   } else {
     featured=featured.slice(0,8);
   }
-  if(!featured.length)return;
-
   var sec=document.getElementById('featuredSection');
   var grid=document.getElementById('featuredGrid');
+  if(!featured.length){sec.style.display='none';grid.innerHTML='';return}
   sec.style.display='';
   grid.innerHTML='';
 
   featured.forEach(function(p){
     var cat=allCats.find(function(c){return c.id===p.category_id});
     var imgH=p.imgs&&p.imgs[0]
-      ?'<img src="'+escH(p.imgs[0])+'" alt="'+escH(p.name)+'" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=&quot;feat-img-ph&quot;>'+PH_SVG.replace(/"/g,'&quot;')+'</div>\'">'
+      ?'<img src="'+escH(p.imgs[0])+'" alt="'+escH(p.name)+'" loading="lazy" onload="objectFitFallback(this)" onerror="this.parentElement.innerHTML=\'<div class=&quot;feat-img-ph&quot;>'+PH_SVG.replace(/"/g,'&quot;')+'</div>\'">'
       :'<div class="feat-img-ph">'+PH_SVG+'</div>';
 
     var badgeMap={new:'NOUVEAU',promo:'PROMO',pop:'VEDETTE'};
@@ -838,6 +964,8 @@ function buildFeatured(){
     card.onclick=function(){openProd(p.id,cat?cat.id:null)};
     grid.appendChild(card);
   });
+
+  initFeaturedAutoScroll();
 }
 
 /* ── FILTER CHIPS (avec icon_url) ── */
@@ -903,6 +1031,20 @@ function matchProd(p,q){
   if(p.sizes&&p.sizes.some(function(s){return s.toLowerCase().includes(q)}))return true;
   return false;
 }
+/* Score de pertinence pour classer les résultats de recherche (recherche avancée) */
+function scoreProd(p,q){
+  if(!q)return 0;
+  var name=(p.name||'').toLowerCase();
+  var desc=(p.description||'').toLowerCase();
+  if(name===q)return 100;
+  if(name.indexOf(q)===0)return 80;
+  if(name.indexOf(q)>-1)return 60;
+  if(desc.indexOf(q)===0)return 40;
+  if(desc.indexOf(q)>-1)return 25;
+  if(p.badge&&p.badge.toLowerCase().indexOf(q)>-1)return 15;
+  if(p.sizes&&p.sizes.some(function(s){return s.toLowerCase().indexOf(q)>-1}))return 10;
+  return 1;
+}
 function matchCat(cat,q){
   if(!q)return true;
   if(cat.name.toLowerCase().includes(q))return true;
@@ -921,17 +1063,20 @@ function renderAll(){
   }
   visibleCats.forEach(function(cat){
     var filteredProds=cat.products.filter(function(p){return !q||matchProd(p,q)});
+    if(q){
+      filteredProds=filteredProds.slice().sort(function(a,b){return scoreProd(b,q)-scoreProd(a,q)});
+    }
     var catColor=cat.color||'#E8192C';
     var catColorText=cat.color_text||catColor;
     var sec=document.createElement('div');
-    sec.className='cat-section'+(q&&filteredProds.length>0?' open':'');
+    sec.className='cat-section'+(q&&filteredProds.length>0?' open just-opened':'');
     sec.dataset.id=cat.id;
     sec.style.setProperty('--cat-color',catColor);
 
     /* Icône : icon_url PNG remplit tout le cadre, sinon SVG */
     var icoHtml='';
     if(cat.icon_url){
-      icoHtml='<div class="cat-header-ico" style="background:'+catColor+'22"><img src="'+escH(cat.icon_url)+'" alt="'+escH(cat.name)+'" loading="lazy" onerror="this.parentElement.innerHTML=\'<svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot;><path stroke-linecap=&quot;round&quot; d=&quot;M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z&quot;/></svg>\'"></div>';
+      icoHtml='<div class="cat-header-ico" style="background:'+catColor+'22"><img src="'+escH(cat.icon_url)+'" alt="'+escH(cat.name)+'" loading="lazy" onload="objectFitFallback(this,\'cover\')" onerror="this.parentElement.innerHTML=\'<svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot;><path stroke-linecap=&quot;round&quot; d=&quot;M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z&quot;/></svg>\'"></div>';
     } else {
       var svgInner=cat.svg_icon||'<path stroke-linecap="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>';
       icoHtml='<div class="cat-header-ico" style="background:'+catColor+'22;color:'+catColorText+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">'+svgInner+'</svg></div>';
@@ -954,7 +1099,7 @@ function renderAll(){
         var badgeMap={new:'NOUVEAU',promo:'PROMO',pop:'★'};
         var badgeHtml=p.badge&&badgeMap[p.badge]?'<span class="prod-badge badge-'+p.badge+'">'+badgeMap[p.badge]+'</span>':'';
         var stockClass=p.stock>5?'stock-ok':p.stock>0?'stock-low':'stock-out';
-        var imgHtml=imgSrc?'<img src="'+escH(imgSrc)+'" alt="'+escH(p.name)+'" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=&quot;prod-img-ph&quot;>'+PH_SVG.replace(/"/g,'&quot;')+'<span>Photo</span></div>\'">'
+        var imgHtml=imgSrc?'<img src="'+escH(imgSrc)+'" alt="'+escH(p.name)+'" loading="lazy" onload="objectFitFallback(this)" onerror="this.parentElement.innerHTML=\'<div class=&quot;prod-img-ph&quot;>'+PH_SVG.replace(/"/g,'&quot;')+'<span>Photo</span></div>\'">'
           :'<div class="prod-img-ph">'+PH_SVG+'<span>Photo</span></div>';
         var oldPriceHtml=p.old_price?'<span class="prod-old">'+formatPrice(p.old_price)+'</span>':'';
         bodyHtml+='<div class="prod-card" onclick="openProd(\''+p.id+'\',\''+cat.id+'\')"><div class="prod-img">'+imgHtml+badgeHtml+'<div class="prod-stock-dot '+stockClass+'"></div></div>'
@@ -966,10 +1111,23 @@ function renderAll(){
     bodyHtml+='</div></div>';
     sec.innerHTML=headerHtml+bodyHtml;
     list.appendChild(sec);
+    /* retire la classe d'animation d'entrée une fois jouée pour ne pas la rejouer inutilement */
+    if(sec.classList.contains('just-opened')){
+      setTimeout(function(){sec.classList.remove('just-opened')},900);
+    }
   });
 }
 
-function toggleCat(id){var sec=document.querySelector('[data-id="'+id+'"]');if(sec)sec.classList.toggle('open')}
+function toggleCat(id){
+  var sec=document.querySelector('[data-id="'+id+'"]');
+  if(!sec)return;
+  var opening=!sec.classList.contains('open');
+  sec.classList.toggle('open');
+  if(opening){
+    sec.classList.add('just-opened');
+    setTimeout(function(){sec.classList.remove('just-opened')},900);
+  }
+}
 
 /* ── POPUP PRODUIT (avec gestion touche retour Android) ── */
 var popupHistoryPushed=false;
@@ -1022,7 +1180,7 @@ function buildGallery(prod){
   imgs.forEach(function(img,i){
     var s=document.createElement('div');s.className='gall-slide';
     if(img){
-      s.innerHTML='<img src="'+escH(img)+'" alt="'+escH(prod.name)+'" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=&quot;gall-ph&quot;>'+PH_SVG.replace('44','44').replace(/"/g,'&quot;')+'<span>'+escH(prod.name).replace(/"/g,'&quot;')+'</span></div>\'">';
+      s.innerHTML='<img src="'+escH(img)+'" alt="'+escH(prod.name)+'" loading="lazy" onload="objectFitFallback(this)" onerror="this.parentElement.innerHTML=\'<div class=&quot;gall-ph&quot;>'+PH_SVG.replace('44','44').replace(/"/g,'&quot;')+'<span>'+escH(prod.name).replace(/"/g,'&quot;')+'</span></div>\'">';
       s.dataset.img=img;
     }
     else{s.innerHTML='<div class="gall-ph">'+PH_SVG+'<span>'+escH(prod.name)+'</span></div>'}
@@ -1046,7 +1204,7 @@ function buildSimilar(cat,excludeId){
   others.slice(0,8).forEach(function(p){
     var c=document.createElement('div');c.className='sim-card';
     var phEsc=PH_SVG.replace(/"/g,'&quot;').replace(/'/g,"&#39;");
-    var imgH=p.imgs&&p.imgs[0]?'<img src="'+escH(p.imgs[0])+'" alt="'+escH(p.name)+'" loading="lazy" onerror="this.parentElement.innerHTML=\''+phEsc+'\'">':PH_SVG;
+    var imgH=p.imgs&&p.imgs[0]?'<img src="'+escH(p.imgs[0])+'" alt="'+escH(p.name)+'" loading="lazy" onload="objectFitFallback(this)" onerror="this.parentElement.innerHTML=\''+phEsc+'\'">':PH_SVG;
     c.innerHTML='<div class="sim-img">'+imgH+'</div><div class="sim-body"><div class="sim-name">'+escH(p.name)+'</div><div class="sim-price">'+formatPrice(p.price)+'</div></div>';
     c.onclick=function(){openProd(p.id,cat?cat.id:null)};
     sc.appendChild(c);
@@ -1076,9 +1234,25 @@ function addToCartFromPopup(){
   var existing=cart.find(function(i){return i.key===key});
   if(existing){existing.qty++}
   else{cart.push({key:key,id:curProd.id,name:curProd.name,price:curProd.price,img:curImgs&&curImgs[0]?curImgs[0]:null,size:sz?sz.textContent:null,qty:1})}
-  saveCart(cart);updateCartBadge();renderCartFloat();
+  saveCart(cart);updateCartBadge();renderCartFloat();refreshCheckoutBtnState();
+  bumpCartIcon();
   showToast('Ajouté au panier');closePopup();
   setTimeout(function(){showCart()},300);
+}
+
+/* ── ANIMATION PANIER : bouton header qui "bump", et bouton commander qui grossit/pulse quand le panier n'est pas vide ── */
+function bumpCartIcon(){
+  var btn=document.getElementById('cartHbtn');
+  if(!btn)return;
+  btn.classList.remove('bump');
+  void btn.offsetWidth;
+  btn.classList.add('bump');
+}
+function refreshCheckoutBtnState(){
+  var cart=getCart();
+  var btn=document.getElementById('cfCheckoutBtn');
+  if(!btn)return;
+  btn.classList.toggle('cf-checkout-active',cart.length>0);
 }
 
 function toggleWish(){
@@ -1090,7 +1264,7 @@ function toggleWish(){
   saveFavs(favs);
 }
 
-/* ── OFFRES / FLYERS (résilient) ── */
+/* ── OFFRES / FLYERS (résilient + image adaptée à l'orientation réelle) ── */
 async function loadOffres(){
   var el=document.getElementById('offresGrid');
   try{
@@ -1105,7 +1279,7 @@ async function loadOffres(){
     data.forEach(function(offre){
       var card=document.createElement('div');card.className='offre-card';
       var imgH=offre.image_url
-        ?'<img class="offre-img" src="'+escH(offre.image_url)+'" alt="'+escH(offre.title)+'" loading="lazy" onerror="this.outerHTML=\'<div class=&quot;offre-img-ph&quot;>'+PH_SVG.replace(/"/g,'&quot;')+'<span>Flyer promo</span></div>\'">'
+        ?'<div class="offre-img-wrap"><img class="offre-img" src="'+escH(offre.image_url)+'" alt="'+escH(offre.title)+'" loading="lazy" onload="fitOffreImg(this)" onerror="this.closest(\'.offre-img-wrap\').outerHTML=\'<div class=&quot;offre-img-ph&quot;>'+PH_SVG.replace(/"/g,'&quot;')+'<span>Flyer promo</span></div>\'"></div>'
         :'<div class="offre-img-ph">'+PH_SVG+'<span>Flyer promo</span></div>';
       var waMsg=offre.wa_message||('Bonjour WYK, je suis intéressé par l\'offre : '+offre.title);
       card.innerHTML=imgH+'<div class="offre-body"><div class="offre-title-txt">'+escH(offre.title)+'</div><a class="offre-wa-btn" href="https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(waMsg)+'" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Commander</a></div>';
@@ -1117,6 +1291,25 @@ async function loadOffres(){
   }
 }
 
+/* Adapte le format du cadre de l'offre selon l'orientation réelle de l'image uploadée :
+   paysage → cadre large et couché, portrait → cadre plus haut/vertical, carré → carré.
+   Utilise padding-top en % (compatible vieux navigateurs, pas besoin d'aspect-ratio CSS). */
+function fitOffreImg(img){
+  objectFitFallback(img);
+  var wrap=img.closest('.offre-img-wrap');
+  if(!wrap||!img.naturalWidth||!img.naturalHeight)return;
+  var ratio=img.naturalHeight/img.naturalWidth; // >1 = portrait, <1 = paysage, ~1 = carré
+  wrap.classList.remove('is-portrait','is-square');
+  if(ratio>=1.15){
+    wrap.classList.add('is-portrait');
+    wrap.style.paddingTop=Math.min(ratio*100,135)+'%';
+  } else if(ratio>=0.88){
+    wrap.classList.add('is-square');
+  } else {
+    wrap.style.paddingTop=Math.max(ratio*100,40)+'%';
+  }
+}
+
 /* ── AUTH ── */
 async function checkAuthState(){
   try{
@@ -1125,17 +1318,38 @@ async function checkAuthState(){
   }catch(e){console.error('WYK checkAuthState :',e)}
 }
 
-/* ── ANIMATION "TYPING" DANS LA BARRE DE RECHERCHE (mots réels du site) ── */
+/* ── ANIMATION "TYPING" DANS LA BARRE DE RECHERCHE (mots ET descriptions réels du site) ── */
 var typeWords=[];
 var typeState={idx:0,char:0,deleting:false,timer:null,paused:false};
 var DEFAULT_PLACEHOLDER='Rechercher un produit…';
+function shortSnippet(txt,max){
+  if(!txt)return '';
+  txt=String(txt).replace(/\s+/g,' ').trim();
+  if(txt.length<=max)return txt;
+  var cut=txt.slice(0,max);
+  var lastSpace=cut.lastIndexOf(' ');
+  if(lastSpace>10)cut=cut.slice(0,lastSpace);
+  return cut+'…';
+}
 function buildTypeWords(){
   var names=[];
   allCats.forEach(function(c){if(c.name)names.push(c.name)});
   allProducts.slice(0,30).forEach(function(p){if(p.name)names.push(p.name)});
+  var descs=[];
+  allProducts.forEach(function(p){if(p.description&&p.description.length>8)descs.push(shortSnippet(p.description,34))});
+  allCats.forEach(function(c){if(c.description&&c.description.length>8)descs.push(shortSnippet(c.description,34))});
   names=Array.from(new Set(names));
+  descs=Array.from(new Set(descs));
   for(var i=names.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=names[i];names[i]=names[j];names[j]=tmp}
-  typeWords=names.slice(0,14);
+  for(var k=descs.length-1;k>0;k--){var j2=Math.floor(Math.random()*(k+1));var tmp2=descs[k];descs[k]=descs[j2];descs[j2]=tmp2}
+  /* mélange noms et descriptions, en alternant, favorisant les noms de produits */
+  var mixed=[];
+  var maxLen=Math.max(names.length,descs.length);
+  for(var m=0;m<maxLen&&mixed.length<20;m++){
+    if(names[m])mixed.push(names[m]);
+    if(descs[m]&&m%2===0)mixed.push(descs[m]);
+  }
+  typeWords=mixed.slice(0,16);
   if(!typeWords.length)return;
   typeState.idx=0;typeState.char=0;typeState.deleting=false;
   startTypeAnim();
@@ -1172,11 +1386,37 @@ function resumeTypeAnim(){
   if(input&&!input.value)input.setAttribute('placeholder',DEFAULT_PLACEHOLDER);
 }
 
+/* ── ★ DÉFILEMENT AUTOMATIQUE DE LA SECTION NOUVEAUTÉS / VEDETTE (pause au survol / toucher) ── */
+var featAutoTimer=null;
+var featAutoPaused=false;
+var featAutoDir=1;
+function initFeaturedAutoScroll(){
+  var grid=document.getElementById('featuredGrid');
+  if(!grid)return;
+  clearInterval(featAutoTimer);
+  /* seulement en mode scroll horizontal (mobile/tablette < 600px, cf CSS) */
+  function isHorizontalMode(){return window.matchMedia('(max-width:599px)').matches}
+  grid.addEventListener('mouseenter',function(){featAutoPaused=true});
+  grid.addEventListener('mouseleave',function(){featAutoPaused=false});
+  grid.addEventListener('touchstart',function(){featAutoPaused=true},{passive:true});
+  grid.addEventListener('touchend',function(){setTimeout(function(){featAutoPaused=false},2200)},{passive:true});
+  featAutoTimer=setInterval(function(){
+    if(!isHorizontalMode()||featAutoPaused)return;
+    var max=grid.scrollWidth-grid.clientWidth;
+    if(max<=4)return;
+    var next=grid.scrollLeft+featAutoDir*0.7;
+    if(next>=max){next=max;featAutoDir=-1}
+    else if(next<=0){next=0;featAutoDir=1}
+    grid.scrollLeft=next;
+  },16);
+}
+
 /* ── INIT ── */
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closePopup()});
 document.getElementById('productPopup').addEventListener('click',function(e){if(e.target===this)closePopup()});
 document.addEventListener('click',function(e){var cf=document.getElementById('cartFloat');if(cartOpen&&!cf.contains(e.target)&&!e.target.closest('.hbtn'))closeCart()});
 updateCartBadge();
+refreshCheckoutBtnState();
 if(window.location.hash==='#offres'){setTimeout(scrollToOffres,600)}
 
 (async function init(){
