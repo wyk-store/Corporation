@@ -4,17 +4,21 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <title>Politique de Confidentialité — WYK</title>
+<meta name="description" content="Politique de confidentialité de WYK : quelles données nous collectons, pourquoi, et comment nous les protégeons."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#F8F7F4;--surface:#FFFFFF;--s2:#F2F1EE;--s3:#E9E8E3;
-  --red:#E8192C;--red-s:rgba(232,25,44,.07);--red-m:rgba(232,25,44,.15);
+  --red:#E8192C;--red-d:#C0111F;--red-s:rgba(232,25,44,.07);--red-m:rgba(232,25,44,.15);
   --text:#0C0C0B;--t2:#3A3A32;--t3:#898980;--t4:#C4C4BC;
   --bdr:rgba(0,0,0,.06);--bdr2:rgba(0,0,0,.11);
   --glass:rgba(248,247,244,.94);--gbdr:rgba(0,0,0,.05);--blur:blur(28px) saturate(180%);
   --ease:.24s cubic-bezier(.4,0,.2,1);
+  --neo-out:7px 7px 16px rgba(0,0,0,.06),-7px -7px 16px rgba(255,255,255,.85);
+  --neo-out-sm:3px 3px 8px rgba(0,0,0,.05),-3px -3px 8px rgba(255,255,255,.8);
+  --neo-in:inset 3px 3px 7px rgba(0,0,0,.06),inset -3px -3px 7px rgba(255,255,255,.7);
 }
 [data-theme="dark"]{
   --bg:#0B0B0A;--surface:#141413;--s2:#1C1C1A;--s3:#242422;
@@ -22,48 +26,144 @@
   --bdr:rgba(255,255,255,.06);--bdr2:rgba(255,255,255,.11);
   --glass:rgba(11,11,10,.94);--gbdr:rgba(255,255,255,.06);
   --red-s:rgba(232,25,44,.12);--red-m:rgba(232,25,44,.22);
+  --neo-out:7px 7px 16px rgba(0,0,0,.45),-7px -7px 16px rgba(255,255,255,.025);
+  --neo-out-sm:3px 3px 8px rgba(0,0,0,.4),-3px -3px 8px rgba(255,255,255,.02);
+  --neo-in:inset 3px 3px 7px rgba(0,0,0,.45),inset -3px -3px 7px rgba(255,255,255,.02);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:72px;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:72px;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
 a{color:var(--red);text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+svg{display:block;flex-shrink:0}
+
+/* ── BARRE DE PROGRESSION DE LECTURE ── */
+.read-progress-track{position:sticky;top:0;left:0;width:100%;height:3px;background:var(--s2);z-index:95}
+.read-progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--red),#ff5c6a);transition:width .1s linear;box-shadow:0 0 8px rgba(232,25,44,.5)}
+
 header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-bottom:1px solid var(--gbdr);height:60px;display:flex;align-items:center;padding:0 16px;gap:10px}
 .h-back{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--text);flex-shrink:0;transition:background var(--ease)}
 .h-back:hover{background:var(--s2)}
 .h-back svg{width:19px;height:19px;stroke:currentColor;stroke-width:1.8;fill:none}
 .h-title{flex:1;text-align:center;font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em}
 .h-title em{font-style:normal;color:var(--red)}
-.theme-toggle{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--text);flex-shrink:0;transition:background var(--ease)}
+.theme-toggle{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--text);flex-shrink:0;transition:background var(--ease);position:relative}
 .theme-toggle:hover{background:var(--s2)}
 .theme-toggle svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.8;fill:none;position:absolute;transition:opacity .2s}
 .theme-toggle .ico-sun{opacity:1}.theme-toggle .ico-moon{opacity:0}
 [data-theme="dark"] .theme-toggle .ico-sun{opacity:0}
 [data-theme="dark"] .theme-toggle .ico-moon{opacity:1}
-.wrap{max-width:680px;margin:0 auto;padding:28px 20px 40px}
-.p-eyebrow{font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:8px}
-.p-title{font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:8px}
-.p-updated{font-size:.78rem;color:var(--t3);margin-bottom:28px}
-.p-sec{margin-bottom:26px}
-.p-sec h2{font-family:'Syne',sans-serif;font-size:1.02rem;font-weight:800;margin-bottom:10px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
-.p-sec-num{width:24px;height:24px;border-radius:7px;background:var(--red-s);color:var(--red);font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+.wrap{max-width:680px;margin:0 auto;padding:28px 20px 40px;position:relative}
+
+/* ── EN-TÊTE DE PAGE ── */
+.p-eyebrow{font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.p-eyebrow::before{content:'';width:16px;height:1.5px;background:var(--red)}
+.p-title{font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px}
+.p-meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:26px}
+.p-updated{font-size:.76rem;color:var(--t3)}
+.p-meta-dot{width:3px;height:3px;border-radius:50%;background:var(--t4)}
+.p-readtime{font-size:.76rem;color:var(--t3);display:flex;align-items:center;gap:5px}
+.p-readtime svg{width:12px;height:12px;stroke:currentColor;stroke-width:2;fill:none}
+.p-intro{font-size:.9rem;color:var(--t2);line-height:1.8;margin-bottom:26px;padding:18px 20px;background:var(--surface);border:1px solid var(--bdr);border-radius:16px;border-left:3px solid var(--red);box-shadow:var(--neo-out-sm)}
+.p-intro strong{color:var(--text)}
+
+/* ── TABLE DES MATIÈRES (scroll-spy) ── */
+.toc-wrap{margin-bottom:30px}
+.toc-toggle{width:100%;display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--bdr);border-radius:16px;padding:13px 16px;box-shadow:var(--neo-out-sm);transition:box-shadow var(--ease)}
+.toc-toggle:active{box-shadow:var(--neo-in)}
+.toc-toggle-ico{width:30px;height:30px;border-radius:9px;background:var(--red-s);color:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.toc-toggle-ico svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none}
+.toc-toggle-txt{flex:1;text-align:left;font-size:.84rem;font-weight:700}
+.toc-toggle-sub{font-size:.68rem;color:var(--t3);font-weight:500;margin-top:1px}
+.toc-chevron{color:var(--t3);transition:transform var(--ease);flex-shrink:0}
+.toc-chevron svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none}
+.toc-wrap.open .toc-chevron{transform:rotate(180deg)}
+.toc-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.toc-wrap.open .toc-body{max-height:600px}
+.toc-list{background:var(--surface);border:1px solid var(--bdr);border-top:none;border-radius:0 0 16px 16px;margin-top:-1px;padding:6px 8px;box-shadow:var(--neo-out-sm)}
+.toc-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;font-size:.79rem;color:var(--t2);transition:background var(--ease),color var(--ease)}
+.toc-item:hover{background:var(--s2);color:var(--text)}
+.toc-item.active{background:var(--red-s);color:var(--red);font-weight:700}
+.toc-num{width:20px;height:20px;border-radius:6px;background:var(--s2);color:var(--t3);font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background var(--ease),color var(--ease)}
+.toc-item.active .toc-num{background:var(--red);color:#fff}
+
+/* ── SECTIONS ── */
+.p-sec{margin-bottom:26px;scroll-margin-top:74px;opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1)}
+.p-sec.in-view{opacity:1;transform:translateY(0)}
+.p-sec h2{font-family:'Syne',sans-serif;font-size:1.02rem;font-weight:800;margin-bottom:10px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px;scroll-margin-top:74px}
+.p-sec-num{width:26px;height:26px;border-radius:8px;background:var(--red-s);color:var(--red);font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--neo-out-sm)}
 .p-sec p{font-size:.87rem;color:var(--t2);line-height:1.75;margin-bottom:10px}
 .p-sec ul{margin:0 0 10px 0;padding-left:20px}
 .p-sec li{font-size:.87rem;color:var(--t2);line-height:1.75;margin-bottom:5px}
-.p-card{background:var(--surface);border:1px solid var(--bdr);border-radius:16px;padding:16px 18px;margin-bottom:10px}
-.p-card h3{font-size:.82rem;font-weight:700;margin-bottom:4px}
+.p-sec li::marker{color:var(--red)}
+.p-card{background:var(--surface);border:1px solid var(--bdr);border-radius:16px;padding:16px 18px;margin-bottom:10px;box-shadow:var(--neo-out-sm);transition:box-shadow var(--ease),transform var(--ease)}
+.p-card:hover{box-shadow:var(--neo-out);transform:translateY(-2px)}
+.p-card h3{font-size:.82rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
 .p-card p{font-size:.8rem;color:var(--t3);margin:0;line-height:1.6}
-.p-contact{background:var(--surface);border:1px solid var(--bdr);border-radius:18px;padding:20px;margin-top:8px}
-.p-contact h3{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;margin-bottom:8px}
-.p-contact p{font-size:.84rem;color:var(--t2);line-height:1.7;margin-bottom:12px}
-.p-wa{display:inline-flex;align-items:center;gap:7px;background:#25D366;color:#fff;padding:11px 18px;border-radius:100px;font-weight:700;font-size:.82rem}
+.p-card-ico{width:26px;height:26px;border-radius:8px;background:var(--s2);color:var(--t2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.p-card-ico svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none}
+.p-note{font-size:.76rem;color:var(--t3);background:var(--s2);border-radius:12px;padding:10px 14px;line-height:1.6;margin-top:4px}
+.p-note strong{color:var(--t2)}
+
+/* Identité du responsable — carte spéciale */
+.p-org{background:linear-gradient(165deg,var(--surface) 0%,var(--s2) 100%);border:1px solid var(--bdr);border-radius:18px;padding:18px 20px;box-shadow:var(--neo-out-sm)}
+.p-org-row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--bdr);font-size:.82rem}
+.p-org-row:last-child{border-bottom:none}
+.p-org-lbl{color:var(--t3);flex-shrink:0}
+.p-org-val{color:var(--text);font-weight:600;text-align:right}
+
+.p-contact{background:var(--surface);border:1px solid var(--bdr);border-radius:18px;padding:20px;margin-top:8px;position:relative;overflow:hidden;box-shadow:var(--neo-out-sm)}
+.p-contact::before{content:'';position:absolute;top:-40%;right:-20%;width:200px;height:200px;background:radial-gradient(circle,var(--red-s),transparent 70%);pointer-events:none}
+.p-contact h3{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;margin-bottom:8px;position:relative}
+.p-contact p{font-size:.84rem;color:var(--t2);line-height:1.7;margin-bottom:12px;position:relative}
+.p-contact-actions{display:flex;flex-wrap:wrap;gap:8px;position:relative}
+.p-wa{display:inline-flex;align-items:center;gap:7px;background:#25D366;color:#fff;padding:11px 18px;border-radius:100px;font-weight:700;font-size:.82rem;transition:transform var(--ease),box-shadow var(--ease)}
+.p-wa:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(37,211,102,.32)}
 .p-wa svg{width:15px;height:15px}
+.p-print{display:inline-flex;align-items:center;gap:7px;background:var(--s2);color:var(--text);border:1px solid var(--bdr);padding:11px 18px;border-radius:100px;font-weight:700;font-size:.82rem;transition:transform var(--ease),box-shadow var(--ease)}
+.p-print:hover{transform:translateY(-2px);box-shadow:var(--neo-out-sm)}
+.p-print svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none}
+
+/* ── BOUTON RETOUR EN HAUT ── */
+.back-top{position:fixed;right:16px;bottom:82px;width:44px;height:44px;border-radius:50%;background:var(--surface);border:1px solid var(--bdr);box-shadow:var(--neo-out);display:flex;align-items:center;justify-content:center;color:var(--text);opacity:0;pointer-events:none;transform:translateY(10px) scale(.9);transition:opacity var(--ease),transform var(--ease);z-index:70}
+.back-top.show{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
+.back-top:active{transform:scale(.92)}
+.back-top svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;fill:none}
+
 .bnav{position:fixed;bottom:0;left:0;right:0;z-index:80;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-top:1px solid var(--gbdr);display:flex;height:60px;padding:0 8px}
 .bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--t3);text-decoration:none;font-size:.52rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:12px;margin:4px 3px}
 .bni svg{width:21px;height:21px;stroke:currentColor;stroke-width:1.6;fill:none}
 .bni.on{color:var(--red)}
-@media(min-width:900px){.bnav{display:none}body{padding-bottom:0}}
+@media(min-width:900px){.bnav{display:none}body{padding-bottom:0}.back-top{bottom:26px}}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+  .p-sec{opacity:1;transform:none}
+}
+
+/* ── IMPRESSION (télécharger/imprimer en PDF) ── */
+@media print{
+  header,.bnav,.back-top,.read-progress-track,.toc-wrap,.p-print,.p-contact-actions{display:none !important}
+  body{padding-bottom:0;background:#fff;color:#000}
+  .p-sec{opacity:1;transform:none}
+  a{color:#000;text-decoration:underline}
+}
+
+/* ── COMPATIBILITÉ VIEUX ANDROID / ANTI-BUG ──
+   Pas de gap/aspect-ratio utilisés ici qui casseraient sur vieux WebView.
+   Fallback si backdrop-filter indisponible : fond opaque au lieu de transparent illisible. */
+@supports not (backdrop-filter:blur(1px)) and not (-webkit-backdrop-filter:blur(1px)){
+  header,.bnav{background:var(--surface) !important}
+}
+@supports not (font-variation-settings:normal){
+  body{font-family:'DM Sans',Arial,sans-serif}
+}
+/* si IntersectionObserver/JS échoue, les sections restent quand même visibles (pas de opacity 0 bloquant) */
+.no-js .p-sec,.js-fallback .p-sec{opacity:1 !important;transform:none !important}
 </style>
 </head>
-<body>
+<body class="no-js">
 
 <header>
   <a href="index.html" class="h-back"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 12H5M12 5l-7 7 7 7"/></svg></a>
@@ -73,18 +173,47 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
     <svg class="ico-moon" viewBox="0 0 24 24"><path stroke-linecap="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
   </button>
 </header>
+<div class="read-progress-track"><div class="read-progress-bar" id="readBar"></div></div>
 
 <div class="wrap">
   <div class="p-eyebrow">Légal</div>
   <div class="p-title">Politique de Confidentialité</div>
-  <div class="p-updated">Dernière mise à jour : 12 août 2026</div>
-
-  <div class="p-sec">
-    <p>Chez <strong>WYK</strong> (Carrefour, Haïti), nous accordons une grande importance à la protection de vos données personnelles. Cette page explique quelles informations nous collectons, pourquoi, et comment nous les protégeons lorsque vous utilisez notre site et nos services.</p>
+  <div class="p-meta-row">
+    <span class="p-updated" id="updatedDate">Dernière mise à jour : 16 août 2026</span>
+    <span class="p-meta-dot"></span>
+    <span class="p-readtime"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 3"/></svg><span id="readTime">2 min de lecture</span></span>
   </div>
 
-  <div class="p-sec">
-    <h2><span class="p-sec-num">1</span>Informations que nous collectons</h2>
+  <p class="p-intro">Chez <strong>WYK</strong> (Carrefour, Haïti), nous accordons une grande importance à la protection de vos données personnelles. Cette page explique quelles informations nous collectons, pourquoi, avec qui elles sont partagées, combien de temps nous les gardons, et quels sont vos droits.</p>
+
+  <!-- TABLE DES MATIÈRES -->
+  <div class="toc-wrap" id="tocWrap">
+    <button class="toc-toggle" onclick="toggleToc()">
+      <span class="toc-toggle-ico"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h10"/></svg></span>
+      <span style="flex:1;text-align:left">
+        <span class="toc-toggle-txt" style="display:block">Table des matières</span>
+        <span class="toc-toggle-sub">12 sections — touchez pour naviguer</span>
+      </span>
+      <span class="toc-chevron"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 9l6 6 6-6"/></svg></span>
+    </button>
+    <div class="toc-body">
+      <div class="toc-list" id="tocList"></div>
+    </div>
+  </div>
+
+  <div class="p-sec" id="sec-1">
+    <h2><span class="p-sec-num">1</span>Qui est responsable de vos données</h2>
+    <div class="p-org">
+      <div class="p-org-row"><span class="p-org-lbl">Nom commercial</span><span class="p-org-val">WYK</span></div>
+      <div class="p-org-row"><span class="p-org-lbl">Localisation</span><span class="p-org-val">Carrefour, Haïti</span></div>
+      <div class="p-org-row"><span class="p-org-lbl">Contact</span><span class="p-org-val">+509 40 30 09 66 (WhatsApp)</span></div>
+      <div class="p-org-row"><span class="p-org-lbl">Rôle</span><span class="p-org-val">Responsable du traitement</span></div>
+    </div>
+    <p class="p-note"><strong>Note :</strong> les informations d'immatriculation légale complètes de l'entreprise (raison sociale, numéro d'identification fiscale) seront ajoutées ici dès leur disponibilité, conformément aux bonnes pratiques de transparence.</p>
+  </div>
+
+  <div class="p-sec" id="sec-2">
+    <h2><span class="p-sec-num">2</span>Informations que nous collectons</h2>
     <p>Lorsque vous créez un compte ou passez une commande sur WYK, nous pouvons collecter :</p>
     <ul>
       <li>Votre nom et pseudo</li>
@@ -96,8 +225,8 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
     </ul>
   </div>
 
-  <div class="p-sec">
-    <h2><span class="p-sec-num">2</span>Comment nous utilisons vos informations</h2>
+  <div class="p-sec" id="sec-3">
+    <h2><span class="p-sec-num">3</span>Comment nous utilisons vos informations</h2>
     <ul>
       <li>Traiter et livrer vos commandes</li>
       <li>Vous contacter au sujet d'une commande (par WhatsApp ou téléphone)</li>
@@ -108,26 +237,40 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
     <p>Nous ne vendons jamais vos données personnelles à des tiers.</p>
   </div>
 
-  <div class="p-sec">
-    <h2><span class="p-sec-num">3</span>Partage des informations</h2>
+  <div class="p-sec" id="sec-4">
+    <h2><span class="p-sec-num">4</span>Partage des informations</h2>
     <p>Vos informations peuvent être partagées uniquement avec :</p>
-    <div class="p-card"><h3>Supabase</h3><p>Notre hébergeur de base de données sécurisée, qui stocke votre compte, vos commandes et vos préférences.</p></div>
-    <div class="p-card"><h3>MonCash / NatCash</h3><p>Nos partenaires de paiement mobile, uniquement au moment de la transaction.</p></div>
-    <div class="p-card"><h3>WhatsApp</h3><p>Utilisé pour confirmer et organiser la livraison de vos commandes.</p></div>
+    <div class="p-card"><h3><span class="p-card-ico"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 7c0-1.66 3.58-3 8-3s8 1.34 8 3-3.58 3-8 3-8-1.34-8-3zm0 0v10c0 1.66 3.58 3 8 3s8-1.34 8-3V7M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"/></svg></span>Supabase</h3><p>Notre hébergeur de base de données sécurisée, qui stocke votre compte, vos commandes et vos préférences.</p></div>
+    <div class="p-card"><h3><span class="p-card-ico"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M17 9V7a5 5 0 00-10 0v2m-2 0h14l1 12H4L5 9z"/></svg></span>MonCash / NatCash</h3><p>Nos partenaires de paiement mobile, uniquement au moment de la transaction.</p></div>
+    <div class="p-card"><h3><span class="p-card-ico"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606a10 10 0 00.446-.52.7.7 0 00.298-.497.5.5 0 00-.025-.52c-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a10 10 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074A11.5 11.5 0 009.9 16.6c1.65 1.14 1.65 1.14 2.25 1.36.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.173-.485.173-1.05 0-1.283z"/></svg></span>WhatsApp</h3><p>Utilisé pour confirmer et organiser la livraison de vos commandes.</p></div>
   </div>
 
-  <div class="p-sec">
-    <h2><span class="p-sec-num">4</span>Cookies et stockage local</h2>
+  <div class="p-sec" id="sec-5">
+    <h2><span class="p-sec-num">5</span>Hébergement et transfert des données</h2>
+    <p>Nos données sont hébergées via Supabase, dont les serveurs peuvent être situés hors d'Haïti (infrastructure cloud internationale). En utilisant nos services, vous acceptez ce transfert, nécessaire au fonctionnement du site. Nous sélectionnons des prestataires appliquant des standards de sécurité reconnus.</p>
+  </div>
+
+  <div class="p-sec" id="sec-6">
+    <h2><span class="p-sec-num">6</span>Durée de conservation</h2>
+    <ul>
+      <li>Les données de compte sont conservées tant que votre compte reste actif</li>
+      <li>L'historique de commandes est conservé pour la gestion de la garantie et du service après-vente</li>
+      <li>En cas de suppression de compte, vos données personnelles sont effacées sous un délai raisonnable, sauf obligation légale de conservation (ex. comptabilité)</li>
+    </ul>
+  </div>
+
+  <div class="p-sec" id="sec-7">
+    <h2><span class="p-sec-num">7</span>Cookies et stockage local</h2>
     <p>Notre site utilise le stockage local de votre navigateur (localStorage) pour retenir votre panier, vos favoris et vos préférences d'affichage (thème clair/sombre). Ces informations restent sur votre appareil et ne sont pas transmises à des tiers publicitaires — WYK n'affiche aucune publicité tierce.</p>
   </div>
 
-  <div class="p-sec">
-    <h2><span class="p-sec-num">5</span>Sécurité de vos données</h2>
+  <div class="p-sec" id="sec-8">
+    <h2><span class="p-sec-num">8</span>Sécurité de vos données</h2>
     <p>Vos données sont stockées de façon chiffrée et sécurisée. L'accès à l'espace d'administration est strictement réservé à l'équipe WYK autorisée. Nous vous recommandons de ne jamais partager votre mot de passe avec qui que ce soit.</p>
   </div>
 
-  <div class="p-sec">
-    <h2><span class="p-sec-num">6</span>Vos droits</h2>
+  <div class="p-sec" id="sec-9">
+    <h2><span class="p-sec-num">9</span>Vos droits</h2>
     <p>Vous pouvez à tout moment :</p>
     <ul>
       <li>Demander à consulter les données que nous détenons sur vous</li>
@@ -135,27 +278,43 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
       <li>Demander la suppression de votre compte et de vos données</li>
       <li>Vous désabonner de la chaîne WhatsApp à tout moment</li>
     </ul>
+    <p class="p-note">Pour exercer un droit, contactez-nous via WhatsApp ci-dessous. Nous répondons généralement sous 5 jours ouvrables.</p>
   </div>
 
-  <div class="p-sec">
-    <h2><span class="p-sec-num">7</span>Mineurs</h2>
+  <div class="p-sec" id="sec-10">
+    <h2><span class="p-sec-num">10</span>Réclamations</h2>
+    <p>Haïti ne dispose pas, à ce jour, d'une autorité nationale dédiée à la protection des données. Si vous estimez que vos données n'ont pas été traitées correctement, contactez-nous en priorité — nous nous engageons à traiter toute plainte avec sérieux et transparence.</p>
+  </div>
+
+  <div class="p-sec" id="sec-11">
+    <h2><span class="p-sec-num">11</span>Mineurs</h2>
     <p>Nos services s'adressent à des personnes majeures. Nous ne collectons pas sciemment de données personnelles auprès de mineurs sans le consentement d'un parent ou tuteur.</p>
   </div>
 
-  <div class="p-sec">
-    <h2><span class="p-sec-num">8</span>Modifications de cette politique</h2>
-    <p>Cette politique peut être mise à jour de temps à autre. La date de dernière mise à jour est indiquée en haut de cette page.</p>
+  <div class="p-sec" id="sec-12">
+    <h2><span class="p-sec-num">12</span>Modifications de cette politique</h2>
+    <p>Cette politique peut être mise à jour de temps à autre. La date de dernière mise à jour est indiquée en haut de cette page. Nous vous invitons à la consulter régulièrement.</p>
   </div>
 
   <div class="p-contact">
     <h3>Une question sur vos données ?</h3>
     <p>Contactez-nous directement, nous répondons rapidement.</p>
-    <a class="p-wa" href="https://wa.me/50940300966" target="_blank">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Contacter sur WhatsApp
-    </a>
+    <div class="p-contact-actions">
+      <a class="p-wa" href="https://wa.me/50940300966" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Contacter sur WhatsApp
+      </a>
+      <button class="p-print" onclick="window.print()">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 9V3h12v6M6 18H4a1 1 0 01-1-1v-6a1 1 0 011-1h16a1 1 0 011 1v6a1 1 0 01-1 1h-2M6 14h12v7H6v-7z"/></svg>
+        Imprimer / PDF
+      </button>
+    </div>
   </div>
 </div>
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Retour en haut">
+  <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
 
 <nav class="bnav">
   <a class="bni" href="index.html"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Accueil</a>
@@ -165,8 +324,82 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 </nav>
 
 <script>
-function toggleTheme(){var h=document.documentElement,d=h.getAttribute('data-theme')==='dark';h.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('wyk-theme',d?'light':'dark')}
-(function(){var t=localStorage.getItem('wyk-theme');if(t)document.documentElement.setAttribute('data-theme',t)})();
+/* ── THÈME ── */
+function toggleTheme(){var h=document.documentElement,d=h.getAttribute('data-theme')==='dark';h.setAttribute('data-theme',d?'light':'dark');try{localStorage.setItem('wyk-theme',d?'light':'dark')}catch(e){}}
+(function(){try{var t=localStorage.getItem('wyk-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}})();
+
+/* ── DÉTECTION JS ACTIF (retire le fallback no-js pour activer les animations) ── */
+document.body.classList.remove('no-js');
+
+/* ── TEMPS DE LECTURE ESTIMÉ (calculé sur le vrai contenu, ~200 mots/min) ── */
+(function(){
+  try{
+    var text=document.querySelector('.wrap').innerText||'';
+    var words=text.trim().split(/\s+/).length;
+    var mins=Math.max(1,Math.round(words/200));
+    document.getElementById('readTime').textContent=mins+' min de lecture';
+  }catch(e){}
+})();
+
+/* ── TABLE DES MATIÈRES : génération auto depuis les <h2> ── */
+var tocList=document.getElementById('tocList');
+var sections=Array.prototype.slice.call(document.querySelectorAll('.p-sec[id]'));
+var tocItems=[];
+sections.forEach(function(sec){
+  var h2=sec.querySelector('h2');
+  if(!h2)return;
+  var num=sec.querySelector('.p-sec-num');
+  var label=h2.textContent.replace(/^\d+/,'').trim();
+  var a=document.createElement('a');
+  a.className='toc-item';a.href='#'+sec.id;
+  a.innerHTML='<span class="toc-num">'+(num?num.textContent:'')+'</span><span>'+label+'</span>';
+  a.addEventListener('click',function(){setTimeout(closeToc,250)});
+  tocList.appendChild(a);
+  tocItems.push({id:sec.id,el:a});
+});
+
+function toggleToc(){document.getElementById('tocWrap').classList.toggle('open')}
+function closeToc(){document.getElementById('tocWrap').classList.remove('open')}
+
+/* ── SCROLL-SPY : met en surbrillance la section active dans la table des matières
+   + révèle chaque section en fondu au scroll. Fallback simple si IntersectionObserver absent (vieux Android). ── */
+if('IntersectionObserver' in window){
+  var revealObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in-view');revealObs.unobserve(en.target)}});
+  },{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+  sections.forEach(function(s){revealObs.observe(s)});
+
+  var spyObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      var item=tocItems.find(function(t){return t.id===en.target.id});
+      if(!item)return;
+      if(en.isIntersecting)item.el.classList.add('active');
+      else item.el.classList.remove('active');
+    });
+  },{rootMargin:'-15% 0px -70% 0px'});
+  sections.forEach(function(s){spyObs.observe(s)});
+} else {
+  /* vieux navigateur sans IntersectionObserver : tout reste visible, pas d'animation bloquante */
+  document.body.classList.add('js-fallback');
+}
+
+/* ── BARRE DE PROGRESSION DE LECTURE + BOUTON RETOUR EN HAUT ── */
+var readBar=document.getElementById('readBar');
+var backTop=document.getElementById('backTop');
+var ticking=false;
+function onScroll(){
+  var h=document.documentElement;
+  var scrollTop=h.scrollTop||document.body.scrollTop;
+  var scrollH=(h.scrollHeight||document.body.scrollHeight)-h.clientHeight;
+  var pct=scrollH>0?(scrollTop/scrollH)*100:0;
+  if(readBar)readBar.style.width=Math.min(100,Math.max(0,pct))+'%';
+  if(backTop)backTop.classList.toggle('show',scrollTop>420);
+  ticking=false;
+}
+window.addEventListener('scroll',function(){
+  if(!ticking){window.requestAnimationFrame?requestAnimationFrame(onScroll):onScroll();ticking=true}
+},{passive:true});
+onScroll();
 </script>
 </body>
 </html>
