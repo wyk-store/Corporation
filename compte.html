@@ -342,6 +342,23 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
   .skl{animation:none;background:var(--s2)}
   .mini-list.list-fresh .mini-item{animation:none;opacity:1;transform:none}
 }
+
+/* ── PRO ADDITIONS: points, adresses, commandes, sécurité ── */
+.points-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:100px;padding:4px 10px;font-size:.62rem;font-weight:700;color:#ffd27a;margin-top:6px;margin-left:6px}
+.points-chip svg{width:10px;height:10px;stroke:currentColor;stroke-width:2.5;fill:none}
+.addr-item{position:relative}
+.addr-default-tag{position:absolute;top:8px;right:8px;background:rgba(34,197,94,.12);color:#16a34a;font-size:.6rem;font-weight:800;border-radius:100px;padding:2px 8px;z-index:2}
+.order-status{display:inline-flex;align-items:center;font-size:.6rem;font-weight:800;border-radius:100px;padding:2px 8px;margin-top:4px}
+.order-status.st-en_attente{background:rgba(217,119,6,.12);color:#d97706}
+.order-status.st-confirmee{background:rgba(37,99,235,.12);color:#2563eb}
+.order-status.st-livree{background:rgba(22,163,74,.12);color:#16a34a}
+.order-status.st-annulee{background:rgba(239,68,68,.12);color:#ef4444}
+.add-new-card{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--surface);border:1.5px dashed var(--bdr2);border-radius:16px;padding:14px;font-size:.82rem;font-weight:700;color:var(--red);cursor:pointer;transition:all var(--ease);margin-top:2px}
+.add-new-card:hover{background:var(--red-s);border-color:var(--red)}
+.add-new-card svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.2;fill:none}
+.danger-item{color:#ef4444}
+.danger-item .mi-ico{background:rgba(239,68,68,.1);color:#ef4444}
+.rec-text{font-size:.82rem;color:var(--t2);line-height:1.6;margin-bottom:14px}
 </style>
 </head>
 <body>
@@ -449,7 +466,8 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
         <div class="profile-info">
           <div class="profile-name" id="dashName">Utilisateur WYK</div>
           <div class="profile-email-sm" id="dashEmail">email@exemple.com</div>
-          <div class="profile-member-badge"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>Membre WYK</div>
+          <div class="profile-member-badge" id="memberBadge"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg><span id="memberBadgeText">Membre WYK</span></div>
+          <span class="points-chip" id="pointsChip" style="display:none"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg><span id="pointsVal">0</span>&nbsp;pts</span>
         </div>
         <button class="edit-profile-btn" onclick="openEditModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>
       </div>
@@ -512,6 +530,18 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
     <div id="cartTotalBar"></div>
   </div>
 
+  <!-- ADRESSES -->
+  <div id="addrSection">
+    <div class="sec-lbl a3"><span>📍 Mes adresses</span></div>
+    <div id="addrList" class="mini-list a3"></div>
+  </div>
+
+  <!-- COMMANDES -->
+  <div id="ordersSection">
+    <div class="sec-lbl a3"><span>📦 Historique commandes</span></div>
+    <div id="ordersList" class="mini-list a3"></div>
+  </div>
+
   <!-- MENU -->
   <div class="sec-lbl a4">Aide &amp; Infos</div>
   <div class="menu-list a4">
@@ -538,6 +568,16 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
     <div class="menu-item" onclick="openEditModal()">
       <div class="mi-ico ico-t"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div>
       <div class="mi-body"><div class="mi-name">Modifier mon profil</div><div class="mi-sub">Nom, adresse de livraison</div></div>
+      <div class="mi-arr"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></div>
+    </div>
+    <div class="menu-item" onclick="openPwModal()">
+      <div class="mi-ico ico-b"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path stroke-linecap="round" d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+      <div class="mi-body"><div class="mi-name">Changer mon mot de passe</div><div class="mi-sub">Sécurité du compte</div></div>
+      <div class="mi-arr"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></div>
+    </div>
+    <div class="menu-item danger-item" onclick="requestAccountDeletion()">
+      <div class="mi-ico"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3M4 7h16"/></svg></div>
+      <div class="mi-body"><div class="mi-name">Supprimer mon compte</div><div class="mi-sub">Demande de suppression définitive</div></div>
       <div class="mi-arr"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></div>
     </div>
   </div>
@@ -588,6 +628,56 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
       <div class="m-form-group"><label class="m-lbl">Numéro WhatsApp</label><input class="m-input" type="tel" id="editPhone" placeholder="+509 XXXX XXXX"></div>
       <div class="m-form-group"><label class="m-lbl">Zone de livraison</label><input class="m-input" type="text" id="editZone" placeholder="Ex: Carrefour, rue Macajoux"></div>
       <button class="btn-save" onclick="saveProfile()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Sauvegarder</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ADRESSE -->
+<div class="modal-ov" id="addrModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <div class="modal-title" id="addrModalTitle">Nouvelle adresse</div>
+      <button class="modal-cls" onclick="closeAddrModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="m-form-group"><label class="m-lbl">Nom de l'adresse</label><input class="m-input" type="text" id="addrLabel" placeholder="Ex: Maison, Bureau"></div>
+      <div class="m-form-group"><label class="m-lbl">Numéro WhatsApp</label><input class="m-input" type="tel" id="addrPhone" placeholder="+509 XXXX XXXX"></div>
+      <div class="m-form-group"><label class="m-lbl">Zone de livraison</label><input class="m-input" type="text" id="addrZone" placeholder="Ex: Carrefour, rue Macajoux"></div>
+      <button class="btn-save" onclick="saveAddress()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Sauvegarder</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CHANGER MOT DE PASSE -->
+<div class="modal-ov" id="pwModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <div class="modal-title">Changer mon mot de passe</div>
+      <button class="modal-cls" onclick="closePwModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="m-form-group"><label class="m-lbl">Nouveau mot de passe</label><input class="m-input" type="password" id="newPw1" placeholder="Minimum 6 caractères"></div>
+      <div class="m-form-group"><label class="m-lbl">Confirmer</label><input class="m-input" type="password" id="newPw2" placeholder="Répéter le mot de passe"></div>
+      <button class="btn-save" onclick="changePassword()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Mettre à jour</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL RÉCUPÉRATION MOT DE PASSE (lien email) -->
+<div class="modal-ov" id="recoveryModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <div class="modal-title">Nouveau mot de passe</div>
+      <button class="modal-cls" onclick="closeRecoveryModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <p class="rec-text">Tu viens de cliquer sur le lien reçu par email. Choisis ton nouveau mot de passe WYK ci-dessous.</p>
+      <div class="m-form-group"><input class="m-input" type="password" id="recPw1" placeholder="Nouveau mot de passe"></div>
+      <div class="m-form-group"><input class="m-input" type="password" id="recPw2" placeholder="Confirmer le mot de passe"></div>
+      <button class="btn-save" onclick="confirmRecovery()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Confirmer</button>
     </div>
   </div>
 </div>
@@ -766,11 +856,28 @@ function updateQty(e,key,delta){
   saveCart(cart);renderCart();
 }
 function clearCart(){if(!getCart().length)return;saveCart([]);renderCart();showToast('Panier vidé')}
-function orderWhatsApp(){
+
+async function orderWhatsApp(){
   var cart=getCart();if(!cart.length)return;
   var total=cart.reduce(function(s,i){return s+Number(i.price)*i.qty},0);
   var msg='Bonjour WYK 👋, voici ma commande :\n\n'+cart.map(function(p){return '• '+p.name+' x'+p.qty+(p.size?' ('+p.size+')':'')+' — '+fmtPrice(Number(p.price)*p.qty)}).join('\n')+'\n\n*Total : '+fmtPrice(total)+'*\n\nMerci !';
   window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');
+
+  /* Enregistrement de la commande + points de fidélité (uniquement si connecté) */
+  if(_currentUser){
+    try{
+      var {error}=await sb.from('orders').insert({user_id:_currentUser.id,items:cart,total:total,status:'en_attente'});
+      if(error){console.error('orders insert',error)}
+      else{
+        var earned=Math.floor(total/100); /* 1 point / 100 HTG dépensés */
+        var current=getProfile();
+        var newPoints=(current.points||0)+earned;
+        await upsertProfile({points:newPoints});
+        renderTier(newPoints);
+        loadOrders();
+      }
+    }catch(e){console.error('order insert',e)}
+  }
 }
 
 /* ══════════════════════════════════
@@ -841,8 +948,43 @@ function closeProdPopup(){document.getElementById('prodPopup').classList.remove(
 document.getElementById('prodPopup').addEventListener('click',function(e){if(e.target===this)closeProdPopup()});
 
 /* ══════════════════════════════════
-   PROFIL
+   PROFIL — synchronisé avec Supabase (table profiles)
 ══════════════════════════════════ */
+var _currentUser=null;
+
+async function loadProfileFromDB(userId){
+  try{
+    var {data,error}=await sb.from('profiles').select('*').eq('id',userId).maybeSingle();
+    if(error)throw error;
+    if(data){localStorage.setItem('wyk-profile',JSON.stringify(data));return data}
+    return null;
+  }catch(e){console.error('loadProfileFromDB',e);return getProfile()}
+}
+
+async function upsertProfile(fields){
+  if(!_currentUser)return false;
+  var payload=Object.assign({id:_currentUser.id,updated_at:new Date().toISOString()},fields);
+  var {error}=await sb.from('profiles').upsert(payload);
+  if(error){showToast('Erreur sauvegarde : '+error.message);return false}
+  var merged=Object.assign(getProfile(),fields);
+  localStorage.setItem('wyk-profile',JSON.stringify(merged));
+  return true;
+}
+
+function tierInfo(points){
+  points=points||0;
+  if(points>=2000)return{name:'Or'};
+  if(points>=500)return{name:'Argent'};
+  return{name:'Bronze'};
+}
+function renderTier(points){
+  points=points||0;
+  var t=tierInfo(points);
+  document.getElementById('memberBadgeText').textContent='Membre '+t.name;
+  document.getElementById('pointsVal').textContent=points;
+  document.getElementById('pointsChip').style.display='inline-flex';
+}
+
 function openEditModal(){
   var p=getProfile();
   document.getElementById('editName').value=p.name||'';
@@ -852,13 +994,142 @@ function openEditModal(){
   document.body.style.overflow='hidden';
 }
 function closeModal(){document.getElementById('editModal').classList.remove('on');document.body.style.overflow=''}
-function saveProfile(){
+async function saveProfile(){
   var p={name:document.getElementById('editName').value.trim(),phone:document.getElementById('editPhone').value.trim(),zone:document.getElementById('editZone').value.trim()};
-  localStorage.setItem('wyk-profile',JSON.stringify(p));
+  var ok=await upsertProfile(p);
+  if(!ok)return;
   if(p.name){document.getElementById('dashName').textContent=p.name;document.getElementById('dashInitial').textContent=p.name.charAt(0).toUpperCase()}
   closeModal();showToast('Profil mis à jour ✓');
 }
 function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
+
+/* ══════════════════════════════════
+   CARNET D'ADRESSES (table addresses)
+══════════════════════════════════ */
+var _addrEditId=null;
+
+async function loadAddresses(){
+  if(!_currentUser)return;
+  var {data,error}=await sb.from('addresses').select('*').eq('user_id',_currentUser.id).order('created_at',{ascending:false});
+  if(error){console.error('loadAddresses',error);return}
+  renderAddresses(data||[]);
+}
+function renderAddresses(list){
+  var el=document.getElementById('addrList');
+  el.innerHTML='';
+  if(!list.length){
+    el.innerHTML='<div class="empty-mini"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 21c-4.418-3.5-8-7.02-8-11a8 8 0 1116 0c0 3.98-3.582 7.5-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Aucune adresse enregistrée.</div>';
+  } else {
+    list.forEach(function(a){
+      var d=document.createElement('div');d.className='mini-item addr-item';
+      d.innerHTML=(a.is_default?'<div class="addr-default-tag">Par défaut</div>':'')
+        +'<div class="mini-img"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 21c-4.418-3.5-8-7.02-8-11a8 8 0 1116 0c0 3.98-3.582 7.5-8 11z"/><circle cx="12" cy="10" r="3"/></svg></div>'
+        +'<div class="mini-body"><div class="mini-name">'+escHtml(a.label||'Adresse')+'</div><div class="mini-sub">'+escHtml(a.zone||'')+(a.phone?' · '+escHtml(a.phone):'')+'</div></div>'
+        +'<button class="mini-rm" title="Supprimer" onclick="deleteAddress(event,\''+a.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>';
+      d.addEventListener('click',function(e){if(!e.target.closest('.mini-rm'))openAddrModal(a)});
+      el.appendChild(d);
+    });
+  }
+  var addCard=document.createElement('div');addCard.className='add-new-card';
+  addCard.innerHTML='<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 4v16m8-8H4"/></svg>Ajouter une adresse';
+  addCard.onclick=function(){openAddrModal()};
+  el.appendChild(addCard);
+}
+function openAddrModal(a){
+  _addrEditId=a?a.id:null;
+  document.getElementById('addrModalTitle').textContent=a?"Modifier l'adresse":'Nouvelle adresse';
+  document.getElementById('addrLabel').value=a?a.label||'':'';
+  document.getElementById('addrPhone').value=a?a.phone||'':'';
+  document.getElementById('addrZone').value=a?a.zone||'':'';
+  document.getElementById('addrModal').classList.add('on');document.body.style.overflow='hidden';
+}
+function closeAddrModal(){document.getElementById('addrModal').classList.remove('on');document.body.style.overflow=''}
+async function saveAddress(){
+  if(!_currentUser)return;
+  var label=document.getElementById('addrLabel').value.trim(),phone=document.getElementById('addrPhone').value.trim(),zone=document.getElementById('addrZone').value.trim();
+  if(!zone){showToast('Indique une zone de livraison');return}
+  var payload={user_id:_currentUser.id,label:label||'Adresse',phone:phone,zone:zone};
+  var q=_addrEditId?sb.from('addresses').update(payload).eq('id',_addrEditId):sb.from('addresses').insert(payload);
+  var {error}=await q;
+  if(error){showToast('Erreur : '+error.message);return}
+  closeAddrModal();showToast('Adresse enregistrée ✓');loadAddresses();
+}
+async function deleteAddress(e,id){
+  e.stopPropagation();
+  var {error}=await sb.from('addresses').delete().eq('id',id);
+  if(error){showToast('Erreur : '+error.message);return}
+  showToast('Adresse supprimée');loadAddresses();
+}
+document.getElementById('addrModal').addEventListener('click',function(e){if(e.target===this)closeAddrModal()});
+
+/* ══════════════════════════════════
+   HISTORIQUE COMMANDES (table orders)
+══════════════════════════════════ */
+function statusLabel(s){return {en_attente:'En attente',confirmee:'Confirmée',livree:'Livrée',annulee:'Annulée'}[s]||'En attente'}
+
+async function loadOrders(){
+  if(!_currentUser)return;
+  var {data,error}=await sb.from('orders').select('*').eq('user_id',_currentUser.id).order('created_at',{ascending:false}).limit(20);
+  if(error){console.error('loadOrders',error);return}
+  renderOrders(data||[]);
+}
+function renderOrders(list){
+  var el=document.getElementById('ordersList');
+  if(!list.length){
+    el.innerHTML='<div class="empty-mini"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M20 7L12 3 4 7m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>Aucune commande pour l\'instant.</div>';
+    return;
+  }
+  el.innerHTML='';
+  list.forEach(function(o){
+    var d=document.createElement('div');d.className='mini-item';
+    var date=new Date(o.created_at);
+    var dstr=date.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
+    var nbItems=(o.items||[]).reduce(function(s,i){return s+(Number(i.qty)||1)},0);
+    d.innerHTML='<div class="mini-img"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M20 7L12 3 4 7m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div>'
+      +'<div class="mini-body"><div class="mini-name">Commande du '+dstr+'</div><div class="mini-sub">'+nbItems+' article'+(nbItems>1?'s':'')+'</div><span class="order-status st-'+(o.status||'en_attente')+'">'+statusLabel(o.status)+'</span></div>'
+      +'<div class="mini-price">'+fmtPrice(o.total)+'</div>';
+    el.appendChild(d);
+  });
+}
+
+/* ══════════════════════════════════
+   SÉCURITÉ — mot de passe / suppression
+══════════════════════════════════ */
+function openPwModal(){document.getElementById('pwModal').classList.add('on');document.body.style.overflow='hidden'}
+function closePwModal(){document.getElementById('pwModal').classList.remove('on');document.body.style.overflow='';document.getElementById('newPw1').value='';document.getElementById('newPw2').value=''}
+async function changePassword(){
+  var p1=document.getElementById('newPw1').value,p2=document.getElementById('newPw2').value;
+  if(p1.length<6){showToast('Minimum 6 caractères');return}
+  if(p1!==p2){showToast('Les mots de passe ne correspondent pas');return}
+  var {error}=await sb.auth.updateUser({password:p1});
+  if(error){showToast('Erreur : '+error.message);return}
+  closePwModal();showToast('Mot de passe mis à jour ✓');
+}
+document.getElementById('pwModal').addEventListener('click',function(e){if(e.target===this)closePwModal()});
+
+function requestAccountDeletion(){
+  if(!_currentUser)return;
+  if(!confirm('Cette action enverra une demande de suppression définitive de ton compte WYK. Continuer ?'))return;
+  var msg='Bonjour WYK 👋, je souhaite supprimer définitivement mon compte ('+_currentUser.email+'). Merci de confirmer.';
+  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');
+  showToast('Demande envoyée via WhatsApp');
+}
+
+/* ══════════════════════════════════
+   RÉCUPÉRATION MOT DE PASSE (lien email "Oublié ?")
+══════════════════════════════════ */
+function closeRecoveryModal(){document.getElementById('recoveryModal').classList.remove('on');document.body.style.overflow=''}
+async function confirmRecovery(){
+  var p1=document.getElementById('recPw1').value,p2=document.getElementById('recPw2').value;
+  if(p1.length<6){showToast('Minimum 6 caractères');return}
+  if(p1!==p2){showToast('Les mots de passe ne correspondent pas');return}
+  var {error}=await sb.auth.updateUser({password:p1});
+  if(error){showToast('Erreur : '+error.message);return}
+  closeRecoveryModal();
+  showToast('Mot de passe défini ✓');
+  history.replaceState(null,'',window.location.pathname);
+}
+document.getElementById('recoveryModal').addEventListener('click',function(e){if(e.target===this)closeRecoveryModal()});
 
 /* ══════════════════════════════════
    AUTH
@@ -899,14 +1170,17 @@ async function resetPassword(e){
 
 async function doLogout(){
   await sb.auth.signOut();
+  _currentUser=null;
   document.getElementById('viewDashboard').classList.remove('active');
   document.getElementById('viewAuth').classList.add('active');
   showToast('Déconnecté avec succès');
 }
 
-function showDashboard(user){
+async function showDashboard(user){
+  _currentUser=user;
   var isAdmin=user.id===ADMIN_UID;
-  var profile=getProfile();
+  var dbProfile=await loadProfileFromDB(user.id);
+  var profile=dbProfile||getProfile();
   var displayName=profile.name||(user.user_metadata&&user.user_metadata.full_name)||user.email.split('@')[0];
   var initial=displayName.charAt(0).toUpperCase();
 
@@ -928,8 +1202,11 @@ function showDashboard(user){
   document.getElementById('viewAuth').classList.remove('active');
   document.getElementById('viewDashboard').classList.add('active');
 
+  renderTier(profile.points||0);
   renderFavs();
   renderCart();
+  loadAddresses();
+  loadOrders();
 }
 
 /* ── INIT ── */
@@ -946,7 +1223,7 @@ function showDashboard(user){
   var safety=setTimeout(hideLoader,6000);
   try{
     var {data:{session}}=await sb.auth.getSession();
-    if(session&&session.user)showDashboard(session.user);
+    if(session&&session.user)await showDashboard(session.user);
   }catch(e){
     console.error('Init WYK compte :',e);
   }finally{
@@ -957,13 +1234,19 @@ function showDashboard(user){
 
 sb.auth.onAuthStateChange(function(event,session){
   try{
+    if(event==='PASSWORD_RECOVERY'){
+      /* L'utilisateur vient de cliquer sur le lien "mot de passe oublié" reçu par email */
+      document.getElementById('recoveryModal').classList.add('on');
+      document.body.style.overflow='hidden';
+      return;
+    }
     if((event==='SIGNED_IN'||event==='TOKEN_REFRESHED')&&session)showDashboard(session.user);
     if(event==='SIGNED_OUT'){document.getElementById('viewDashboard').classList.remove('active');document.getElementById('viewAuth').classList.add('active')}
   }catch(e){console.error('Auth state change WYK :',e)}
 });
 
 document.getElementById('editModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal();closeProdPopup()}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal();closeProdPopup();closeAddrModal();closePwModal();closeRecoveryModal()}});
 </script>
 </body>
 </html>
