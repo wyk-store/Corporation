@@ -346,6 +346,8 @@ select.form-input{cursor:pointer}
 .jg-soon{display:flex;align-items:center;gap:9px;background:var(--s2);border:1px dashed var(--bdr2);border-radius:12px;padding:14px;font-size:.8rem;color:var(--t3)}
 .jg-soon svg{width:16px;height:16px;stroke:var(--t3);stroke-width:1.8;fill:none;flex-shrink:0}
 .jg-count-chip{display:inline-flex;align-items:center;gap:5px;background:var(--s2);border:1px solid var(--bdr);border-radius:100px;padding:4px 10px;font-size:.68rem;font-weight:700;color:var(--t2)}
+.jg-info-box{display:flex;align-items:flex-start;gap:9px;background:var(--gold-s,rgba(245,200,66,.1));border:1px solid rgba(245,200,66,.3);border-radius:12px;padding:11px 13px;font-size:.78rem;color:var(--t2);line-height:1.55;margin-bottom:12px}
+.jg-info-box svg{width:15px;height:15px;stroke:#d97706;stroke-width:2;fill:none;flex-shrink:0;margin-top:1px}
 
 @media(min-width:640px){
   .form-row-3{grid-template-columns:repeat(3,1fr)}
@@ -697,9 +699,9 @@ select.form-input{cursor:pointer}
     <div class="jg-game-pills" id="jgGamePills"></div>
     <select class="form-input" id="jg-select" style="display:none" onchange="onGameSelectChange()">
       <option value="guess">🎯 Devine le Nombre</option>
+      <option value="code">🦖 Dino Run</option>
       <option value="quiz">🧠 Quiz IA</option>
       <option value="wheel">🎡 Roue des Prix</option>
-      <option value="code">🔐 Code Secret</option>
       <option value="snake">🐍 Snake WYK</option>
       <option value="memory">🃏 Memory WYK</option>
     </select>
@@ -790,9 +792,9 @@ select.form-input{cursor:pointer}
     <select class="form-input" id="hist-game-filter" onchange="loadGameHistory()">
       <option value="">Tous les jeux</option>
       <option value="guess">🎯 Devine le Nombre</option>
+      <option value="code">🦖 Dino Run</option>
       <option value="quiz">🧠 Quiz IA</option>
       <option value="wheel">🎡 Roue des Prix</option>
-      <option value="code">🔐 Code Secret</option>
       <option value="snake">🐍 Snake WYK</option>
       <option value="memory">🃏 Memory WYK</option>
     </select>
@@ -1224,9 +1226,9 @@ select.form-input{cursor:pointer}
         <select class="form-input" id="rw-game">
           <option value="all">Tous les jeux</option>
           <option value="guess">🎯 Devine le Nombre</option>
+          <option value="code">🦖 Dino Run</option>
           <option value="quiz">🧠 Quiz IA</option>
           <option value="wheel">🎡 Roue des Prix</option>
-          <option value="code">🔐 Code Secret</option>
           <option value="snake">🐍 Snake WYK</option>
           <option value="memory">🃏 Memory WYK</option>
         </select>
@@ -2138,13 +2140,13 @@ async function loadEmpLogs(){
 // ══════════════════════════════════════════
 // JEUX & CONCOURS
 // ══════════════════════════════════════════
-var GAME_LABELS={guess:'🎯 Devine le Nombre',quiz:'🧠 Quiz IA',wheel:'🎡 Roue des Prix',code:'🔐 Code Secret',snake:'🐍 Snake WYK',memory:'🃏 Memory WYK'};
-var GAME_EMOJI={guess:'🎯',quiz:'🧠',wheel:'🎡',code:'🔐',snake:'🐍',memory:'🃏'};
-var GAMES_WITH_CONFIG=['guess','code']; // jeux ayant des réglages avancés côté joueur (jeux.html)
+var GAME_LABELS={guess:'🎯 Devine le Nombre',code:'🦖 Dino Run',quiz:'🧠 Quiz IA',wheel:'🎡 Roue des Prix',snake:'🐍 Snake WYK',memory:'🃏 Memory WYK'};
+var GAME_EMOJI={guess:'🎯',code:'🦖',quiz:'🧠',wheel:'🎡',snake:'🐍',memory:'🃏'};
+var GAMES_WITH_CONFIG=['guess']; // jeux ayant des réglages avancés côté joueur (jeux.html) — Dino Run n'utilise que la difficulté générale ci-dessus
 var DIFF_INFO={
   normal:'Un indicateur de proximité (chaud / froid) guide le joueur à chaque essai. Le mode le plus accessible — recommandé pour la plupart des joueurs.',
-  hard:'Seule la direction est indiquée (plus haut / plus bas), sans indice de proximité. Pour Code Secret, l\'indice textuel n\'est plus affiché.',
-  ultra:'Comme Difficile, en plus corsé : pour Devine le Nombre, la fourchette s\'élargit automatiquement toutes les 2 tentatives ratées. Pour Code Secret, le clavier numérique se mélange après chaque erreur.'
+  hard:'Seule la direction est indiquée (plus haut / plus bas), sans indice de proximité. Pour Dino Run, la vitesse augmente plus rapidement et le score requis pour débloquer les oiseaux est plus bas.',
+  ultra:'Comme Difficile, en plus corsé : pour Devine le Nombre, la fourchette s\'élargit automatiquement toutes les 2 tentatives ratées. Pour Dino Run, la vitesse maximale est plus élevée et les oiseaux apparaissent beaucoup plus tôt.'
 };
 var _gameSettingsCache={};
 var _currentDifficulty='normal';
@@ -2211,9 +2213,10 @@ function loadGameSettingsForm(){
       +'<div class="form-group"><label class="form-lbl">Essais pour trouver le nombre (dans une partie)</label><input class="form-input" type="number" id="jg-cfg-att" value="'+(cfg.att||7)+'" min="1"></div>'
       +'<div class="form-group"><label class="form-lbl">Extension de la fourchette — mode Ultra (min+max)</label><input class="form-input" type="number" id="jg-cfg-ultra-step" value="'+(cfg.ultra_step||250)+'" min="10"><div class="form-hint">Utilisé uniquement si la difficulté est réglée sur Ultra difficile. La fourchette s\'élargit de cette valeur (répartie de chaque côté) toutes les 2 tentatives.</div></div>';
   } else if(gid==='code'){
-    cfgEl.innerHTML='<div class="form-group"><label class="form-lbl">Code secret (chiffres)</label><input class="form-input" type="text" id="jg-cfg-secret" value="'+(cfg.secret||'2024')+'" style="font-family:monospace"></div>'
-      +'<div class="form-group"><label class="form-lbl">Indice affiché <span style="font-weight:400;text-transform:none;letter-spacing:0">(visible uniquement en mode Normal)</span></label><input class="form-input" type="text" id="jg-cfg-hint" value="'+(cfg.hint||'')+'"></div>'
-      +'<div class="form-group"><label class="form-lbl">Essais pour trouver le code (dans une partie)</label><input class="form-input" type="number" id="jg-cfg-att" value="'+(cfg.att||5)+'" min="1"></div>';
+    cfgEl.innerHTML='<div class="jg-info-box"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
+      +'<span><strong>Ce jeu est maintenant "Dino Run"</strong> (anciennement Code Secret) — un clone du jeu hors-ligne de Chrome. '
+      +'Il n\'utilise plus de code secret ni d\'indice : la vitesse, l\'apparition des cactus/oiseaux et la victoire (score entre 1000 et 1050) sont gérées automatiquement côté client selon le niveau de difficulté ci-dessus. '
+      +'Seuls les réglages "Disponibilité &amp; essais" et "Difficulté" s\'appliquent à ce jeu — aucun champ supplémentaire n\'est nécessaire ici.</span></div>';
   } else {
     cfgEl.innerHTML='<div class="jg-soon"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Ce jeu n\'a pas encore de paramètres avancés côté joueur — seules la disponibilité et la difficulté générale ci-dessus s\'appliquent.</div>';
   }
@@ -2233,14 +2236,8 @@ async function saveGameSettings(){
       difficulty:difficulty,
       ultra_step:Number(document.getElementById('jg-cfg-ultra-step').value)||250
     };
-  } else if(gid==='code'){
-    cfg={
-      secret:document.getElementById('jg-cfg-secret').value.trim()||'2024',
-      hint:document.getElementById('jg-cfg-hint').value.trim(),
-      att:Number(document.getElementById('jg-cfg-att').value)||5,
-      difficulty:difficulty
-    };
   } else {
+    /* code (Dino Run) et les autres jeux : uniquement la difficulté générale */
     cfg={difficulty:difficulty};
   }
   var {error}=await db.rpc('admin_game_upsert_settings',{p_admin_uid:ADMIN_UID,p_game_id:gid,p_active:active,p_disabled_message:msg,p_daily_attempts:att,p_config:cfg});
