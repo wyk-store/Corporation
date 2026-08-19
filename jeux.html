@@ -997,6 +997,7 @@ var _dinoRAF=null;
 var _dinoLastTs=0;
 var _dinoRunning=false;
 var _dinoOver=false;
+var _dinoWon=false;
 var _dinoSpeed=6;
 var _dinoDistance=0;
 var _dinoScore=0;
@@ -1062,6 +1063,7 @@ function resetDinoState(){
   _dinoNextObstacleDist=420;
   _dinoGroundX=0;
   _dinoOver=false;
+  _dinoWon=false;
   _dinoBirdsUnlocked=false;
 }
 
@@ -1273,6 +1275,7 @@ function spawnDinoObstacle(){
 
 function dinoEndGame(won){
   _dinoOver=true;
+  _dinoWon=won;
   _dinoRunning=false;
   if(_dinoRAF)cancelAnimationFrame(_dinoRAF);
   unbindDinoControls();
@@ -1328,8 +1331,8 @@ function dinoRender(){
   ctx.lineTo(DINO_W,DINO_GROUND);
   ctx.stroke();
   ctx.fillStyle=fg;
-  for(var gx=-48+_dinoGroundX*-1;gx<DINO_W;gx+=48){
-    ctx.fillRect(gx+ ( -( _dinoGroundX)) ,DINO_GROUND+4,20,2);
+  for(var gx=-_dinoGroundX;gx<DINO_W;gx+=48){
+    ctx.fillRect(gx,DINO_GROUND+4,20,2);
   }
 
   /* obstacles */
@@ -1360,7 +1363,7 @@ function dinoRender(){
     ctx.fillStyle=fg;
     ctx.font='800 20px "Syne",sans-serif';
     ctx.textAlign='center';
-    ctx.fillText(_dinoScore>=DINO_WIN_MIN?'VICTOIRE !':'GAME OVER',DINO_W/2,DINO_H/2-6);
+    ctx.fillText(_dinoWon?'VICTOIRE !':'GAME OVER',DINO_W/2,DINO_H/2-6);
     ctx.font='600 11px "DM Sans",sans-serif';
     ctx.fillText('Score : '+Math.min(_dinoScore,DINO_WIN_MAX),DINO_W/2,DINO_H/2+14);
     ctx.textAlign='left';
@@ -1394,7 +1397,7 @@ function dinoDrawDino(ctx,d,dead,color){
   ctx.fillRect(x-6,y+18,10,7);
   ctx.fillRect(x-10,y+14,8,6);
 
-  if(dead&&!(_dinoScore>=DINO_WIN_MIN)){
+  if(dead&&!_dinoWon){
     /* yeux en croix (mort) */
     ctx.fillStyle=_dinoNight?'#111':'#f7f7f7';
     ctx.fillRect(x+27,y+5,5,2);
