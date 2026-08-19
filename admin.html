@@ -315,6 +315,38 @@ select.form-input{cursor:pointer}
 .star-btn svg{width:16px;height:16px;stroke:#f59e0b;stroke-width:1.8;fill:none;transition:fill var(--ease)}
 .star-btn.on svg{fill:#f59e0b}
 
+/* ── JEUX: GAME PICKER PILLS ── */
+.jg-game-pills{display:flex;gap:7px;flex-wrap:wrap}
+.jg-game-pill{display:flex;align-items:center;gap:6px;background:var(--s2);border:1.5px solid var(--bdr);border-radius:11px;padding:9px 13px;font-size:.8rem;font-weight:700;color:var(--t2);transition:all var(--ease)}
+.jg-game-pill:hover{border-color:var(--bdr2);color:var(--text)}
+.jg-game-pill.on{background:var(--red-s);border-color:rgba(232,25,44,.3);color:var(--red)}
+.jg-game-pill .jg-dot{width:6px;height:6px;border-radius:50%;background:var(--t3);flex-shrink:0}
+.jg-game-pill.on .jg-dot{background:var(--red);box-shadow:0 0 6px var(--red)}
+.jg-game-pill .jg-dot.off{background:#ef4444}
+
+/* ── JEUX: DIFFICULTY SELECTOR ── */
+.diff-pills{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.diff-pill{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 6px;border-radius:13px;border:1.5px solid var(--bdr);background:var(--s2);cursor:pointer;transition:all var(--ease);text-align:center}
+.diff-pill svg{width:16px;height:16px;stroke-width:2;fill:none}
+.diff-pill .diff-pill-lbl{font-size:.72rem;font-weight:800}
+.diff-pill[data-lvl="normal"]{color:#16a34a}
+.diff-pill[data-lvl="normal"].on{background:#f0fdf4;border-color:#16a34a}
+.diff-pill[data-lvl="hard"]{color:#d97706}
+.diff-pill[data-lvl="hard"].on{background:#fffbeb;border-color:#d97706}
+.diff-pill[data-lvl="ultra"]{color:var(--red)}
+.diff-pill[data-lvl="ultra"].on{background:var(--red-s);border-color:var(--red)}
+[data-theme="dark"] .diff-pill[data-lvl="normal"].on{background:rgba(22,163,74,.14)}
+[data-theme="dark"] .diff-pill[data-lvl="hard"].on{background:rgba(217,119,6,.14)}
+.diff-pill:not(.on){opacity:.6}
+.diff-pill:not(.on):hover{opacity:1}
+.diff-desc{display:flex;align-items:flex-start;gap:9px;background:var(--s2);border:1px solid var(--bdr);border-radius:12px;padding:11px 13px;font-size:.78rem;color:var(--t2);line-height:1.55}
+.diff-desc svg{width:15px;height:15px;stroke:var(--t3);stroke-width:2;fill:none;flex-shrink:0;margin-top:1px}
+
+/* ── JEUX: MISC ── */
+.jg-soon{display:flex;align-items:center;gap:9px;background:var(--s2);border:1px dashed var(--bdr2);border-radius:12px;padding:14px;font-size:.8rem;color:var(--t3)}
+.jg-soon svg{width:16px;height:16px;stroke:var(--t3);stroke-width:1.8;fill:none;flex-shrink:0}
+.jg-count-chip{display:inline-flex;align-items:center;gap:5px;background:var(--s2);border:1px solid var(--bdr);border-radius:100px;padding:4px 10px;font-size:.68rem;font-weight:700;color:var(--t2)}
+
 @media(min-width:640px){
   .form-row-3{grid-template-columns:repeat(3,1fr)}
   .stat-row{grid-template-columns:repeat(4,1fr)}
@@ -654,10 +686,16 @@ select.form-input{cursor:pointer}
 
 <!-- ═══════ JEUX ═══════ -->
 <div class="panel" id="panel-jeux">
-  <div class="sec-hd"><h2>Réglages du <em>jeu</em></h2></div>
-  <div class="form-group">
-    <label class="form-lbl">Jeu</label>
-    <select class="form-input" id="jg-select" onchange="loadGameSettingsForm()">
+  <div class="sec-hd"><h2>Jeux &amp; <em>Concours</em></h2></div>
+
+  <!-- Sélection du jeu -->
+  <div class="home-section">
+    <div class="home-section-title">
+      <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path stroke-linecap="round" d="M12 12h.01M17 12h.01M7 9v6M4 12h6"/></svg>
+      Choisir un <em>jeu</em>
+    </div>
+    <div class="jg-game-pills" id="jgGamePills"></div>
+    <select class="form-input" id="jg-select" style="display:none" onchange="onGameSelectChange()">
       <option value="guess">🎯 Devine le Nombre</option>
       <option value="quiz">🧠 Quiz IA</option>
       <option value="wheel">🎡 Roue des Prix</option>
@@ -666,37 +704,88 @@ select.form-input{cursor:pointer}
       <option value="memory">🃏 Memory WYK</option>
     </select>
   </div>
-  <div class="toggle-row">
-    <span class="toggle-lbl">Jeu accessible aux joueurs</span>
-    <label class="toggle"><input type="checkbox" id="jg-active" checked><div class="toggle-track"></div></label>
+
+  <!-- Disponibilité -->
+  <div class="home-section">
+    <div class="home-section-title">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Disponibilité &amp; <em>essais</em>
+    </div>
+    <div class="toggle-row">
+      <span class="toggle-lbl">Jeu accessible aux joueurs</span>
+      <label class="toggle"><input type="checkbox" id="jg-active" checked><div class="toggle-track"></div></label>
+    </div>
+    <div class="form-group">
+      <label class="form-lbl">Message si désactivé</label>
+      <textarea class="form-input" id="jg-disabled-msg" placeholder="Ex: Ce jeu arrive très bientôt, reste connecté !"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-lbl">Parties autorisées par jour (par joueur)</label>
+      <input class="form-input" type="number" id="jg-daily-attempts" value="3" min="1">
+      <div class="form-hint">Nombre de fois qu'un joueur peut lancer ce jeu chaque jour. Se réinitialise à minuit.</div>
+    </div>
   </div>
-  <div class="form-group">
-    <label class="form-lbl">Message si désactivé</label>
-    <textarea class="form-input" id="jg-disabled-msg" placeholder="Ex: Ce jeu arrive très bientôt, reste connecté !"></textarea>
+
+  <!-- Difficulté -->
+  <div class="home-section">
+    <div class="home-section-title">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      Niveau de <em>difficulté</em>
+    </div>
+    <div class="diff-pills" id="jgDiffPills">
+      <div class="diff-pill" data-lvl="normal" onclick="setDifficulty('normal')">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span class="diff-pill-lbl">Normal</span>
+      </div>
+      <div class="diff-pill" data-lvl="hard" onclick="setDifficulty('hard')">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+        <span class="diff-pill-lbl">Difficile</span>
+      </div>
+      <div class="diff-pill" data-lvl="ultra" onclick="setDifficulty('ultra')">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <span class="diff-pill-lbl">Ultra difficile</span>
+      </div>
+    </div>
+    <input type="hidden" id="jg-cfg-difficulty" value="normal">
+    <div class="diff-desc" id="jgDiffDesc"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span></span></div>
   </div>
-  <div class="form-group">
-    <label class="form-lbl">Essais autorisés par jour (par joueur)</label>
-    <input class="form-input" type="number" id="jg-daily-attempts" value="3">
+
+  <!-- Paramètres spécifiques au jeu -->
+  <div class="home-section">
+    <div class="home-section-title">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+      Paramètres du <em>jeu</em>
+    </div>
+    <div id="jg-config-fields"></div>
   </div>
-  <div id="jg-config-fields"></div>
+
   <button class="btn-submit" onclick="saveGameSettings()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Enregistrer les réglages</button>
 
-  <div class="sec-divider" style="margin-top:28px"><span>Récompenses & codes promo</span></div>
+  <!-- Récompenses -->
+  <div class="sec-divider" style="margin-top:28px"><span>🎁 Récompenses &amp; codes promo</span></div>
   <div class="sec-hd" style="margin-top:0">
     <h2 style="font-size:1rem">Codes <em>actifs</em></h2>
     <button class="btn-add" onclick="openRewardModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Ajouter</button>
   </div>
   <div id="rewards-admin-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
 
-  <div class="sec-divider" style="margin-top:24px"><span>Accorder des essais bonus</span></div>
-  <div class="form-group">
-    <label class="form-lbl">Chercher un joueur (email ou pseudo)</label>
-    <input class="form-input" type="text" id="pl-search" placeholder="Ex: jean@gmail.com" onkeydown="if(event.key==='Enter')searchPlayers()">
+  <!-- Joueurs -->
+  <div class="sec-divider" style="margin-top:24px"><span>👤 Joueurs</span></div>
+  <div class="home-section">
+    <div class="home-section-title">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>
+      Accorder des <em>essais bonus</em> / suspendre un compte
+    </div>
+    <div class="form-group">
+      <label class="form-lbl">Chercher un joueur (email ou pseudo)</label>
+      <input class="form-input" type="text" id="pl-search" placeholder="Ex: jean@gmail.com" onkeydown="if(event.key==='Enter')searchPlayers()">
+    </div>
+    <button class="btn-submit" onclick="searchPlayers()" style="margin-bottom:0">Chercher</button>
   </div>
-  <button class="btn-submit" onclick="searchPlayers()" style="margin-bottom:10px">Chercher</button>
   <div id="pl-search-results"></div>
 
-  <div class="sec-divider" style="margin-top:24px"><span>Historique des parties</span></div>
+  <!-- Historique -->
+  <div class="sec-divider" style="margin-top:24px"><span>📜 Historique des parties</span></div>
   <div class="form-group">
     <select class="form-input" id="hist-game-filter" onchange="loadGameHistory()">
       <option value="">Tous les jeux</option>
@@ -710,10 +799,10 @@ select.form-input{cursor:pointer}
   </div>
   <div id="game-history-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
 
-  <div class="sec-divider" style="margin-top:24px"><span>Codes réclamés</span></div>
+  <div class="sec-divider" style="margin-top:24px"><span>🏆 Codes réclamés</span></div>
   <div id="claims-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
 
-  <div class="sec-divider" style="margin-top:24px"><span>Badges de certification</span></div>
+  <div class="sec-divider" style="margin-top:24px"><span>🔵 Badges de certification</span></div>
   <div class="form-group">
     <label class="form-lbl">Chercher un compte (email ou pseudo)</label>
     <input class="form-input" type="text" id="bd-search" placeholder="Ex: marie@gmail.com" onkeydown="if(event.key==='Enter')searchBadgePlayers()">
@@ -2050,17 +2139,61 @@ async function loadEmpLogs(){
 // JEUX & CONCOURS
 // ══════════════════════════════════════════
 var GAME_LABELS={guess:'🎯 Devine le Nombre',quiz:'🧠 Quiz IA',wheel:'🎡 Roue des Prix',code:'🔐 Code Secret',snake:'🐍 Snake WYK',memory:'🃏 Memory WYK'};
+var GAME_EMOJI={guess:'🎯',quiz:'🧠',wheel:'🎡',code:'🔐',snake:'🐍',memory:'🃏'};
+var GAMES_WITH_CONFIG=['guess','code']; // jeux ayant des réglages avancés côté joueur (jeux.html)
+var DIFF_INFO={
+  normal:'Un indicateur de proximité (chaud / froid) guide le joueur à chaque essai. Le mode le plus accessible — recommandé pour la plupart des joueurs.',
+  hard:'Seule la direction est indiquée (plus haut / plus bas), sans indice de proximité. Pour Code Secret, l\'indice textuel n\'est plus affiché.',
+  ultra:'Comme Difficile, en plus corsé : pour Devine le Nombre, la fourchette s\'élargit automatiquement toutes les 2 tentatives ratées. Pour Code Secret, le clavier numérique se mélange après chaque erreur.'
+};
 var _gameSettingsCache={};
+var _currentDifficulty='normal';
 function fmtDateJ(d){try{return new Date(d).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'})}catch(e){return d}}
 
 async function loadJeuxTab(){
   var {data,error}=await db.rpc('admin_game_list_settings',{p_admin_uid:ADMIN_UID});
   if(!error&&data){data.forEach(function(g){_gameSettingsCache[g.game_id]=g});}
+  buildGamePills();
   loadGameSettingsForm();
   loadRewardsAdmin();
   loadGameHistory();
   loadClaims();
   loadBadgesList();
+}
+
+function buildGamePills(){
+  var wrap=document.getElementById('jgGamePills');
+  if(!wrap)return;
+  var sel=document.getElementById('jg-select');
+  var current=sel.value;
+  wrap.innerHTML='';
+  Array.from(sel.options).forEach(function(opt){
+    var gid=opt.value;
+    var g=_gameSettingsCache[gid];
+    var active=g?g.active!==false:true;
+    var pill=document.createElement('button');
+    pill.type='button';
+    pill.className='jg-game-pill'+(gid===current?' on':'');
+    pill.innerHTML='<span class="jg-dot'+(active?'':' off')+'"></span>'+(GAME_EMOJI[gid]||'🎮')+' '+GAME_LABELS[gid].replace(/^\S+\s/,'');
+    pill.onclick=function(){
+      sel.value=gid;
+      onGameSelectChange();
+    };
+    wrap.appendChild(pill);
+  });
+}
+
+function onGameSelectChange(){
+  buildGamePills();
+  loadGameSettingsForm();
+}
+
+function setDifficulty(lvl){
+  _currentDifficulty=lvl;
+  document.getElementById('jg-cfg-difficulty').value=lvl;
+  document.querySelectorAll('.diff-pill').forEach(function(p){p.classList.toggle('on',p.dataset.lvl===lvl)});
+  var descEl=document.getElementById('jgDiffDesc').querySelector('span');
+  if(descEl)descEl.textContent=DIFF_INFO[lvl]||'';
 }
 
 function loadGameSettingsForm(){
@@ -2069,14 +2202,20 @@ function loadGameSettingsForm(){
   document.getElementById('jg-active').checked=g.active!==false;
   document.getElementById('jg-disabled-msg').value=g.disabled_message||'';
   document.getElementById('jg-daily-attempts').value=g.daily_attempts||3;
-  var cfgEl=document.getElementById('jg-config-fields');
   var cfg=g.config||{};
+  setDifficulty(cfg.difficulty||'normal');
+
+  var cfgEl=document.getElementById('jg-config-fields');
   if(gid==='guess'){
-    cfgEl.innerHTML='<div class="form-row"><div class="form-group"><label class="form-lbl">Min</label><input class="form-input" type="number" id="jg-cfg-min" value="'+(cfg.min||1)+'"></div><div class="form-group"><label class="form-lbl">Max</label><input class="form-input" type="number" id="jg-cfg-max" value="'+(cfg.max||100)+'"></div></div><div class="form-group"><label class="form-lbl">Essais pour trouver le nombre (dans une partie)</label><input class="form-input" type="number" id="jg-cfg-att" value="'+(cfg.att||7)+'"></div>';
+    cfgEl.innerHTML='<div class="form-row"><div class="form-group"><label class="form-lbl">Min</label><input class="form-input" type="number" id="jg-cfg-min" value="'+(cfg.min||1)+'"></div><div class="form-group"><label class="form-lbl">Max</label><input class="form-input" type="number" id="jg-cfg-max" value="'+(cfg.max||100)+'"></div></div>'
+      +'<div class="form-group"><label class="form-lbl">Essais pour trouver le nombre (dans une partie)</label><input class="form-input" type="number" id="jg-cfg-att" value="'+(cfg.att||7)+'" min="1"></div>'
+      +'<div class="form-group"><label class="form-lbl">Extension de la fourchette — mode Ultra (min+max)</label><input class="form-input" type="number" id="jg-cfg-ultra-step" value="'+(cfg.ultra_step||250)+'" min="10"><div class="form-hint">Utilisé uniquement si la difficulté est réglée sur Ultra difficile. La fourchette s\'élargit de cette valeur (répartie de chaque côté) toutes les 2 tentatives.</div></div>';
   } else if(gid==='code'){
-    cfgEl.innerHTML='<div class="form-group"><label class="form-lbl">Code secret (chiffres)</label><input class="form-input" type="text" id="jg-cfg-secret" value="'+(cfg.secret||'2024')+'" style="font-family:monospace"></div><div class="form-group"><label class="form-lbl">Indice affiché</label><input class="form-input" type="text" id="jg-cfg-hint" value="'+(cfg.hint||'')+'"></div>';
+    cfgEl.innerHTML='<div class="form-group"><label class="form-lbl">Code secret (chiffres)</label><input class="form-input" type="text" id="jg-cfg-secret" value="'+(cfg.secret||'2024')+'" style="font-family:monospace"></div>'
+      +'<div class="form-group"><label class="form-lbl">Indice affiché <span style="font-weight:400;text-transform:none;letter-spacing:0">(visible uniquement en mode Normal)</span></label><input class="form-input" type="text" id="jg-cfg-hint" value="'+(cfg.hint||'')+'"></div>'
+      +'<div class="form-group"><label class="form-lbl">Essais pour trouver le code (dans une partie)</label><input class="form-input" type="number" id="jg-cfg-att" value="'+(cfg.att||5)+'" min="1"></div>';
   } else {
-    cfgEl.innerHTML='';
+    cfgEl.innerHTML='<div class="jg-soon"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Ce jeu n\'a pas encore de paramètres avancés côté joueur — seules la disponibilité et la difficulté générale ci-dessus s\'appliquent.</div>';
   }
 }
 async function saveGameSettings(){
@@ -2084,12 +2223,30 @@ async function saveGameSettings(){
   var active=document.getElementById('jg-active').checked;
   var msg=document.getElementById('jg-disabled-msg').value.trim();
   var att=Number(document.getElementById('jg-daily-attempts').value)||3;
+  var difficulty=document.getElementById('jg-cfg-difficulty').value||'normal';
   var cfg={};
-  if(gid==='guess'){cfg={min:Number(document.getElementById('jg-cfg-min').value)||1,max:Number(document.getElementById('jg-cfg-max').value)||100,att:Number(document.getElementById('jg-cfg-att').value)||7};}
-  else if(gid==='code'){cfg={secret:document.getElementById('jg-cfg-secret').value.trim()||'2024',hint:document.getElementById('jg-cfg-hint').value.trim()};}
+  if(gid==='guess'){
+    cfg={
+      min:Number(document.getElementById('jg-cfg-min').value)||1,
+      max:Number(document.getElementById('jg-cfg-max').value)||100,
+      att:Number(document.getElementById('jg-cfg-att').value)||7,
+      difficulty:difficulty,
+      ultra_step:Number(document.getElementById('jg-cfg-ultra-step').value)||250
+    };
+  } else if(gid==='code'){
+    cfg={
+      secret:document.getElementById('jg-cfg-secret').value.trim()||'2024',
+      hint:document.getElementById('jg-cfg-hint').value.trim(),
+      att:Number(document.getElementById('jg-cfg-att').value)||5,
+      difficulty:difficulty
+    };
+  } else {
+    cfg={difficulty:difficulty};
+  }
   var {error}=await db.rpc('admin_game_upsert_settings',{p_admin_uid:ADMIN_UID,p_game_id:gid,p_active:active,p_disabled_message:msg,p_daily_attempts:att,p_config:cfg});
   if(error){showToast('Erreur: '+error.message,true);return}
   _gameSettingsCache[gid]={game_id:gid,active,disabled_message:msg,daily_attempts:att,config:cfg};
+  buildGamePills();
   showToast('Réglages enregistrés ✓');
 }
 
