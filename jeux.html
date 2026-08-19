@@ -263,6 +263,18 @@ header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px
 .gh-fill{height:100%;border-radius:2px;transition:width .4s ease}
 .gh-hint{font-size:.64rem;font-weight:700;white-space:nowrap}
 
+/* ── GAME: DINO RUN ── */
+.dino-wrap{padding:0 2px}
+.dino-box{background:#f7f7f7;border:1px solid var(--bdr2);border-radius:16px;overflow:hidden;box-shadow:var(--sh1);position:relative;touch-action:none;user-select:none}
+.dino-box canvas{display:block;width:100%;height:auto;max-width:600px;image-rendering:pixelated}
+.dino-controls-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;flex-wrap:wrap}
+.dino-hint-box{background:var(--s2);border:1px solid var(--bdr);border-radius:12px;padding:10px 14px;font-size:.72rem;color:var(--t2);display:flex;align-items:center;gap:8px;flex:1;min-width:200px}
+.dino-hint-box svg{width:14px;height:14px;stroke:var(--gold);stroke-width:2;fill:none;flex-shrink:0}
+.dino-kbd{display:inline-flex;align-items:center;justify-content:center;background:var(--s3);border:1px solid var(--bdr2);border-radius:6px;padding:1px 7px;font-family:var(--mono);font-size:.68rem;font-weight:700;color:var(--text);margin:0 2px}
+.dino-jump-btn{display:flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--red),#ff3d50);color:#fff;padding:12px 20px;border-radius:13px;font-weight:800;font-size:.82rem;box-shadow:0 4px 16px rgba(232,25,44,.28);flex-shrink:0;transition:transform var(--ease)}
+.dino-jump-btn:active{transform:scale(.95)}
+.dino-target{text-align:center;font-size:.66rem;color:var(--gold);font-weight:700;margin-top:10px}
+
 /* ── GAME: CODE ── */
 .code-wrap{padding:0 2px}
 .code-hint-box{background:var(--s2);border:1px solid var(--bdr);border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:.79rem;color:var(--t2);display:flex;align-items:center;gap:8px}
@@ -453,16 +465,16 @@ header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px
           </div>
         </div>
       </div>
-      <!-- 2. Code secret -->
+      <!-- 2. Dino Run -->
       <div class="game-card gc-cyan" onclick="openGame('code')">
         <div class="gc-accent"></div>
         <div class="gc-inner">
           <div class="gc-top-row">
-            <div class="gc-icon-tile">🔐</div>
+            <div class="gc-icon-tile">🦖</div>
             <span class="gc-diff-pill gc-diff-normal" id="gcd-code">Normal</span>
           </div>
-          <div class="gc-name">Code Secret</div>
-          <div class="gc-desc" id="gcdesc-code">Brisez le code avant d'être à court d'essais</div>
+          <div class="gc-name">Dino Run</div>
+          <div class="gc-desc" id="gcdesc-code">Cours, saute et évite les obstacles le plus longtemps possible</div>
           <div class="gc-quota" id="gcq-code"></div>
           <div class="gc-footer">
             <div class="gc-badge gc-badge-classic"><div class="gc-dot" style="background:var(--cyan)"></div>Classique</div>
@@ -499,12 +511,12 @@ header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px
   </div>
 </div>
 
-<!-- Modal Code -->
+<!-- Modal Code / Dino Run -->
 <div class="modal-ov" id="modal-code">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="modal-hd">
-      <div class="modal-hd-left"><div class="modal-game-ico">🔐</div><div><div class="modal-title">Code Secret</div><div class="modal-sub" id="code-sub">Trouvez le code secret</div></div></div>
+      <div class="modal-hd-left"><div class="modal-game-ico">🦖</div><div><div class="modal-title">Dino Run</div><div class="modal-sub" id="code-sub">Saute par-dessus les obstacles</div></div></div>
       <button class="modal-close" onclick="closeModal('modal-code')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
     <div class="modal-body">
@@ -545,7 +557,7 @@ var _user=null;
 var _isAdmin=false;
 var _isBanned=false;
 var _gameStates={};
-var GAME_LABELS_SHORT={guess:'🎯 Nombre',code:'🔐 Code'};
+var GAME_LABELS_SHORT={guess:'🎯 Nombre',code:'🦖 Dino'};
 var DIFF_LABELS={normal:'Normal',hard:'Difficile',ultra:'Ultra difficile'};
 var DIFF_CLASS={normal:'normal',hard:'hard',ultra:'ultra'};
 
@@ -575,8 +587,12 @@ function switchTab(id,btn){
 }
 
 /* ── MODALS ── */
-function closeModal(id){document.getElementById(id).classList.remove('on');sndClick()}
-document.querySelectorAll('.modal-ov').forEach(function(ov){ov.addEventListener('click',function(e){if(e.target===ov)ov.classList.remove('on')})});
+function closeModal(id){
+  document.getElementById(id).classList.remove('on');
+  sndClick();
+  if(id==='modal-code'&&typeof stopDinoGame==='function')stopDinoGame();
+}
+document.querySelectorAll('.modal-ov').forEach(function(ov){ov.addEventListener('click',function(e){if(e.target===ov)closeModal(ov.id)})});
 
 /* ── AUTH ── */
 async function initAuth(){
@@ -631,6 +647,8 @@ function sndWrong(){playTone(220,.18,'sawtooth',.08)}
 function sndWin(){[523,659,784,1047].forEach(function(f,i){setTimeout(function(){playTone(f,.18,'sine',.09)},i*90)})}
 function sndLose(){playTone(320,.15,'sawtooth',.07);setTimeout(function(){playTone(200,.28,'sawtooth',.07)},120)}
 function sndCoin(){playTone(988,.08,'square',.08);setTimeout(function(){playTone(1319,.16,'square',.08)},80)}
+function sndJump(){playTone(440,.09,'square',.06)}
+function sndHit(){playTone(140,.22,'sawtooth',.1)}
 function toggleSound(){
   _soundMuted=!_soundMuted;localStorage.setItem('wyk_sound_muted',_soundMuted?'1':'0');
   if(!_soundMuted)_ac();
@@ -829,7 +847,13 @@ async function openGame(id){
   if(diffEl){
     var diff=(st.config&&st.config.difficulty)||'normal';
     var icon=diff==='normal'?'<path stroke-linecap="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>':diff==='hard'?'<path stroke-linecap="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>':'<path stroke-linecap="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>';
-    diffEl.innerHTML='<div class="diff-banner '+DIFF_CLASS[diff]+'"><svg viewBox="0 0 24 24">'+icon+'</svg>Mode : '+DIFF_LABELS[diff]+(diff==='ultra'?' — la fourchette s\'élargit en cours de partie !':diff==='hard'?' — indices réduits':'')+'</div>';
+    var suffix='';
+    if(id==='guess'){
+      suffix=diff==='ultra'?' — la fourchette s\'élargit en cours de partie !':diff==='hard'?' — indices réduits':'';
+    } else if(id==='code'){
+      suffix=diff==='ultra'?' — vitesse et obstacles redoutables !':diff==='hard'?' — la vitesse augmente plus vite':'';
+    }
+    diffEl.innerHTML='<div class="diff-banner '+DIFF_CLASS[diff]+'"><svg viewBox="0 0 24 24">'+icon+'</svg>Mode : '+DIFF_LABELS[diff]+suffix+'</div>';
   }
   if(!st.active){
     var area=document.getElementById(id+'-area');
@@ -957,106 +981,478 @@ function submitGuess(){
 }
 
 /* ═══════════════════════════════════════
-   GAME 2: CODE SECRET (avec difficulté)
+   GAME 2: DINO RUN (clone du jeu hors-ligne de Chrome)
+   Remplace l'ancien jeu "Code Secret". Même intégration :
+   initCode(st), modal-code / code-area / code-reward,
+   recordPlay('code', won, score) + showRewardBanner(...).
 ═══════════════════════════════════════ */
-var _codeInput='',_codeLeft=5,_codeOver=false,_codeWrongCount=0;
-var _codeCfg={secret:'2024',hint:'',att:5,difficulty:'normal'};
-var _codeKeys=[1,2,3,4,5,6,7,8,9,'⌫',0,'✓'];
+var DINO_W=600, DINO_H=170, DINO_GROUND=146;
+var DINO_WIN_MIN=1000, DINO_WIN_MAX=1050;
+
+var _dino=null;          // état du dino {x,y,vy,w,h,isJumping,isDucking,duckHeld,frame,frameTimer,onGround}
+var _dinoObstacles=[];
+var _dinoClouds=[];
+var _dinoCtx=null,_dinoCanvas=null;
+var _dinoRAF=null;
+var _dinoLastTs=0;
+var _dinoRunning=false;
+var _dinoOver=false;
+var _dinoSpeed=6;
+var _dinoDistance=0;
+var _dinoScore=0;
+var _dinoHi=0;
+var _dinoNight=false;
+var _dinoNightDist=0;
+var _dinoNextObstacleDist=0;
+var _dinoGroundX=0;
+var _dinoDifficulty='normal';
+var _dinoBirdsUnlocked=false;
+var _dinoCfg={};
+
+/* handlers (référencés pour pouvoir les retirer au nettoyage) */
+var _dinoKeyDownHandler=null,_dinoKeyUpHandler=null;
+var _dinoPtrDownHandler=null,_dinoPtrUpHandler=null,_dinoPtrLeaveHandler=null;
+var _dinoTouchStartHandler=null,_dinoTouchMoveHandler=null,_dinoTouchEndHandler=null;
+var _dinoTouchStartY=0,_dinoTouchSwiped=false,_dinoTouchPendingJump=false,_dinoTouchJumpTimer=null;
 
 function initCode(st){
+  stopDinoGame(); // sécurité si une partie précédente n'a pas été nettoyée
   var cfg=st.config||{};
-  var difficulty=cfg.difficulty||'normal';
-  var secret=String(cfg.secret||'2024');
-  var hint=(difficulty==='normal')?(cfg.hint||''):'';
-  var att=cfg.att||5;
-  _codeCfg={secret:secret,hint:hint,att:att,difficulty:difficulty};
-  _codeInput='';_codeLeft=att;_codeOver=false;_codeWrongCount=0;
-  _codeKeys=[1,2,3,4,5,6,7,8,9,'⌫',0,'✓'];
-  document.getElementById('code-sub').textContent=secret.length+' chiffres · '+att+' essais';
-  renderCodeArea();
-}
+  _dinoDifficulty=cfg.difficulty||'normal';
+  _dinoCfg=cfg;
+  _dinoHi=+(localStorage.getItem('wyk_dino_hi')||0)||0;
 
-function renderCodeArea(){
+  document.getElementById('code-sub').textContent='Espace/tap pour sauter · atteins '+DINO_WIN_MIN+' points pour gagner';
+
   var area=document.getElementById('code-area');
-  var hintHtml=_codeCfg.hint?'<div class="code-hint-box"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>Indice : '+escH(_codeCfg.hint)+'</div>':'';
-  area.innerHTML=hintHtml+'<div class="code-digits" id="codeDigits"></div><div class="code-atts" id="codeAtts"></div><div style="text-align:center;font-size:.68rem;color:var(--t3);margin-bottom:14px" id="codeLeft"></div><div class="numpad" id="numpadWrap"></div>';
-  renderNumpad();
-  updateCodeDisplay();
+  area.innerHTML=
+    '<div class="dino-wrap">'
+    +'<div class="dino-box"><canvas id="dinoCanvas" width="'+DINO_W+'" height="'+DINO_H+'"></canvas></div>'
+    +'<div class="dino-controls-row">'
+      +'<div class="dino-hint-box"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>'
+        +'<span><span class="dino-kbd">Espace</span> ou tap = sauter · <span class="dino-kbd">↓</span> ou glisser vers le bas = s\'accroupir</span></div>'
+      +'<button class="dino-jump-btn" id="dinoJumpBtn" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#fff" stroke-width="2.2"><path stroke-linecap="round" d="M12 19V5m0 0l-6 6m6-6l6 6"/></svg>Sauter</button>'
+    +'</div>'
+    +'<div class="dino-target">🏆 Atteins un score entre '+DINO_WIN_MIN+' et '+DINO_WIN_MAX+' pour remporter une récompense !</div>'
+    +'</div>';
+
+  _dinoCanvas=document.getElementById('dinoCanvas');
+  _dinoCtx=_dinoCanvas.getContext('2d');
+
+  resetDinoState();
+  bindDinoControls();
+  _dinoRunning=true;
+  _dinoLastTs=0;
+  _dinoRAF=requestAnimationFrame(dinoLoop);
 }
 
-function renderNumpad(){
-  var wrap=document.getElementById('numpadWrap');
-  if(!wrap)return;
-  wrap.innerHTML=_codeKeys.map(function(k){
-    var cls=k==='⌫'?'np-del':(k==='✓'?'np-ok':'');
-    return '<button class="np '+cls+'" onclick="npCode(\''+k+'\')">'+k+'</button>';
-  }).join('');
+function resetDinoState(){
+  _dino={
+    x:44,y:DINO_GROUND-47,vy:0,w:44,h:47,
+    isJumping:false,isDucking:false,duckHeld:false,
+    frame:0,frameTimer:0,onGround:true
+  };
+  _dinoObstacles=[];
+  _dinoClouds=[{x:200,y:36},{x:420,y:60},{x:540,y:24}];
+  _dinoSpeed=(_dinoDifficulty==='ultra'?7:_dinoDifficulty==='hard'?6.5:6);
+  _dinoDistance=0;
+  _dinoScore=0;
+  _dinoNight=false;
+  _dinoNightDist=0;
+  _dinoNextObstacleDist=420;
+  _dinoGroundX=0;
+  _dinoOver=false;
+  _dinoBirdsUnlocked=false;
 }
 
-function updateCodeDisplay(){
-  var secret=_codeCfg.secret;
-  var d=document.getElementById('codeDigits');
-  var a=document.getElementById('codeAtts');
-  if(!d||!a)return;
-  var len=secret.length;
-  d.innerHTML=Array.from({length:len},function(_,i){
-    var isActive=!_codeOver&&i===_codeInput.length;
-    return '<div class="code-d '+(isActive?'active':'')+'">'+(_codeInput[i]||'')+'</div>';
-  }).join('');
-  var att=_codeCfg.att;
-  a.innerHTML=Array.from({length:att},function(_,i){return '<div class="code-att '+(i>=_codeLeft?'used':'')+'"></div>'}).join('');
-  var cl=document.getElementById('codeLeft');
-  if(cl)cl.textContent=_codeLeft+' essai'+(_codeLeft>1?'s':'')+' restant'+(_codeLeft>1?'s':'');
-}
+function dinoMaxSpeed(){return _dinoDifficulty==='ultra'?18:_dinoDifficulty==='hard'?15:13}
+function dinoAccel(){return _dinoDifficulty==='ultra'?0.0022:_dinoDifficulty==='hard'?0.0016:0.0010}
+function dinoBirdUnlockScore(){return _dinoDifficulty==='ultra'?90:_dinoDifficulty==='hard'?130:180}
 
-function shuffleNumpad(){
-  var digits=_codeKeys.filter(function(k){return k!=='⌫'&&k!=='✓'});
-  for(var i=digits.length-1;i>0;i--){
-    var j=Math.floor(Math.random()*(i+1));
-    var tmp=digits[i];digits[i]=digits[j];digits[j]=tmp;
-  }
-  var out=[];var di=0;
-  _codeKeys.forEach(function(k){
-    if(k==='⌫'||k==='✓')out.push(k);
-    else{out.push(digits[di]);di++;}
-  });
-  _codeKeys=out;
-  renderNumpad();
-  var wrap=document.getElementById('numpadWrap');
-  if(wrap){wrap.classList.add('shuffling');setTimeout(function(){wrap.classList.remove('shuffling')},350)}
-  showToast('🔀 Le clavier se mélange !',false);
-}
+/* ── Contrôles ── */
+function bindDinoControls(){
+  _dinoKeyDownHandler=function(e){
+    if(!_dinoRunning)return;
+    if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();dinoJumpStart();}
+    else if(e.code==='ArrowDown'){e.preventDefault();dinoDuckStart();}
+  };
+  _dinoKeyUpHandler=function(e){
+    if(!_dinoRunning)return;
+    if(e.code==='Space'||e.code==='ArrowUp'){dinoJumpEnd();}
+    else if(e.code==='ArrowDown'){dinoDuckEnd();}
+  };
+  document.addEventListener('keydown',_dinoKeyDownHandler);
+  document.addEventListener('keyup',_dinoKeyUpHandler);
 
-function npCode(k){
-  if(_codeOver)return;
-  var secret=_codeCfg.secret;
-  if(k==='⌫'){_codeInput=_codeInput.slice(0,-1);updateCodeDisplay();return}
-  if(k==='✓'){
-    if(_codeInput.length<secret.length){showToast('Entrez '+secret.length+' chiffres',false);return}
-    var won=_codeInput===secret;
-    _codeLeft--;
-    if(won||_codeLeft===0){
-      _codeOver=true;
-      var digits=document.querySelectorAll('.code-d');
-      digits.forEach(function(d){d.classList.add(won?'correct':'wrong')});
-      recordPlay('code',won,_codeLeft).then(function(){
-        setTimeout(function(){showRewardBanner('code-reward','code',won)},400);
-      });
-    } else {
-      _codeWrongCount++;
-      var digits2=document.querySelectorAll('.code-d');
-      digits2.forEach(function(d){d.classList.add('wrong');setTimeout(function(){d.classList.remove('wrong')},350)});
-      setTimeout(function(){
-        _codeInput='';updateCodeDisplay();
-        if(_codeCfg.difficulty==='ultra'&&_codeWrongCount%2===0){
-          shuffleNumpad();
-        }
-      },380);
+  _dinoPtrDownHandler=function(e){e.preventDefault();dinoJumpStart();};
+  _dinoPtrUpHandler=function(){dinoJumpEnd();};
+  _dinoPtrLeaveHandler=function(){dinoJumpEnd();};
+  _dinoCanvas.addEventListener('mousedown',_dinoPtrDownHandler);
+  _dinoCanvas.addEventListener('mouseup',_dinoPtrUpHandler);
+  _dinoCanvas.addEventListener('mouseleave',_dinoPtrLeaveHandler);
+
+  _dinoTouchStartHandler=function(e){
+    e.preventDefault();
+    var t=e.touches[0];
+    _dinoTouchStartY=t.clientY;_dinoTouchSwiped=false;_dinoTouchPendingJump=true;
+    clearTimeout(_dinoTouchJumpTimer);
+    _dinoTouchJumpTimer=setTimeout(function(){
+      if(_dinoTouchPendingJump&&!_dinoTouchSwiped){dinoJumpStart();}
+    },30);
+  };
+  _dinoTouchMoveHandler=function(e){
+    if(!e.touches||!e.touches.length)return;
+    var t=e.touches[0];
+    if(!_dinoTouchSwiped&&(t.clientY-_dinoTouchStartY)>26){
+      _dinoTouchSwiped=true;_dinoTouchPendingJump=false;
+      clearTimeout(_dinoTouchJumpTimer);
+      dinoDuckStart();
     }
+  };
+  _dinoTouchEndHandler=function(e){
+    e.preventDefault();
+    if(_dinoTouchSwiped){dinoDuckEnd();}
+    else{
+      if(_dinoTouchPendingJump){clearTimeout(_dinoTouchJumpTimer);dinoJumpStart();}
+      dinoJumpEnd();
+    }
+  };
+  _dinoCanvas.addEventListener('touchstart',_dinoTouchStartHandler,{passive:false});
+  _dinoCanvas.addEventListener('touchmove',_dinoTouchMoveHandler,{passive:false});
+  _dinoCanvas.addEventListener('touchend',_dinoTouchEndHandler,{passive:false});
+
+  var jb=document.getElementById('dinoJumpBtn');
+  if(jb){
+    jb.addEventListener('touchstart',function(e){e.preventDefault();dinoJumpStart();},{passive:false});
+    jb.addEventListener('touchend',function(e){e.preventDefault();dinoJumpEnd();},{passive:false});
+    jb.addEventListener('mousedown',function(e){e.preventDefault();dinoJumpStart();});
+    jb.addEventListener('mouseup',function(){dinoJumpEnd()});
+  }
+}
+function unbindDinoControls(){
+  if(_dinoKeyDownHandler)document.removeEventListener('keydown',_dinoKeyDownHandler);
+  if(_dinoKeyUpHandler)document.removeEventListener('keyup',_dinoKeyUpHandler);
+  if(_dinoCanvas){
+    if(_dinoPtrDownHandler)_dinoCanvas.removeEventListener('mousedown',_dinoPtrDownHandler);
+    if(_dinoPtrUpHandler)_dinoCanvas.removeEventListener('mouseup',_dinoPtrUpHandler);
+    if(_dinoPtrLeaveHandler)_dinoCanvas.removeEventListener('mouseleave',_dinoPtrLeaveHandler);
+    if(_dinoTouchStartHandler)_dinoCanvas.removeEventListener('touchstart',_dinoTouchStartHandler);
+    if(_dinoTouchMoveHandler)_dinoCanvas.removeEventListener('touchmove',_dinoTouchMoveHandler);
+    if(_dinoTouchEndHandler)_dinoCanvas.removeEventListener('touchend',_dinoTouchEndHandler);
+  }
+  clearTimeout(_dinoTouchJumpTimer);
+  _dinoKeyDownHandler=_dinoKeyUpHandler=null;
+  _dinoPtrDownHandler=_dinoPtrUpHandler=_dinoPtrLeaveHandler=null;
+  _dinoTouchStartHandler=_dinoTouchMoveHandler=_dinoTouchEndHandler=null;
+}
+
+function dinoJumpStart(){
+  if(_dinoOver||!_dino)return;
+  if(_dino.isDucking){_dino.isDucking=false;dinoSetDims(false);}
+  if(_dino.isJumping)return;
+  _dino.isJumping=true;_dino.onGround=false;
+  _dino.vy=-11.2;
+  sndJump();
+}
+function dinoJumpEnd(){
+  if(!_dino)return;
+  if(_dino.isJumping&&_dino.vy<-4.5){_dino.vy*=0.45;}
+}
+function dinoDuckStart(){
+  if(_dinoOver||!_dino)return;
+  _dino.duckHeld=true;
+  if(!_dino.isJumping&&!_dino.isDucking){_dino.isDucking=true;dinoSetDims(true);}
+}
+function dinoDuckEnd(){
+  if(!_dino)return;
+  _dino.duckHeld=false;
+  if(_dino.isDucking){_dino.isDucking=false;dinoSetDims(false);}
+}
+function dinoSetDims(ducking){
+  var bottom=_dino.y+_dino.h;
+  if(ducking){_dino.w=58;_dino.h=28;}
+  else{_dino.w=44;_dino.h=47;}
+  _dino.y=bottom-_dino.h;
+}
+
+/* ── Boucle de jeu ── */
+function dinoLoop(ts){
+  if(!_dinoRunning)return;
+  if(!_dinoLastTs)_dinoLastTs=ts;
+  var dt=Math.min((ts-_dinoLastTs)/16.6667,3);
+  _dinoLastTs=ts;
+  if(!_dinoOver)dinoUpdate(dt);
+  dinoRender();
+  _dinoRAF=requestAnimationFrame(dinoLoop);
+}
+
+function dinoUpdate(dt){
+  /* vitesse progressive */
+  _dinoSpeed=Math.min(dinoMaxSpeed(),_dinoSpeed+dinoAccel()*dt*16.6667);
+  var dx=_dinoSpeed*dt;
+  _dinoDistance+=dx;
+  _dinoGroundX=(_dinoGroundX+dx)%48;
+
+  /* score */
+  _dinoScore=Math.floor(_dinoDistance/6);
+
+  /* condition de victoire */
+  if(_dinoScore>=DINO_WIN_MIN){
+    dinoEndGame(true);
     return;
   }
-  if(/^\d$/.test(String(k))){
-    if(_codeInput.length<secret.length){_codeInput+=String(k);updateCodeDisplay()}
+
+  /* déblocage des oiseaux */
+  if(!_dinoBirdsUnlocked&&_dinoScore>=dinoBirdUnlockScore())_dinoBirdsUnlocked=true;
+
+  /* jour/nuit (alterne environ tous les 700 points comme l'original) */
+  _dinoNightDist+=dx;
+  if(_dinoNightDist>4200){_dinoNightDist=0;_dinoNight=!_dinoNight;}
+
+  /* nuages */
+  _dinoClouds.forEach(function(c){c.x-=dx*0.35;});
+  _dinoClouds=_dinoClouds.filter(function(c){return c.x>-60});
+  if(_dinoClouds.length<3&&Math.random()<0.01*dt){
+    _dinoClouds.push({x:DINO_W+40,y:20+Math.random()*50});
+  }
+
+  /* physique du dino */
+  var grav=0.62;
+  if(_dino.isJumping&&_dino.duckHeld)grav*=2.4;
+  _dino.vy+=grav*dt;
+  _dino.y+=_dino.vy*dt;
+  var floorY=DINO_GROUND-_dino.h;
+  if(_dino.y>=floorY){
+    _dino.y=floorY;_dino.vy=0;_dino.isJumping=false;_dino.onGround=true;
+    if(_dino.duckHeld&&!_dino.isDucking){_dino.isDucking=true;dinoSetDims(true);}
+  }
+
+  /* animation du dino (course) */
+  _dino.frameTimer+=dx;
+  if(_dino.frameTimer>10){_dino.frameTimer=0;_dino.frame=_dino.frame?0:1;}
+
+  /* obstacles : génération */
+  if(_dinoDistance>=_dinoNextObstacleDist){
+    spawnDinoObstacle();
+    var gap=Math.max(220,340-_dinoSpeed*6)+Math.random()*180;
+    _dinoNextObstacleDist=_dinoDistance+gap;
+  }
+  /* obstacles : déplacement + collision */
+  for(var i=_dinoObstacles.length-1;i>=0;i--){
+    var o=_dinoObstacles[i];
+    o.x-=dx;
+    if(o.x+o.w<-10){_dinoObstacles.splice(i,1);continue;}
+    if(dinoCollide(_dino,o)){dinoEndGame(false);return;}
+  }
+}
+
+function dinoCollide(d,o){
+  var pad=6; // marge de tolérance comme dans le jeu original
+  var dx1=d.x+pad,dy1=d.y+pad,dx2=d.x+d.w-pad,dy2=d.y+d.h-pad;
+  var ox1=o.x+2,oy1=o.y+2,ox2=o.x+o.w-2,oy2=o.y+o.h-2;
+  return dx1<ox2&&dx2>ox1&&dy1<oy2&&dy2>oy1;
+}
+
+function spawnDinoObstacle(){
+  var canBird=_dinoBirdsUnlocked&&Math.random()<0.35;
+  if(canBird){
+    var heights=[DINO_GROUND-40,DINO_GROUND-70,DINO_GROUND-96];
+    var by=heights[Math.floor(Math.random()*heights.length)];
+    _dinoObstacles.push({type:'bird',x:DINO_W+20,y:by,w:46,h:32,frame:0,frameTimer:0});
+    return;
+  }
+  var kinds=[
+    {w:17,h:35},{w:17,h:35},        // petit cactus simple
+    {w:34,h:35},                     // petit cactus double
+    {w:25,h:50},                     // grand cactus simple
+    {w:50,h:50}                      // grand cactus groupe
+  ];
+  var k=kinds[Math.floor(Math.random()*kinds.length)];
+  _dinoObstacles.push({type:'cactus',x:DINO_W+20,y:DINO_GROUND-k.h,w:k.w,h:k.h});
+}
+
+function dinoEndGame(won){
+  _dinoOver=true;
+  _dinoRunning=false;
+  if(_dinoRAF)cancelAnimationFrame(_dinoRAF);
+  unbindDinoControls();
+  var finalScore=Math.min(_dinoScore,DINO_WIN_MAX);
+  if(finalScore>_dinoHi){_dinoHi=finalScore;try{localStorage.setItem('wyk_dino_hi',String(_dinoHi))}catch(e){}}
+  if(!won)sndHit();
+  dinoRender(); // dernière image (GAME OVER / victoire)
+  recordPlay('code',won,finalScore).then(function(){
+    setTimeout(function(){showRewardBanner('code-reward','code',won,'Score final : '+finalScore+' pts.')},500);
+  });
+}
+
+/* appelé à la fermeture de la modal — nettoie RAF + listeners, comme pour les autres jeux temps réel */
+function stopDinoGame(){
+  _dinoRunning=false;
+  if(_dinoRAF){cancelAnimationFrame(_dinoRAF);_dinoRAF=null;}
+  unbindDinoControls();
+  _dinoLastTs=0;
+}
+
+/* ── Rendu ── */
+function dinoRender(){
+  var ctx=_dinoCtx;if(!ctx)return;
+  var bg=_dinoNight?'#111':'#f7f7f7';
+  var fg=_dinoNight?'#eaeaea':'#535353';
+  ctx.fillStyle=bg;
+  ctx.fillRect(0,0,DINO_W,DINO_H);
+
+  /* ciel : étoiles / lune ou nuages */
+  if(_dinoNight){
+    ctx.fillStyle='#eaeaea';
+    for(var s=0;s<10;s++){
+      var sx=(s*67+((_dinoGroundX*3)|0))%DINO_W;
+      var sy=14+(s*13)%60;
+      ctx.fillRect(sx,sy,2,2);
+    }
+    ctx.beginPath();ctx.arc(DINO_W-60,32,14,0,Math.PI*2);ctx.fill();
+  } else {
+    ctx.fillStyle=fg;
+    ctx.globalAlpha=.35;
+    _dinoClouds.forEach(function(c){
+      ctx.fillRect(c.x,c.y,34,8);
+      ctx.fillRect(c.x+8,c.y-5,20,8);
+    });
+    ctx.globalAlpha=1;
+  }
+
+  /* sol */
+  ctx.strokeStyle=fg;
+  ctx.lineWidth=2;
+  ctx.beginPath();
+  ctx.moveTo(0,DINO_GROUND);
+  ctx.lineTo(DINO_W,DINO_GROUND);
+  ctx.stroke();
+  ctx.fillStyle=fg;
+  for(var gx=-48+_dinoGroundX*-1;gx<DINO_W;gx+=48){
+    ctx.fillRect(gx+ ( -( _dinoGroundX)) ,DINO_GROUND+4,20,2);
+  }
+
+  /* obstacles */
+  ctx.fillStyle=fg;
+  _dinoObstacles.forEach(function(o){
+    if(o.type==='cactus'){
+      dinoDrawCactus(ctx,o);
+    } else {
+      o.frameTimer+=1;
+      if(o.frameTimer>18){o.frameTimer=0;o.frame=o.frame?0:1;}
+      dinoDrawBird(ctx,o);
+    }
+  });
+
+  /* dino */
+  dinoDrawDino(ctx,_dino,_dinoOver,fg);
+
+  /* score HUD */
+  ctx.fillStyle=fg;
+  ctx.font='700 13px "Space Mono",monospace';
+  ctx.textAlign='right';
+  var scoreTxt=String(Math.min(_dinoScore,DINO_WIN_MAX)).padStart(5,'0');
+  var hiTxt=String(_dinoHi).padStart(5,'0');
+  ctx.fillText('HI '+hiTxt+'   '+scoreTxt,DINO_W-14,24);
+  ctx.textAlign='left';
+
+  if(_dinoOver){
+    ctx.fillStyle=fg;
+    ctx.font='800 20px "Syne",sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText(_dinoScore>=DINO_WIN_MIN?'VICTOIRE !':'GAME OVER',DINO_W/2,DINO_H/2-6);
+    ctx.font='600 11px "DM Sans",sans-serif';
+    ctx.fillText('Score : '+Math.min(_dinoScore,DINO_WIN_MAX),DINO_W/2,DINO_H/2+14);
+    ctx.textAlign='left';
+  }
+}
+
+function dinoDrawDino(ctx,d,dead,color){
+  ctx.fillStyle=color;
+  var x=d.x,y=d.y,w=d.w,h=d.h;
+  if(d.isDucking){
+    /* posture accroupie : corps allongé et bas */
+    ctx.fillRect(x,y+h*0.35,w*0.82,h*0.5);           // corps
+    ctx.fillRect(x+w*0.66,y,w*0.34,h*0.55);           // tête
+    ctx.fillRect(x+w*0.9,y+h*0.12,w*0.14,h*0.14);     // museau
+    /* jambes qui alternent */
+    var legOff=d.frame?4:0;
+    ctx.fillRect(x+6+legOff,y+h-6,7,6);
+    ctx.fillRect(x+w*0.55-legOff,y+h-6,7,6);
+    /* oeil */
+    ctx.fillStyle=_dinoNight?'#111':'#f7f7f7';
+    ctx.fillRect(x+w*0.78,y+h*0.14,3,3);
+    return;
+  }
+  /* corps debout */
+  ctx.fillRect(x+2,y+16,26,24);                 // torse
+  ctx.fillRect(x+14,y,22,20);                    // tête
+  ctx.fillRect(x+30,y+6,8,7);                    // museau
+  ctx.fillRect(x+4,y+14,10,8);                   // dos/cou
+  ctx.fillRect(x+2,y+18,7,10);                   // petit bras
+  /* queue */
+  ctx.fillRect(x-6,y+18,10,7);
+  ctx.fillRect(x-10,y+14,8,6);
+
+  if(dead&&!(_dinoScore>=DINO_WIN_MIN)){
+    /* yeux en croix (mort) */
+    ctx.fillStyle=_dinoNight?'#111':'#f7f7f7';
+    ctx.fillRect(x+27,y+5,5,2);
+    ctx.fillRect(x+29,y+3,2,5);
+    ctx.fillStyle=color;
+  } else {
+    ctx.fillStyle=_dinoNight?'#111':'#f7f7f7';
+    ctx.fillRect(x+29,y+6,3,3);
+    ctx.fillStyle=color;
+  }
+
+  /* jambes animées */
+  if(!d.onGround){
+    ctx.fillRect(x+8,y+40,7,7);
+    ctx.fillRect(x+20,y+40,7,7);
+  } else {
+    var legOff2=d.frame?5:0;
+    ctx.fillRect(x+8+legOff2,y+40,7,7);
+    ctx.fillRect(x+20-legOff2,y+40,7,7);
+  }
+}
+
+function dinoDrawCactus(ctx,o){
+  var x=o.x,y=o.y,w=o.w,h=o.h;
+  if(w>=45){
+    /* groupe de cactus */
+    ctx.fillRect(x,y+h-38,10,38);
+    ctx.fillRect(x+14,y,10,h);
+    ctx.fillRect(x+14+3,y+8,7,6);
+    ctx.fillRect(x+30,y+h-30,10,30);
+  } else if(w>=30){
+    /* double cactus */
+    ctx.fillRect(x,y+h-28,9,28);
+    ctx.fillRect(x+16,y,9,h);
+    ctx.fillRect(x+20,y+10,7,6);
+  } else if(h>=45){
+    /* grand cactus simple avec bras */
+    ctx.fillRect(x+5,y,8,h);
+    ctx.fillRect(x-4,y+12,9,6);
+    ctx.fillRect(x+18,y+20,9,6);
+  } else {
+    /* petit cactus simple */
+    ctx.fillRect(x+4,y,8,h);
+    ctx.fillRect(x-3,y+10,8,6);
+  }
+}
+
+function dinoDrawBird(ctx,o){
+  var x=o.x,y=o.y;
+  ctx.fillRect(x+10,y+8,26,8);      // corps
+  ctx.fillRect(x+32,y+6,10,5);      // tête
+  ctx.fillRect(x+40,y+7,6,3);       // bec
+  if(o.frame){
+    ctx.fillRect(x,y,16,6);         // aile haute
+    ctx.fillRect(x+18,y+2,14,5);
+  } else {
+    ctx.fillRect(x,y+16,16,6);      // aile basse
+    ctx.fillRect(x+18,y+14,14,5);
   }
 }
 
