@@ -1144,7 +1144,10 @@ async function saveAnnonce() {
     renderAnnonces(); closeModal(); showToast('Annonce publiée');
   } catch(e){
     console.error(e);
-    showToast(e&&e.code==='42P01'?'Table announcements manquante — exécute le SQL':'Erreur publication','err');
+    // DEBUG TEMPORAIRE — affiche le message exact de Supabase.
+    // Une fois le bug identifié et corrigé, tu peux remettre le showToast ci-dessous à la place de l'alert.
+    alert('ERREUR SUPABASE: ' + (e && (e.message || e.code || JSON.stringify(e))));
+    // showToast(e&&e.code==='42P01'?'Table announcements manquante — exécute le SQL':'Erreur publication','err');
   }
   btn.classList.remove('loading');
 }
