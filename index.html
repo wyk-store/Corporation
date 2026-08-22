@@ -457,8 +457,8 @@ mark{background:rgba(232,25,44,.13);color:var(--red);border-radius:3px;padding:0
 .qty-btn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:var(--text);font-size:1.1rem;font-weight:700;transition:background var(--ease)}
 .qty-btn:hover{background:var(--red-s);color:var(--red)}
 .qty-val{width:36px;text-align:center;font-family:'Syne',sans-serif;font-weight:800;font-size:.92rem;color:var(--text)}
-.pop-actions{display:flex;gap:9px;padding:0 18px}
-.pop-add{flex:1;background:var(--text);color:var(--bg);padding:15px;border-radius:15px;font-weight:700;font-size:.92rem;display:flex;align-items:center;justify-content:center;gap:7px;transition:all var(--ease);box-shadow:var(--sh2)}
+.pop-actions{display:flex;gap:9px;padding:0 18px;flex-wrap:wrap}
+.pop-add{flex:1;min-width:150px;background:var(--text);color:var(--bg);padding:15px;border-radius:15px;font-weight:700;font-size:.92rem;display:flex;align-items:center;justify-content:center;gap:7px;transition:all var(--ease);box-shadow:var(--sh2)}
 .pop-add svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.2;fill:none}
 .pop-add:hover{background:var(--red);transform:translateY(-2px);box-shadow:0 8px 26px rgba(232,25,44,.3)}
 .pop-wish-btn{width:52px;height:52px;border-radius:15px;background:var(--s2);border:1.5px solid var(--bdr);display:flex;align-items:center;justify-content:center;transition:all var(--ease);flex-shrink:0}
@@ -466,6 +466,10 @@ mark{background:rgba(232,25,44,.13);color:var(--red);border-radius:3px;padding:0
 .pop-wish-btn.on{border-color:var(--red);background:var(--red-s)}
 .pop-wish-btn.on svg{stroke:var(--red);fill:var(--red)}
 .pop-wish-btn:hover{border-color:var(--red);background:var(--red-s)}
+.pop-share-btn{width:52px;height:52px;border-radius:15px;background:var(--s2);border:1.5px solid var(--bdr);display:flex;align-items:center;justify-content:center;transition:all var(--ease);flex-shrink:0}
+.pop-share-btn svg{width:19px;height:19px;stroke:var(--t2);stroke-width:2;fill:none}
+.pop-share-btn:hover{border-color:var(--red);background:var(--red-s)}
+.pop-share-btn:hover svg{stroke:var(--red)}
 .pop-wa{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;background:#25D366;color:#fff;padding:13px;border-radius:14px;font-weight:700;font-size:.9rem;margin:9px 0 0;transition:all var(--ease)}
 .pop-wa svg{width:17px;height:17px}
 .pop-wa:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(37,211,102,.32)}
@@ -899,6 +903,7 @@ footer{background:#0C0C0B;padding:0 0 90px;overflow:hidden;position:relative;bor
     <div class="pop-actions">
       <button class="pop-add" onclick="addToCartFromPopup()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path stroke-linecap="round" d="M16 10a4 4 0 01-8 0"/></svg>Ajouter au panier</button>
       <button class="pop-wish-btn" id="popWishBtn" onclick="toggleWish()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg></button>
+      <button class="pop-share-btn" id="popShareBtn" onclick="shareProduct(_curProd,_curImgs&&_curImgs[0])" title="Partager" aria-label="Partager"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.6" x2="15.4" y2="6.4"/><line x1="8.6" y1="13.4" x2="15.4" y2="17.6"/></svg></button>
     </div>
     <div class="pop-wa-wrap">
       <button class="pop-wa" id="popWaBtn"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Commander sur WhatsApp</button>
@@ -1187,6 +1192,47 @@ var _tt;
 function showToast(msg){var el=document.getElementById('toastEl');document.getElementById('toastMsg').textContent=msg;el.classList.add('on');clearTimeout(_tt);_tt=setTimeout(function(){el.classList.remove('on')},2600)}
 function escH(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function formatPrice(n){if(!n&&n!==0)return'—';return Number(n).toLocaleString('fr')+' HTG'}
+
+/* ── PARTAGE (Web Share API + fallback WhatsApp) ──
+   navigator.share() avec image jointe fonctionne sur Android/certains navigateurs,
+   pas fiable sur iOS Safari ni sur WhatsApp Desktop. wa.me est le fallback universel (texte + lien, sans image). */
+function getProductShareUrl(prod){
+  var base=location.origin+location.pathname;
+  return base+'?produit='+encodeURIComponent(prod.id);
+}
+async function shareProduct(prod,imgUrl){
+  if(!prod)return;
+  var url=getProductShareUrl(prod);
+  var priceLine=(prod.price!=null&&prod.price!==undefined)?formatPrice(prod.price)+'\n':'';
+  var text=prod.name+'\n'+priceLine+url;
+
+  if(navigator.share&&navigator.canShare&&imgUrl){
+    try{
+      var resp=await fetch(imgUrl,{mode:'cors'});
+      var blob=await resp.blob();
+      var file=new File([blob],'wyk-produit.jpg',{type:blob.type||'image/jpeg'});
+      if(navigator.canShare({files:[file]})){
+        await navigator.share({files:[file],title:prod.name,text:text});
+        return;
+      }
+    }catch(e){/* image indisponible ou refus : on continue vers le fallback texte */}
+  }
+
+  if(navigator.share){
+    try{await navigator.share({title:prod.name,text:text,url:url});return;}
+    catch(e){/* annulé par l'utilisateur ou non supporté : on continue vers wa.me */}
+  }
+
+  window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+}
+
+/* ── LIEN DIRECT VERS UN PRODUIT (?produit=ID) ── */
+function checkDeepLinkProduct(){
+  var pid=new URLSearchParams(location.search).get('produit');
+  if(!pid)return;
+  setTimeout(function(){openPopupById(pid)},250);
+}
+
 function initReveal(){
   var els=document.querySelectorAll('.reveal, .reveal-stagger');
   if(!('IntersectionObserver' in window)){for(var i=0;i<els.length;i++)els[i].classList.add('in');return}
@@ -1313,6 +1359,7 @@ async function loadData(retryCount){
     document.getElementById('statProds').innerHTML=_allProds.length+'<em>+</em>';
     buildSearchCatRow(cats||[]);renderDwCats(cats||[]);
     renderProdGrid(homeProds);renderCatGrid(cats||[]);renderMarquee(cats||[]);renderHeroTrend(homeProds);
+    checkDeepLinkProduct();
   }catch(e){
     console.error('WYK loadData :',e);
     if(retryCount<1){setTimeout(function(){loadData(retryCount+1)},1500);return}
