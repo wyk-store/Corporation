@@ -14,19 +14,21 @@
 ══════════════════════════════════════════
 
 -- 1. Contenu de la page (clé/valeur)
-create table page_content (
+create table if not exists page_content (
   key text primary key,
   value text not null,
   updated_at timestamptz default now()
 );
 alter table page_content enable row level security;
-create policy "read_all"    on page_content for select using (true);
+drop policy if exists "read_all" on page_content;
+create policy "read_all" on page_content for select using (true);
+drop policy if exists "admin_write" on page_content;
 create policy "admin_write" on page_content for all
   using (auth.uid() = 'dcdb1af5-6305-4138-b991-cf3a931740ed')
   with check (auth.uid() = 'dcdb1af5-6305-4138-b991-cf3a931740ed');
 
 -- 2. Avis clients
-create table reviews (
+create table if not exists reviews (
   id uuid default gen_random_uuid() primary key,
   created_at timestamptz default now(),
   name text not null,
@@ -35,10 +37,30 @@ create table reviews (
   text text not null
 );
 alter table reviews enable row level security;
-create policy "read_all"     on reviews for select using (true);
-create policy "insert_all"   on reviews for insert with check (true);
+drop policy if exists "read_all" on reviews;
+create policy "read_all" on reviews for select using (true);
+drop policy if exists "insert_all" on reviews;
+create policy "insert_all" on reviews for insert with check (true);
+drop policy if exists "delete_admin" on reviews;
 create policy "delete_admin" on reviews for delete
   using (auth.uid() = 'dcdb1af5-6305-4138-b991-cf3a931740ed');
+
+-- 3. Annonces (table dédiée, distincte de "promos")
+create table if not exists announcements (
+  id uuid default gen_random_uuid() primary key,
+  created_at timestamptz default now(),
+  type text not null default 'info' check (type in ('update','promo','info','news')),
+  title text not null,
+  description text,
+  active boolean default true
+);
+alter table announcements enable row level security;
+drop policy if exists "read_all" on announcements;
+create policy "read_all" on announcements for select using (true);
+drop policy if exists "admin_write" on announcements;
+create policy "admin_write" on announcements for all
+  using (auth.uid() = 'dcdb1af5-6305-4138-b991-cf3a931740ed')
+  with check (auth.uid() = 'dcdb1af5-6305-4138-b991-cf3a931740ed');
 
 ══════════════════════════════════════════
 */
@@ -1052,7 +1074,7 @@ function doSavePartnerLinks(){ runSave(function(){ ['1','2','3','4'].forEach(fun
 function doSaveWA(){ runSave(function(){ var a=document.getElementById('waLink'); if(a&&pageContent['wa_link']) a.href=pageContent['wa_link']; }); }
 
 // ════════════════════════════════════════
-// ANNONCES
+// ANNONCES — utilise la table dédiée "announcements"
 // ════════════════════════════════════════
 var ANN_TYPES = {
   update:{cls:'annonce-type-update',label:'Mise à jour',icon:'<path stroke-linecap="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>'},
@@ -1064,16 +1086,21 @@ var ANN_TYPES = {
 async function loadAnnonces() {
   try {
     var timeout=new Promise(function(_,rej){setTimeout(function(){rej(new Error('timeout'))},10000)});
-    var res=await Promise.race([db.from('promos').select('*').eq('active',true).order('created_at',{ascending:false}).limit(6),timeout]);
+    var res=await Promise.race([db.from('announcements').select('*').eq('active',true).order('created_at',{ascending:false}).limit(6),timeout]);
+    if(res.error) throw res.error;
     var data=res.data;
-    annonces = (data||[]).map(function(p){
+    annonces = (data||[]).map(function(a){
       return {
-        id:p.id, type:ANN_TYPES[p.subtitle]?p.subtitle:'info',
-        title:p.title, text:p.description||'',
-        date:new Date(p.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long'})
+        id:a.id, type:ANN_TYPES[a.type]?a.type:'info',
+        title:a.title, text:a.description||'',
+        date:new Date(a.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long'})
       };
     });
-  } catch(e) { annonces=[]; console.error('WYK loadAnnonces :',e); }
+  } catch(e) {
+    annonces=[];
+    console.error('WYK loadAnnonces :',e);
+    if(e&&e.code==='42P01') showToast('Table "announcements" manquante — exécute le SQL fourni','err');
+  }
   renderAnnonces();
 }
 
@@ -1111,18 +1138,22 @@ async function saveAnnonce() {
   if(!title){showToast('Titre requis !','err');return;}
   var btn=document.getElementById('btnSave'); btn.classList.add('loading');
   try {
-    var res = await db.from('promos').insert([{title:title,subtitle:type,description:text,active:true}]).select().single();
+    var res = await db.from('announcements').insert([{title:title,type:type,description:text,active:true}]).select().single();
     if(res.error) throw res.error;
     annonces.unshift({id:res.data.id,type:type,title:title,text:text,date:date});
     renderAnnonces(); closeModal(); showToast('Annonce publiée');
-  } catch(e){ console.error(e); showToast('Erreur publication','err'); }
+  } catch(e){
+    console.error(e);
+    showToast(e&&e.code==='42P01'?'Table announcements manquante — exécute le SQL':'Erreur publication','err');
+  }
   btn.classList.remove('loading');
 }
 
 async function deleteAnnonce(id,btnEl) {
   var item=btnEl.closest('.annonce-item'); item.style.opacity='.4';
   try {
-    await db.from('promos').delete().eq('id',id);
+    var res = await db.from('announcements').delete().eq('id',id);
+    if(res.error) throw res.error;
     annonces=annonces.filter(function(a){return a.id!==id}); renderAnnonces(); showToast('Annonce supprimée');
   } catch(e) { item.style.opacity=''; showToast('Erreur','err'); }
 }
