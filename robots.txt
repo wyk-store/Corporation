@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /manager.html
+Disallow: /employe.html
+
+Sitemap: https://wykht.com/sitemap.xml
