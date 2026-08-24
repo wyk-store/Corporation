@@ -306,6 +306,14 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 .prod-price-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .prod-price{font-family:'Syne',sans-serif;font-size:.86rem;font-weight:800;color:var(--red)}
 .prod-old{font-size:.64rem;color:var(--t3);text-decoration:line-through}
+/* ── QUANTITÉ SUR CARTE (comme la page d'accueil) ── */
+.prod-qty-row{display:flex;align-items:center;gap:5px;margin-top:8px}
+.prod-qty-btn{width:22px;height:22px;border-radius:7px;background:var(--s2);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--t2);flex-shrink:0;transition:all var(--ease)}
+.prod-qty-btn:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.prod-qty-val{font-size:.74rem;font-weight:700;color:var(--text);min-width:14px;text-align:center;flex-shrink:0}
+.prod-qty-add{width:24px;height:24px;border-radius:8px;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;margin-left:auto;flex-shrink:0;box-shadow:0 2px 8px rgba(232,25,44,.25);transition:all var(--ease)}
+.prod-qty-add svg{width:12px;height:12px;stroke:#fff}
+.prod-qty-add:hover{background:var(--red-d);transform:scale(1.08)}
 mark{background:rgba(232,25,44,.15);color:var(--red);border-radius:3px;padding:0 2px;font-weight:700}
 .cat-empty{display:flex;flex-direction:column;align-items:center;padding:28px 16px;text-align:center;gap:8px}
 .cat-empty svg{width:32px;height:32px;stroke:var(--bdr2);stroke-width:1.4;fill:none}
@@ -318,7 +326,7 @@ mark{background:rgba(232,25,44,.15);color:var(--red);border-radius:3px;padding:0
 .offres-title em{font-style:normal;color:var(--red)}
 .offres-subtitle{font-size:.75rem;color:var(--t3);margin-top:2px}
 .offres-grid{display:flex;flex-direction:column;gap:12px;padding:0 16px}
-.offre-card{border-radius:20px;overflow:hidden;background:var(--surface);border:1px solid var(--bdr);box-shadow:var(--sh2);cursor:pointer;transition:transform var(--ease),box-shadow var(--ease)}
+.offre-card{border-radius:20px;overflow:hidden;background:var(--surface);border:1px solid var(--bdr);box-shadow:var(--sh2);cursor:pointer;transition:transform var(--ease),box-shadow var(--ease);scroll-margin-top:80px}
 .offre-card:hover{transform:translateY(-3px);box-shadow:var(--sh3)}
 /* IMAGE OFFRE — s'adapte à l'orientation réelle de l'image (portrait/paysage/carré),
    via padding-top en % (technique compatible très vieux navigateurs, pas besoin d'aspect-ratio) */
@@ -394,6 +402,14 @@ mark{background:rgba(232,25,44,.15);color:var(--red);border-radius:3px;padding:0
 .sizes-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
 .size-opt{padding:7px 14px;border-radius:100px;border:1.5px solid var(--bdr);color:var(--t2);font-size:.77rem;font-weight:600;cursor:pointer;transition:all var(--ease)}
 .size-opt:hover,.size-opt.on{border-color:var(--red);color:var(--red);background:var(--red-s)}
+/* ── QUANTITÉ DANS LA FICHE PRODUIT (popup) ── */
+.pop-qty-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.pop-qty-row .opt-title{margin-bottom:0}
+.pop-qty-controls{display:flex;align-items:center;gap:10px;background:var(--s2);border:1px solid var(--bdr);border-radius:12px;padding:5px 7px}
+.pop-qty-btn{width:30px;height:30px;border-radius:8px;background:var(--surface);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:1.05rem;font-weight:700;color:var(--t2);transition:all var(--ease)}
+.pop-qty-btn:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.pop-qty-btn:active{transform:scale(.92)}
+.pop-qty-val{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:var(--text);min-width:22px;text-align:center}
 .pop-actions{display:flex;gap:8px;padding:0 18px;flex-wrap:wrap}
 .btn-cart{flex:1;min-width:140px;background:var(--red);color:#fff;padding:14px;border-radius:14px;font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 4px 16px rgba(232,25,44,.24);transition:background var(--ease),transform var(--ease)}
 .btn-cart svg{width:17px;height:17px;stroke:#fff;stroke-width:2.2;fill:none}
@@ -712,6 +728,14 @@ img{max-width:100%;border:0}
       <div class="pop-desc" id="popDesc"></div>
       <div id="colorsSec" style="display:none"><div class="opt-title">Couleurs disponibles</div><div class="colors-row" id="colorsRow"></div></div>
       <div id="sizesSec" style="display:none"><div class="opt-title">Taille / Options</div><div class="sizes-row" id="sizesRow"></div></div>
+      <div class="pop-qty-row">
+        <div class="opt-title">Quantité</div>
+        <div class="pop-qty-controls">
+          <button class="pop-qty-btn" onclick="changePopQty(-1)" aria-label="Diminuer">−</button>
+          <span class="pop-qty-val" id="popQtyVal">1</span>
+          <button class="pop-qty-btn" onclick="changePopQty(1)" aria-label="Augmenter">+</button>
+        </div>
+      </div>
     </div>
     <div class="pop-actions">
       <button class="btn-cart" onclick="addToCartFromPopup()">
@@ -818,24 +842,73 @@ async function shareProduct(prod,imgUrl){
 
   window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
 }
-function shareOffer(offer){
+
+/* ── PARTAGE D'UNE OFFRE ── corrige le doublon de lien (le texte contenait déjà l'URL
+   ET navigator.share la rajoutait) + ajoute l'image quand c'est possible + lien précis
+   vers l'offre exacte (?offre=ID) pour un défilement automatique au clic. */
+function getOfferShareUrl(offer){
+  var base=location.origin+location.pathname;
+  return base+'?offre='+encodeURIComponent(offer.id)+'#offres';
+}
+async function shareOffer(offer){
   if(!offer)return;
-  var url=location.origin+location.pathname+'#offres';
-  var text=(offer.title||'Offre WYK')+'\n'+url;
-  if(navigator.share){
-    navigator.share({title:offer.title||'Offre WYK',text:text,url:url}).catch(function(){
-      window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
-    });
-    return;
+  var url=getOfferShareUrl(offer);
+  var text=offer.title||'Offre WYK';
+
+  if(navigator.share&&navigator.canShare&&offer.image_url){
+    try{
+      var resp=await fetch(offer.image_url,{mode:'cors'});
+      var blob=await resp.blob();
+      var file=new File([blob],'wyk-offre.jpg',{type:blob.type||'image/jpeg'});
+      if(navigator.canShare({files:[file]})){
+        await navigator.share({files:[file],title:text,text:text,url:url});
+        return;
+      }
+    }catch(e){/* image indisponible : on continue vers le fallback texte */}
   }
-  window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+
+  if(navigator.share){
+    try{await navigator.share({title:text,text:text,url:url});return;}
+    catch(e){/* annulé ou non supporté */}
+  }
+
+  window.open('https://wa.me/?text='+encodeURIComponent(text+'\n'+url),'_blank');
 }
 
-/* ── LIEN DIRECT VERS UN PRODUIT (?produit=ID) ── */
+/* ── LIEN DIRECT VERS UN PRODUIT (?produit=ID) ──
+   Ouvre la fiche produit ET défile jusqu'à sa carte dans la catégorie (celle-ci est
+   automatiquement dépliée si besoin), pour que la page soit cohérente une fois la
+   fiche refermée. */
 function checkDeepLinkProduct(){
   var pid=new URLSearchParams(location.search).get('produit');
   if(!pid)return;
-  setTimeout(function(){openProd(pid,null)},250);
+  setTimeout(function(){
+    var cat=null;
+    for(var i=0;i<allCats.length;i++){
+      if(allCats[i].products.some(function(p){return p.id===pid})){cat=allCats[i];break}
+    }
+    if(cat){
+      var sec=document.querySelector('.cat-section[data-id="'+cat.id+'"]');
+      if(sec&&!sec.classList.contains('open')){toggleCat(cat.id)}
+      setTimeout(function(){
+        var card=document.querySelector('.prod-card[data-pid="'+pid+'"]');
+        if(card)card.scrollIntoView({behavior:'smooth',block:'center'});
+        openProd(pid,cat.id);
+      },350);
+    } else {
+      openProd(pid,null);
+    }
+  },250);
+}
+
+/* ── LIEN DIRECT VERS UNE OFFRE (?offre=ID) — défilement précis, pas besoin de parcourir la page ── */
+function checkDeepLinkOffer(){
+  var oid=new URLSearchParams(location.search).get('offre');
+  if(!oid)return;
+  setTimeout(function(){
+    var el=document.getElementById('offer-'+oid);
+    if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+  },500);
 }
 
 /* ── FALLBACK object-fit pour très vieux navigateurs (ex Android 8 / vieux WebView) ──
@@ -909,6 +982,35 @@ function renderCartFloat(){
 function changeQty(key,delta){var cart=getCart();var item=cart.find(function(i){return i.key===key});if(!item)return;item.qty+=delta;if(item.qty<=0)cart=cart.filter(function(i){return i.key!==key});saveCart(cart);updateCartBadge();renderCartFloat();refreshCheckoutBtnState()}
 function removeCartItem(key){saveCart(getCart().filter(function(i){return i.key!==key}));updateCartBadge();renderCartFloat();refreshCheckoutBtnState()}
 function checkoutWA(){var cart=getCart();if(!cart.length)return;var lines=cart.map(function(i){return '• '+i.name+' x'+i.qty+' — '+formatPrice(i.price*i.qty)}).join('\n');var msg='Bonjour WYK 👋, je voudrais commander :\n\n'+lines+'\n\n*Total : '+formatPrice(getTotalPrice(cart))+'*\n\nMerci !';window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(msg),'_blank')}
+
+/* ── AJOUT RAPIDE AVEC QUANTITÉ SUR LA CARTE PRODUIT (comme la page d'accueil) ── */
+function changeCardQty(btn,delta){
+  var row=btn.closest('.prod-qty-row');
+  var span=row.querySelector('.prod-qty-val');
+  var v=Math.max(1,(parseInt(span.textContent)||1)+delta);
+  span.textContent=v;
+}
+function quickAddToCart(btn,pid){
+  var row=btn.closest('.prod-qty-row');
+  var qty=parseInt(row.querySelector('.prod-qty-val').textContent)||1;
+  var prod=allProducts.find(function(p){return p.id===pid});
+  if(!prod)return;
+  var cart=getCart();
+  var existing=cart.find(function(i){return i.key===prod.id});
+  if(existing){existing.qty+=qty}
+  else{cart.push({key:prod.id,id:prod.id,name:prod.name,price:prod.price,img:prod.imgs&&prod.imgs[0]?prod.imgs[0]:null,size:null,qty:qty})}
+  saveCart(cart);updateCartBadge();renderCartFloat();refreshCheckoutBtnState();bumpCartIcon();
+  showToast(qty+' ajouté'+(qty>1?'s':'')+' au panier 🛒');
+  row.querySelector('.prod-qty-val').textContent='1';
+}
+
+/* ── QUANTITÉ DANS LA FICHE PRODUIT (POPUP) ── */
+var curQty=1;
+function changePopQty(delta){
+  curQty=Math.max(1,curQty+delta);
+  var el=document.getElementById('popQtyVal');
+  if(el)el.textContent=curQty;
+}
 
 /* ── FAVORIS ── */
 function getFavs(){try{return JSON.parse(localStorage.getItem('wyk_favs')||'[]')}catch(e){return []}}
@@ -1166,9 +1268,16 @@ function renderAll(){
         var imgHtml=imgSrc?'<img src="'+escH(imgSrc)+'" alt="'+escH(p.name)+'" loading="lazy" onload="objectFitFallback(this)" onerror="this.parentElement.innerHTML=\'<div class=&quot;prod-img-ph&quot;>'+PH_SVG.replace(/"/g,'&quot;')+'<span>Photo</span></div>\'">'
           :'<div class="prod-img-ph">'+PH_SVG+'<span>Photo</span></div>';
         var oldPriceHtml=p.old_price?'<span class="prod-old">'+formatPrice(p.old_price)+'</span>':'';
-        bodyHtml+='<div class="prod-card" onclick="openProd(\''+p.id+'\',\''+cat.id+'\')"><div class="prod-img">'+imgHtml+badgeHtml+'<div class="prod-stock-dot '+stockClass+'"></div></div>'
+        bodyHtml+='<div class="prod-card" data-pid="'+p.id+'" onclick="openProd(\''+p.id+'\',\''+cat.id+'\')"><div class="prod-img">'+imgHtml+badgeHtml+'<div class="prod-stock-dot '+stockClass+'"></div></div>'
           +'<div class="prod-body"><div class="prod-name">'+(q?highlight(p.name,q):escH(p.name))+'</div>'
-          +'<div class="prod-price-row"><span class="prod-price">'+formatPrice(p.price)+'</span>'+oldPriceHtml+'</div></div></div>';
+          +'<div class="prod-price-row"><span class="prod-price">'+formatPrice(p.price)+'</span>'+oldPriceHtml+'</div>'
+          +'<div class="prod-qty-row" onclick="event.stopPropagation()">'
+            +'<button class="prod-qty-btn" onclick="changeCardQty(this,-1)">−</button>'
+            +'<span class="prod-qty-val">1</span>'
+            +'<button class="prod-qty-btn" onclick="changeCardQty(this,1)">+</button>'
+            +'<button class="prod-qty-add" onclick="quickAddToCart(this,\''+p.id+'\')" title="Ajouter au panier"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg></button>'
+          +'</div>'
+          +'</div></div>';
       });
       bodyHtml+='</div>';
     }
@@ -1183,7 +1292,7 @@ function renderAll(){
 }
 
 function toggleCat(id){
-  var sec=document.querySelector('[data-id="'+id+'"]');
+  var sec=document.querySelector('.cat-section[data-id="'+id+'"]');
   if(!sec)return;
   var opening=!sec.classList.contains('open');
   sec.classList.toggle('open');
@@ -1201,6 +1310,8 @@ function openProd(pid,catId){
   if(!prod){for(var i=0;i<allCats.length;i++){prod=allCats[i].products.find(function(p){return p.id===pid});if(prod){cat=allCats[i];break}}}
   if(!prod)return;
   curProd=prod;curCat=cat;gallIdx=0;curImgs=prod.imgs||[];
+  curQty=1;
+  var qtyEl=document.getElementById('popQtyVal');if(qtyEl)qtyEl.textContent='1';
   buildGallery(prod);
   document.getElementById('popImgDl').style.display=curImgs.length?'':'none';
   document.getElementById('popCat').textContent=cat?cat.name:'Produit';
@@ -1223,7 +1334,7 @@ function openProd(pid,catId){
   else ss.style.display='none';
   document.getElementById('popWaBtn').onclick=function(){
     var sz=sr.querySelector('.size-opt.on');
-    var msg='Bonjour WYK, je veux commander : *'+prod.name+'*'+(sz?' — Option : '+sz.textContent:'')+' — Prix : '+formatPrice(prod.price)+'\n\nMerci !';
+    var msg='Bonjour WYK, je veux commander : *'+prod.name+'*'+(sz?' — Option : '+sz.textContent:'')+' — Quantité : '+curQty+' — Prix total : '+formatPrice(prod.price*curQty)+'\n\nMerci !';
     window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(msg),'_blank');
   };
   var favs=getFavs();
@@ -1294,13 +1405,14 @@ function addToCartFromPopup(){
   if(!curProd)return;
   var sz=document.getElementById('sizesRow').querySelector('.size-opt.on');
   var cart=getCart();
+  var qty=curQty||1;
   var key=curProd.id+(sz?'_'+sz.textContent:'');
   var existing=cart.find(function(i){return i.key===key});
-  if(existing){existing.qty++}
-  else{cart.push({key:key,id:curProd.id,name:curProd.name,price:curProd.price,img:curImgs&&curImgs[0]?curImgs[0]:null,size:sz?sz.textContent:null,qty:1})}
+  if(existing){existing.qty+=qty}
+  else{cart.push({key:key,id:curProd.id,name:curProd.name,price:curProd.price,img:curImgs&&curImgs[0]?curImgs[0]:null,size:sz?sz.textContent:null,qty:qty})}
   saveCart(cart);updateCartBadge();renderCartFloat();refreshCheckoutBtnState();
   bumpCartIcon();
-  showToast('Ajouté au panier');closePopup();
+  showToast(qty+' ajouté'+(qty>1?'s':'')+' au panier');closePopup();
   setTimeout(function(){showCart()},300);
 }
 
@@ -1342,17 +1454,19 @@ async function loadOffres(){
     el.innerHTML='';
     data.forEach(function(offre){
       var card=document.createElement('div');card.className='offre-card';
+      card.id='offer-'+offre.id;
       var imgH=offre.image_url
         ?'<div class="offre-img-wrap"><img class="offre-img" src="'+escH(offre.image_url)+'" alt="'+escH(offre.title)+'" loading="lazy" onload="fitOffreImg(this)" onerror="this.closest(\'.offre-img-wrap\').outerHTML=\'<div class=&quot;offre-img-ph&quot;>'+PH_SVG.replace(/"/g,'&quot;')+'<span>Flyer promo</span></div>\'"></div>'
         :'<div class="offre-img-ph">'+PH_SVG+'<span>Flyer promo</span></div>';
       var waMsg=offre.wa_message||('Bonjour WYK, je suis intéressé par l\'offre : '+offre.title);
       card.innerHTML=imgH+'<div class="offre-body"><div class="offre-title-txt">'+escH(offre.title)+'</div>'
         +'<div class="offre-actions">'
-        +'<button class="offre-share-btn" title="Partager" aria-label="Partager" onclick=\'shareOffer('+JSON.stringify({id:offre.id,title:offre.title}).replace(/'/g,"&#39;")+')\'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.6" x2="15.4" y2="6.4"/><line x1="8.6" y1="13.4" x2="15.4" y2="17.6"/></svg></button>'
+        +'<button class="offre-share-btn" title="Partager" aria-label="Partager" onclick=\'shareOffer('+JSON.stringify({id:offre.id,title:offre.title,image_url:offre.image_url||null}).replace(/'/g,"&#39;")+')\'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.6" x2="15.4" y2="6.4"/><line x1="8.6" y1="13.4" x2="15.4" y2="17.6"/></svg></button>'
         +'<a class="offre-wa-btn" href="https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(waMsg)+'" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Commander</a>'
         +'</div></div>';
       el.appendChild(card);
     });
+    checkDeepLinkOffer();
   }catch(e){
     console.error('WYK loadOffres :',e);
     el.innerHTML='<div class="offres-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path stroke-linecap="round" d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><p>Impossible de charger les offres.</p><button class="err-retry" onclick="loadOffres()">Réessayer</button></div>';
