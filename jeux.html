@@ -586,12 +586,43 @@ function switchTab(id,btn){
   if(id==='classement')renderLeaderboard();
 }
 
-/* ── MODALS ── */
+/* ── MODALS ──
+   Gestion du bouton "retour" natif (mobile) : quand une modale de jeu
+   s'ouvre, on pousse une entrée d'historique "fantôme". Un retour
+   physique / geste de retour ferme alors la modale au lieu de quitter
+   le site, comme dans une vraie application. */
+var _modalOpenViaHistory=false;
+
+function openModalHistory(id){
+  var el=document.getElementById(id);
+  if(!el.classList.contains('on')){
+    el.classList.add('on');
+    history.pushState({wykModal:id},'',location.href);
+    _modalOpenViaHistory=true;
+  }
+}
+
 function closeModal(id){
-  document.getElementById(id).classList.remove('on');
+  var el=document.getElementById(id);
+  if(!el.classList.contains('on'))return;
+  el.classList.remove('on');
   sndClick();
   if(id==='modal-code'&&typeof stopDinoGame==='function')stopDinoGame();
+  if(_modalOpenViaHistory){
+    _modalOpenViaHistory=false;
+    history.back();
+  }
 }
+
+window.addEventListener('popstate',function(){
+  var openEl=document.querySelector('.modal-ov.on');
+  if(openEl){
+    openEl.classList.remove('on');
+    if(openEl.id==='modal-code'&&typeof stopDinoGame==='function')stopDinoGame();
+    _modalOpenViaHistory=false;
+  }
+});
+
 document.querySelectorAll('.modal-ov').forEach(function(ov){ov.addEventListener('click',function(e){if(e.target===ov)closeModal(ov.id)})});
 
 /* ── AUTH ── */
@@ -811,8 +842,13 @@ function copyCode(code){
   else showToast('Code : '+code);
 }
 function closeAndRetry(gameId){
-  closeModal('modal-'+gameId);
-  setTimeout(function(){openGame(gameId)},200);
+  /* On garde la modale ouverte (pas besoin de fermer l'onglet / la fiche
+     du jeu) et on relance directement une nouvelle partie avec un état
+     frais depuis le serveur (quota, config, difficulté...). */
+  sndClick();
+  var rb=document.getElementById(gameId+'-reward');
+  if(rb){rb.classList.remove('show');rb.innerHTML='';}
+  openGame(gameId);
 }
 
 /* ── LEADERBOARD ── */
@@ -840,7 +876,7 @@ async function openGame(id){
   if(res.error||!res.data||!res.data.length){showToast('Erreur de chargement du jeu',false);return}
   var st=res.data[0];
   _gameStates[id]=st;
-  document.getElementById('modal-'+id).classList.add('on');
+  openModalHistory('modal-'+id);
   var rb=document.getElementById(id+'-reward');
   if(rb){rb.classList.remove('show');rb.innerHTML=''}
   var diffEl=document.getElementById(id+'-diff-banner');
