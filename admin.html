@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{
   --bg:#F7F7F5;--surface:#FFFFFF;--s2:#F0F0EE;--s3:#E8E8E4;
@@ -680,10 +681,26 @@ select.form-input{cursor:pointer}
   <div id="all-employees-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
 
   <div class="sec-divider" style="margin-top:24px"><span>Historique — managers</span></div>
+  <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+    <button class="btn-save-section" onclick="exportAdminLogsPDF(null,'manager')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>Exporter (managers)</button>
+    <button class="btn-save-section" style="color:#ef4444" onclick="deleteAdminLogs(null,'manager')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>Vider (managers)</button>
+  </div>
   <div id="mgr-logs-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
 
   <div class="sec-divider" style="margin-top:24px"><span>Historique — employés</span></div>
+  <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+    <button class="btn-save-section" onclick="exportAdminLogsPDF(null,'employee')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>Exporter (employés)</button>
+    <button class="btn-save-section" style="color:#ef4444" onclick="deleteAdminLogs(null,'employee')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>Vider (employés)</button>
+  </div>
   <div id="emp-logs-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+
+  <div class="sec-divider" style="margin-top:24px"><span>Export global / par personne</span></div>
+  <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+    <button class="btn-save-section" onclick="exportAdminLogsPDF(null,null)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>Export complet</button>
+    <button class="btn-save-section" onclick="pickStaffForAdmin('export')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>Exporter une personne</button>
+    <button class="btn-save-section" style="color:#ef4444" onclick="deleteAdminLogs(null,null)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>Vider TOUT</button>
+    <button class="btn-save-section" style="color:#ef4444" onclick="pickStaffForAdmin('delete')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>Vider pour une personne</button>
+  </div>
 </div>
 
 <!-- ═══════ JEUX ═══════ -->
@@ -2031,6 +2048,7 @@ async function deleteReview(id){
 function fmtDate(d){try{return new Date(d).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'})}catch(e){return d}}
 var ACTION_LABELS={login:'Connexion',product_created:'Produit ajouté',product_updated:'Produit modifié',product_deleted:'Produit supprimé',categories_created:'Catégorie ajoutée',categories_updated:'Catégorie modifiée',categories_deleted:'Catégorie supprimée',promos_created:'Promo ajoutée',promos_updated:'Promo modifiée',promos_deleted:'Promo supprimée',offers_created:'Offre ajoutée',offers_updated:'Offre modifiée',offers_deleted:'Offre supprimée',slides_created:'Slide ajouté',slides_updated:'Slide modifié',slides_deleted:'Slide supprimé',ticker_messages_created:'Message ticker ajouté',ticker_messages_updated:'Message ticker modifié',ticker_messages_deleted:'Message ticker supprimé',reviews_created:'Avis ajouté',reviews_deleted:'Avis supprimé',about_content_created:'Textes accueil modifiés',account_created:'Compte créé',account_enabled:'Compte réactivé',account_disabled:'Compte suspendu',credentials_reset:'Identifiants modifiés',employee_created:'Employé créé',employee_enabled:'Employé réactivé',employee_disabled:'Employé suspendu',employee_credentials_reset:'Identifiants employé modifiés'};
 
+var allStaffCache=[];
 async function loadPersonnel(){
   loadManagers();loadAllEmployees();loadMgrLogs();loadEmpLogs();
 }
@@ -2039,6 +2057,7 @@ async function loadManagers(){
   el.innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
   var {data,error}=await db.rpc('admin_list_staff',{p_admin_uid:ADMIN_UID});
   if(error){el.innerHTML='<div class="empty-state"><p>Erreur de chargement</p></div>';return}
+  allStaffCache=data||[];
   var managers=(data||[]).filter(function(s){return s.role==='manager'});
   if(!managers.length){el.innerHTML='<div class="empty-state"><p>Aucun manager. Clique sur Ajouter !</p></div>';return}
   el.innerHTML='';
@@ -2049,6 +2068,7 @@ async function loadManagers(){
       +'<div class="data-item-actions">'
       +'<label class="toggle" style="margin-right:6px"><input type="checkbox" '+(s.active?'checked':'')+' onchange="toggleStaff(\''+s.id+'\',this.checked)"><div class="toggle-track"></div></label>'
       +'<button class="btn-edit" onclick="openStaffResetModal(\''+s.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>'
+      +'<button class="btn-del" onclick="deleteStaffMember(\''+s.id+'\',\''+String(s.display_name).replace(/'/g,"\\'")+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>'
       +'</div>';
     list.appendChild(item);
   });
@@ -2059,6 +2079,7 @@ async function loadAllEmployees(){
   el.innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
   var {data,error}=await db.rpc('admin_list_staff',{p_admin_uid:ADMIN_UID});
   if(error){el.innerHTML='<div class="empty-state"><p>Erreur de chargement</p></div>';return}
+  allStaffCache=data||[];
   var employees=(data||[]).filter(function(s){return s.role==='employee'});
   var managers=(data||[]).filter(function(s){return s.role==='manager'});
   if(!employees.length){el.innerHTML='<div class="empty-state"><p>Aucun employé pour le moment.</p></div>';return}
@@ -2071,6 +2092,7 @@ async function loadAllEmployees(){
       +'<div class="data-item-actions">'
       +'<label class="toggle" style="margin-right:6px"><input type="checkbox" '+(s.active?'checked':'')+' onchange="toggleStaff(\''+s.id+'\',this.checked)"><div class="toggle-track"></div></label>'
       +'<button class="btn-edit" onclick="openStaffResetModal(\''+s.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>'
+      +'<button class="btn-del" onclick="deleteStaffMember(\''+s.id+'\',\''+String(s.display_name).replace(/'/g,"\\'")+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>'
       +'</div>';
     list.appendChild(item);
   });
@@ -2112,17 +2134,44 @@ async function resetStaffCreds(){
   if(error){showToast('Erreur: '+error.message,true);return}
   showToast('Identifiants mis à jour ✓');closeModal('staffResetModal');loadManagers();loadAllEmployees();
 }
+
+// ── Suppression définitive d'un manager ou employé (nouveau) ──
+async function deleteStaffMember(id,name){
+  if(!confirm('Supprimer définitivement le compte de '+name+' ? Cette action est irréversible.'))return;
+  var keepLogs=confirm("Garder l'historique de cette personne pour archive ?\nOK = garder l'historique · Annuler = tout supprimer aussi");
+  var {error}=await db.rpc('admin_delete_staff',{p_admin_uid:ADMIN_UID,p_staff_id:id,p_delete_logs:!keepLogs});
+  if(error){
+    var msg=error.message==='manager_has_employees'
+      ?'Ce manager a encore des employés — supprime-les ou réassigne-les d\'abord'
+      :('Erreur: '+error.message);
+    showToast(msg,true);return;
+  }
+  showToast('Compte supprimé');loadPersonnel();
+}
+
+// ── Historique regroupé par jour (nouveau rendu) ──
 function renderLogList(elId,data){
   var el=document.getElementById(elId);
   if(!data||!data.length){el.innerHTML='<div class="empty-state"><p>Aucune activité pour le moment.</p></div>';return}
-  el.innerHTML='';
-  var list=document.createElement('div');list.className='data-list';
+  var groups={};
   data.forEach(function(l){
-    var item=document.createElement('div');item.className='data-item';
-    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+(l.staff_login||'—')+' — '+(ACTION_LABELS[l.action]||l.action)+'</div><div class="data-item-sub">'+(l.details||'')+' · '+fmtDate(l.created_at)+'</div></div>';
-    list.appendChild(item);
+    var day=new Date(l.created_at).toLocaleDateString('fr-FR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+    (groups[day]=groups[day]||[]).push(l);
   });
-  el.appendChild(list);
+  el.innerHTML='';
+  Object.keys(groups).forEach(function(day){
+    var hd=document.createElement('div');hd.className='sec-divider';hd.style.margin='16px 0 8px';
+    hd.innerHTML='<span>'+day.charAt(0).toUpperCase()+day.slice(1)+'</span>';
+    el.appendChild(hd);
+    var list=document.createElement('div');list.className='data-list';
+    groups[day].forEach(function(l){
+      var time=new Date(l.created_at).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+      var item=document.createElement('div');item.className='data-item';
+      item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+(l.staff_login||'—')+' — '+(ACTION_LABELS[l.action]||l.action)+'</div><div class="data-item-sub">'+(l.details||'')+'</div></div><span class="data-item-price" style="color:var(--t3);font-size:.7rem;font-weight:700">'+time+'</span>';
+      list.appendChild(item);
+    });
+    el.appendChild(list);
+  });
 }
 async function loadMgrLogs(){
   document.getElementById('mgr-logs-list').innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
@@ -2135,6 +2184,46 @@ async function loadEmpLogs(){
   var {data,error}=await db.rpc('admin_get_logs',{p_admin_uid:ADMIN_UID,p_role:'employee'});
   if(error){document.getElementById('emp-logs-list').innerHTML='<div class="empty-state"><p>Erreur</p></div>';return}
   renderLogList('emp-logs-list',data);
+}
+
+// ── Aide au choix d'une personne (export/suppression historique) ──
+function pickStaffForAdmin(mode){
+  db.rpc('admin_list_staff',{p_admin_uid:ADMIN_UID}).then(function(res){
+    var all=res.data||[];
+    if(!all.length){showToast('Aucun compte',true);return}
+    var names=all.map(function(s,i){return (i+1)+'. '+s.display_name+' ('+s.role+')'}).join('\n');
+    var pick=prompt('Quelle personne ?\n'+names+'\n\nTape le numéro :');
+    var idx=parseInt(pick)-1;
+    if(isNaN(idx)||!all[idx])return;
+    if(mode==='export')exportAdminLogsPDF(all[idx].id,null,all[idx].display_name);
+    else deleteAdminLogs(all[idx].id,null,all[idx].display_name);
+  });
+}
+
+// ── Suppression de l'historique — global, par rôle, ou par personne ──
+async function deleteAdminLogs(staffId,role,name){
+  var confirmMsg=staffId?('Vider l\'historique de '+name+' ?'):(role?('Vider l\'historique de tous les '+role+'s ?'):'Vider TOUT l\'historique ?');
+  if(!confirm(confirmMsg))return;
+  var {error}=await db.rpc('admin_delete_logs',{p_admin_uid:ADMIN_UID,p_staff_id:staffId||null,p_role:role||null});
+  if(error){showToast('Erreur: '+error.message,true);return}
+  showToast('Historique supprimé');loadMgrLogs();loadEmpLogs();
+}
+
+// ── Export PDF de l'historique — global, par rôle, ou par personne ──
+async function exportAdminLogsPDF(staffId,role,name){
+  var {data,error}=await db.rpc('admin_get_logs_for_export',{p_admin_uid:ADMIN_UID,p_staff_id:staffId||null,p_role:role||null});
+  if(error||!data){showToast('Erreur export',true);return}
+  var {jsPDF}=window.jspdf;var doc=new jsPDF();
+  var title='WYK — Historique'+(name?' · '+name:role?(' · '+role+'s'):' complet');
+  doc.setFontSize(14);doc.text(title,14,16);
+  doc.setFontSize(9);doc.text('Généré le '+new Date().toLocaleString('fr-FR'),14,22);
+  var y=32;doc.setFontSize(10);
+  data.forEach(function(l){
+    if(y>280){doc.addPage();y=20;}
+    var line=new Date(l.created_at).toLocaleString('fr-FR')+' — '+l.staff_login+' ('+l.staff_role+') — '+(ACTION_LABELS[l.action]||l.action)+(l.details?(' — '+l.details):'');
+    doc.text(line,14,y,{maxWidth:180});y+=7;
+  });
+  doc.save('wyk_historique'+(name?'_'+name.replace(/\s+/g,'_'):'')+'.pdf');
 }
 
 // ══════════════════════════════════════════
@@ -2446,4 +2535,4 @@ document.addEventListener('keydown',function(e){
 checkExistingSession();
 </script>
 </body>
-  </html>
+</html>
