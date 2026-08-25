@@ -229,7 +229,7 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 
 /* ── ANNONCES ── */
 .annonce-bar{margin:0 16px 16px;border-radius:18px;overflow:hidden;box-shadow:var(--sh2)}
-.annonce-item{padding:13px 15px;display:flex;align-items:flex-start;gap:11px;animation:fu .4s ease both}
+.annonce-item{padding:13px 15px;display:flex;align-items:flex-start;gap:11px;animation:fu .4s ease both;scroll-margin-top:80px}
 .annonce-item+.annonce-item{border-top:1px solid rgba(255,255,255,.08)}
 .annonce-type-update{background:linear-gradient(135deg,#1e3a5f,#1a5276)}
 .annonce-type-promo{background:linear-gradient(135deg,#7d1a1a,#c0392b)}
@@ -245,6 +245,9 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 .annonce-del-btn{background:rgba(255,255,255,.1);border:none;border-radius:7px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background var(--ease)}
 .annonce-del-btn:hover{background:rgba(220,38,38,.4)}
 .annonce-del-btn svg{width:10px;height:10px;stroke:white;stroke-width:2.5;fill:none}
+.annonce-share-btn{background:rgba(255,255,255,.1);border:none;border-radius:7px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background var(--ease)}
+.annonce-share-btn:hover{background:rgba(255,255,255,.22)}
+.annonce-share-btn svg{width:12px;height:12px;stroke:white;stroke-width:2.2;fill:none}
 .annonce-empty{padding:18px;text-align:center;color:rgba(255,255,255,.35);font-size:.8rem;background:rgba(255,255,255,.03);border-radius:18px;margin:0 16px 16px}
 
 /* ── SECTION ── */
@@ -1102,6 +1105,7 @@ async function loadAnnonces() {
     if(e&&e.code==='42P01') showToast('Table "announcements" manquante — exécute le SQL fourni','err');
   }
   renderAnnonces();
+  checkDeepLinkAnnonce();
 }
 
 function renderAnnonces() {
@@ -1113,6 +1117,7 @@ function renderAnnonces() {
     var t=ANN_TYPES[a.type]||ANN_TYPES.info;
     var item=document.createElement('div');
     item.className='annonce-item '+t.cls;
+    item.id='annonce-'+a.id;
     item.style.animationDelay=(i*.07)+'s';
     item.innerHTML=
       '<div class="annonce-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8">'+t.icon+'</svg></div>'+
@@ -1122,6 +1127,7 @@ function renderAnnonces() {
         (a.text?'<div class="annonce-text">'+escHtml(a.text)+'</div>':'')+
         '<div class="annonce-date">'+escHtml(a.date)+'</div>'+
       '</div>'+
+      '<button class="annonce-share-btn" title="Partager" onclick=\'shareAnnonce('+JSON.stringify({id:a.id,title:a.title,text:a.text,type:a.type,date:a.date}).replace(/'/g,"&#39;")+')\'><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.6" x2="15.4" y2="6.4"/><line x1="8.6" y1="13.4" x2="15.4" y2="17.6"/></svg></button>'+
       (isAdmin?'<button class="annonce-del-btn" onclick="deleteAnnonce(\''+a.id+'\',this)">'+
         '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg>'+
       '</button>':'');
@@ -1144,10 +1150,7 @@ async function saveAnnonce() {
     renderAnnonces(); closeModal(); showToast('Annonce publiée');
   } catch(e){
     console.error(e);
-    // DEBUG TEMPORAIRE — affiche le message exact de Supabase.
-    // Une fois le bug identifié et corrigé, tu peux remettre le showToast ci-dessous à la place de l'alert.
-    alert('ERREUR SUPABASE: ' + (e && (e.message || e.code || JSON.stringify(e))));
-    // showToast(e&&e.code==='42P01'?'Table announcements manquante — exécute le SQL':'Erreur publication','err');
+    showToast(e&&e.code==='42P01'?'Table announcements manquante — exécute le SQL':'Erreur publication','err');
   }
   btn.classList.remove('loading');
 }
@@ -1159,6 +1162,130 @@ async function deleteAnnonce(id,btnEl) {
     if(res.error) throw res.error;
     annonces=annonces.filter(function(a){return a.id!==id}); renderAnnonces(); showToast('Annonce supprimée');
   } catch(e) { item.style.opacity=''; showToast('Erreur','err'); }
+}
+
+// ════════════════════════════════════════
+// PARTAGE D'ANNONCE — génère une vraie image (canvas) avec filigrane wykht.com,
+// pas juste un lien texte brut. Défilement automatique précis via ?annonce=ID.
+// ════════════════════════════════════════
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+function wrapText(ctx,text,x,y,maxWidth,lineHeight,maxLines){
+  var words=(text||'').split(' ');
+  var line='',lines=[];
+  for(var i=0;i<words.length;i++){
+    var test=line+words[i]+' ';
+    if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=words[i]+' ';}
+    else line=test;
+  }
+  lines.push(line);
+  if(lines.length>maxLines){lines=lines.slice(0,maxLines);lines[maxLines-1]=lines[maxLines-1].trim()+'…';}
+  lines.forEach(function(l,i){ctx.fillText(l.trim(),x,y+i*lineHeight)});
+  return y+lines.length*lineHeight;
+}
+var ANN_TYPE_COLORS={update:'#2563eb',promo:'#e8192c',info:'#16a34a',news:'#9333ea'};
+var ANN_TYPE_LABELS={update:'MISE À JOUR',promo:'PROMOTION',info:'INFO',news:'NOUVEAUTÉ'};
+
+async function renderAnnonceImage(a){
+  try{ if(document.fonts&&document.fonts.ready) await document.fonts.ready; }catch(e){}
+  var W=1080,H=1080;
+  var canvas=document.createElement('canvas');
+  canvas.width=W;canvas.height=H;
+  var ctx=canvas.getContext('2d');
+
+  var grad=ctx.createLinearGradient(0,0,W,H);
+  grad.addColorStop(0,'#0f0f0e');grad.addColorStop(1,'#1a1210');
+  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+
+  var rg=ctx.createRadialGradient(W*0.88,H*0.1,10,W*0.88,H*0.1,460);
+  rg.addColorStop(0,'rgba(232,25,44,.35)');rg.addColorStop(1,'rgba(232,25,44,0)');
+  ctx.fillStyle=rg;ctx.fillRect(0,0,W,H);
+
+  ctx.textAlign='left';
+  ctx.fillStyle='#fff';
+  ctx.font='800 54px Syne, sans-serif';
+  ctx.fillText('W',80,140);
+  var wW=ctx.measureText('W').width;
+  ctx.fillStyle='#E8192C';
+  ctx.fillText('YK',80+wW,140);
+
+  var badgeColor=ANN_TYPE_COLORS[a.type]||'#16a34a';
+  var badgeLabel=ANN_TYPE_LABELS[a.type]||'INFO';
+  ctx.font='800 26px DM Sans, sans-serif';
+  var badgeW=ctx.measureText(badgeLabel).width+50;
+  ctx.fillStyle=badgeColor;
+  roundRect(ctx,80,190,badgeW,52,26);ctx.fill();
+  ctx.fillStyle='#fff';
+  ctx.fillText(badgeLabel,105,225);
+
+  ctx.fillStyle='#fff';
+  ctx.font='800 60px Syne, sans-serif';
+  var afterTitleY=wrapText(ctx,a.title||'Annonce WYK',80,340,W-160,72,3);
+
+  if(a.text){
+    ctx.fillStyle='rgba(255,255,255,.62)';
+    ctx.font='400 32px DM Sans, sans-serif';
+    wrapText(ctx,a.text,80,afterTitleY+50,W-160,46,4);
+  }
+
+  ctx.fillStyle='rgba(255,255,255,.38)';
+  ctx.font='600 28px DM Sans, sans-serif';
+  ctx.fillText(a.date||'',80,H-140);
+
+  ctx.strokeStyle='rgba(255,255,255,.12)';
+  ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(80,H-110);ctx.lineTo(W-80,H-110);ctx.stroke();
+
+  ctx.textAlign='right';
+  ctx.fillStyle='rgba(255,255,255,.4)';
+  ctx.font='700 30px DM Sans, sans-serif';
+  ctx.fillText('wykht.com',W-80,H-70);
+  ctx.textAlign='left';
+
+  return new Promise(function(resolve){canvas.toBlob(resolve,'image/png',0.95)});
+}
+
+function getAnnonceShareUrl(a){
+  return location.origin+location.pathname+'?annonce='+encodeURIComponent(a.id)+'#annonce-'+encodeURIComponent(a.id);
+}
+async function shareAnnonce(a){
+  showToast('Préparation de l\'image…');
+  var blob;
+  try{ blob=await renderAnnonceImage(a); }catch(e){ showToast('Erreur de génération','err'); return; }
+  var url=getAnnonceShareUrl(a);
+  var text=a.title||'Annonce WYK';
+
+  if(navigator.share&&navigator.canShare){
+    try{
+      var file=new File([blob],'wyk-annonce.png',{type:'image/png'});
+      if(navigator.canShare({files:[file]})){
+        await navigator.share({files:[file],title:text,text:text,url:url});
+        return;
+      }
+    }catch(e){/* annulé ou non supporté : on continue vers le fallback */}
+  }
+
+  var dlUrl=URL.createObjectURL(blob);
+  var a2=document.createElement('a');a2.href=dlUrl;a2.download='wyk-annonce.png';a2.click();
+  setTimeout(function(){URL.revokeObjectURL(dlUrl)},5000);
+  window.open('https://wa.me/?text='+encodeURIComponent(text+'\n'+url),'_blank');
+  showToast('Image téléchargée — joins-la à ton message !');
+}
+
+function checkDeepLinkAnnonce(){
+  var aid=new URLSearchParams(location.search).get('annonce');
+  if(!aid)return;
+  setTimeout(function(){
+    var el=document.getElementById('annonce-'+aid);
+    if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+  },700);
 }
 
 // ════════════════════════════════════════
