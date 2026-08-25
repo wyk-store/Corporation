@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{
   --bg:#F7F7F5;--surface:#FFFFFF;--s2:#F0F0EE;--s3:#E8E8E4;
@@ -490,6 +491,12 @@ select.form-input{cursor:pointer}
   </div>
   <div id="employees-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
   <div class="sec-divider" style="margin-top:24px"><span>Historique de l'équipe</span></div>
+  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+    <button class="btn-save-section" onclick="exportTeamLogsPDF(null)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>Exporter tout en PDF</button>
+    <button class="btn-save-section" onclick="pickEmployeeFor('export')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>Exporter un employé</button>
+    <button class="btn-save-section" style="color:#ef4444" onclick="deleteTeamLogs(null)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>Vider tout</button>
+    <button class="btn-save-section" style="color:#ef4444" onclick="pickEmployeeFor('delete')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>Vider pour un employé</button>
+  </div>
   <div id="team-logs-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
 </div>
 
@@ -1700,6 +1707,7 @@ async function loadEmployees(){
       +'<div class="data-item-actions">'
       +'<label class="toggle" style="margin-right:6px"><input type="checkbox" '+(e.active?'checked':'')+' onchange="toggleEmployee(\''+e.id+'\',this.checked)"><div class="toggle-track"></div></label>'
       +'<button class="btn-edit" onclick="openResetModal(\''+e.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>'
+      +'<button class="btn-del" onclick="deleteEmployee(\''+e.id+'\',\''+String(e.display_name).replace(/'/g,"\\'")+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>'
       +'</div>';
     list.appendChild(item);
   });
@@ -1740,7 +1748,20 @@ async function resetEmployeeCreds(){
   if(error){showToast('Erreur: '+error.message,true);return}
   showToast('Identifiants mis à jour ✓');closeModal('empResetModal');loadEmployees();
 }
+
+// ── Suppression définitive d'un employé (nouveau) ──
+async function deleteEmployee(id,name){
+  if(!confirm('Supprimer définitivement le compte de '+name+' ? Cette action est irréversible.'))return;
+  var keepLogs=confirm("Garder l'historique de cette personne pour archive ?\nOK = garder l'historique · Annuler = tout supprimer aussi");
+  var {error}=await supa.rpc('manager_delete_employee',{p_token:STAFF_TOKEN,p_employee_id:id,p_delete_logs:!keepLogs});
+  _checkStaffErr(error);
+  if(error){showToast('Erreur: '+error.message,true);return}
+  showToast('Employé supprimé');loadEmployees();loadTeamLogs();
+}
+
 var ACTION_LABELS={login:'Connexion',product_created:'Produit ajouté',product_updated:'Produit modifié',product_deleted:'Produit supprimé',employee_created:'Employé créé',employee_enabled:'Employé réactivé',employee_disabled:'Employé suspendu',employee_credentials_reset:'Identifiants employé modifiés'};
+
+// ── Historique de l'équipe, regroupé par jour (nouveau rendu) ──
 async function loadTeamLogs(){
   var el=document.getElementById('team-logs-list');
   el.innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
@@ -1748,14 +1769,62 @@ async function loadTeamLogs(){
   _checkStaffErr(error);
   if(error){el.innerHTML='<div class="empty-state"><p>Erreur de chargement</p></div>';return}
   if(!data||!data.length){el.innerHTML='<div class="empty-state"><p>Aucune activité pour le moment.</p></div>';return}
-  el.innerHTML='';
-  var list=document.createElement('div');list.className='data-list';
+  var groups={};
   data.forEach(function(l){
-    var item=document.createElement('div');item.className='data-item';
-    item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+(l.staff_login||'—')+' — '+(ACTION_LABELS[l.action]||l.action)+'</div><div class="data-item-sub">'+(l.details||'')+' · '+fmtDate(l.created_at)+'</div></div>';
-    list.appendChild(item);
+    var day=new Date(l.created_at).toLocaleDateString('fr-FR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+    (groups[day]=groups[day]||[]).push(l);
   });
-  el.appendChild(list);
+  el.innerHTML='';
+  Object.keys(groups).forEach(function(day){
+    var hd=document.createElement('div');hd.className='sec-divider';hd.style.margin='16px 0 8px';
+    hd.innerHTML='<span>'+day.charAt(0).toUpperCase()+day.slice(1)+'</span>';
+    el.appendChild(hd);
+    var list=document.createElement('div');list.className='data-list';
+    groups[day].forEach(function(l){
+      var time=new Date(l.created_at).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+      var item=document.createElement('div');item.className='data-item';
+      item.innerHTML='<div class="data-item-body"><div class="data-item-name">'+(l.staff_login||'—')+' — '+(ACTION_LABELS[l.action]||l.action)+'</div><div class="data-item-sub">'+(l.details||'')+'</div></div><span class="data-item-price" style="color:var(--t3);font-size:.7rem;font-weight:700">'+time+'</span>';
+      list.appendChild(item);
+    });
+    el.appendChild(list);
+  });
+}
+
+// ── Aide au choix d'un employé (export/suppression historique) ──
+function pickEmployeeFor(mode){
+  if(!employeesList.length){showToast('Aucun employé',true);return}
+  var names=employeesList.map(function(e,i){return (i+1)+'. '+e.display_name}).join('\n');
+  var pick=prompt('Quel employé ?\n'+names+'\n\nTape le numéro :');
+  var idx=parseInt(pick)-1;
+  if(isNaN(idx)||!employeesList[idx])return;
+  if(mode==='export')exportTeamLogsPDF(employeesList[idx].id,employeesList[idx].display_name);
+  else deleteTeamLogs(employeesList[idx].id,employeesList[idx].display_name);
+}
+
+// ── Suppression de l'historique (tout ou un employé) ──
+async function deleteTeamLogs(employeeId,name){
+  if(!confirm(employeeId?('Vider l\'historique de '+name+' ?'):'Vider tout l\'historique de l\'équipe ?'))return;
+  var {error}=await supa.rpc('manager_delete_team_logs',{p_token:STAFF_TOKEN,p_employee_id:employeeId||null});
+  _checkStaffErr(error);
+  if(error){showToast('Erreur: '+error.message,true);return}
+  showToast('Historique supprimé');loadTeamLogs();
+}
+
+// ── Export PDF de l'historique équipe (tout ou un employé) ──
+async function exportTeamLogsPDF(employeeId,name){
+  var {data,error}=await supa.rpc('manager_get_logs_for_export',{p_token:STAFF_TOKEN,p_employee_id:employeeId||null});
+  _checkStaffErr(error);
+  if(error||!data){showToast('Erreur export',true);return}
+  var {jsPDF}=window.jspdf;var doc=new jsPDF();
+  doc.setFontSize(14);doc.text('WYK — Historique équipe'+(name?' · '+name:''),14,16);
+  doc.setFontSize(9);doc.text('Généré le '+new Date().toLocaleString('fr-FR'),14,22);
+  var y=32;doc.setFontSize(10);
+  data.forEach(function(l){
+    if(y>280){doc.addPage();y=20;}
+    var line=new Date(l.created_at).toLocaleString('fr-FR')+' — '+l.staff_login+' — '+(ACTION_LABELS[l.action]||l.action)+(l.details?(' ('+l.details+')'):'');
+    doc.text(line,14,y,{maxWidth:180});y+=7;
+  });
+  doc.save('wyk_historique'+(name?'_'+name.replace(/\s+/g,'_'):'')+'.pdf');
 }
 
 // ══════════════════════════════════════════
@@ -1778,4 +1847,4 @@ document.addEventListener('keydown',function(e){
 checkExistingSession();
 </script>
 </body>
-  </html>
+</html>
