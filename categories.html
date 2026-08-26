@@ -4,6 +4,37 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <title>Catégories — WYK</title>
+
+<!-- ===== PILIER 4 : Open Graph & Twitter Cards ===== -->
+<meta property="og:site_name" content="WYK Corporation" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Catégories | WYK Corporation" />
+<meta property="og:description" content="Explore toutes les catégories WYK : Mode, Tech, Services et bien plus. Livraison rapide à Carrefour, Haïti." />
+<meta property="og:url" content="https://wykht.com/categories.html" />
+<meta property="og:image" content="https://i.postimg.cc/W1gtJqvJ/file-00000000f240822fb93efbd0e5c7d59a.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:alt" content="WYK Corporation - Catégories de produits" />
+<meta property="og:locale" content="fr_HT" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Catégories | WYK Corporation" />
+<meta name="twitter:description" content="Explore toutes les catégories WYK : Mode, Tech, Services et bien plus. Livraison rapide à Carrefour, Haïti." />
+<meta name="twitter:image" content="https://i.postimg.cc/W1gtJqvJ/file-00000000f240822fb93efbd0e5c7d59a.png" />
+<meta name="twitter:image:alt" content="WYK Corporation - Catégories de produits" />
+<meta name="twitter:site" content="@wyk_corp" />
+<link rel="canonical" href="https://wykht.com/categories.html">
+<!-- ===== FIN PILIER 4 ===== -->
+
+<!-- ===== PILIER 1 : Favicons & Manifest ===== -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="https://i.postimg.cc/fbFDcgYp/file-0000000014ec81f5b614a0fb63d6f200.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://i.postimg.cc/fbFDcgYp/file-0000000014ec81f5b614a0fb63d6f200.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/fbFDcgYp/file-0000000014ec81f5b614a0fb63d6f200.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#E8192C">
+<!-- ===== FIN PILIER 1 ===== -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
@@ -539,7 +570,7 @@ img{max-width:100%;border:0}
 .of-fallback{background-repeat:no-repeat;background-position:center center}
 .of-fallback img{opacity:0 !important;position:absolute}
 /* fallback si backdrop-filter indisponible : fond opaque au lieu de transparent illisible */
-@supports not (backdrop-filter:blur(1px)) and not (-webkit-backdrop-filter:blur(1px)){
+@supports not (backdrop-filter:blur(1px)) and not (-webkit-backdrop-filter:blur(1px))){
   header,.bnav{background:var(--surface) !important}
   .ov{background:rgba(0,0,0,.55)}
   .pop-ov{background:rgba(0,0,0,.7)}
@@ -554,6 +585,51 @@ img{max-width:100%;border:0}
   .cat-section.just-opened .prod-card{animation:none;opacity:1;transform:none}
 }
 </style>
+
+<!-- ===== PILIER 2 : JSON-LD Organization + WebSite (Knowledge Graph) ===== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "WYK Corporation",
+  "alternateName": "WYK",
+  "url": "https://wykht.com/",
+  "logo": "https://i.postimg.cc/fbFDcgYp/file-0000000014ec81f5b614a0fb63d6f200.png",
+  "image": "https://i.postimg.cc/W1gtJqvJ/file-00000000f240822fb93efbd0e5c7d59a.png",
+  "description": "L'écosystème e-commerce nouvelle génération basé à Carrefour, Haïti. Mode, Tech, Services et livraison rapide.",
+  "founder": [
+    {"@type":"Person","name":"Lemuel"},
+    {"@type":"Person","name":"Beaudouin"},
+    {"@type":"Person","name":"Jada"},
+    {"@type":"Person","name":"Leel"},
+    {"@type":"Person","name":"Adner"}
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+509-4030-0966",
+    "contactType": "customer service",
+    "areaServed": "HT",
+    "availableLanguage": ["fr","ht"]
+  },
+  "sameAs": [
+    "https://whatsapp.com/channel/0029Vb96LBDEgGfJ4l6LIS2R"
+  ]
+}
+</script>
+
+<!-- ===== PILIER 2 : BreadcrumbList (fil d'Ariane pour cette page) ===== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Accueil","item":"https://wykht.com/"},
+    {"@type":"ListItem","position":2,"name":"Catégories","item":"https://wykht.com/categories.html"}
+  ]
+}
+</script>
+<!-- ===== FIN PILIER 2 ===== -->
+
 </head>
 <body>
 
@@ -809,6 +885,39 @@ function formatPrice(n){if(!n&&n!==0)return '—';return Number(n).toLocaleStrin
 function escH(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function highlight(text,q){if(!q||!text)return escH(text||'');var esc=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return escH(text).replace(new RegExp('('+esc+')','gi'),'<mark>$1</mark>')}
 var PH_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>';
+
+/* ===== PILIER 3 : JSON-LD Product dynamique (rich results Google) ===== */
+function injectProductSchema(prods){
+  var old=document.getElementById('productSchema');
+  if(old)old.remove();
+  if(!prods||!prods.length)return;
+  var items=prods.slice(0,12).map(function(p){
+    var imgs=(p.imgs&&p.imgs.length)?p.imgs:undefined;
+    var obj={
+      "@context":"https://schema.org",
+      "@type":"Product",
+      "name":p.name,
+      "description":p.description||p.name,
+      "brand":{"@type":"Brand","name":"WYK Corporation"},
+      "offers":{
+        "@type":"Offer",
+        "url":"https://wykht.com/categories.html?produit="+p.id,
+        "priceCurrency":"HTG",
+        "price":String(p.price),
+        "availability":(p.stock>0?"https://schema.org/InStock":"https://schema.org/OutOfStock"),
+        "itemCondition":"https://schema.org/NewCondition"
+      }
+    };
+    if(imgs)obj.image=imgs;
+    return obj;
+  });
+  var s=document.createElement('script');
+  s.type='application/ld+json';
+  s.id='productSchema';
+  s.textContent=JSON.stringify(items.length===1?items[0]:items);
+  document.head.appendChild(s);
+}
+/* ===== FIN PILIER 3 ===== */
 
 /* ── PARTAGE (Web Share API + fallback WhatsApp) ──
    Voir explication : navigator.share() avec fichier image fonctionne sur Android/certains navigateurs,
@@ -1074,6 +1183,7 @@ async function loadData(){
     buildFeatured();
     renderAll();
     buildTypeWords();
+    injectProductSchema(allProducts);
     checkDeepLinkProduct();
   }catch(e){
     console.error('WYK loadData :',e);
