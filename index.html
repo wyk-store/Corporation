@@ -9,14 +9,30 @@
 <meta property="og:image" content="https://i.postimg.cc/W1gtJqvJ/file-00000000f240822fb93efbd0e5c7d59a.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:alt" content="WYK Corporation - Boutique en ligne Carrefour Haïti" />
+<meta property="og:locale" content="fr_HT" />
 <meta name="google-site-verification" content="vmjFVsrNTX9a4z9xzmiNH_NSSTXOALvmUgg-nyNQIbk" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="WYK Corporation | L'Excellence Multi-Catégories" />
 <meta name="twitter:description" content="L'écosystème e-commerce nouvelle génération. Explorez une sélection premium d'articles variés et exclusifs." />
 <meta name="twitter:image" content="https://i.postimg.cc/W1gtJqvJ/file-00000000f240822fb93efbd0e5c7d59a.png" />
+<meta name="twitter:image:alt" content="WYK Corporation - Boutique en ligne Carrefour Haïti" />
+<meta name="twitter:site" content="@wyk_corp" />
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <title>WYK — Carrefour Haïti</title>
+<link rel="canonical" href="https://wykht.com/">
+
+<!-- ===== PILIER 1 : Favicons & Manifest ===== -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="https://i.postimg.cc/fbFDcgYp/file-0000000014ec81f5b614a0fb63d6f200.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://i.postimg.cc/fbFDcgYp/file-0000000014ec81f5b614a0fb63d6f200.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/fbFDcgYp/file-0000000014ec81f5b614a0fb63d6f200.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#E8192C">
+<!-- ===== FIN PILIER 1 ===== -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
@@ -717,6 +733,57 @@ footer{background:#0C0C0B;padding:0 0 90px;overflow:hidden;position:relative;bor
   .promo-band{margin:24px 40px 0}
 }
 </style>
+
+<!-- ===== PILIER 2 : JSON-LD Organization (Knowledge Graph) ===== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "WYK Corporation",
+  "alternateName": "WYK",
+  "url": "https://wykht.com/",
+  "logo": "https://i.postimg.cc/fbFDcgYp/file-0000000014ec81f5b614a0fb63d6f200.png",
+  "image": "https://i.postimg.cc/W1gtJqvJ/file-00000000f240822fb93efbd0e5c7d59a.png",
+  "description": "L'écosystème e-commerce nouvelle génération basé à Carrefour, Haïti. Mode, Tech, Services et livraison rapide.",
+  "founder": [
+    {"@type":"Person","name":"Lemuel"},
+    {"@type":"Person","name":"Beaudouin"},
+    {"@type":"Person","name":"Jada"},
+    {"@type":"Person","name":"Leel"},
+    {"@type":"Person","name":"Adner"}
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+509-4030-0966",
+    "contactType": "customer service",
+    "areaServed": "HT",
+    "availableLanguage": ["fr","ht"]
+  },
+  "sameAs": [
+    "https://whatsapp.com/channel/0029Vb96LBDEgGfJ4l6LIS2R"
+  ]
+}
+</script>
+
+<!-- ===== PILIER 2 : JSON-LD WebSite + SearchAction ===== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "WYK Corporation",
+  "url": "https://wykht.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://wykht.com/categories.html?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<!-- ===== FIN PILIER 2 ===== -->
+
 </head>
 <body>
 
@@ -1214,6 +1281,39 @@ function showToast(msg){var el=document.getElementById('toastEl');document.getEl
 function escH(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function formatPrice(n){if(!n&&n!==0)return'—';return Number(n).toLocaleString('fr')+' HTG'}
 
+/* ===== PILIER 3 : JSON-LD Product dynamique (rich results Google) ===== */
+function injectProductSchema(prods){
+  var old=document.getElementById('productSchema');
+  if(old)old.remove();
+  if(!prods||!prods.length)return;
+  var items=prods.slice(0,8).map(function(p){
+    var imgs=(p._imgs&&p._imgs.length)?p._imgs:undefined;
+    var obj={
+      "@context":"https://schema.org",
+      "@type":"Product",
+      "name":p.name,
+      "description":p.description||p.name,
+      "brand":{"@type":"Brand","name":"WYK Corporation"},
+      "offers":{
+        "@type":"Offer",
+        "url":"https://wykht.com/?produit="+p.id,
+        "priceCurrency":"HTG",
+        "price":String(p.price),
+        "availability":(p.stock>0?"https://schema.org/InStock":"https://schema.org/OutOfStock"),
+        "itemCondition":"https://schema.org/NewCondition"
+      }
+    };
+    if(imgs)obj.image=imgs;
+    return obj;
+  });
+  var s=document.createElement('script');
+  s.type='application/ld+json';
+  s.id='productSchema';
+  s.textContent=JSON.stringify(items.length===1?items[0]:items);
+  document.head.appendChild(s);
+}
+/* ===== FIN PILIER 3 ===== */
+
 /* ── PARTAGE (Web Share API + fallback WhatsApp) ──
    navigator.share() avec image jointe fonctionne sur Android/certains navigateurs,
    pas fiable sur iOS Safari ni sur WhatsApp Desktop. wa.me est le fallback universel (texte + lien, sans image). */
@@ -1380,6 +1480,7 @@ async function loadData(retryCount){
     document.getElementById('statProds').innerHTML=_allProds.length+'<em>+</em>';
     buildSearchCatRow(cats||[]);renderDwCats(cats||[]);
     renderProdGrid(homeProds);renderCatGrid(cats||[]);renderMarquee(cats||[]);renderHeroTrend(homeProds);
+    injectProductSchema(homeProds);
     checkDeepLinkProduct();
   }catch(e){
     console.error('WYK loadData :',e);
