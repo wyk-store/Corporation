@@ -236,11 +236,12 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 /* ── HERO ── */
 .about-hero{position:relative;overflow:hidden;background:#0f0f0e}
 .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0f0f0e 0%,#1a0608 55%,#2d0a10 100%);z-index:0}
+.hero-fluid-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;display:block;touch-action:pan-y;opacity:0;transition:opacity 1s ease}
+.hero-fluid-canvas.on{opacity:1}
+.hero-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle at 50% 32%,rgba(15,15,14,0) 0%,rgba(15,15,14,.35) 60%,rgba(15,15,14,.7) 100%)}
 .hero-glow{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(232,25,44,.18) 0%,transparent 70%);z-index:1;pointer-events:none}
-.hero-particles{position:absolute;inset:0;z-index:1;overflow:hidden}
-.particle{position:absolute;border-radius:50%;animation:floatUp linear infinite;opacity:.18}
-@keyframes floatUp{0%{transform:translateY(110vh) scale(0);opacity:0}10%{opacity:.18}90%{opacity:.1}100%{transform:translateY(-120px) scale(1);opacity:0}}
-.hero-content{position:relative;z-index:2;padding:40px 20px 36px;text-align:center}
+.hero-content{position:relative;z-index:3;padding:40px 20px 36px;text-align:center;pointer-events:none}
+.hero-content .editable{pointer-events:auto}
 
 /* Étoiles séquentielles au-dessus du logo */
 .hero-stars-intro{display:flex;justify-content:center;gap:5px;margin-bottom:14px}
@@ -252,7 +253,7 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 .hero-stars-intro svg:nth-child(5){animation-delay:.83s}
 @keyframes starPop{0%{opacity:0;transform:scale(.3) translateY(6px)}60%{opacity:1;transform:scale(1.25) translateY(0)}100%{opacity:1;transform:scale(1) translateY(0)}}
 
-.hero-logo-big{width:88px;height:88px;border-radius:26px;background:linear-gradient(135deg,var(--red),#ff5a68);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 12px 48px rgba(232,25,44,.45),0 0 0 1px rgba(255,255,255,.1);animation:logoIn .85s cubic-bezier(.34,1.08,.64,1) both;overflow:hidden;border:2.5px solid rgba(255,255,255,.16);cursor:pointer;padding:0}
+.hero-logo-big{width:88px;height:88px;border-radius:26px;background:linear-gradient(135deg,var(--red),#ff5a68);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 12px 48px rgba(232,25,44,.45),0 0 0 1px rgba(255,255,255,.1);animation:logoIn .85s cubic-bezier(.34,1.08,.64,1) both;overflow:hidden;border:2.5px solid rgba(255,255,255,.16);cursor:pointer;padding:0;pointer-events:auto}
 .hero-logo-big img{width:100%;height:100%;object-fit:cover;display:block;border-radius:22px}
 .hero-logo-big.shake{animation:logoShake .5s cubic-bezier(.36,.07,.19,.97) both}
 @keyframes logoIn{from{opacity:0;transform:scale(.4) rotate(-18deg)}to{opacity:1;transform:scale(1) rotate(0)}}
@@ -269,7 +270,7 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 .hero-pill svg{width:11px;height:11px;stroke:currentColor;stroke-width:2;fill:none}
 .hero-pill .dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:blink 1.5s ease infinite;box-shadow:0 0 6px rgba(34,197,94,.6)}
 @keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.35)}}
-.hero-wave{display:block;width:100%;height:44px;position:relative;z-index:2;background:#0f0f0e}
+.hero-wave{display:block;width:100%;height:44px;position:relative;z-index:3;background:#0f0f0e}
 
 /* ── STATS ── */
 .stats-banner{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface);border-bottom:1px solid var(--bdr);box-shadow:var(--sh1)}
@@ -514,7 +515,7 @@ select.form-input{cursor:pointer}
 
 <div class="ov" id="overlay" onclick="closeDrawer()"></div>
 
-<!-- ══ MENU LATÉRAL — style distinctif, thème sombre, cohérent avec le hero ══ -->
+<!-- ══ MENU LATÉRAL — style distinctif, thème sombre, cohérent avec le hero de la page ══ -->
 <nav class="drawer" id="drawer">
   <div class="dw-top">
     <div class="dw-top-glow"></div>
@@ -577,10 +578,11 @@ select.form-input{cursor:pointer}
 <main>
 
 <!-- ══ HERO ══ -->
-<div class="about-hero">
+<div class="about-hero" id="aboutHero">
   <div class="hero-bg"></div>
+  <canvas class="hero-fluid-canvas" id="heroFluidCanvas"></canvas>
+  <div class="hero-scrim"></div>
   <div class="hero-glow"></div>
-  <div class="hero-particles" id="particles"></div>
   <div class="hero-content">
     <div class="hero-stars-intro" aria-hidden="true">
       <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -1508,8 +1510,11 @@ function hideSkeleton(){
 // ════════════════════════════════════════
 // INIT
 // ════════════════════════════════════════
-initParticles();
 initReveal();
+(function(){
+  var fc=document.getElementById('heroFluidCanvas');
+  if(fc){ setTimeout(function(){ fc.classList.add('on'); }, 60); }
+})();
 (function(){
   var safety=setTimeout(hideSkeleton,8000);
   (async function(){
@@ -1520,5 +1525,13 @@ initReveal();
   })();
 })();
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+  ANIMATION DE FOND — WebGL Fluid (adapté depuis WebGL-Fluid-Background,
+  fork de PavelDoGreat, par Thomas Kabalin). Réagit au doigt/souris,
+  colorée aux teintes de la marque, mise en pause hors écran pour
+  ménager la batterie sur mobile.
+═══════════════════════════════════════════════════════════════ -->
+<script src="webgl-fluid-hero.js"></script>
 </body>
-                                                        </html>
+</html>
