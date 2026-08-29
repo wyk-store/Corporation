@@ -546,81 +546,89 @@ select.form-input{cursor:pointer}
 <!-- ═══════ PAGE ACCUEIL ═══════ -->
 <div class="panel" id="panel-homepage">
 
-  <!-- Hero -->
+  <div style="background:linear-gradient(135deg,rgba(232,25,44,.06),rgba(232,25,44,.02));border:1px solid rgba(232,25,44,.14);border-radius:16px;padding:14px 16px;margin-bottom:16px;font-size:.78rem;color:var(--t2);line-height:1.6">
+    ✏️ Chaque bloc ci-dessous correspond à une section précise de ta page d'accueil (wykht.com). Modifie, puis clique sur le bouton "Sauvegarder" <strong>propre à chaque bloc</strong> — les autres blocs ne sont pas affectés.
+  </div>
+
+  <!-- ═══ 1. EN-TÊTE (HERO) ═══ -->
   <div class="home-section">
     <div class="home-section-title">
       <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-      Section <em>Hero</em>
+      1. En-tête <em>(Hero)</em>
+    </div>
+    <div style="font-size:.74rem;color:var(--t3);margin-bottom:14px">Le tout premier bloc en haut de la home : le grand titre, le texte, les 2 boutons et les 3 photos affichées à droite (ou en dessous sur mobile).</div>
+
+    <div class="form-group">
+      <label class="form-lbl">Badge (petit texte au-dessus du titre)</label>
+      <input class="form-input" type="text" id="home_hero_badge" placeholder="Ex: Bienvenue chez WYK">
     </div>
     <div class="form-group">
-      <label class="form-lbl">Titre principal (h1)</label>
-      <input class="form-input" type="text" id="home_hero_title" placeholder="Ex: La mode haïtienne en un clic">
+      <label class="form-lbl">Titre principal (accepte <em>&lt;em&gt;</em> pour la partie en rouge)</label>
+      <input class="form-input" type="text" id="home_hero_title" placeholder="Ex: Tout ce que tu veux.<br><em>Livré.</em>">
     </div>
     <div class="form-group">
-      <label class="form-lbl">Description</label>
-      <textarea class="form-input" id="home_hero_desc" placeholder="Description courte du héro…" style="min-height:60px"></textarea>
+      <label class="form-lbl">Description sous le titre</label>
+      <textarea class="form-input" id="home_hero_desc" placeholder="Ex: Produits • Food • Services" style="min-height:50px"></textarea>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-lbl">Bouton 1</label>
-        <input class="form-input" type="text" id="home_hero_btn1" placeholder="Ex: Commander maintenant">
+        <label class="form-lbl">Bouton 1 (rouge)</label>
+        <input class="form-input" type="text" id="home_hero_btn1" placeholder="Ex: Voir les produits">
       </div>
       <div class="form-group">
-        <label class="form-lbl">Bouton 2</label>
-        <input class="form-input" type="text" id="home_hero_btn2" placeholder="Ex: Voir les catégories">
+        <label class="form-lbl">Bouton 2 (WhatsApp)</label>
+        <input class="form-input" type="text" id="home_hero_btn2" placeholder="Ex: Nous écrire">
       </div>
     </div>
-    <button class="btn-save-section" onclick="saveHomeSection('hero')">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Sauvegarder le héro
+
+    <div class="sec-divider" style="margin:18px 0 12px"><span>📸 Les 3 photos du hero</span></div>
+    <div style="font-size:.72rem;color:var(--t3);margin-bottom:10px">Image 1 = grande photo à gauche · Image 2 = petite en haut à droite · Image 3 = petite en bas à droite</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+      <div>
+        <label class="form-lbl">Image 1 (grande)</label>
+        <div class="img-upload-area" style="padding:12px">
+          <input type="file" accept="image/*" onchange="handleHeroImg(this,1)">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;margin-bottom:4px"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <p style="font-size:.68rem">Choisir</p>
+        </div>
+        <div id="hero-img-preview-1" style="margin-top:6px"></div>
+      </div>
+      <div>
+        <label class="form-lbl">Image 2</label>
+        <div class="img-upload-area" style="padding:12px">
+          <input type="file" accept="image/*" onchange="handleHeroImg(this,2)">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;margin-bottom:4px"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <p style="font-size:.68rem">Choisir</p>
+        </div>
+        <div id="hero-img-preview-2" style="margin-top:6px"></div>
+      </div>
+      <div>
+        <label class="form-lbl">Image 3</label>
+        <div class="img-upload-area" style="padding:12px">
+          <input type="file" accept="image/*" onchange="handleHeroImg(this,3)">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;margin-bottom:4px"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <p style="font-size:.68rem">Choisir</p>
+        </div>
+        <div id="hero-img-preview-3" style="margin-top:6px"></div>
+      </div>
+    </div>
+    <div class="form-hint" style="margin-top:8px">Si aucune image n'est choisie, le site affiche automatiquement des photos de tes produits à la place.</div>
+
+    <button class="btn-save-section" style="margin-top:14px" onclick="saveHomeSection('hero')">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Sauvegarder l'en-tête
     </button>
   </div>
 
-  <!-- Stats bar -->
-  <div class="home-section">
-    <div class="home-section-title">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-      Barre de <em>Stats</em>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <div class="form-group">
-        <label class="form-lbl">Valeur stat 1</label>
-        <input class="form-input" type="text" id="home_stat1_val" placeholder="Ex: 500+">
-      </div>
-      <div class="form-group">
-        <label class="form-lbl">Label stat 1</label>
-        <input class="form-input" type="text" id="home_stat1_lbl" placeholder="Ex: Produits disponibles">
-      </div>
-      <div class="form-group">
-        <label class="form-lbl">Valeur stat 2</label>
-        <input class="form-input" type="text" id="home_stat2_val" placeholder="Ex: 98%">
-      </div>
-      <div class="form-group">
-        <label class="form-lbl">Label stat 2</label>
-        <input class="form-input" type="text" id="home_stat2_lbl" placeholder="Ex: Clients satisfaits">
-      </div>
-      <div class="form-group">
-        <label class="form-lbl">Valeur stat 3</label>
-        <input class="form-input" type="text" id="home_stat3_val" placeholder="Ex: 48h">
-      </div>
-      <div class="form-group">
-        <label class="form-lbl">Label stat 3</label>
-        <input class="form-input" type="text" id="home_stat3_lbl" placeholder="Ex: Livraison rapide">
-      </div>
-    </div>
-    <button class="btn-save-section" onclick="saveHomeSection('stats')">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Sauvegarder les stats
-    </button>
-  </div>
-
-  <!-- Promo band -->
+  <!-- ═══ 2. BANDE PROMO ═══ -->
   <div class="home-section">
     <div class="home-section-title">
       <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 7h10M7 11h6M3 5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/></svg>
-      Bande <em>Promo</em>
+      2. Bande <em>promo</em>
     </div>
+    <div style="font-size:.74rem;color:var(--t3);margin-bottom:14px">Le bandeau rouge/transparent affiché juste sous le carrousel de slides, avec un bouton "Profiter".</div>
     <div class="form-group">
-      <label class="form-lbl">Tag/Badge</label>
-      <input class="form-input" type="text" id="home_promo_tag" placeholder="Ex: OFFRE SPÉCIALE">
+      <label class="form-lbl">Tag (petit texte)</label>
+      <input class="form-input" type="text" id="home_promo_tag" placeholder="Ex: Promo du jour">
     </div>
     <div class="form-group">
       <label class="form-lbl">Titre</label>
@@ -628,33 +636,54 @@ select.form-input{cursor:pointer}
     </div>
     <div class="form-group">
       <label class="form-lbl">Sous-titre</label>
-      <input class="form-input" type="text" id="home_promo_sub" placeholder="Ex: Offre valable jusqu'au 31 janvier">
+      <input class="form-input" type="text" id="home_promo_sub" placeholder="Ex: Aujourd'hui seulement">
     </div>
     <div class="form-group">
-      <label class="form-lbl">Texte bouton</label>
-      <input class="form-input" type="text" id="home_promo_btn" placeholder="Ex: En profiter">
+      <label class="form-lbl">Texte du bouton</label>
+      <input class="form-input" type="text" id="home_promo_btn" placeholder="Ex: Profiter">
     </div>
     <button class="btn-save-section" onclick="saveHomeSection('promo')">
       <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Sauvegarder la bande promo
     </button>
   </div>
 
-  <!-- Bloc local -->
+  <!-- ═══ 3. BARRE DE STATS ═══ -->
+  <div class="home-section">
+    <div class="home-section-title">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      3. Barre de <em>stats</em>
+    </div>
+    <div style="font-size:.74rem;color:var(--t3);margin-bottom:14px">Petits chiffres affichés discrètement dans le hero (ex: nombre de produits).</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div class="form-group"><label class="form-lbl">Valeur stat 1</label><input class="form-input" type="text" id="home_stat1_val" placeholder="Ex: 500+"></div>
+      <div class="form-group"><label class="form-lbl">Label stat 1</label><input class="form-input" type="text" id="home_stat1_lbl" placeholder="Ex: Produits"></div>
+      <div class="form-group"><label class="form-lbl">Valeur stat 2</label><input class="form-input" type="text" id="home_stat2_val" placeholder="Ex: 98%"></div>
+      <div class="form-group"><label class="form-lbl">Label stat 2</label><input class="form-input" type="text" id="home_stat2_lbl" placeholder="Ex: Clients satisfaits"></div>
+      <div class="form-group"><label class="form-lbl">Valeur stat 3</label><input class="form-input" type="text" id="home_stat3_val" placeholder="Ex: 48h"></div>
+      <div class="form-group"><label class="form-lbl">Label stat 3</label><input class="form-input" type="text" id="home_stat3_lbl" placeholder="Ex: Livraison"></div>
+    </div>
+    <button class="btn-save-section" onclick="saveHomeSection('stats')">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Sauvegarder les stats
+    </button>
+  </div>
+
+  <!-- ═══ 4. LIVRAISON & PAIEMENT ═══ -->
   <div class="home-section">
     <div class="home-section-title">
       <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-      Bloc <em>Local</em>
+      4. Bloc <em>Livraison &amp; paiement</em>
+    </div>
+    <div style="font-size:.74rem;color:var(--t3);margin-bottom:14px">La section avec la zone de livraison et les moyens de paiement acceptés, en bas de la home.</div>
+    <div class="form-group">
+      <label class="form-lbl">Titre du bloc</label>
+      <input class="form-input" type="text" id="home_local_title" placeholder="Ex: Livraison & paiement">
     </div>
     <div class="form-group">
-      <label class="form-lbl">Titre</label>
-      <input class="form-input" type="text" id="home_local_title" placeholder="Ex: Basé à Carrefour, Haïti">
-    </div>
-    <div class="form-group">
-      <label class="form-lbl">Description</label>
-      <textarea class="form-input" id="home_local_desc" placeholder="Description du bloc local…" style="min-height:70px"></textarea>
+      <label class="form-lbl">Texte de la zone de livraison</label>
+      <textarea class="form-input" id="home_local_desc" placeholder="Ex: Livraison à Carrefour, Haïti." style="min-height:60px"></textarea>
     </div>
     <button class="btn-save-section" onclick="saveHomeSection('local')">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Sauvegarder le bloc local
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Sauvegarder le bloc livraison
     </button>
   </div>
 
@@ -1964,8 +1993,9 @@ async function toggleTickerActive(id,active){
 // PAGE ACCUEIL CONTENT
 // ══════════════════════════════════════════
 var homeContent={};
+var heroImgFiles={1:null,2:null,3:null};
 const HOME_KEYS=[
-  'home_hero_title','home_hero_desc','home_hero_btn1','home_hero_btn2',
+  'home_hero_badge','home_hero_title','home_hero_desc','home_hero_btn1','home_hero_btn2',
   'home_stat1_val','home_stat1_lbl','home_stat2_val','home_stat2_lbl','home_stat3_val','home_stat3_lbl',
   'home_promo_tag','home_promo_title','home_promo_sub','home_promo_btn',
   'home_local_title','home_local_desc'
@@ -1979,10 +2009,22 @@ async function loadHomeContent(){
     var el=document.getElementById(key);
     if(el)el.value=homeContent[key]||'';
   });
+  [1,2,3].forEach(function(i){
+    var url=homeContent['home_hero_img'+i];
+    var prev=document.getElementById('hero-img-preview-'+i);
+    if(url&&prev)prev.innerHTML='<img src="'+url+'" style="width:100%;height:60px;object-fit:cover;border-radius:8px">';
+  });
+}
+function handleHeroImg(input,idx){
+  if(input.files[0]){
+    heroImgFiles[idx]=input.files[0];
+    var url=URL.createObjectURL(heroImgFiles[idx]);
+    document.getElementById('hero-img-preview-'+idx).innerHTML='<img src="'+url+'" style="width:100%;height:60px;object-fit:cover;border-radius:8px">';
+  }
 }
 async function saveHomeSection(section){
   var keys=[];
-  if(section==='hero')keys=['home_hero_title','home_hero_desc','home_hero_btn1','home_hero_btn2'];
+  if(section==='hero')keys=['home_hero_badge','home_hero_title','home_hero_desc','home_hero_btn1','home_hero_btn2'];
   if(section==='stats')keys=['home_stat1_val','home_stat1_lbl','home_stat2_val','home_stat2_lbl','home_stat3_val','home_stat3_lbl'];
   if(section==='promo')keys=['home_promo_tag','home_promo_title','home_promo_sub','home_promo_btn'];
   if(section==='local')keys=['home_local_title','home_local_desc'];
@@ -1990,9 +2032,23 @@ async function saveHomeSection(section){
     var el=document.getElementById(key);
     return{key,value:el?el.value:''};
   });
+  if(section==='hero'){
+    for(var i=1;i<=3;i++){
+      var file=heroImgFiles[i];
+      if(!file)continue;
+      var ext=file.name.split('.').pop();
+      var path='hero/img'+i+'_'+Date.now()+'.'+ext;
+      var {error:upErr}=await db.storage.from(BUCKET).upload(path,file,{upsert:true,contentType:file.type});
+      if(!upErr){
+        var {data:{publicUrl}}=db.storage.from(BUCKET).getPublicUrl(path);
+        rows.push({key:'home_hero_img'+i,value:publicUrl});
+      }
+    }
+  }
   var {error}=await db.from('about_content').upsert(rows,{onConflict:'key'});
   if(error){showToast('Erreur sauvegarde',true);return}
   showToast('Section sauvegardée ✓');
+  if(section==='hero'){heroImgFiles={1:null,2:null,3:null};loadHomeContent();}
 }
 
 // ══════════════════════════════════════════
