@@ -164,9 +164,6 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 .dw-admin-s{font-size:.67rem;color:var(--t3);margin-top:2px}
 .dw-admin-arr{margin-left:auto;flex-shrink:0}
 .dw-admin-arr svg{width:13px;height:13px;stroke:var(--red);stroke-width:2.2;fill:none}
-.dw-wa{display:flex;align-items:center;justify-content:center;gap:7px;background:#25D366;color:#fff;padding:12px;border-radius:14px;font-weight:700;font-size:.81rem;text-decoration:none;transition:transform var(--ease),box-shadow var(--ease);flex-shrink:0;box-shadow:0 3px 12px rgba(37,211,102,.22)}
-.dw-wa:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(37,211,102,.36)}
-.dw-wa svg{width:15px;height:15px}
 .dw-cats-loading{padding:10px 13px 10px 53px;font-size:.75rem;color:var(--t3);border-top:1px solid var(--bdr)}
 
 /* ── SEARCH ── */
@@ -584,6 +581,71 @@ img{max-width:100%;border:0}
   .sk{animation:none;background:var(--s2)}
   .cat-section.just-opened .prod-card{animation:none;opacity:1;transform:none}
 }
+
+/* ── 4. GLASSMORPHISM ── */
+.dw-card,.dw-nav-card{background:var(--glass) !important;backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%)}
+.search-wrap{background:var(--glass) !important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.filter-row{background:var(--glass) !important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.cat-section{background:var(--glass) !important;backdrop-filter:blur(16px) saturate(150%);-webkit-backdrop-filter:blur(16px) saturate(150%)}
+.offre-card{background:var(--glass) !important;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.cart-float{background:var(--glass) !important;backdrop-filter:blur(20px) saturate(170%);-webkit-backdrop-filter:blur(20px) saturate(170%)}
+.pop-sheet{background:var(--glass) !important;backdrop-filter:blur(20px) saturate(170%);-webkit-backdrop-filter:blur(20px) saturate(170%)}
+
+/* ── 5. IMAGES COMPLÈTES DANS LES CADRANS ── */
+.prod-img{height:auto !important;aspect-ratio:1/1}
+.feat-img{height:auto !important;aspect-ratio:1/1}
+
+/* ── 6. MENU PLUS STYLÉ ── */
+.dw-card{box-shadow:var(--sh2),0 0 0 1px rgba(255,255,255,.04) inset}
+.dw-item{border-radius:12px;margin:2px 6px}
+.dw-item+.dw-item{border-top:none}
+.dw-nav-card{padding:6px}
+
+/* ── 7. EFFET TACTILE SUR LES CATÉGORIES ── */
+.cat-header{transition:background var(--ease),transform .12s ease}
+.cat-header:active{transform:scale(.98);background:var(--s2)}
+
+/* ── 8. BOUTON AGRANDIR IMAGE ── */
+.pop-img-zoom{position:absolute;top:10px;left:10px;width:32px;height:32px;border-radius:50%;background:var(--glass);backdrop-filter:blur(8px);border:1px solid var(--gbdr);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:6;color:var(--text);box-shadow:var(--sh1);transition:all var(--ease)}
+.pop-img-zoom:hover{background:var(--surface);transform:scale(1.08)}
+.pop-img-zoom svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none}
+.img-zoom-ov{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.img-zoom-ov.on{opacity:1;pointer-events:all}
+.img-zoom-ov img{max-width:94vw;max-height:90vh;object-fit:contain;border-radius:8px}
+.img-zoom-close{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#fff}
+.img-zoom-close svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.4;fill:none}
+
+/* ── SECTION SUGGESTIONS ── */
+.suggest-section{padding:22px 16px 6px}
+.suggest-head{margin-bottom:14px}
+.suggest-eyebrow{font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:4px}
+.suggest-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--text)}
+.suggest-title em{font-style:normal;color:var(--red)}
+.suggest-grid{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:600px){.suggest-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:900px){.suggest-grid{grid-template-columns:repeat(3,1fr)}}
+/* Carte : les images/textes vivent dans deux calques superposés qui se fondent l'un dans l'autre
+   (fondu enchaîné 2s, jamais un état "vide" entre deux produits) */
+.suggest-card{position:relative;border-radius:20px;overflow:hidden;min-height:180px;cursor:pointer;transition:transform .3s cubic-bezier(.22,1,.36,1);touch-action:manipulation}
+.suggest-card:active{transform:scale(.98)}
+.suggest-layer{position:absolute;inset:0;display:flex;align-items:flex-end;opacity:0;transition:opacity 2s ease;pointer-events:none}
+.suggest-layer.on{opacity:1;pointer-events:auto}
+/* très léger tremblement, lent et presque invisible, pour donner un peu de vie à l'image */
+.suggest-imgwrap{position:absolute;inset:0;animation:suggestShake 11s ease-in-out infinite;will-change:transform}
+.suggest-card-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+@keyframes suggestShake{
+  0%,100%{transform:translate(0,0) scale(1)}
+  25%{transform:translate(-1px,.6px) scale(1.006)}
+  50%{transform:translate(.6px,-.6px) scale(1.012)}
+  75%{transform:translate(-.6px,-1px) scale(1.006)}
+}
+.suggest-card-overlay{position:absolute;inset:0;background:linear-gradient(165deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.75) 100%)}
+.suggest-card-tag{position:relative;z-index:2;align-self:flex-start;margin:12px 0 auto 12px;font-size:.56rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(255,255,255,.16);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.22);padding:4px 10px;border-radius:100px}
+.suggest-card-body{position:relative;z-index:2;padding:14px;color:#fff;width:100%}
+.suggest-card-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:4px;text-shadow:0 2px 10px rgba(0,0,0,.35)}
+.suggest-card-price{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:800;color:#fff}
+.suggest-fade{animation:suggestFade .5s ease both}
+@keyframes suggestFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 </style>
 
 <!-- ===== PILIER 2 : JSON-LD Organization + WebSite (Knowledge Graph) ===== -->
@@ -693,10 +755,6 @@ img{max-width:100%;border:0}
     <div><div class="dw-admin-t">Espace Admin</div><div class="dw-admin-s">Produits, promos, flyers...</div></div>
     <div class="dw-admin-arr"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></div>
   </a>
-  <a class="dw-wa" href="https://wa.me/50940300966" target="_blank">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    +509 403 009 66
-  </a>
 </nav>
 
 <!-- SEARCH -->
@@ -760,6 +818,17 @@ img{max-width:100%;border:0}
   </div>
 </div>
 
+<!-- SUGGESTIONS ALÉATOIRES / PERSONNALISÉES -->
+<div class="suggest-section" id="suggestSection" style="display:none">
+  <div class="suggest-head">
+    <div>
+      <div class="suggest-eyebrow">Pour toi</div>
+      <div class="suggest-title">Suggestions <em>WYK</em></div>
+    </div>
+  </div>
+  <div class="suggest-grid" id="suggestGrid"></div>
+</div>
+
 <!-- SECTION OFFRES / FLYERS -->
 <div class="offres-section" id="offres">
   <div class="offres-head">
@@ -786,8 +855,8 @@ img{max-width:100%;border:0}
       <button class="gall-prev" id="gallPrev" onclick="gallSlide(-1)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M15 19l-7-7 7-7"/></svg></button>
       <button class="gall-next" id="gallNext" onclick="gallSlide(1)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5l7 7-7 7"/></svg></button>
       <div class="gall-dots" id="gallDots"></div>
-      <button class="pop-img-dl" id="popImgDl" onclick="downloadCurrentImg()" title="Télécharger">
-        <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+      <button class="pop-img-zoom" id="popImgZoom" onclick="openImgZoom()" title="Agrandir">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
       </button>
     </div>
     <div class="pop-content">
@@ -837,6 +906,11 @@ img{max-width:100%;border:0}
       <div class="sim-scroll" id="simScroll"></div>
     </div>
   </div>
+</div>
+
+<div class="img-zoom-ov" id="imgZoomOv" onclick="closeImgZoom()">
+  <button class="img-zoom-close" onclick="closeImgZoom();event.stopPropagation()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <img id="imgZoomImg" src="" alt="">
 </div>
 
 <!-- PANIER FLOTTANT -->
@@ -1223,7 +1297,6 @@ function buildFeatured(){
       oldHtml='<span class="feat-old">'+formatPrice(p.old_price)+'</span>';
     }
 
-    var waMsg='Bonjour WYK, je suis intéressé par : *'+p.name+'* — '+formatPrice(p.price)+'\n\nMerci !';
     var card=document.createElement('div');card.className='feat-card';
     card.innerHTML='<div class="feat-img">'+imgH+badgeHtml+'</div>'
       +'<div class="feat-body">'
@@ -1232,9 +1305,6 @@ function buildFeatured(){
       +'<div class="feat-price-row">'
       +'<div style="display:flex;align-items:baseline;gap:6px"><span class="feat-price">'+formatPrice(p.price)+'</span>'+oldHtml+'</div>'
       +discHtml
-      +'<a class="feat-wa" href="https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(waMsg)+'" target="_blank" onclick="event.stopPropagation()">'
-      +'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
-      +'</a>'
       +'</div>'
       +'</div>';
     card.onclick=function(){openProd(p.id,cat?cat.id:null)};
@@ -1423,7 +1493,7 @@ function openProd(pid,catId){
   curQty=1;
   var qtyEl=document.getElementById('popQtyVal');if(qtyEl)qtyEl.textContent='1';
   buildGallery(prod);
-  document.getElementById('popImgDl').style.display=curImgs.length?'':'none';
+  document.getElementById('popImgZoom').style.display=curImgs.length?'':'none';
   document.getElementById('popCat').textContent=cat?cat.name:'Produit';
   document.getElementById('popTitle').textContent=prod.name;
   document.getElementById('popPrice').textContent=formatPrice(prod.price);
@@ -1479,7 +1549,8 @@ function buildGallery(prod){
 }
 function gallGoTo(n){var len=curImgs.length||1;gallIdx=((n%len)+len)%len;document.getElementById('gallTrack').style.transform='translateX(-'+gallIdx*100+'%)';document.querySelectorAll('.gdot').forEach(function(d,i){d.classList.toggle('on',i===gallIdx)})}
 function gallSlide(dir){gallGoTo(gallIdx+dir)}
-function downloadCurrentImg(){if(!curImgs||!curImgs.length)return;var url=curImgs[gallIdx]||curImgs[0];if(!url)return;var a=document.createElement('a');a.href=url;a.download='wyk-produit.jpg';a.target='_blank';a.click()}
+function openImgZoom(){if(!curImgs||!curImgs.length)return;var url=curImgs[gallIdx]||curImgs[0];if(!url)return;document.getElementById('imgZoomImg').src=url;document.getElementById('imgZoomOv').classList.add('on')}
+function closeImgZoom(){document.getElementById('imgZoomOv').classList.remove('on')}
 
 function buildSimilar(cat,excludeId){
   var sc=document.getElementById('simScroll');sc.innerHTML='';
@@ -1703,6 +1774,92 @@ function initFeaturedAutoScroll(){
   },16);
 }
 
+/* ── SUGGESTIONS "Pour toi" ──
+   Chaque carte a son propre rythme de rotation (1re : 6s, 2e : 12s, 3e : 16e, 4e : 20s,
+   les suivantes continuent la progression). Le changement se fait en fondu enchaîné de 2s
+   sur deux calques superposés (jamais de vide entre deux produits), et chaque carte porte
+   un très léger tremblement d'image, lent et presque invisible. Les cartes réagissent au
+   toucher : la rotation d'une carte se met en pause tant qu'on la touche. */
+var suggestSlots=[];
+var suggestTimers=[];
+var SUGGEST_INTERVALS=[6000,12000,16000,20000];
+function suggestIntervalFor(i){
+  if(i<SUGGEST_INTERVALS.length)return SUGGEST_INTERVALS[i];
+  return SUGGEST_INTERVALS[SUGGEST_INTERVALS.length-1]+(i-SUGGEST_INTERVALS.length+1)*4000;
+}
+function pickSuggestionPool(){
+  var favs=getFavs(),cart=getCart();
+  var ids=[];
+  favs.forEach(function(f){if(f.id)ids.push(f.id)});
+  cart.forEach(function(c){if(c.id)ids.push(c.id)});
+  ids=Array.from(new Set(ids));
+  var pool=ids.map(function(id){return allProducts.find(function(p){return p.id===id})}).filter(Boolean);
+  if(pool.length)return pool;
+  return allProducts.slice();
+}
+function suggestLayerHTML(p,cat){
+  var bg=p.imgs&&p.imgs[0]?p.imgs[0]:'';
+  return '<div class="suggest-imgwrap"><div class="suggest-card-bg" style="'+(bg?'background-image:url(\''+escH(bg)+'\')':'background:var(--s3)')+'"></div></div>'
+    +'<div class="suggest-card-overlay"></div>'
+    +'<span class="suggest-card-tag">'+(cat?escH(cat.name):'WYK')+'</span>'
+    +'<div class="suggest-card-body"><div class="suggest-card-name">'+escH(p.name)+'</div><div class="suggest-card-price">'+formatPrice(p.price)+'</div></div>';
+}
+function clearSuggestTimers(){
+  suggestTimers.forEach(function(t){clearInterval(t)});
+  suggestTimers=[];
+}
+function renderSuggestGrid(){
+  if(!allProducts.length)return;
+  clearSuggestTimers();
+  var pool=pickSuggestionPool();
+  if(!pool.length){document.getElementById('suggestSection').style.display='none';return}
+  document.getElementById('suggestSection').style.display='';
+  var shuffled=pool.slice().sort(function(){return Math.random()-.5});
+  var picks=shuffled.slice(0,6);
+  var grid=document.getElementById('suggestGrid');
+  grid.innerHTML='';
+  suggestSlots=[];
+  picks.forEach(function(p,i){
+    var cat=allCats.find(function(c){return c.id===p.category_id});
+    var card=document.createElement('div');card.className='suggest-card suggest-fade';
+    var layerA=document.createElement('div');layerA.className='suggest-layer on';
+    layerA.innerHTML=suggestLayerHTML(p,cat);
+    layerA.onclick=function(){openProd(p.id,cat?cat.id:null)};
+    var layerB=document.createElement('div');layerB.className='suggest-layer';
+    card.appendChild(layerA);card.appendChild(layerB);
+    grid.appendChild(card);
+    suggestSlots.push({card:card,layerA:layerA,layerB:layerB,active:'a',productId:p.id,paused:false});
+    (function(idx){
+      card.addEventListener('touchstart',function(){if(suggestSlots[idx])suggestSlots[idx].paused=true},{passive:true});
+      card.addEventListener('touchend',function(){setTimeout(function(){if(suggestSlots[idx])suggestSlots[idx].paused=false},2200)},{passive:true});
+    })(i);
+  });
+}
+function rotateSuggestSlot(i){
+  var slot=suggestSlots[i];
+  if(!slot||slot.paused)return;
+  var pool=pickSuggestionPool().filter(function(p){return p.id!==slot.productId});
+  if(!pool.length)return;
+  var p=pool[Math.floor(Math.random()*pool.length)];
+  var cat=allCats.find(function(c){return c.id===p.category_id});
+  var showLayer=slot.active==='a'?slot.layerB:slot.layerA;
+  var hideLayer=slot.active==='a'?slot.layerA:slot.layerB;
+  showLayer.innerHTML=suggestLayerHTML(p,cat);
+  showLayer.onclick=function(){openProd(p.id,cat?cat.id:null)};
+  /* les deux calques se fondent l'un dans l'autre en même temps (opacité 2s), sans passage par un état vide */
+  showLayer.classList.add('on');
+  hideLayer.classList.remove('on');
+  slot.active=slot.active==='a'?'b':'a';
+  slot.productId=p.id;
+}
+function startSuggestRotation(){
+  renderSuggestGrid();
+  suggestSlots.forEach(function(slot,i){
+    var t=setInterval(function(){rotateSuggestSlot(i)},suggestIntervalFor(i));
+    suggestTimers.push(t);
+  });
+}
+
 /* ── INIT ── */
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closePopup()});
 document.getElementById('productPopup').addEventListener('click',function(e){if(e.target===this)closePopup()});
@@ -1714,6 +1871,7 @@ if(window.location.hash==='#offres'){setTimeout(scrollToOffres,600)}
 (async function init(){
   try{await checkAuthState()}catch(e){console.error('WYK init checkAuthState :',e)}
   try{await loadData()}catch(e){console.error('WYK init loadData :',e)}
+  try{startSuggestRotation()}catch(e){console.error('WYK init suggestRotation :',e)}
   try{await loadOffres()}catch(e){console.error('WYK init loadOffres :',e)}
 })();
 </script>
