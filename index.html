@@ -61,7 +61,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  header,.drawer,.search-cancel,.gall-nav,.gall-dl,.gall-count,.slider-prev,.slider-next,.pcard-wish,.cf-close-btn{background:var(--surface) !important}
+  header,.drawer,.search-cancel,.gall-nav,.gall-zoom,.gall-count,.slider-prev,.slider-next,.pcard-wish,.cf-close-btn{background:var(--surface) !important}
   [data-theme="dark"] .drawer{background:#141412 !important}
   .ov,.pop-ov,.te-ov{background:rgba(0,0,0,.72) !important}
 }
@@ -155,8 +155,8 @@ header::after{content:'';position:absolute;bottom:0;left:50%;transform:translate
 .dw-link-ico{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--s2);border:1px solid var(--bdr);transition:all var(--ease);box-shadow:0 1px 2px rgba(0,0,0,.04)}
 .dw-link.on .dw-link-ico{background:var(--red-m);border-color:transparent}
 .dw-link:hover .dw-link-ico{border-color:var(--bdr2);transform:scale(1.06)}
-.dw-cats-sub{padding:4px 4px 8px;margin-left:0;margin-bottom:4px}
-.dw-cats-sub.hidden{display:none}
+.dw-cats-sub{max-height:0;overflow:hidden;opacity:0;transition:max-height .38s cubic-bezier(.4,0,.2,1),opacity .28s ease;padding:0 4px}
+.dw-cats-sub.on{max-height:600px;opacity:1;padding:4px 4px 8px}
 .dw-cats-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:4px 0}
 .dw-cat-card{display:flex;align-items:center;gap:8px;padding:8px 9px;border-radius:12px;border:1px solid var(--bdr);background:var(--surface);font-size:.74rem;font-weight:600;color:var(--t2);text-decoration:none;transition:all var(--ease);cursor:pointer;overflow:hidden;box-shadow:var(--sh1)}
 .dw-cat-card:hover{border-color:var(--red-m);color:var(--text);transform:translateY(-2px);box-shadow:var(--sh2)}
@@ -496,9 +496,14 @@ mark{background:rgba(232,25,44,.13);color:var(--red);border-radius:3px;padding:0
 .gdot{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,.2);cursor:pointer;transition:all var(--ease)}
 .gdot.on{background:var(--red);width:18px;border-radius:3px}
 .gall-count{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);color:#fff;font-size:.62rem;font-weight:700;padding:4px 9px;border-radius:100px;z-index:6;letter-spacing:.02em}
-.gall-dl{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:var(--glass);backdrop-filter:blur(8px);border:1px solid var(--gbdr);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:6;color:var(--text);box-shadow:var(--sh1);transition:all var(--ease)}
-.gall-dl:hover{background:var(--surface);transform:scale(1.08)}
-.gall-dl svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none}
+.gall-zoom{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:var(--glass);backdrop-filter:blur(8px);border:1px solid var(--gbdr);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:6;color:var(--text);box-shadow:var(--sh1);transition:all var(--ease)}
+.gall-zoom:hover{background:var(--surface);transform:scale(1.08)}
+.gall-zoom svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none}
+.img-zoom-ov{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.img-zoom-ov.on{opacity:1;pointer-events:all}
+.img-zoom-ov img{max-width:94vw;max-height:90vh;object-fit:contain;border-radius:8px}
+.img-zoom-close{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#fff}
+.img-zoom-close svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.4;fill:none}
 .pop-body{padding:16px 18px 0}
 .pop-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
 .pop-cat-tag{display:inline-flex;align-items:center;gap:5px;background:var(--red-s);border:1px solid var(--red-m);border-radius:100px;padding:4px 11px;font-size:.62rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.06em}
@@ -859,7 +864,7 @@ footer{background:var(--surface);padding:0 0 78px;overflow:hidden;position:relat
       Catégories
       <div class="dw-chevron" id="dwCatChev"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 18l6-6-6-6"/></svg></div>
     </div>
-    <div class="dw-cats-sub hidden" id="dwCatSub">
+    <div class="dw-cats-sub" id="dwCatSub">
       <a class="dw-cat-all-link" href="categories.html">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
         Voir toutes les catégories
@@ -884,7 +889,6 @@ footer{background:var(--surface);padding:0 0 78px;overflow:hidden;position:relat
       <div class="dw-link-ico"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div>
       Mon compte
     </a>
-    <div class="dw-section-lbl">Autres</div>
     <a class="dw-link" href="jeux.html">
       <div class="dw-link-ico" style="background:rgba(147,51,234,.12);border-color:rgba(147,51,234,.2)">
         <svg viewBox="0 0 24 24" stroke="#9333ea" fill="none" stroke-width="1.8" stroke-linecap="round">
@@ -959,7 +963,7 @@ footer{background:var(--surface);padding:0 0 78px;overflow:hidden;position:relat
       <button class="gall-nav gall-next" id="gallNext" onclick="gallSlide(1)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5l7 7-7 7"/></svg></button>
       <div class="gall-dots" id="gallDots"></div>
       <span class="gall-count" id="gallCount" style="display:none">1/1</span>
-      <button class="gall-dl" id="gallDl" onclick="dlImg()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></button>
+      <button class="gall-zoom" id="gallZoom" onclick="openImgZoom()" title="Agrandir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
     </div>
     <div class="pop-body">
       <div class="pop-meta">
@@ -1003,6 +1007,11 @@ footer{background:var(--surface);padding:0 0 78px;overflow:hidden;position:relat
       <div class="sim-scroll" id="simScroll"></div>
     </div>
   </div>
+</div>
+
+<div class="img-zoom-ov" id="imgZoomOv" onclick="closeImgZoom()">
+  <button class="img-zoom-close" onclick="closeImgZoom();event.stopPropagation()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <img id="imgZoomImg" src="" alt="">
 </div>
 
 <div class="cart-float" id="cartFloat">
@@ -1368,7 +1377,7 @@ document.getElementById('overlay').addEventListener('click',closeAll);
 function toggleDrawer(){var d=document.getElementById('drawer'),o=document.getElementById('overlay'),on=d.classList.toggle('on');o.classList.toggle('on',on)}
 function closeDrawer(){document.getElementById('drawer').classList.remove('on');document.getElementById('overlay').classList.remove('on')}
 var _dwCatsOpen=false;
-function toggleDwCats(){_dwCatsOpen=!_dwCatsOpen;document.getElementById('dwCatSub').classList.toggle('hidden',!_dwCatsOpen);document.getElementById('dwCatTrigger').classList.toggle('sub-open',_dwCatsOpen)}
+function toggleDwCats(){_dwCatsOpen=!_dwCatsOpen;document.getElementById('dwCatSub').classList.toggle('on',_dwCatsOpen);document.getElementById('dwCatTrigger').classList.toggle('sub-open',_dwCatsOpen)}
 var CAT_ICO_PATHS={
   shirt:'<path d="M16 3l2 2 4 2-2 4h-2v10H6V11H4l-2-4 4-2 2-2c0 1.5 1.5 3 4 3s4-1.5 4-3z"/>',
   shoe:'<path d="M3 17l3-2.5 3 1.5 4-3 4 2 4-1v4a2 2 0 01-2 2H3v-3z"/><path d="M6 15V6a2 2 0 012-2h1l1 3 2-1 2 2 3-1 2 3"/>',
@@ -1551,7 +1560,7 @@ function renderCatGrid(cats){
   var grid=document.getElementById('catGrid');grid.innerHTML='';
   cats.slice(0,6).forEach(function(cat){
     var card=document.createElement('a');card.className='cat-card';
-    card.href='categories.html';
+    card.href='categories.html?cat='+encodeURIComponent(cat.id);
     var icoHtml;
     if(cat.icon_url){icoHtml='<div class="cat-ico cat-ico-img"><img src="'+escH(cat.icon_url)+'" alt="'+escH(cat.name)+'"></div>'}
     else{var p=getCatBg(cat.name),bg=cat.color||p.bg;icoHtml='<div class="cat-ico cat-ico-emoji" style="background:'+bg+';color:'+p.tc+'">'+getCatIconSVG(cat.name,'19px')+'</div>'}
@@ -1567,7 +1576,7 @@ function renderMarquee(cats){
       var p=getCatBg(cat.name),bg=cat.color||p.bg;
       var icoInner=cat.icon_url?'<img src="'+escH(cat.icon_url)+'" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">'
         :'<span style="color:'+p.tc+'">'+getCatIconSVG(cat.name,'13px')+'</span>';
-      return '<div class="cat-chip" onclick="location.href=\'categories.html\'"><div class="cat-chip-ico" style="background:'+bg+'">'+icoInner+'</div><span>'+escH(cat.name)+'</span></div>';
+      return '<div class="cat-chip" onclick="location.href=\'categories.html?cat='+encodeURIComponent(cat.id)+'\'"><div class="cat-chip-ico" style="background:'+bg+'">'+icoInner+'</div><span>'+escH(cat.name)+'</span></div>';
     }).join('');
   } else {
     var defaults=[{n:'Mode',k:'shirt',bg:'#fdf2f8',tc:'#db2777'},{n:'Tech',k:'phone',bg:'#eff6ff',tc:'#2563eb'},{n:'Services',k:'play',bg:'#f5f3ff',tc:'#7c3aed'},{n:'Food',k:'food',bg:'#fff7ed',tc:'#ea580c'},{n:'Beauté',k:'sparkle',bg:'#fdf2f8',tc:'#ec4899'},{n:'Sport',k:'activity',bg:'#f0fdf4',tc:'#16a34a'},{n:'Bijoux',k:'gem',bg:'#fefce8',tc:'#ca8a04'},{n:'Maison',k:'home',bg:'#fffbeb',tc:'#d97706'}];
@@ -1580,7 +1589,7 @@ function openPopupById(id){var p=_allProds.find(function(x){return x.id===id});i
 function openPopup(p){
   _curProd=p;_curImgs=p._imgs||[];_gallIdx=0;_popQty=1;document.getElementById('popQtyVal').textContent='1';
   buildGallery(p);
-  document.getElementById('gallDl').style.display=_curImgs.length?'':'none';
+  document.getElementById('gallZoom').style.display=_curImgs.length?'':'none';
   document.getElementById('popCat').textContent=(p.categories&&p.categories.name)||'WYK';
   document.getElementById('popTitle').textContent=p.name;
   document.getElementById('popPrice').textContent=formatPrice(p.price);
@@ -1613,7 +1622,8 @@ function buildGallery(p){
 }
 function gallGoTo(n){var len=_curImgs.length||1;_gallIdx=((n%len)+len)%len;document.getElementById('gallTrack').style.transform='translateX(-'+_gallIdx*100+'%)';document.querySelectorAll('.gdot').forEach(function(d,i){d.classList.toggle('on',i===_gallIdx)});var cnt=document.getElementById('gallCount');if(cnt&&cnt.style.display!=='none')cnt.textContent=(_gallIdx+1)+'/'+len}
 function gallSlide(dir){gallGoTo(_gallIdx+dir)}
-function dlImg(){if(!_curImgs.length)return;var url=_curImgs[_gallIdx]||_curImgs[0];if(!url)return;var a=document.createElement('a');a.href=url;a.download='wyk-produit.jpg';a.target='_blank';a.click()}
+function openImgZoom(){if(!_curImgs.length)return;var url=_curImgs[_gallIdx]||_curImgs[0];if(!url)return;document.getElementById('imgZoomImg').src=url;document.getElementById('imgZoomOv').classList.add('on')}
+function closeImgZoom(){document.getElementById('imgZoomOv').classList.remove('on')}
 function buildSimilar(p){
   var sc=document.getElementById('simScroll');sc.innerHTML='';
   var others=_allProds.filter(function(x){return x.id!==p.id&&x.category_id===p.category_id});
