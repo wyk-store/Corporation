@@ -1093,6 +1093,16 @@ function checkDeepLinkOffer(){
     if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
   },500);
 }
+function checkDeepLinkCategory(){
+  var cid=new URLSearchParams(location.search).get('cat');
+  if(!cid)return;
+  setTimeout(function(){
+    var sec=document.querySelector('.cat-section[data-id="'+cid+'"]');
+    if(!sec)return;
+    if(!sec.classList.contains('open'))toggleCat(cid);
+    setTimeout(function(){sec.scrollIntoView({behavior:'smooth',block:'start'})},400);
+  },450);
+}
 
 /* ── FALLBACK object-fit pour très vieux navigateurs (ex Android 8 / vieux WebView) ──
    Certains WebView anciens ignorent object-fit sur <img>. On détecte le support une fois,
@@ -1867,10 +1877,10 @@ document.addEventListener('click',function(e){var cf=document.getElementById('ca
 updateCartBadge();
 refreshCheckoutBtnState();
 if(window.location.hash==='#offres'){setTimeout(scrollToOffres,600)}
-
 (async function init(){
   try{await checkAuthState()}catch(e){console.error('WYK init checkAuthState :',e)}
   try{await loadData()}catch(e){console.error('WYK init loadData :',e)}
+  try{checkDeepLinkCategory()}catch(e){console.error('WYK init checkDeepLinkCategory :',e)}
   try{startSuggestRotation()}catch(e){console.error('WYK init suggestRotation :',e)}
   try{await loadOffres()}catch(e){console.error('WYK init loadOffres :',e)}
 })();
