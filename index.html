@@ -61,7 +61,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  header,.drawer,.search-cancel,.gall-nav,.gall-zoom,.gall-count,.slider-prev,.slider-next,.pcard-wish,.cf-close-btn{background:var(--surface) !important}
+  header,.drawer,.search-cancel,.gall-nav,.gall-dl,.gall-count,.slider-prev,.slider-next,.pcard-wish,.cf-close-btn{background:var(--surface) !important}
   [data-theme="dark"] .drawer{background:#141412 !important}
   .ov,.pop-ov,.te-ov{background:rgba(0,0,0,.72) !important}
 }
@@ -1377,7 +1377,7 @@ document.getElementById('overlay').addEventListener('click',closeAll);
 function toggleDrawer(){var d=document.getElementById('drawer'),o=document.getElementById('overlay'),on=d.classList.toggle('on');o.classList.toggle('on',on)}
 function closeDrawer(){document.getElementById('drawer').classList.remove('on');document.getElementById('overlay').classList.remove('on')}
 var _dwCatsOpen=false;
-function toggleDwCats(){_dwCatsOpen=!_dwCatsOpen;document.getElementById('dwCatSub').classList.toggle('on',_dwCatsOpen);document.getElementById('dwCatTrigger').classList.toggle('sub-open',_dwCatsOpen)}
+function toggleDwCats(){_dwCatsOpen=!_dwCatsOpen;document.getElementById('dwCatSub').classList.toggle('hidden',!_dwCatsOpen);document.getElementById('dwCatTrigger').classList.toggle('sub-open',_dwCatsOpen)}
 var CAT_ICO_PATHS={
   shirt:'<path d="M16 3l2 2 4 2-2 4h-2v10H6V11H4l-2-4 4-2 2-2c0 1.5 1.5 3 4 3s4-1.5 4-3z"/>',
   shoe:'<path d="M3 17l3-2.5 3 1.5 4-3 4 2 4-1v4a2 2 0 01-2 2H3v-3z"/><path d="M6 15V6a2 2 0 012-2h1l1 3 2-1 2 2 3-1 2 3"/>',
@@ -1723,4 +1723,4 @@ initReveal();
 })();
 </script>
 </body>
-</html>
+  </html>
