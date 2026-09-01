@@ -621,9 +621,9 @@ img{max-width:100%;border:0}
 .suggest-eyebrow{font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:4px}
 .suggest-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--text)}
 .suggest-title em{font-style:normal;color:var(--red)}
-.suggest-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.suggest-grid{display:grid;grid-template-columns:1fr;gap:12px}
 @media(min-width:600px){.suggest-grid{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:900px){.suggest-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.suggest-grid{grid-template-columns:repeat(4,1fr)}}
 /* Carte : les images/textes vivent dans deux calques superposés qui se fondent l'un dans l'autre
    (fondu enchaîné 2s, jamais un état "vide" entre deux produits) */
 .suggest-card{position:relative;border-radius:20px;overflow:hidden;min-height:180px;cursor:pointer;transition:transform .3s cubic-bezier(.22,1,.36,1);touch-action:manipulation}
@@ -642,8 +642,14 @@ img{max-width:100%;border:0}
 .suggest-card-overlay{position:absolute;inset:0;background:linear-gradient(165deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.75) 100%)}
 .suggest-card-tag{position:relative;z-index:2;align-self:flex-start;margin:12px 0 auto 12px;font-size:.56rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(255,255,255,.16);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.22);padding:4px 10px;border-radius:100px}
 .suggest-card-body{position:relative;z-index:2;padding:14px;color:#fff;width:100%}
-.suggest-card-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:4px;text-shadow:0 2px 10px rgba(0,0,0,.35)}
-.suggest-card-price{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:800;color:#fff}
+.suggest-card-cat{font-size:.58rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-bottom:4px}
+.suggest-card-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:6px;text-shadow:0 2px 10px rgba(0,0,0,.35);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.25}
+.suggest-card-price-row{display:flex;align-items:baseline;gap:8px}
+.suggest-card-price{font-family:'Syne',sans-serif;font-size:.98rem;font-weight:800;color:#fff}
+.suggest-card-old{font-size:.7rem;color:rgba(255,255,255,.5);text-decoration:line-through}
+.suggest-tag-liked{background:rgba(232,25,44,.85) !important;border-color:rgba(232,25,44,.95) !important}
+.suggest-tag-cart{background:rgba(37,211,102,.85) !important;border-color:rgba(37,211,102,.95) !important}
+.suggest-tag-category,.suggest-tag-random{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.22)}
 .suggest-fade{animation:suggestFade .5s ease both}
 @keyframes suggestFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 </style>
@@ -1783,85 +1789,125 @@ function initFeaturedAutoScroll(){
     grid.scrollLeft=next;
   },16);
 }
-
 /* ── SUGGESTIONS "Pour toi" ──
-   Chaque carte a son propre rythme de rotation (1re : 6s, 2e : 12s, 3e : 16e, 4e : 20s,
-   les suivantes continuent la progression). Le changement se fait en fondu enchaîné de 2s
-   sur deux calques superposés (jamais de vide entre deux produits), et chaque carte porte
-   un très léger tremblement d'image, lent et presque invisible. Les cartes réagissent au
-   toucher : la rotation d'une carte se met en pause tant qu'on la touche. */
+   3 à 4 cartes maximum. Priorité : favoris / panier → même catégorie → aléatoire.
+   Jamais 2 cartes avec le même produit en même temps. Fondu enchaîné 2s entre rotations. */
 var suggestSlots=[];
 var suggestTimers=[];
+var SUGGEST_MAX=4;
 var SUGGEST_INTERVALS=[6000,12000,16000,20000];
+var SUGGEST_REASON_LABELS={liked:'Favori',cart:'Dans le panier',category:'Pourrait te plaire',random:'Suggestion WYK'};
+
 function suggestIntervalFor(i){
   if(i<SUGGEST_INTERVALS.length)return SUGGEST_INTERVALS[i];
   return SUGGEST_INTERVALS[SUGGEST_INTERVALS.length-1]+(i-SUGGEST_INTERVALS.length+1)*4000;
 }
-function pickSuggestionPool(){
+
+/* Construit un pool de produits sans doublon, avec la raison de la suggestion :
+   1) favoris + panier   2) même catégorie que ces produits   3) aléatoire */
+function buildSuggestionPool(excludeIds){
+  excludeIds=excludeIds||[];
   var favs=getFavs(),cart=getCart();
-  var ids=[];
-  favs.forEach(function(f){if(f.id)ids.push(f.id)});
-  cart.forEach(function(c){if(c.id)ids.push(c.id)});
-  ids=Array.from(new Set(ids));
-  var pool=ids.map(function(id){return allProducts.find(function(p){return p.id===id})}).filter(Boolean);
-  if(pool.length)return pool;
-  return allProducts.slice();
+  var likedMap={};
+  favs.forEach(function(f){if(f.id&&!likedMap[f.id])likedMap[f.id]='liked'});
+  cart.forEach(function(c){if(c.id)likedMap[c.id]='cart'});
+
+  var pool=[],usedIds={};
+  Object.keys(likedMap).forEach(function(id){
+    if(excludeIds.indexOf(id)!==-1)return;
+    var p=allProducts.find(function(x){return x.id===id});
+    if(p&&!usedIds[p.id]){pool.push({p:p,reason:likedMap[id]});usedIds[p.id]=true}
+  });
+  pool=pool.sort(function(){return Math.random()-.5});
+
+  if(pool.length<SUGGEST_MAX){
+    var catIds=Array.from(new Set(pool.map(function(it){return it.p.category_id}).filter(Boolean)));
+    if(catIds.length){
+      var sameCat=allProducts.filter(function(p){
+        return catIds.indexOf(p.category_id)!==-1&&excludeIds.indexOf(p.id)===-1&&!usedIds[p.id];
+      }).sort(function(){return Math.random()-.5});
+      sameCat.forEach(function(p){if(!usedIds[p.id]){pool.push({p:p,reason:'category'});usedIds[p.id]=true}});
+    }
+  }
+
+  if(pool.length<SUGGEST_MAX){
+    var randoms=allProducts.filter(function(p){
+      return excludeIds.indexOf(p.id)===-1&&!usedIds[p.id];
+    }).sort(function(){return Math.random()-.5});
+    randoms.forEach(function(p){if(!usedIds[p.id]){pool.push({p:p,reason:'random'});usedIds[p.id]=true}});
+  }
+
+  return pool;
 }
-function suggestLayerHTML(p,cat){
+
+function currentSuggestIds(){
+  return suggestSlots.map(function(s){return s.productId}).filter(Boolean);
+}
+
+function suggestLayerHTML(item){
+  var p=item.p,cat=allCats.find(function(c){return c.id===p.category_id});
   var bg=p.imgs&&p.imgs[0]?p.imgs[0]:'';
+  var lbl=SUGGEST_REASON_LABELS[item.reason]||'Suggestion WYK';
+  var oldHtml=(p.old_price&&Number(p.old_price)>Number(p.price))?'<span class="suggest-card-old">'+formatPrice(p.old_price)+'</span>':'';
   return '<div class="suggest-imgwrap"><div class="suggest-card-bg" style="'+(bg?'background-image:url(\''+escH(bg)+'\')':'background:var(--s3)')+'"></div></div>'
     +'<div class="suggest-card-overlay"></div>'
-    +'<span class="suggest-card-tag">'+(cat?escH(cat.name):'WYK')+'</span>'
-    +'<div class="suggest-card-body"><div class="suggest-card-name">'+escH(p.name)+'</div><div class="suggest-card-price">'+formatPrice(p.price)+'</div></div>';
+    +'<span class="suggest-card-tag suggest-tag-'+item.reason+'">'+escH(lbl)+'</span>'
+    +'<div class="suggest-card-body">'
+      +'<div class="suggest-card-cat">'+(cat?escH(cat.name):'WYK')+'</div>'
+      +'<div class="suggest-card-name">'+escH(p.name)+'</div>'
+      +'<div class="suggest-card-price-row"><span class="suggest-card-price">'+formatPrice(p.price)+'</span>'+oldHtml+'</div>'
+    +'</div>';
 }
+
 function clearSuggestTimers(){
   suggestTimers.forEach(function(t){clearInterval(t)});
   suggestTimers=[];
 }
+
 function renderSuggestGrid(){
   if(!allProducts.length)return;
   clearSuggestTimers();
-  var pool=pickSuggestionPool();
+  var pool=buildSuggestionPool([]);
   if(!pool.length){document.getElementById('suggestSection').style.display='none';return}
   document.getElementById('suggestSection').style.display='';
-  var shuffled=pool.slice().sort(function(){return Math.random()-.5});
-  var picks=shuffled.slice(0,6);
+  var count=Math.min(SUGGEST_MAX,pool.length);
+  var picks=pool.slice(0,count);
   var grid=document.getElementById('suggestGrid');
   grid.innerHTML='';
   suggestSlots=[];
-  picks.forEach(function(p,i){
-    var cat=allCats.find(function(c){return c.id===p.category_id});
+  picks.forEach(function(item,i){
     var card=document.createElement('div');card.className='suggest-card suggest-fade';
     var layerA=document.createElement('div');layerA.className='suggest-layer on';
-    layerA.innerHTML=suggestLayerHTML(p,cat);
-    layerA.onclick=function(){openProd(p.id,cat?cat.id:null)};
+    layerA.innerHTML=suggestLayerHTML(item);
+    layerA.onclick=function(){openProd(item.p.id,item.p.category_id||null)};
     var layerB=document.createElement('div');layerB.className='suggest-layer';
     card.appendChild(layerA);card.appendChild(layerB);
     grid.appendChild(card);
-    suggestSlots.push({card:card,layerA:layerA,layerB:layerB,active:'a',productId:p.id,paused:false});
+    suggestSlots.push({card:card,layerA:layerA,layerB:layerB,active:'a',productId:item.p.id,paused:false});
     (function(idx){
       card.addEventListener('touchstart',function(){if(suggestSlots[idx])suggestSlots[idx].paused=true},{passive:true});
       card.addEventListener('touchend',function(){setTimeout(function(){if(suggestSlots[idx])suggestSlots[idx].paused=false},2200)},{passive:true});
     })(i);
   });
 }
+
 function rotateSuggestSlot(i){
   var slot=suggestSlots[i];
   if(!slot||slot.paused)return;
-  var pool=pickSuggestionPool().filter(function(p){return p.id!==slot.productId});
+  var exclude=currentSuggestIds();
+  var pool=buildSuggestionPool(exclude);
   if(!pool.length)return;
-  var p=pool[Math.floor(Math.random()*pool.length)];
-  var cat=allCats.find(function(c){return c.id===p.category_id});
+  var item=pool[Math.floor(Math.random()*pool.length)];
   var showLayer=slot.active==='a'?slot.layerB:slot.layerA;
   var hideLayer=slot.active==='a'?slot.layerA:slot.layerB;
-  showLayer.innerHTML=suggestLayerHTML(p,cat);
-  showLayer.onclick=function(){openProd(p.id,cat?cat.id:null)};
-  /* les deux calques se fondent l'un dans l'autre en même temps (opacité 2s), sans passage par un état vide */
+  showLayer.innerHTML=suggestLayerHTML(item);
+  showLayer.onclick=function(){openProd(item.p.id,item.p.category_id||null)};
   showLayer.classList.add('on');
   hideLayer.classList.remove('on');
   slot.active=slot.active==='a'?'b':'a';
-  slot.productId=p.id;
+  slot.productId=item.p.id;
 }
+
 function startSuggestRotation(){
   renderSuggestGrid();
   suggestSlots.forEach(function(slot,i){
