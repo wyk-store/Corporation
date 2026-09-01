@@ -170,6 +170,12 @@ header{position:sticky;top:0;z-index:90;background:var(--glass);backdrop-filter:
 .search-wrap{padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--bdr)}
 .search-bar{display:flex;align-items:center;gap:9px;background:var(--s2);border:1.5px solid var(--bdr);border-radius:13px;padding:11px 14px;transition:border-color var(--ease),box-shadow var(--ease)}
 .search-bar.active{border-color:var(--red);box-shadow:0 0 0 3px var(--red-s);background:var(--surface)}
+@keyframes searchPulse{
+  0%{box-shadow:0 0 0 0 rgba(232,25,44,.45)}
+  70%{box-shadow:0 0 0 10px rgba(232,25,44,0)}
+  100%{box-shadow:0 0 0 0 rgba(232,25,44,0)}
+}
+.search-bar.pulse{animation:searchPulse .9s cubic-bezier(.4,0,.2,1) 2;border-color:var(--red)}
 .search-bar svg{width:17px;height:17px;stroke:var(--t3);stroke-width:2;fill:none;flex-shrink:0;transition:stroke var(--ease)}
 .search-bar.active svg.si{stroke:var(--red)}
 .search-bar input{flex:1;background:none;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:.92rem;color:var(--text)}
@@ -712,7 +718,7 @@ img{max-width:100%;border:0}
       <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
       <svg class="icon-moon" viewBox="0 0 24 24"><path stroke-linecap="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
     </button>
-    <button class="hbtn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg></button>
+    <button class="hbtn" id="headerSearchBtn" onclick="focusSearchBar()" aria-label="Rechercher"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg></button>
     <a class="hbtn" href="compte.html"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></a>
     <button class="hbtn" id="cartHbtn" onclick="toggleCart()">
       <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path stroke-linecap="round" d="M16 10a4 4 0 01-8 0"/></svg>
@@ -1355,7 +1361,21 @@ function setFilter(btn,f){
   renderAll();
   updateResultsBar();
 }
-
+function focusSearchBar(){
+  var wrap=document.querySelector('.search-wrap');
+  var bar=document.getElementById('searchBar');
+  var input=document.getElementById('searchInput');
+  if(!wrap||!bar||!input)return;
+  wrap.scrollIntoView({behavior:'smooth',block:'start'});
+  bar.classList.remove('pulse');
+  void bar.offsetWidth;
+  bar.classList.add('pulse');
+  setTimeout(function(){
+    input.focus();
+    bar.classList.add('active');
+  },350);
+  setTimeout(function(){bar.classList.remove('pulse')},1900);
+}
 /* ── SEARCH ── */
 function onSearch(v){
   clearTimeout(searchTimeout);searchVal=v;
