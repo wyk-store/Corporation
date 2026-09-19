@@ -3,5 +3,8 @@ Allow: /
 Disallow: /admin.html
 Disallow: /manager.html
 Disallow: /employe.html
+Disallow: /admin
+Disallow: /manager
+Disallow: /employe
 
 Sitemap: https://wykht.com/sitemap.xml
