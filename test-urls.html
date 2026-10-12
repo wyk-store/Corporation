@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Test des adresses WYK</title><meta name="robots" content="noindex, nofollow">
+<style>body{font:16px/1.4 system-ui,sans-serif;margin:0;padding:16px;background:#f6f5f2;color:#111}h1{font-size:20px}button{font:inherit;padding:12px 16px;border:0;border-radius:12px;background:#e8192c;color:#fff;margin:6px 6px 6px 0}
+.r{background:#fff;border-radius:12px;padding:10px 12px;margin:8px 0;border-left:6px solid #aaa;word-break:break-all}.ok{border-color:#1a9c4a}.ko{border-color:#d11}.in{border-color:#e0a000}small{display:block;color:#555}pre{white-space:pre-wrap;background:#fff;padding:10px;border-radius:12px;font-size:12px}</style></head><body>
+<h1>Test des adresses WYK</h1>
+<p>Cette page interroge le VRAI site et affiche ce que le serveur répond. Touchez « Lancer ». Supprimez ensuite <b>test-urls.html</b> du dépôt.</p>
+<button id="go">Lancer le test</button><button id="cp" style="background:#333">Copier le résultat</button>
+<div id="out"></div><pre id="txt"></pre>
+<script>
+(function(){
+var T=[
+ ['/','200','Accueil'],['/categories','200','Catégories (sans .html)'],['/apropos','200','À propos (sans .html)'],['/conditions-utilisation','200','Conditions (sans .html)'],['/confidentiality','200','Confidentialité (sans .html)'],['/jeux','200','Jeux (sans .html)'],['/compte','200','Compte (sans .html)'],['/categorie','200','Page catégorie sans paramètre'],['/categorie?c=test','200','Catégorie avec paramètre'],
+ ['/categories.html','info','Version .html (doublon toléré : le canonical pointe vers la version propre)'],
+ ['/apropos/','404','Avec « / » final (attendu 404 : le navigateur est redirigé par 404.html)'],
+ ['/categorie/mode','404','Ancien lien court (404 attendu, puis redirection JavaScript)'],
+ ['/page-qui-nexiste-pas','404','Page inexistante (vraie 404 attendue)']];
+var out=document.getElementById('out'),txt=document.getElementById('txt'),lines=[];
+function title(h){var m=h.match(/<title>([\s\S]*?)<\/title>/i);return m?m[1].trim():''}
+async function one(t){var p=t[0],exp=t[1],d;
+ try{var r=await fetch(p,{redirect:'manual',cache:'no-store'});var st=r.type==='opaqueredirect'?'REDIRECTION':r.status,body='';if(r.type!=='opaqueredirect')body=await r.text();d={st:st,title:title(body),body:body}}catch(e){d={st:'ERREUR',title:String(e),body:''}}
+ var cls=exp==='info'?'in':(String(d.st)===exp?'ok':'ko');
+ var el=document.createElement('div');el.className='r '+cls;el.innerHTML='<b>'+p.replace(/</g,'&lt;')+'</b> → '+d.st+' (attendu '+(exp==='info'?'info':exp)+')<small>'+t[2]+' — titre : '+d.title.replace(/</g,'&lt;')+'</small>';out.appendChild(el);
+ lines.push((cls==='ok'?'OK ':cls==='ko'?'ECHEC ':'INFO ')+p+' -> '+d.st+' (attendu '+exp+') | '+d.title);return d}
+async function run(){out.innerHTML='';lines=[];var a,b;
+ for(var i=0;i<T.length;i++){var d=await one(T[i]);if(T[i][0]==='/apropos')a=d;if(T[i][0]==='/categories.html')b=d}
+ try{var x=await (await fetch('/apropos.html',{cache:'no-store'})).text();var same=a&&x&&title(a.body)===title(x);var el=document.createElement('div');el.className='r '+(same?'ok':'ko');el.innerHTML='<b>/apropos et /apropos.html servent le même fichier ?</b> '+(same?'oui':'non')+'<small>Prouve que /apropos est une vraie route du serveur (pas du JavaScript).</small>';out.appendChild(el);lines.push((same?'OK ':'ECHEC ')+'/apropos == /apropos.html')}catch(e){}
+ txt.textContent='WYK test-urls '+new Date().toISOString()+'\n'+lines.join('\n')}
+document.getElementById('go').onclick=run;
+document.getElementById('cp').onclick=function(){try{navigator.clipboard.writeText(txt.textContent);this.textContent='Copié'}catch(e){}};
+})();
+</script></body></html>

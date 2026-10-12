@@ -1,0 +1,71 @@
+WYK v2.3 — chaque page est un HTML complet (CSS + JS dans le même fichier, aucun fichier .css/.js séparé)
+
+AVANT DE METTRE EN LIGNE (une seule fois, dans Supabase > SQL Editor) :
+  alter table categories add column if not exists image_url text;
+  alter table promos add column if not exists image_url text;
+  alter table promos add column if not exists link text;
+  alter table slides add column if not exists link text;
+La 1re ligne = « Image vitrine » des catégories ; la 2e = image de couverture des 2 bannières promo de l'accueil (onglet Offres de l'admin / du manager). Les slides du grand carrousel utilisent déjà leur image (onglet Slides). Sans cette colonne, tout marche quand même (image par défaut générée), seul le champ image ne s'enregistre pas.
+
+En-tête flottant commun (recherche, favoris, panier, thème, menu, barre du bas, bouton WhatsApp) : index, categories, categorie, compte, apropos, jeux, confidentiality.
+Le bouton « retour » du téléphone ferme d'abord la fiche produit / le panier / le menu / la recherche / les filtres avant de quitter la page.
+Panier, favoris et menu = panneaux flottants avec fond flouté. Recherche : barre style développeur + palette de commandes (/ pour l'ouvrir, flèches + Entrée).
+Accueil : section catégories retirée (accès via le menu Catégories, la barre du bas ou le héros).
+Catégories : cartes en verre premium (image vitrine, nombre de produits, boutons Explorer / Promos). Chaque catégorie créée a sa page automatique : /categorie?c=ID (le bouton Promos ouvre ?promo=1).
+Admin / manager : dashboard néomorphisme, accueil avec actions rapides, 4 nouveaux compteurs, champ Image vitrine.
+Mon compte : version premium (néomorphisme léger). Squelettes de chargement sur toutes les pages.
+Pages employe / admin / manager gardent leur propre en-tête (outils internes).
+Même base Supabase qu'avant. Remplacez les fichiers du dépôt GitHub ; supprimez wyk.css / wyk-core.js / webgl-fluid-hero.js s'ils existent encore.
+
+v2.4 : accueil = diapo WYK « Faites vos achats autrement » + slides avec l'image de l'admin (texte en verre) ; plus de produits flottants ; bannières promo avec image ;
+pied de page compact qui suit le thème ; bandeau du haut plus lent ; recherche mobile « Rechercher » ; connexion compacte et texte qui change selon l'onglet ; carte profil sombre.
+Les emojis saisis dans l'admin (titres, tags, textes) sont retirés à l'affichage.
+
+v2.5 — SQL À EXÉCUTER (Supabase > SQL Editor), en plus des 2 lignes « image_url » ci-dessus :
+
+  create table if not exists site_pages(slug text primary key, title text, content text, updated_at timestamptz default now());
+  alter table site_pages enable row level security;
+  create policy "lecture publique" on site_pages for select using (true);
+  create policy "ecriture admin" on site_pages for all using (auth.uid()='dcdb1af5-6305-4138-b991-cf3a931740ed') with check (auth.uid()='dcdb1af5-6305-4138-b991-cf3a931740ed');
+
+Pages légales : /conditions-utilisation (nouvelle) et /confidentiality. Quand l'admin est connecté, un bouton « Modifier cette page » apparaît ; le texte enregistré remplace le texte d'origine (bouton « Texte d'origine » pour revenir en arrière).
+Le texte des Conditions d'utilisation est un modèle de départ : faites-le relire / adapter avant de vous en servir comme document juridique.
+Accueil : section marque seule en haut, puis slides (texte à côté de l'image), bannières promo compactes, SEO (données structurées Organisation, FAQ, promos et produits).
+Admin / manager : tableau de bord avec raccourcis vers toutes les zones modifiables + image de catégorie téléversée ou par lien + image de couverture des promos.
+
+v2.6 : accueil — bloc marque sans « onglet » (texte libre sur le fond) ; slides et bannières affichent l'affiche EN ENTIER (fond flou + image complète, hauteur adaptée au mobile) ;
+bannières promo = 4 pièces de verre séparées (titre, étiquette, sous-titre, bouton). Admin > onglet « Offres » = « Bannières de l'accueil » : aperçu des cartes, statut (affichée / masquée), modifier, masquer, supprimer, aperçu en direct, image par téléversement ou lien, lien du bouton.
+
+v2.7 : accueil — bloc marque intégré (sans fond, texte qui suit le thème clair/sombre) ; slides = annonces en rectangle couché avec les mêmes pièces de verre que les bannières (affiche entière) ;
+admin/manager > Slides : cartes d'aperçu, aperçu en direct, lien du bouton, affiche téléversée ou par lien, masquer/afficher.
+Catégorie : carrousel « à la une » des produits. Produits : si l'article est déjà au panier la carte affiche − quantité + ; la fiche enregistre exactement la quantité choisie (« Mettre à jour » si déjà au panier). Fiche refaite : bloc prix, caractéristiques, questions fréquentes (plus de bloc livraison).
+
+v2.8 — ADRESSES COURTES DES CATÉGORIES (ex. wykht.com/categorie/mode)
+SQL à exécuter une fois (Supabase > SQL Editor) :
+  alter table categories add column if not exists slug text;
+  update categories set slug = trim(both '-' from regexp_replace(lower(translate(name,'àâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ','aaaeeeeiioouuucaaaeeeeiioouuuc')),'[^a-z0-9]+','-','g')) where slug is null;
+  create unique index if not exists categories_slug_key on categories(slug);
+(Si la 3e ligne échoue, deux catégories ont un nom trop proche : renomme l'une d'elles.)
+Même sans ce SQL, l'adresse est calculée depuis le nom. Admin / manager > Catégories : champ « Adresse de la page » (modifiable) + bouton « Lien » qui copie https://wykht.com/categorie/<nom>.
+Fonctionnement : les liens internes utilisent /categorie?c=<nom> ; le lien court /categorie/<nom> est géré par 404.html (redirection), puis la barre d'adresse affiche /categorie/<nom>. Les anciens liens avec l'identifiant continuent de marcher.
+Fichier à déployer en plus : 404.html (à la racine du dépôt).
+
+v2.9 — CORRECTIONS SEO ET ADRESSES (aucun SQL à exécuter, aucun nouveau fichier à déployer sauf STRATEGIE-URL.txt, facultatif)
+- Adresse officielle d'une catégorie = https://wykht.com/categorie?c=<nom> (vraie page, répond toujours « 200 », se recharge sans problème).
+  La barre d'adresse n'est plus réécrite en /categorie/<nom> : cette adresse n'existe pas sur GitHub Pages (elle passe par 404.html).
+  Les anciens liens /categorie/<nom> déjà partagés continuent de marcher pour les visiteurs (404.html les redirige) mais ne sont plus recommandés.
+  Admin / manager > Catégories : le bouton « Lien » copie maintenant https://wykht.com/categorie?c=<nom>.
+- Canonicals : accueil (/), /categories ajoutés ; /categorie?c=<nom> posé dès le chargement ; catégorie introuvable ou /categorie sans ?c= = noindex.
+- admin / manager / employe : balise « noindex, nofollow » ajoutée (robots.txt les bloque déjà ; il ne remplace pas la connexion).
+- sitemap.xml : /compte retiré (page noindex) ; « lastmod » et « priority » retirés (dates non vérifiables, ignorées par Google).
+- Données structurées : action de recherche (SearchAction) retirée de l'accueil car /categories?q= n'existait pas. Fil d'Ariane ajouté sur chaque catégorie.
+- Titres : /categories et /confidentiality ont maintenant un vrai titre H1.
+Voir STRATEGIE-URL.txt pour la règle à suivre pour les futures pages.
+
+v2.10 — VÉRIFICATION DES ADRESSES PROPRES
+- Nouveau fichier test-urls.html (à déployer TEMPORAIREMENT) : ouvrez https://wykht.com/test-urls sur le téléphone, touchez « Lancer le test », puis « Copier le résultat ». Il interroge le vrai serveur et montre les codes réels. Supprimez ensuite le fichier du dépôt.
+- 404.html : une adresse avec « / » final vers une page connue (ex. /apropos/) est redirigée vers la version sans « / » (pour les liens externes mal formés).
+
+v2.10.1 — AUDIT FINAL (une seule correction)
+- robots.txt : les lignes « Disallow » vers admin / manager / employe sont retirées pour que Google puisse lire leur balise « noindex, nofollow ». Elles restent protégées par la connexion Supabase, pas par robots.txt.
+- Aucun autre fichier de page modifié. test-urls.html reste à déployer TEMPORAIREMENT, puis à supprimer du dépôt.

@@ -1,0 +1,25 @@
+WYK — STRATÉGIE D'ADRESSES (URL) — à relire avant d'ajouter des pages ou des fiches produits
+
+Hébergement : GitHub Pages = fichiers statiques seulement. Pas de règles de réécriture, pas de redirection 301 personnalisée.
+Comportement connu de GitHub Pages (non re-testé en direct dans cette phase, à vérifier une fois en ligne) :
+  /apropos        -> sert apropos.html (réponse 200)
+  /apropos.html   -> sert aussi apropos.html (200, pas de redirection) -> le canonical indique la version sans .html
+  /nimporte/quoi  -> sert 404.html avec le code HTTP 404
+
+RÈGLES
+1. Pages fixes : adresse canonique SANS « .html » (ex. https://wykht.com/apropos). Chaque page porte son <link rel="canonical"> vers elle-même.
+2. Catégories : adresse canonique = https://wykht.com/categorie?c=<slug>. C'est un vrai fichier (categorie.html), donc 200, rechargeable.
+   Ne PAS utiliser /categorie/<slug> comme adresse officielle : elle dépend de 404.html (code 404 + JavaScript), donc invisible pour Google.
+   Garder 404.html pour les anciens liens partagés.
+3. Ne jamais créer un dossier du même nom qu'une page existante (ex. dossier categorie/ à côté de categorie.html) : risque de casser /categorie.
+4. Futures fiches produits statiques (pas encore faites) : créer un NOUVEAU dossier au nom différent, par exemple produit/<slug>.html
+   -> adresse https://wykht.com/produit/<slug> (à valider par un test réel sur GitHub Pages avant la génération en masse).
+   Chaque fiche : canonical vers elle-même, titre et description propres, ajout au sitemap seulement quand le fichier existe réellement.
+   Même principe possible plus tard pour des pages de catégories statiques (ex. rayon/<slug>.html) : le canonical des ?c= devra alors être changé.
+5. Sitemap : uniquement des pages réelles, indexables, en https://wykht.com/..., sans noindex (donc pas /compte, pas d'admin).
+   Ne mettre « lastmod » que si la date est la vraie date de modification de la page.
+6. robots.txt n'est pas une protection : les pages admin se protègent par la connexion Supabase (règles RLS), pas par robots.txt.
+   Ne PAS mettre « Disallow » sur /admin, /manager, /employe : Google ne pourrait plus lire leur balise noindex (une adresse bloquée peut quand même apparaître dans les résultats, sans description). Le noindex dans la page suffit (GitHub Pages ne permet pas l'en-tête X-Robots-Tag).
+
+v2.10 — Les adresses sans .html (/apropos, /categories…) sont de VRAIES routes : GitHub Pages sert apropos.html pour /apropos (réponse 200). Le JavaScript ne sert qu'à nettoyer la barre d'adresse des visiteurs arrivés par la version .html (doublon que GitHub Pages ne peut pas rediriger). À confirmer avec test-urls.html après la mise en ligne.
+Plan B si le test échoue : un dossier par page (apropos/index.html) -> adresses /apropos/ avec « / » final, canonicals et sitemap à adapter.
