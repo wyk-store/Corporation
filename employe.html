@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <title>Admin — WYK</title>
+<meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
@@ -208,6 +209,22 @@ select.form-input{cursor:pointer}
 </style>
 </head>
 <body>
+<!--PGSK--><style>#pgsk{position:fixed;inset:0;z-index:2147483000;background:#f4f3ef;transition:opacity .5s ease,visibility .5s;overflow:hidden}#pgsk.dk{background:#0d0d0c}#pgsk.off{opacity:0;visibility:hidden;pointer-events:none}
+#pgsk .pk-b{position:relative;overflow:hidden;display:block;border-radius:14px;background:rgba(120,120,120,.14)}#pgsk .pk-b:after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);animation:pkshim 1.5s infinite}#pgsk.dk .pk-b:after{background:linear-gradient(90deg,transparent,rgba(255,255,255,.09),transparent)}@keyframes pkshim{to{transform:translateX(100%)}}
+#pgsk .pk-bar{margin:12px;height:60px;border-radius:30px;display:flex;align-items:center;gap:12px;padding:0 14px;background:rgba(120,120,120,.1)}#pgsk .pk-w{max-width:1100px;margin:0 auto;padding:18px 16px;display:grid;gap:16px}#pgsk .pk-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}</style>
+<div id="pgsk" aria-hidden="true"><div class="pk-bar"><i class="pk-b" style="width:38px;height:38px;border-radius:12px"></i><i class="pk-b" style="width:90px;height:16px"></i><i class="pk-b" style="width:40px;height:40px;border-radius:50%;margin-left:auto"></i><i class="pk-b" style="width:40px;height:40px;border-radius:50%"></i></div><div class="pk-w"><i class="pk-b" style="height:30px;width:42%"></i><i class="pk-b" style="height:190px;border-radius:26px"></i><div class="pk-g"><i class="pk-b" style="height:150px;border-radius:22px"></i><i class="pk-b" style="height:150px;border-radius:22px"></i><i class="pk-b" style="height:150px;border-radius:22px"></i><i class="pk-b" style="height:150px;border-radius:22px"></i></div><i class="pk-b" style="height:14px;width:70%"></i><i class="pk-b" style="height:14px;width:55%"></i></div></div>
+<script>(function(){var s=document.getElementById('pgsk'),t0=Date.now(),th=null;try{th=localStorage.getItem('wyk-theme')}catch(e){}if(th==='dark'||(!th&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)||document.documentElement.getAttribute('data-theme')==='dark')s.className='dk';var done=function(){if(!s||s.classList.contains('off'))return;setTimeout(function(){s.classList.add('off');setTimeout(function(){s.remove()},700)},Math.max(0,650-(Date.now()-t0)))};if(document.readyState==='complete')done();else addEventListener('load',done);setTimeout(done,6000)})()</script><!--/PGSK-->
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- AUTH GATE -->
 <div id="authGate">

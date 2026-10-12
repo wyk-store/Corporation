@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <title>Admin — WYK</title>
+<meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
@@ -360,8 +361,93 @@ select.form-input{cursor:pointer}
   header{padding:0 28px}
 }
 </style>
+<style id="wyk-nm">
+/* ===== WYK dashboard : néomorphisme doux + verre ===== */
+:root{--bg:#e8ebf1;--surface:#e8ebf1;--s2:#dde1e9;--s3:#d2d7e0;--bdr:rgba(255,255,255,.6);--bdr2:rgba(120,135,160,.28);--gbdr:transparent;
+--nm-hi:rgba(255,255,255,.95);--nm-lo:rgba(150,163,186,.5);
+--nm-raise:9px 9px 20px var(--nm-lo),-9px -9px 20px var(--nm-hi);--nm-raise-sm:5px 5px 12px var(--nm-lo),-5px -5px 12px var(--nm-hi);--nm-raise-xs:3px 3px 7px var(--nm-lo),-3px -3px 7px var(--nm-hi);
+--nm-inset:inset 4px 4px 9px var(--nm-lo),inset -4px -4px 9px var(--nm-hi)}
+[data-theme="dark"]{--bg:#17181c;--surface:#17181c;--s2:#121316;--s3:#0d0e10;--bdr:rgba(255,255,255,.05);--bdr2:rgba(255,255,255,.1);--nm-hi:rgba(255,255,255,.05);--nm-lo:rgba(0,0,0,.62);--glass:rgba(23,24,28,.8)}
+body{background:var(--bg)}
+header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!important;border:none!important;box-shadow:var(--nm-raise)}
+.back-btn,.theme-btn,.logout-btn{box-shadow:var(--nm-raise-xs);border:none!important;background:var(--bg)!important;transition:.25s}.back-btn:active,.theme-btn:active,.logout-btn:active{box-shadow:var(--nm-inset)}
+.h-badge{background:linear-gradient(135deg,#e8192c,#ff5a69)!important;color:#fff!important;box-shadow:0 6px 14px rgba(232,25,44,.35)}
+.tabs-wrap{margin:14px 12px 0;padding:6px!important;border:none!important;border-radius:30px;background:var(--bg)!important;box-shadow:var(--nm-inset);gap:4px}
+.tab{border-bottom:none!important;border-radius:24px;padding:10px 15px;transition:.3s}.tab.on{background:var(--bg);color:var(--red)!important;box-shadow:var(--nm-raise-xs)}
+.panel{padding-top:18px}
+.stat-row{gap:14px}
+.stat-card{border-radius:26px!important;border:none!important;background:var(--bg)!important;box-shadow:var(--nm-raise-sm);transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}.stat-card:hover{transform:translateY(-4px)}
+.stat-card-ico{border-radius:16px!important;box-shadow:var(--nm-inset)}
+.stat-card-val{letter-spacing:-.03em}
+.data-item,.slide-card,.promo-card,.offer-card,.review-card,.home-section,.ticker-item{border:none!important;background:var(--bg)!important;border-radius:22px!important;box-shadow:var(--nm-raise-xs);transition:transform .3s,box-shadow .3s}.data-item:hover,.slide-card:hover,.promo-card:hover,.offer-card:hover{transform:translateY(-3px);box-shadow:var(--nm-raise-sm)}
+.data-item-img{border-radius:16px!important;box-shadow:var(--nm-inset)}
+.form-input,.finput,.ticker-input,textarea.form-input,select.form-input{background:var(--bg)!important;border:none!important;border-radius:15px!important;box-shadow:var(--nm-inset)!important;transition:box-shadow .25s}
+.form-input:focus,.finput:focus-within,.ticker-input:focus{box-shadow:var(--nm-inset),0 0 0 3px rgba(232,25,44,.22)!important}
+.finput input{background:transparent!important;box-shadow:none!important}
+.btn-add,.btn-submit,.btn-save-section,.btn-login{background:linear-gradient(135deg,#e8192c,#ff4b5c)!important;color:#fff!important;border:none!important;box-shadow:7px 7px 16px rgba(232,25,44,.32),-5px -5px 12px var(--nm-hi)!important;transition:.3s}.btn-add:hover,.btn-submit:hover,.btn-save-section:hover{transform:translateY(-2px)}.btn-add:active,.btn-submit:active{transform:translateY(0);box-shadow:inset 3px 3px 8px rgba(0,0,0,.25)!important}
+.btn-edit,.btn-del,.star-btn,.icon-lib-tab{background:var(--bg)!important;border:none!important;box-shadow:var(--nm-raise-xs);transition:.25s}.btn-edit:active,.btn-del:active,.icon-lib-tab.on{box-shadow:var(--nm-inset)}
+.toggle-track{box-shadow:var(--nm-inset)!important;background:var(--s2)!important}
+.modal-sheet{background:var(--bg)!important;box-shadow:0 -20px 70px rgba(0,0,0,.28)}
+.modal-ov{backdrop-filter:blur(12px)}
+.modal-cls{background:var(--bg)!important;box-shadow:var(--nm-raise-xs);border:none!important}
+.toast{border-radius:30px!important;box-shadow:var(--nm-raise)}
+.auth-box{background:var(--bg)!important;border:none!important;border-radius:32px!important;box-shadow:var(--nm-raise)}
+.img-upload-area,.icon-url-preview,.icon-selected-preview,.jg-info-box{background:var(--bg)!important;border:none!important;box-shadow:var(--nm-inset);border-radius:18px!important}
+/* hero du dashboard */
+.dash-hero{position:relative;overflow:hidden;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px;padding:22px;border-radius:30px;background:linear-gradient(135deg,#e8192c,#8f0b18);color:#fff;box-shadow:12px 12px 26px rgba(143,11,24,.35),-8px -8px 20px var(--nm-hi)}
+.dash-hero:before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-80px;top:-120px;background:radial-gradient(circle,rgba(255,255,255,.28),transparent 65%)}
+.dh-tx{position:relative;max-width:460px}.dh-eb{font-size:11px;letter-spacing:.22em;text-transform:uppercase;opacity:.8;font-weight:700}.dash-hero h1{font-size:clamp(26px,5vw,38px);letter-spacing:-.03em;line-height:1.05;margin:6px 0 8px;font-family:inherit;font-weight:800}.dash-hero p{opacity:.88;font-size:13.5px;line-height:1.55}
+.dh-qa{position:relative;display:grid;grid-template-columns:repeat(2,minmax(120px,1fr));gap:10px;flex:1;min-width:260px;max-width:440px}
+.dh-qa a,.dh-qa button{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.16);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:600;font-size:13px;text-align:left;text-decoration:none;cursor:pointer;transition:.3s;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.dh-qa a{grid-column:1/-1;justify-content:center}
+.dh-qa a:hover,.dh-qa button:hover{background:#fff;color:#8f0b18;transform:translateY(-2px)}.dh-qa svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+</style>
+<style id="wyk-sc">
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:12px}
+.sc{position:relative;display:flex;align-items:center;gap:13px;padding:14px 16px;border-radius:24px;background:var(--bg);box-shadow:var(--nm-raise-sm);cursor:pointer;text-decoration:none;color:inherit;transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s;flex-wrap:wrap}
+.sc:hover{transform:translateY(-3px);box-shadow:var(--nm-raise)}.sc:active{box-shadow:var(--nm-inset);transform:none}
+.sc-ic{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;flex:none;color:var(--red);box-shadow:var(--nm-inset)}.sc-ic svg{width:22px;height:22px}
+.sc-tx{flex:1;min-width:0}.sc-tx b{display:block;font-size:14px}.sc-tx small{display:block;font-size:11.5px;opacity:.65;margin-top:2px;line-height:1.35}
+.sc-add{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;flex:none;background:linear-gradient(135deg,#e8192c,#ff4b5c);color:#fff;box-shadow:4px 4px 10px rgba(232,25,44,.32),-3px -3px 8px var(--nm-hi);transition:.25s}.sc-add svg{width:17px;height:17px}.sc-add:hover{transform:scale(1.1) rotate(90deg)}
+.sc-legal{cursor:default}.sc-legal:hover{transform:none}.sc-links{display:flex;gap:8px;flex-wrap:wrap;width:100%;padding-left:59px}.sc-links a{padding:8px 14px;border-radius:30px;font-size:12px;font-weight:600;color:var(--red);box-shadow:var(--nm-raise-xs);text-decoration:none;transition:.25s}.sc-links a:hover{box-shadow:var(--nm-inset)}
+.seg2{display:flex;gap:4px;padding:4px;border-radius:30px;box-shadow:var(--nm-inset)}.seg2 button{flex:1;padding:9px;border-radius:24px;font-weight:600;font-size:13px;color:inherit;opacity:.7;transition:.25s}.seg2 button.on{box-shadow:var(--nm-raise-xs);color:var(--red);opacity:1}
+.cat-rm{margin-top:8px;padding:7px 14px;border-radius:30px;font-size:12px;font-weight:600;color:var(--red);box-shadow:var(--nm-raise-xs)}
+</style>
+<style id="wyk-bnp">
+.bn-intro{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:16px;border-radius:24px;box-shadow:var(--nm-raise-sm);margin-bottom:16px}
+.bn-intro-ic{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;color:var(--red);box-shadow:var(--nm-inset);flex:none}.bn-intro-ic svg{width:22px;height:22px}
+.bn-intro b{display:block;font-size:15px}.bn-intro p{font-size:12.5px;opacity:.7;line-height:1.5;margin-top:3px}
+.bn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.bnp{border-radius:26px;padding:10px;box-shadow:var(--nm-raise-sm);background:var(--bg)}
+.bnp-view{position:relative;aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:linear-gradient(130deg,#101012,#2a0c12 58%,#8f0b18);cursor:pointer;color:#fff;isolation:isolate}
+.bnp-media{position:absolute;inset:0;z-index:-1;background:#0d0d10}.bnp-media img{position:absolute;inset:0;width:100%;height:100%}.bnp-media .bk{object-fit:cover;filter:blur(18px) brightness(.8);transform:scale(1.15)}.bnp-media .fg{object-fit:contain}
+.bnp-chip{position:absolute;z-index:2;background:rgba(14,14,18,.42);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.28);border-radius:14px;padding:6px 11px;font-size:11px;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.bnp-t{top:9px;left:9px;max-width:66%;font-weight:800;font-size:13px}.bnp-tag{top:9px;right:9px;border-radius:30px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}.bnp-s{left:9px;bottom:9px;max-width:58%;line-height:1.3}.bnp-b{right:9px;bottom:9px;background:rgba(255,255,255,.93);color:#111;font-weight:700;border-radius:30px;border-color:#fff}
+.bnp-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 4px 2px;flex-wrap:wrap}
+.bnp-st{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700}.bnp-st i{width:9px;height:9px;border-radius:50%}.bnp-st.on i{background:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.18)}.bnp-st.off i{background:#9ca3af}.bnp-st.wait i{background:#f59e0b}
+.bnp-act{display:flex;gap:8px;flex-wrap:wrap}.bnp-act button{padding:7px 12px;border-radius:30px;font-size:12px;font-weight:600;box-shadow:var(--nm-raise-xs);color:inherit;background:var(--bg);transition:.25s}.bnp-act button:active{box-shadow:var(--nm-inset)}.bnp-act .del{color:var(--red)}
+.bnp-live{margin-bottom:6px}.bnp-live .bnp-view{aspect-ratio:16/8;cursor:default}
+.bnp-view.land{aspect-ratio:21/9}.bnp-view.t-red{background:linear-gradient(130deg,#e8192c,#8f0b18)}.bnp-view.t-dark{background:linear-gradient(130deg,#111,#3a3a40)}.bnp-view.t-light{background:linear-gradient(130deg,#f4f4f1,#d8d8d2)}
+.grp-t{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;opacity:.6;font-weight:700;margin:18px 0 8px}
+</style>
 </head>
 <body>
+<!--PGSK--><style>#pgsk{position:fixed;inset:0;z-index:2147483000;background:#f4f3ef;transition:opacity .5s ease,visibility .5s;overflow:hidden}#pgsk.dk{background:#0d0d0c}#pgsk.off{opacity:0;visibility:hidden;pointer-events:none}
+#pgsk .pk-b{position:relative;overflow:hidden;display:block;border-radius:14px;background:rgba(120,120,120,.14)}#pgsk .pk-b:after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);animation:pkshim 1.5s infinite}#pgsk.dk .pk-b:after{background:linear-gradient(90deg,transparent,rgba(255,255,255,.09),transparent)}@keyframes pkshim{to{transform:translateX(100%)}}
+#pgsk .pk-bar{margin:12px;height:60px;border-radius:30px;display:flex;align-items:center;gap:12px;padding:0 14px;background:rgba(120,120,120,.1)}#pgsk .pk-w{max-width:1100px;margin:0 auto;padding:18px 16px;display:grid;gap:16px}#pgsk .pk-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}</style>
+<div id="pgsk" aria-hidden="true"><div class="pk-bar"><i class="pk-b" style="width:38px;height:38px;border-radius:12px"></i><i class="pk-b" style="width:90px;height:16px"></i><i class="pk-b" style="width:40px;height:40px;border-radius:50%;margin-left:auto"></i><i class="pk-b" style="width:40px;height:40px;border-radius:50%"></i></div><div class="pk-w"><i class="pk-b" style="height:30px;width:42%"></i><i class="pk-b" style="height:190px;border-radius:26px"></i><div class="pk-g"><i class="pk-b" style="height:150px;border-radius:22px"></i><i class="pk-b" style="height:150px;border-radius:22px"></i><i class="pk-b" style="height:150px;border-radius:22px"></i><i class="pk-b" style="height:150px;border-radius:22px"></i></div><i class="pk-b" style="height:14px;width:70%"></i><i class="pk-b" style="height:14px;width:55%"></i></div></div>
+<script>(function(){var s=document.getElementById('pgsk'),t0=Date.now(),th=null;try{th=localStorage.getItem('wyk-theme')}catch(e){}if(th==='dark'||(!th&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)||document.documentElement.getAttribute('data-theme')==='dark')s.className='dk';var done=function(){if(!s||s.classList.contains('off'))return;setTimeout(function(){s.classList.add('off');setTimeout(function(){s.remove()},700)},Math.max(0,650-(Date.now()-t0)))};if(document.readyState==='complete')done();else addEventListener('load',done);setTimeout(done,6000)})()</script><!--/PGSK-->
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- AUTH GATE -->
 <div id="authGate">
@@ -438,6 +524,12 @@ select.form-input{cursor:pointer}
 
 <!-- ═══════ DASHBOARD ═══════ -->
 <div class="panel on" id="panel-dashboard">
+  <div class="dash-hero"><div class="dh-tx"><span class="dh-eb">Tableau de bord</span><h1 id="dh-greet">Bonjour</h1><p>Gérez le catalogue et la vitrine de WYK. Chaque catégorie que vous créez a sa propre page, générée automatiquement.</p></div><div class="dh-qa">
+<button onclick="switchTab('products',document.querySelectorAll('.tab')[1]);setTimeout(openProductModal,100)"><svg viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>Nouveau produit</button>
+<button onclick="switchTab('categories',document.querySelectorAll('.tab')[2]);setTimeout(openCatModal,100)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M17.5 14v7M14 17.5h7"/></svg>Nouvelle catégorie</button>
+<button onclick="switchTab('promos',document.querySelectorAll('.tab')[3]);setTimeout(openPromoModal,100)"><svg viewBox="0 0 24 24"><path d="M19 5L5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>Nouvelle offre</button>
+<button onclick="switchTab('slides',document.querySelectorAll('.tab')[4]);setTimeout(openSlideModal,100)"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 15l-5-5-8 8"/></svg>Nouveau slide</button>
+<a href="/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Voir le site</a></div></div>
   <div class="stat-row">
     <div class="stat-card">
       <div class="stat-card-ico ico-b"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg></div>
@@ -459,30 +551,29 @@ select.form-input{cursor:pointer}
       <div class="stat-card-val" id="stat-ticker">—</div>
       <div class="stat-card-lbl">Messages ticker</div>
     </div>
+    <div class="stat-card">
+      <div class="stat-card-ico ico-o"><svg viewBox="0 0 24 24"><path d="M19 5L5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></div>
+      <div class="stat-card-val" id="stat-promos">—</div>
+      <div class="stat-card-lbl">Promos actives</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-ico ico-p"><svg viewBox="0 0 24 24"><path d="M20.6 13.4l-7.2 7.2a2 2 0 01-2.8 0L2 12V2h10l8.6 8.6a2 2 0 010 2.8z"/><circle cx="7" cy="7" r="1.5"/></svg></div>
+      <div class="stat-card-val" id="stat-offers">—</div>
+      <div class="stat-card-lbl">Offres actives</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-ico ico-y"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.6 5.8 21l1.4-7L2 9.3l7-.8z"/></svg></div>
+      <div class="stat-card-val" id="stat-reviews">—</div>
+      <div class="stat-card-lbl">Avis clients</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-ico ico-r"><svg viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></div>
+      <div class="stat-card-val" id="stat-low">—</div>
+      <div class="stat-card-lbl">Stock bas (≤5)</div>
+    </div>
   </div>
-  <div style="background:linear-gradient(135deg,rgba(232,25,44,.06),rgba(232,25,44,.02));border:1px solid rgba(232,25,44,.14);border-radius:18px;padding:18px;margin-bottom:16px">
-    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;color:var(--text);margin-bottom:4px">Bienvenue dans l'espace Admin WYK 🚀</div>
-    <div style="font-size:.8rem;color:var(--t2);line-height:1.65">Gère les produits, catégories, slides, offres, avis et les textes de la page d'accueil. Modifications visibles en temps réel.</div>
-  </div>
-  <div class="sec-hd"><h2>Actions <em>rapides</em></h2></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-    <button onclick="switchTab('products',document.querySelectorAll('.tab')[1]);setTimeout(openProductModal,100)" style="background:var(--surface);border:1px solid var(--bdr);border-radius:14px;padding:14px;text-align:left;cursor:pointer;transition:all var(--ease)" onmouseover="this.style.boxShadow='var(--sh2)'" onmouseout="this.style.boxShadow=''">
-      <div style="width:34px;height:34px;border-radius:10px;background:#fff0f1;color:#e8192c;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg></div>
-      <div style="font-size:.82rem;font-weight:700;color:var(--text)">Nouveau produit</div>
-    </button>
-    <button onclick="switchTab('categories',document.querySelectorAll('.tab')[2]);setTimeout(openCatModal,100)" style="background:var(--surface);border:1px solid var(--bdr);border-radius:14px;padding:14px;text-align:left;cursor:pointer;transition:all var(--ease)" onmouseover="this.style.boxShadow='var(--sh2)'" onmouseout="this.style.boxShadow=''">
-      <div style="width:34px;height:34px;border-radius:10px;background:#eff6ff;color:#2563eb;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg></div>
-      <div style="font-size:.82rem;font-weight:700;color:var(--text)">Nouvelle catégorie</div>
-    </button>
-    <button onclick="switchTab('promos',document.querySelectorAll('.tab')[3]);setTimeout(openPromoModal,100)" style="background:var(--surface);border:1px solid var(--bdr);border-radius:14px;padding:14px;text-align:left;cursor:pointer;transition:all var(--ease)" onmouseover="this.style.boxShadow='var(--sh2)'" onmouseout="this.style.boxShadow=''">
-      <div style="width:34px;height:34px;border-radius:10px;background:#fff7ed;color:#ea580c;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg></div>
-      <div style="font-size:.82rem;font-weight:700;color:var(--text)">Nouvelle offre</div>
-    </button>
-    <button onclick="switchTab('slides',document.querySelectorAll('.tab')[4]);setTimeout(openSlideModal,100)" style="background:var(--surface);border:1px solid var(--bdr);border-radius:14px;padding:14px;text-align:left;cursor:pointer;transition:all var(--ease)" onmouseover="this.style.boxShadow='var(--sh2)'" onmouseout="this.style.boxShadow=''">
-      <div style="width:34px;height:34px;border-radius:10px;background:#fffbeb;color:#d97706;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg></div>
-      <div style="font-size:.82rem;font-weight:700;color:var(--text)">Nouveau slide</div>
-    </button>
-  </div>
+  <div class="sc-wrap"><div class="sec-hd" style="margin-top:6px"><span>Gérer le <span class="gr">site</span></span></div><div class="sc-grid"><div class="sc" role="button" tabindex="0" onclick="goTab('products')" onkeydown="if(event.key==='Enter')goTab('products')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span><div class="sc-tx"><b>Produits</b><small>Catalogue, prix, stock, photos</small></div><button class="sc-add" title="Ajouter" aria-label="Ajouter" onclick="event.stopPropagation();goTab('products');setTimeout(openProductModal,120)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div><div class="sc" role="button" tabindex="0" onclick="goTab('categories')" onkeydown="if(event.key==='Enter')goTab('categories')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span><div class="sc-tx"><b>Catégories</b><small>Images vitrine, couleurs, icônes</small></div><button class="sc-add" title="Ajouter" aria-label="Ajouter" onclick="event.stopPropagation();goTab('categories');setTimeout(openCatModal,120)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div><div class="sc" role="button" tabindex="0" onclick="goTab('slides')" onkeydown="if(event.key==='Enter')goTab('slides')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 15l-5-5-8 8"/></svg></span><div class="sc-tx"><b>Slides</b><small>Grand carrousel de l'accueil</small></div><button class="sc-add" title="Ajouter" aria-label="Ajouter" onclick="event.stopPropagation();goTab('slides');setTimeout(openSlideModal,120)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div><div class="sc" role="button" tabindex="0" onclick="goTab('promos')" onkeydown="if(event.key==='Enter')goTab('promos')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5L5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span><div class="sc-tx"><b>Bannières & offres</b><small>Promos de l'accueil et flyers</small></div><button class="sc-add" title="Ajouter" aria-label="Ajouter" onclick="event.stopPropagation();goTab('promos');setTimeout(openPromoModal,120)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div><div class="sc" role="button" tabindex="0" onclick="goTab('ticker')" onkeydown="if(event.key==='Enter')goTab('ticker')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></span><div class="sc-tx"><b>Bandeau du haut</b><small>Messages qui défilent</small></div></div><div class="sc" role="button" tabindex="0" onclick="goTab('homepage')" onkeydown="if(event.key==='Enter')goTab('homepage')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/></svg></span><div class="sc-tx"><b>Textes de l'accueil</b><small>Titres, sections, contenus</small></div></div><div class="sc" role="button" tabindex="0" onclick="goTab('reviews')" onkeydown="if(event.key==='Enter')goTab('reviews')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.6 5.8 21l1.4-7L2 9.3l7-.8z"/></svg></span><div class="sc-tx"><b>Avis clients</b><small>Modérer et ajouter des avis</small></div></div><div class="sc" role="button" tabindex="0" onclick="goTab('personnel')" onkeydown="if(event.key==='Enter')goTab('personnel')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></span><div class="sc-tx"><b>Personnel</b><small>Comptes et rôles</small></div></div><div class="sc" role="button" tabindex="0" onclick="goTab('jeux')" onkeydown="if(event.key==='Enter')goTab('jeux')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11h4M8 9v4"/><circle cx="15" cy="12" r="1"/><circle cx="18" cy="10" r="1"/><path d="M17.3 5H6.7a4 4 0 00-3.9 3.2L2 15a3 3 0 005.3 2.2L9 15h6l1.7 2.2A3 3 0 0022 15l-.8-6.8A4 4 0 0017.3 5z"/></svg></span><div class="sc-tx"><b>Jeux & concours</b><small>Récompenses et codes promo</small></div></div><div class="sc sc-legal"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span><div class="sc-tx"><b>Pages légales</b><small>Connecté en admin, un bouton « Modifier » apparaît sur ces pages</small></div><div class="sc-links"><a href="/conditions-utilisation" target="_blank" rel="noopener">Conditions d'utilisation</a><a href="/confidentiality" target="_blank" rel="noopener">Confidentialité</a></div></div><a class="sc" href="/" target="_blank" rel="noopener"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></span><div class="sc-tx"><b>Voir le site</b><small>Ouvrir wykht.com dans un nouvel onglet</small></div></a></div></div><!--/sc-wrap-->
+
 </div>
 
 <!-- ═══════ PRODUCTS ═══════ -->
@@ -505,14 +596,10 @@ select.form-input{cursor:pointer}
 
 <!-- ═══════ OFFRES & PROMOS ═══════ -->
 <div class="panel" id="panel-promos">
-  <div class="sec-divider"><span>🏷️ Promos du jour</span></div>
-  <div class="sec-hd">
-    <h2>Promos <em>actives</em></h2>
-    <button class="btn-add" onclick="openPromoModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Ajouter</button>
-  </div>
-  <div id="promos-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+  <div class="bn-intro"><span class="bn-intro-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5L5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span><div style="flex:1;min-width:200px"><b>Bannières de l'accueil</b><p>Ces cartes s'affichent sur la page d'accueil, sous « Promotions » (titre, sous-titre, étiquette, bouton et affiche). Les bannières <em>actives</em> apparaissent, 4 au maximum, la plus récente en premier. Touche une carte pour la modifier.</p></div><button class="btn-add" onclick="openPromoModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Ajouter</button></div>
+  <div id="promos-list" class="bn-grid"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
 
-  <div class="sec-divider" style="margin-top:24px"><span>🖼️ Flyers & Offres</span></div>
+  <div class="sec-divider" style="margin-top:24px"><span>Flyers & offres (affichés si aucune bannière)</span></div>
   <div class="sec-hd">
     <h2>Mes <em>flyers</em></h2>
     <button class="btn-add" onclick="openOfferModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Ajouter</button>
@@ -522,11 +609,8 @@ select.form-input{cursor:pointer}
 
 <!-- ═══════ SLIDES ═══════ -->
 <div class="panel" id="panel-slides">
-  <div class="sec-hd">
-    <h2>Slides <em>promo</em></h2>
-    <button class="btn-add" onclick="openSlideModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Ajouter</button>
-  </div>
-  <div id="slides-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+  <div class="bn-intro"><span class="bn-intro-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 15l-5-5-8 8"/></svg></span><div style="flex:1;min-width:200px"><b>Slides de l'accueil (annonces)</b><p>Grand carrousel de l'accueil : un rectangle couché avec titre, étiquette, sous-titre, bouton et affiche. Format conseillé <strong>21:9</strong> (ex. 1680 × 640 px). Les slides actifs défilent par ordre de position. Touche une carte pour la modifier.</p></div><button class="btn-add" onclick="openSlideModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Ajouter</button></div>
+  <div id="slides-list" class="bn-grid"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
 </div>
 
 <!-- ═══════ TICKER ═══════ -->
@@ -959,11 +1043,30 @@ select.form-input{cursor:pointer}
       <input type="hidden" id="cat-id">
       <div class="form-group">
         <label class="form-lbl">Nom *</label>
-        <input class="form-input" type="text" id="cat-name" placeholder="Ex: Mode, Tech, Services…">
+        <input class="form-input" type="text" id="cat-name" placeholder="Ex: Mode, Tech, Services…" oninput="onCatNameInput()">
       </div>
       <div class="form-group">
         <label class="form-lbl">Description</label>
         <input class="form-input" type="text" id="cat-desc" placeholder="Courte description…">
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Adresse de la page</label>
+        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;opacity:.65;white-space:nowrap">wykht.com/categorie?c=</span><input class="form-input" type="text" id="cat-slug" placeholder="auto, ex: mode" oninput="slugTouched=true;this.value=catSlugify(this.value);updateSlugPrev()" style="flex:1"></div>
+        <div id="cat-slug-prev" style="font-size:12px;margin-top:7px;opacity:.75;word-break:break-all">https://wykht.com/categorie?c=…</div>
+        <div style="font-size:11.5px;opacity:.65;margin-top:6px;line-height:1.5">Lettres, chiffres et tirets seulement. Vide = généré depuis le nom. Pour garantir qu'elle reste unique : <code style="user-select:all">alter table categories add column if not exists slug text; create unique index if not exists categories_slug_key on categories(slug);</code></div>
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Image vitrine de la catégorie</label>
+        <div class="seg2" id="cat-img-seg"><button type="button" class="on" data-m="up" onclick="setCatImgMode('up')">Téléverser</button><button type="button" data-m="url" onclick="setCatImgMode('url')">Lien</button></div>
+        <div id="cat-img-up" class="img-upload-area" style="margin-top:10px">
+          <input type="file" id="cat-image-file" accept="image/*" onchange="handleCatImg(this)">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <p><strong>Clique</strong> pour choisir une image depuis ton appareil</p>
+        </div>
+        <input class="form-input" type="url" id="cat-image-url" style="display:none;margin-top:10px" placeholder="https://… (lien direct vers l'image)" oninput="previewCatImage(this.value)">
+        <div id="cat-image-prev" style="display:none;margin-top:10px;border-radius:16px;overflow:hidden;aspect-ratio:16/9;background:#eee"><img alt="" style="width:100%;height:100%;object-fit:cover"></div>
+        <button type="button" class="cat-rm" id="cat-img-rm" style="display:none" onclick="removeCatImg()">Retirer l'image</button>
+        <div style="font-size:11.5px;opacity:.65;margin-top:8px;line-height:1.5">Vide = image par défaut aux couleurs de la catégorie. À activer une fois dans Supabase : <code style="user-select:all">alter table categories add column if not exists image_url text;</code></div>
       </div>
       <div class="form-row">
         <div class="form-group">
@@ -1027,30 +1130,50 @@ select.form-input{cursor:pointer}
     </div>
     <div class="modal-body">
       <input type="hidden" id="promo-id">
+      <div class="bnp-live" id="promo-live"></div>
+      <div class="grp-t">Contenu</div>
       <div class="form-group">
         <label class="form-lbl">Titre *</label>
-        <input class="form-input" type="text" id="promo-title" placeholder="Ex: -20% sur les chaussures">
+        <input class="form-input" type="text" id="promo-title" placeholder="Ex: -50% sur les chaussures" oninput="updatePromoLive()">
       </div>
       <div class="form-group">
         <label class="form-lbl">Sous-titre</label>
-        <input class="form-input" type="text" id="promo-subtitle" placeholder="Ex: Offre limitée — aujourd'hui seulement">
+        <input class="form-input" type="text" id="promo-subtitle" placeholder="Ex: Offre limitée, aujourd'hui seulement" oninput="updatePromoLive()">
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-lbl">Tag/Badge</label>
-          <input class="form-input" type="text" id="promo-tag" placeholder="Ex: FLASH 🔥">
+          <label class="form-lbl">Étiquette</label>
+          <input class="form-input" type="text" id="promo-tag" placeholder="Ex: FLASH" oninput="updatePromoLive()">
         </div>
         <div class="form-group">
-          <label class="form-lbl">Texte bouton</label>
-          <input class="form-input" type="text" id="promo-btn" placeholder="Ex: Profiter">
+          <label class="form-lbl">Texte du bouton</label>
+          <input class="form-input" type="text" id="promo-btn" placeholder="Ex: Profiter" oninput="updatePromoLive()">
         </div>
       </div>
+      <div class="form-group">
+        <label class="form-lbl">Lien du bouton (optionnel)</label>
+        <input class="form-input" type="text" id="promo-link" placeholder="Vide = ouvre WhatsApp. Sinon : /categories ou https://…">
+      </div>
+      <div class="grp-t">Image de couverture</div>
+      <div class="form-group">
+        <div class="seg2" id="promo-img-seg"><button type="button" class="on" data-m="up" onclick="setPromoImgMode('up')">Téléverser</button><button type="button" data-m="url" onclick="setPromoImgMode('url')">Lien</button></div>
+        <div id="promo-img-up" class="img-upload-area" style="margin-top:10px">
+          <input type="file" id="promo-image" accept="image/*" onchange="handlePromoImg(this)">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <p><strong>Clique</strong> pour choisir l'affiche depuis ton appareil</p>
+        </div>
+        <input class="form-input" type="url" id="promo-image-url" style="display:none;margin-top:10px" placeholder="https://… (lien direct vers l'image)" oninput="updatePromoLive()">
+        <button type="button" class="cat-rm" id="promo-img-rm" style="display:none" onclick="removePromoImg()">Retirer l'image</button>
+        <div id="promo-img-preview" style="display:none"></div>
+        <div style="font-size:11.5px;opacity:.65;margin-top:8px;line-height:1.5">L'affiche est affichée en entier. À activer une fois dans Supabase : <code style="user-select:all">alter table promos add column if not exists image_url text; alter table promos add column if not exists link text;</code></div>
+      </div>
+      <div class="grp-t">Affichage</div>
       <div class="toggle-row">
-        <span class="toggle-lbl">Promo active</span>
+        <span class="toggle-lbl">Afficher cette bannière sur l'accueil</span>
         <label class="toggle"><input type="checkbox" id="promo-active" checked><div class="toggle-track"></div></label>
       </div>
       <button class="btn-submit" id="promo-submit" onclick="savePromo()">
-        <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Enregistrer la promo
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Enregistrer la bannière
       </button>
     </div>
   </div>
@@ -1115,47 +1238,58 @@ select.form-input{cursor:pointer}
     </div>
     <div class="modal-body">
       <input type="hidden" id="slide-id">
+      <div class="bnp-live" id="slide-live"></div>
+      <div class="grp-t">Contenu</div>
       <div class="form-group">
         <label class="form-lbl">Titre *</label>
-        <input class="form-input" type="text" id="slide-title" placeholder="Ex: -20% sur les casques !">
+        <input class="form-input" type="text" id="slide-title" placeholder="Ex: -20% sur les casques !" oninput="updateSlideLive()">
       </div>
       <div class="form-group">
         <label class="form-lbl">Sous-titre</label>
-        <input class="form-input" type="text" id="slide-subtitle" placeholder="Ex: Offre valable aujourd'hui seulement">
+        <input class="form-input" type="text" id="slide-subtitle" placeholder="Ex: Offre valable aujourd'hui seulement" oninput="updateSlideLive()">
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-lbl">Tag (badge)</label>
-          <input class="form-input" type="text" id="slide-tag" placeholder="Ex: Promo du jour">
+          <label class="form-lbl">Étiquette</label>
+          <input class="form-input" type="text" id="slide-tag" placeholder="Ex: Promo du jour" oninput="updateSlideLive()">
         </div>
         <div class="form-group">
-          <label class="form-lbl">Texte bouton</label>
-          <input class="form-input" type="text" id="slide-btn" placeholder="Ex: Profiter">
+          <label class="form-lbl">Texte du bouton</label>
+          <input class="form-input" type="text" id="slide-btn" placeholder="Ex: Profiter" oninput="updateSlideLive()">
         </div>
       </div>
       <div class="form-group">
-        <label class="form-lbl">Thème visuel</label>
-        <select class="form-input" id="slide-theme">
-          <option value="red">🔴 Rouge (gradient rouge)</option>
-          <option value="dark">⚫ Sombre (gradient noir)</option>
-          <option value="light">⚪ Clair (gradient blanc)</option>
-        </select>
+        <label class="form-lbl">Lien du bouton (optionnel)</label>
+        <input class="form-input" type="text" id="slide-link" placeholder="Vide = page des catégories. Sinon : /categorie?c=… ou https://…">
       </div>
+      <div class="grp-t">Affiche (rectangle couché, 21:9 conseillé)</div>
       <div class="form-group">
-        <label class="form-lbl">Image (optionnelle)</label>
-        <div class="img-upload-area">
+        <div class="seg2" id="slide-img-seg"><button type="button" class="on" data-m="up" onclick="setSlideImgMode('up')">Téléverser</button><button type="button" data-m="url" onclick="setSlideImgMode('url')">Lien</button></div>
+        <div id="slide-img-up" class="img-upload-area" style="margin-top:10px">
           <input type="file" id="slide-image" accept="image/*" onchange="handleSlideImg(this)">
           <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          <p><strong>Clique</strong> pour choisir une image</p>
+          <p><strong>Clique</strong> pour choisir l'affiche depuis ton appareil</p>
         </div>
-        <div id="slide-img-preview" style="margin-top:8px"></div>
+        <input class="form-input" type="url" id="slide-image-url" style="display:none;margin-top:10px" placeholder="https://… (lien direct vers l'image)" oninput="updateSlideLive()">
+        <button type="button" class="cat-rm" id="slide-img-rm" style="display:none" onclick="removeSlideImg()">Retirer l'image</button>
+        <div id="slide-img-preview" style="display:none"></div>
+        <div style="font-size:11.5px;opacity:.65;margin-top:8px;line-height:1.5">L'affiche est affichée en entier. Pour le lien du bouton, à activer une fois dans Supabase : <code style="user-select:all">alter table slides add column if not exists link text;</code></div>
+      </div>
+      <div class="grp-t">Affichage</div>
+      <div class="form-group">
+        <label class="form-lbl">Couleur de fond (si aucune affiche)</label>
+        <select class="form-input" id="slide-theme" onchange="updateSlideLive()">
+          <option value="red">Rouge</option>
+          <option value="dark">Sombre</option>
+          <option value="light">Clair</option>
+        </select>
       </div>
       <div class="form-group">
         <label class="form-lbl">Position (ordre d'affichage)</label>
         <input class="form-input" type="number" id="slide-pos" placeholder="0" value="0" min="0">
       </div>
       <div class="toggle-row">
-        <span class="toggle-lbl">Slide actif</span>
+        <span class="toggle-lbl">Afficher ce slide sur l'accueil</span>
         <label class="toggle"><input type="checkbox" id="slide-active" checked><div class="toggle-track"></div></label>
       </div>
       <button class="btn-submit" id="slide-submit" onclick="saveSlide()">
@@ -1515,6 +1649,7 @@ async function doLogout(){
 // ══════════════════════════════════════════
 // TABS
 // ══════════════════════════════════════════
+function goTab(name){var el=document.querySelector('.tab[onclick*="\''+name+'\'"]');switchTab(name,el);window.scrollTo({top:0,behavior:'smooth'})}
 function switchTab(name,el){
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on')});
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on')});
@@ -1536,16 +1671,22 @@ function switchTab(name,el){
 // LOAD ALL (dashboard stats)
 // ══════════════════════════════════════════
 async function loadAll(){
-  var [p,c,s,t]=await Promise.all([
+  var gh=document.getElementById('dh-greet');if(gh){var hr=new Date().getHours();gh.textContent=(hr<5?'Bonne nuit':hr<18?'Bonjour':'Bonsoir')+', chef'}
+  var [p,c,s,t,pr,of,rv,lw]=await Promise.all([
     db.from('products').select('id',{count:'exact',head:true}),
     db.from('categories').select('id',{count:'exact',head:true}),
     db.from('slides').select('id',{count:'exact',head:true}).eq('active',true),
-    db.from('ticker_messages').select('id',{count:'exact',head:true}).eq('active',true)
+    db.from('ticker_messages').select('id',{count:'exact',head:true}).eq('active',true),
+    db.from('promos').select('id',{count:'exact',head:true}).eq('active',true),
+    db.from('offers').select('id',{count:'exact',head:true}).eq('active',true),
+    db.from('reviews').select('id',{count:'exact',head:true}),
+    db.from('products').select('id',{count:'exact',head:true}).lte('stock',5)
   ]);
   document.getElementById('stat-products').textContent=p.count||0;
   document.getElementById('stat-cats').textContent=c.count||0;
   document.getElementById('stat-slides').textContent=s.count||0;
   document.getElementById('stat-ticker').textContent=t.count||0;
+  [['stat-promos',pr],['stat-offers',of],['stat-reviews',rv],['stat-low',lw]].forEach(function(x){var e=document.getElementById(x[0]);if(e)e.textContent=(x[1]&&x[1].count)||0});
 }
 
 // ══════════════════════════════════════════
@@ -1714,15 +1855,25 @@ async function loadCategories(){
     var item=document.createElement('div');item.className='data-item';
     item.innerHTML='<div class="data-item-img" style="background:'+(c.color||'#fff0f1')+'">'+iconHtml+'</div>'
       +'<div class="data-item-body"><div class="data-item-name">'+c.name+'</div><div class="data-item-sub">'+(c.description||'Pas de description')+'</div></div>'
-      +'<div class="data-item-actions"><button class="btn-edit" onclick="editCat(\''+c.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button><button class="btn-del" onclick="deleteCat(\''+c.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></div>';
+      +'<div class="data-item-actions"><a class="btn-edit" href="/categorie?c='+encodeURIComponent(c.slug||catSlugify(c.name))+'" target="_blank" rel="noopener" title="Voir la page de la catégorie" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:15px">↗</a><button class="btn-edit" onclick="copyCatLink(\''+c.id+'\')" title="Copier le lien de la page" style="font-size:12px">Lien</button><button class="btn-edit" onclick="editCat(\''+c.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button><button class="btn-del" onclick="deleteCat(\''+c.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></div>';
     list.appendChild(item);
   });
   el.appendChild(list);
 }
+function catSlugify(t){return String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')}
+var slugTouched=false;
+function updateSlugPrev(){var v=catSlugify(document.getElementById('cat-slug').value||document.getElementById('cat-name').value);document.getElementById('cat-slug-prev').textContent='https://wykht.com/categorie?c='+(v||'…')}
+function onCatNameInput(){if(!slugTouched)document.getElementById('cat-slug').value=catSlugify(document.getElementById('cat-name').value);updateSlugPrev()}
+function copyCatLink(id){var c=catsList.find(function(x){return x.id===id});if(!c)return;var u='https://wykht.com/categorie?c='+encodeURIComponent(c.slug||catSlugify(c.name));try{navigator.clipboard.writeText(u);showToast('Lien copié : '+u)}catch(e){prompt('Copie ce lien',u)}}
+var catImgFile=null;
+function previewCatImage(u){var b=document.getElementById('cat-image-prev');if(!b)return;var ok=u&&/^(https?:|blob:)/i.test(u);if(ok){b.style.display='block';b.querySelector('img').src=u}else{b.style.display='none';b.querySelector('img').removeAttribute('src')}var rm=document.getElementById('cat-img-rm');if(rm)rm.style.display=ok?'inline-block':'none'}
+function setCatImgMode(m){document.getElementById('cat-img-up').style.display=m==='up'?'':'none';document.getElementById('cat-image-url').style.display=m==='url'?'':'none';document.querySelectorAll('#cat-img-seg button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-m')===m)})}
+function handleCatImg(input){if(input.files[0]){catImgFile=input.files[0];document.getElementById('cat-image-url').value='';previewCatImage(URL.createObjectURL(catImgFile))}}
+function removeCatImg(){catImgFile=null;document.getElementById('cat-image-url').value='';document.getElementById('cat-image-file').value='';previewCatImage('')}
 function openCatModal(){
   document.getElementById('cat-id').value='';document.getElementById('cat-name').value='';
   document.getElementById('cat-desc').value='';document.getElementById('cat-color').value='#fff0f1';
-  document.getElementById('cat-icon').value='';document.getElementById('cat-icon-url').value='';
+  document.getElementById('cat-icon').value='';document.getElementById('cat-icon-url').value='';document.getElementById('cat-image-url').value='';catImgFile=null;setCatImgMode('up');previewCatImage('');document.getElementById('cat-slug').value='';slugTouched=false;updateSlugPrev();
   document.getElementById('catModalTitle').textContent='Nouvelle catégorie';
   selectedIconUrl='';clearIconSelection();buildIconLibrary();
   openModal('catModal');
@@ -1733,6 +1884,7 @@ function editCat(id){
   document.getElementById('cat-id').value=c.id;document.getElementById('cat-name').value=c.name||'';
   document.getElementById('cat-desc').value=c.description||'';document.getElementById('cat-color').value=c.color||'#fff0f1';
   document.getElementById('cat-icon').value=c.icon||'';
+  document.getElementById('cat-image-url').value=c.image_url||'';catImgFile=null;setCatImgMode(c.image_url?'url':'up');previewCatImage(c.image_url||'');document.getElementById('cat-slug').value=c.slug||catSlugify(c.name);slugTouched=!!c.slug;updateSlugPrev();
   selectedIconUrl=c.icon_url||'';
   document.getElementById('cat-icon-url').value=c.icon_url||'';
   buildIconLibrary();
@@ -1748,10 +1900,22 @@ async function saveCat(){
   var iconUrl=document.getElementById('cat-icon-url').value||selectedIconUrl||null;
   var payload={name,description:document.getElementById('cat-desc').value||null,color:document.getElementById('cat-color').value,icon:document.getElementById('cat-icon').value||null,icon_url:iconUrl};
   var existingId=document.getElementById('cat-id').value;var error;
-  if(existingId){({error}=await db.from('categories').update(payload).eq('id',existingId))}
-  else{({error}=await db.from('categories').insert([payload]))}
+  var imgVal=(document.getElementById('cat-image-url').value||'').trim()||null;
+  var hadImg=existingId&&(catsList.find(function(x){return x.id===existingId})||{}).image_url;
+  if(imgVal||hadImg)payload.image_url=imgVal;
+  var slugVal=catSlugify(document.getElementById('cat-slug').value||name);
+  if(!slugVal){showToast('Adresse invalide',true);btn.classList.remove('loading');return}
+  if(catsList.some(function(x){return x.id!==existingId&&(x.slug||catSlugify(x.name))===slugVal})){showToast('Cette adresse est déjà utilisée par une autre catégorie',true);btn.classList.remove('loading');return}
+  payload.slug=slugVal;
+  async function persist(p){if(existingId){return await db.from('categories').update(p).eq('id',existingId)}return await db.from('categories').insert([p]).select()}
+  var pres=await persist(payload);error=pres.error;var catId=existingId||(pres.data&&pres.data[0]&&pres.data[0].id);
+  var dropped=[];
+  for(var col of ['image_url','slug']){if(error&&new RegExp(col,'i').test(error.message||'')&&payload[col]!==undefined){delete payload[col];dropped.push(col);var pr=await persist(payload);error=pr.error;if(!catId)catId=pr.data&&pr.data[0]&&pr.data[0].id}}
+  if(!error&&dropped.length)showToast('Catégorie enregistrée, mais une colonne manque ('+dropped.join(', ')+') : exécutez le SQL indiqué dans le formulaire',true);
   if(error){showToast('Erreur: '+error.message,true);btn.classList.remove('loading');return}
-  showToast(existingId?'Catégorie modifiée ✓':'Catégorie ajoutée ✓');closeModal('catModal');loadCategories();loadAll();
+  if(catImgFile&&catId){var ext=catImgFile.name.split('.').pop();var cpath='categories/'+catId+'/'+Date.now()+'.'+ext;var up=await db.storage.from(BUCKET).upload(cpath,catImgFile,{upsert:true,contentType:catImgFile.type});if(up.error){showToast('Image non envoyée : '+up.error.message,true)}else{var pu=db.storage.from(BUCKET).getPublicUrl(cpath).data.publicUrl;var r3=await db.from('categories').update({image_url:pu}).eq('id',catId);if(r3.error)showToast("Catégorie enregistrée, mais la colonne image_url manque : exécutez le SQL indiqué dans le formulaire",true)}}
+  catImgFile=null;
+  showToast(existingId?'Catégorie modifiée ✓':'Catégorie ajoutée ✓ — sa page est en ligne automatiquement');closeModal('catModal');loadCategories();loadAll();
   btn.classList.remove('loading');
 }
 async function deleteCat(id){
@@ -1765,51 +1929,69 @@ async function deleteCat(id){
 // PROMOS
 // ══════════════════════════════════════════
 var promosList=[];
+
+
+
+
+
+function bEsc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function pv(id){var e=document.getElementById(id);return e?(e.value||'').trim():''}
+function bnpHtml(p,land){var img=p.image_url;return '<div class="bnp-view'+(img?' has-img':'')+(land?' land':'')+(!img&&p.theme?' t-'+p.theme:'')+'">'+(img?'<div class="bnp-media"><img class="bk" src="'+bEsc(img)+'" alt=""><img class="fg" src="'+bEsc(img)+'" alt=""></div>':'')+'<div class="bnp-chip bnp-t">'+bEsc(p.title||'Titre de la bannière')+'</div>'+(p.tag?'<span class="bnp-chip bnp-tag">'+bEsc(p.tag)+'</span>':'')+(p.subtitle?'<div class="bnp-chip bnp-s">'+bEsc(p.subtitle)+'</div>':'')+'<span class="bnp-chip bnp-b">'+bEsc(p.button_text||'Profiter')+' →</span></div>'}
+var promoImgFile=null,promoImgBlob='';
 async function loadPromos(){
   var el=document.getElementById('promos-list');
   el.innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
-  var {data,error}=await db.from('promos').select('*').order('created_at',{ascending:false});
-  if(error){el.innerHTML='<div class="empty-state"><p>Erreur</p></div>';return}
-  promosList=data||[];
-  if(!promosList.length){el.innerHTML='<div class="empty-state"><p>Aucune promo. Clique sur Ajouter !</p></div>';return}
-  el.innerHTML='';
-  promosList.forEach(function(p){
-    var card=document.createElement('div');card.className='promo-card';
-    card.innerHTML=(p.tag?'<div class="promo-tag">'+p.tag+'</div>':'')
-      +'<div class="promo-title">'+p.title+'</div>'
-      +(p.subtitle?'<div class="promo-sub">'+p.subtitle+'</div>':'')
-      +'<div class="promo-footer"><span class="slide-status"><span class="status-dot '+(p.active?'active':'inactive')+'"></span>'+(p.active?'Active':'Inactive')+'</span>'
-      +'<div class="data-item-actions"><button class="btn-edit" onclick="editPromo(\''+p.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>'
-      +'<button class="btn-del" onclick="deletePromo(\''+p.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></div></div>';
-    el.appendChild(card);
-  });
+  var res=await db.from('promos').select('*').order('created_at',{ascending:false});
+  if(res.error){el.innerHTML='<div class="empty-state"><p>Erreur</p></div>';return}
+  promosList=res.data||[];
+  if(!promosList.length){el.innerHTML='<div class="empty-state"><p>Aucune bannière. Clique sur « Ajouter » pour créer la première.</p></div>';return}
+  var shown=0;
+  el.innerHTML=promosList.map(function(p){var st,cls;if(!p.active){st='Masquée';cls='off'}else if(shown<4){shown++;st="Affichée sur l'accueil";cls='on'}else{st='En attente (4 maximum)';cls='wait'}
+    return '<div class="bnp"><div onclick="editPromo(\''+p.id+'\')">'+bnpHtml(p)+'</div><div class="bnp-foot"><span class="bnp-st '+cls+'"><i></i>'+st+'</span><div class="bnp-act"><button onclick="togglePromo(\''+p.id+'\')">'+(p.active?'Masquer':'Afficher')+'</button><button onclick="editPromo(\''+p.id+'\')">Modifier</button><button class="del" onclick="deletePromo(\''+p.id+'\')">Supprimer</button></div></div></div>'}).join('');
 }
+async function togglePromo(id){var p=promosList.find(function(x){return x.id===id});if(!p)return;var r=await db.from('promos').update({active:!p.active}).eq('id',id);if(r.error){showToast('Erreur: '+r.error.message,true);return}showToast(p.active?'Bannière masquée':"Bannière affichée sur l'accueil");loadPromos()}
+function updatePromoLive(){var img=promoImgBlob||pv('promo-image-url');var l=document.getElementById('promo-live');if(l)l.innerHTML=bnpHtml({title:pv('promo-title'),subtitle:pv('promo-subtitle'),tag:pv('promo-tag'),button_text:pv('promo-btn')||'Profiter',image_url:img});var rm=document.getElementById('promo-img-rm');if(rm)rm.style.display=img?'inline-block':'none'}
+function setPromoImgMode(m){document.getElementById('promo-img-up').style.display=m==='up'?'':'none';document.getElementById('promo-image-url').style.display=m==='url'?'':'none';document.querySelectorAll('#promo-img-seg button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-m')===m)})}
+function handlePromoImg(input){if(input.files[0]){promoImgFile=input.files[0];promoImgBlob=URL.createObjectURL(promoImgFile);document.getElementById('promo-image-url').value='';updatePromoLive()}}
+function removePromoImg(){promoImgFile=null;promoImgBlob='';document.getElementById('promo-image-url').value='';document.getElementById('promo-image').value='';updatePromoLive()}
 function openPromoModal(){
-  document.getElementById('promo-id').value='';document.getElementById('promo-title').value='';
-  document.getElementById('promo-subtitle').value='';document.getElementById('promo-tag').value='';
+  ['promo-id','promo-title','promo-subtitle','promo-tag','promo-link','promo-image-url'].forEach(function(i){document.getElementById(i).value=''});
   document.getElementById('promo-btn').value='Profiter';document.getElementById('promo-active').checked=true;
-  document.getElementById('promoModalTitle').textContent='Nouvelle promo';
+  document.getElementById('promoModalTitle').textContent='Nouvelle bannière';
+  promoImgFile=null;promoImgBlob='';setPromoImgMode('up');updatePromoLive();
   openModal('promoModal');
 }
 function editPromo(id){
   var p=promosList.find(function(x){return x.id===id});if(!p)return;
-  document.getElementById('promoModalTitle').textContent='Modifier la promo';
+  document.getElementById('promoModalTitle').textContent='Modifier la bannière';
   document.getElementById('promo-id').value=p.id;document.getElementById('promo-title').value=p.title||'';
   document.getElementById('promo-subtitle').value=p.subtitle||'';document.getElementById('promo-tag').value=p.tag||'';
-  document.getElementById('promo-btn').value=p.button_text||'Profiter';document.getElementById('promo-active').checked=p.active!==false;
+  document.getElementById('promo-btn').value=p.button_text||'Profiter';document.getElementById('promo-link').value=p.link||'';
+  document.getElementById('promo-active').checked=p.active!==false;document.getElementById('promo-image-url').value=p.image_url||'';
+  promoImgFile=null;promoImgBlob='';setPromoImgMode(p.image_url?'url':'up');updatePromoLive();
   openModal('promoModal');
 }
 async function savePromo(){
   var btn=document.getElementById('promo-submit');
-  var title=document.getElementById('promo-title').value.trim();
-  if(!title){showToast('Titre requis !',true);return}
+  var title=pv('promo-title');if(!title){showToast('Titre requis !',true);return}
   btn.classList.add('loading');
-  var payload={title,subtitle:document.getElementById('promo-subtitle').value||null,tag:document.getElementById('promo-tag').value||null,button_text:document.getElementById('promo-btn').value||'Profiter',active:document.getElementById('promo-active').checked};
-  var existingId=document.getElementById('promo-id').value;var error;
-  if(existingId){({error}=await db.from('promos').update(payload).eq('id',existingId))}
-  else{({error}=await db.from('promos').insert([payload]))}
+  var payload={title:title,subtitle:pv('promo-subtitle')||null,tag:pv('promo-tag')||null,button_text:pv('promo-btn')||'Profiter',active:document.getElementById('promo-active').checked};
+  var existingId=document.getElementById('promo-id').value;var cur=promosList.find(function(x){return x.id===existingId})||{};
+  var link=pv('promo-link'),imgUrl=pv('promo-image-url'),extra={};
+  if(link||cur.link)extra.link=link||null;
+  if(!promoImgFile&&(imgUrl||cur.image_url))extra.image_url=imgUrl||null;
+  async function persist(p){if(existingId){return await db.from('promos').update(p).eq('id',existingId)}return await db.from('promos').insert([p]).select()}
+  var res=await persist(Object.assign({},payload,extra));var error=res.error;var promoId=existingId||(res.data&&res.data[0]&&res.data[0].id);
+  if(error&&Object.keys(extra).length&&/image_url|link/i.test(error.message||'')){res=await persist(payload);error=res.error;promoId=existingId||(res.data&&res.data[0]&&res.data[0].id);if(!error)showToast("Bannière enregistrée, mais une colonne manque (image_url / link) : exécutez le SQL indiqué dans le formulaire",true)}
   if(error){showToast('Erreur: '+error.message,true);btn.classList.remove('loading');return}
-  showToast(existingId?'Promo modifiée ✓':'Promo ajoutée ✓');closeModal('promoModal');loadPromos();btn.classList.remove('loading');
+  if(promoImgFile&&promoId){
+    var ext=promoImgFile.name.split('.').pop();var path='promos/'+promoId+'/'+Date.now()+'.'+ext;
+    var up=await db.storage.from(BUCKET).upload(path,promoImgFile,{upsert:true,contentType:promoImgFile.type});
+    if(up.error){showToast('Image non envoyée : '+up.error.message,true)}
+    else{var publicUrl=db.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;var r2=await db.from('promos').update({image_url:publicUrl}).eq('id',promoId);if(r2.error)showToast("Bannière enregistrée, mais la colonne image_url manque : exécutez le SQL indiqué dans le formulaire",true)}
+  }
+  promoImgFile=null;promoImgBlob='';
+  showToast(existingId?'Bannière modifiée ✓':'Bannière ajoutée ✓');closeModal('promoModal');loadPromos();btn.classList.remove('loading');
 }
 async function deletePromo(id){
   if(!confirm('Supprimer cette promo ?'))return;
@@ -1886,28 +2068,33 @@ async function deleteOffer(id){
 // SLIDES
 // ══════════════════════════════════════════
 var slidesList=[];var slideImgFile=null;
+
+
+
+
+
+var slideImgBlob='';
 async function loadSlides(){
   var el=document.getElementById('slides-list');
   el.innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
-  var {data,error}=await db.from('slides').select('*').order('position');
-  if(error){el.innerHTML='<div class="empty-state"><p>Erreur</p></div>';return}
-  slidesList=data||[];
-  if(!slidesList.length){el.innerHTML='<div class="empty-state"><p>Aucun slide.</p></div>';return}
-  el.innerHTML='';
-  slidesList.forEach(function(s){
-    var card=document.createElement('div');card.className='slide-card';
-    card.innerHTML='<div class="slide-preview '+(s.theme||'red')+'"><div><div class="slide-preview-tag">'+(s.tag||'')+'</div><div class="slide-preview-title">'+(s.title||'')+'</div></div></div>'
-      +'<div class="slide-footer"><span class="slide-status"><span class="status-dot '+(s.active?'active':'inactive')+'"></span>'+(s.active?'Actif':'Inactif')+'</span><div class="data-item-actions"><button class="btn-edit" onclick="editSlide(\''+s.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button><button class="btn-del" onclick="deleteSlide(\''+s.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></div></div>';
-    el.appendChild(card);
-  });
+  var res=await db.from('slides').select('*').order('position');
+  if(res.error){el.innerHTML='<div class="empty-state"><p>Erreur</p></div>';return}
+  slidesList=res.data||[];
+  if(!slidesList.length){el.innerHTML='<div class="empty-state"><p>Aucun slide. Clique sur « Ajouter » pour créer le premier.</p></div>';return}
+  el.innerHTML=slidesList.map(function(s,i){
+    return '<div class="bnp"><div onclick="editSlide(\''+s.id+'\')">'+bnpHtml(s,true)+'</div><div class="bnp-foot"><span class="bnp-st '+(s.active?'on':'off')+'"><i></i>'+(s.active?'Affiché · position '+(s.position||0):'Masqué')+'</span><div class="bnp-act"><button onclick="toggleSlide(\''+s.id+'\')">'+(s.active?'Masquer':'Afficher')+'</button><button onclick="editSlide(\''+s.id+'\')">Modifier</button><button class="del" onclick="deleteSlide(\''+s.id+'\')">Supprimer</button></div></div></div>'}).join('');
 }
+async function toggleSlide(id){var s=slidesList.find(function(x){return x.id===id});if(!s)return;var r=await db.from('slides').update({active:!s.active}).eq('id',id);if(r.error){showToast('Erreur: '+r.error.message,true);return}showToast(s.active?'Slide masqué':"Slide affiché sur l'accueil");loadSlides();loadAll()}
+function updateSlideLive(){var img=slideImgBlob||pv('slide-image-url');var l=document.getElementById('slide-live');if(l)l.innerHTML=bnpHtml({title:pv('slide-title'),subtitle:pv('slide-subtitle'),tag:pv('slide-tag'),button_text:pv('slide-btn')||'Profiter',image_url:img,theme:document.getElementById('slide-theme').value},true);var rm=document.getElementById('slide-img-rm');if(rm)rm.style.display=img?'inline-block':'none'}
+function setSlideImgMode(m){document.getElementById('slide-img-up').style.display=m==='up'?'':'none';document.getElementById('slide-image-url').style.display=m==='url'?'':'none';document.querySelectorAll('#slide-img-seg button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-m')===m)})}
+function handleSlideImg(input){if(input.files[0]){slideImgFile=input.files[0];slideImgBlob=URL.createObjectURL(slideImgFile);document.getElementById('slide-image-url').value='';updateSlideLive()}}
+function removeSlideImg(){slideImgFile=null;slideImgBlob='';document.getElementById('slide-image-url').value='';document.getElementById('slide-image').value='';updateSlideLive()}
 function openSlideModal(){
-  document.getElementById('slide-id').value='';document.getElementById('slide-title').value='';
-  document.getElementById('slide-subtitle').value='';document.getElementById('slide-tag').value='';
+  ['slide-id','slide-title','slide-subtitle','slide-tag','slide-link','slide-image-url'].forEach(function(i){document.getElementById(i).value=''});
   document.getElementById('slide-btn').value='Profiter';document.getElementById('slide-theme').value='red';
-  document.getElementById('slide-pos').value='0';document.getElementById('slide-active').checked=true;
-  document.getElementById('slide-img-preview').innerHTML='';slideImgFile=null;
-  document.getElementById('slideModalTitle').textContent='Nouveau slide';openModal('slideModal');
+  document.getElementById('slide-pos').value=String(slidesList.length);document.getElementById('slide-active').checked=true;
+  document.getElementById('slideModalTitle').textContent='Nouveau slide';
+  slideImgFile=null;slideImgBlob='';setSlideImgMode('up');updateSlideLive();openModal('slideModal');
 }
 function editSlide(id){
   var s=slidesList.find(function(x){return x.id===id});if(!s)return;
@@ -1915,28 +2102,30 @@ function editSlide(id){
   document.getElementById('slide-id').value=s.id;document.getElementById('slide-title').value=s.title||'';
   document.getElementById('slide-subtitle').value=s.subtitle||'';document.getElementById('slide-tag').value=s.tag||'';
   document.getElementById('slide-btn').value=s.button_text||'Profiter';document.getElementById('slide-theme').value=s.theme||'red';
+  document.getElementById('slide-link').value=s.link||'';document.getElementById('slide-image-url').value=s.image_url||'';
   document.getElementById('slide-pos').value=s.position||0;document.getElementById('slide-active').checked=s.active!==false;
-  if(s.image_url)document.getElementById('slide-img-preview').innerHTML='<img src="'+s.image_url+'" style="width:100%;height:80px;object-fit:cover;border-radius:10px;margin-top:6px">';
-  slideImgFile=null;openModal('slideModal');
-}
-function handleSlideImg(input){
-  if(input.files[0]){slideImgFile=input.files[0];var url=URL.createObjectURL(slideImgFile);document.getElementById('slide-img-preview').innerHTML='<img src="'+url+'" style="width:100%;height:80px;object-fit:cover;border-radius:10px;margin-top:6px">';}
+  slideImgFile=null;slideImgBlob='';setSlideImgMode(s.image_url?'url':'up');updateSlideLive();openModal('slideModal');
 }
 async function saveSlide(){
   var btn=document.getElementById('slide-submit');
-  var title=document.getElementById('slide-title').value.trim();
-  if(!title){showToast('Titre requis !',true);return}
+  var title=pv('slide-title');if(!title){showToast('Titre requis !',true);return}
   btn.classList.add('loading');
-  var payload={title,subtitle:document.getElementById('slide-subtitle').value||null,tag:document.getElementById('slide-tag').value||null,button_text:document.getElementById('slide-btn').value||'Profiter',theme:document.getElementById('slide-theme').value||'red',position:Number(document.getElementById('slide-pos').value)||0,active:document.getElementById('slide-active').checked};
-  var existingId=document.getElementById('slide-id').value;var slideId=existingId;var error;
-  if(existingId){({error}=await db.from('slides').update(payload).eq('id',existingId));}
-  else{var res=await db.from('slides').insert([payload]).select();error=res.error;if(!error&&res.data)slideId=res.data[0].id;}
+  var payload={title:title,subtitle:pv('slide-subtitle')||null,tag:pv('slide-tag')||null,button_text:pv('slide-btn')||'Profiter',theme:document.getElementById('slide-theme').value||'red',position:Number(document.getElementById('slide-pos').value)||0,active:document.getElementById('slide-active').checked};
+  var existingId=document.getElementById('slide-id').value;var cur=slidesList.find(function(x){return x.id===existingId})||{};
+  var link=pv('slide-link'),imgUrl=pv('slide-image-url'),extra={};
+  if(link||cur.link)extra.link=link||null;
+  if(!slideImgFile&&(imgUrl||cur.image_url))extra.image_url=imgUrl||null;
+  async function persist(p){if(existingId){return await db.from('slides').update(p).eq('id',existingId)}return await db.from('slides').insert([p]).select()}
+  var res=await persist(Object.assign({},payload,extra));var error=res.error;var slideId=existingId||(res.data&&res.data[0]&&res.data[0].id);
+  if(error&&extra.link!==undefined&&/link/i.test(error.message||'')){var ex2=Object.assign({},extra);delete ex2.link;res=await persist(Object.assign({},payload,ex2));error=res.error;slideId=existingId||(res.data&&res.data[0]&&res.data[0].id);if(!error)showToast("Slide enregistré, mais la colonne link manque : exécutez le SQL indiqué dans le formulaire",true)}
   if(error){showToast('Erreur: '+error.message,true);btn.classList.remove('loading');return}
   if(slideImgFile&&slideId){
     var ext=slideImgFile.name.split('.').pop();var path='slides/'+slideId+'/'+Date.now()+'.'+ext;
-    var {error:upErr}=await db.storage.from(BUCKET).upload(path,slideImgFile,{upsert:true,contentType:slideImgFile.type});
-    if(!upErr){var {data:{publicUrl}}=db.storage.from(BUCKET).getPublicUrl(path);await db.from('slides').update({image_url:publicUrl}).eq('id',slideId);}
+    var up=await db.storage.from(BUCKET).upload(path,slideImgFile,{upsert:true,contentType:slideImgFile.type});
+    if(up.error){showToast('Image non envoyée : '+up.error.message,true)}
+    else{var publicUrl=db.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;await db.from('slides').update({image_url:publicUrl}).eq('id',slideId)}
   }
+  slideImgFile=null;slideImgBlob='';
   showToast(existingId?'Slide modifié ✓':'Slide ajouté ✓');closeModal('slideModal');loadSlides();loadAll();btn.classList.remove('loading');
 }
 async function deleteSlide(id){
