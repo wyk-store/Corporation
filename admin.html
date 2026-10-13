@@ -500,7 +500,7 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
     <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/></svg>Catégories
   </div>
   <div class="tab" onclick="switchTab('promos',this)">
-    <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 7h10M7 11h6M3 5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/></svg>Offres
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M7 7h10M7 11h6M3 5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/></svg>Bannières
   </div>
   <div class="tab" onclick="switchTab('slides',this)">
     <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>Slides
@@ -527,7 +527,7 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
   <div class="dash-hero"><div class="dh-tx"><span class="dh-eb">Tableau de bord</span><h1 id="dh-greet">Bonjour</h1><p>Gérez le catalogue et la vitrine de WYK. Chaque catégorie que vous créez a sa propre page, générée automatiquement.</p></div><div class="dh-qa">
 <button onclick="switchTab('products',document.querySelectorAll('.tab')[1]);setTimeout(openProductModal,100)"><svg viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>Nouveau produit</button>
 <button onclick="switchTab('categories',document.querySelectorAll('.tab')[2]);setTimeout(openCatModal,100)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M17.5 14v7M14 17.5h7"/></svg>Nouvelle catégorie</button>
-<button onclick="switchTab('promos',document.querySelectorAll('.tab')[3]);setTimeout(openPromoModal,100)"><svg viewBox="0 0 24 24"><path d="M19 5L5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>Nouvelle offre</button>
+<button onclick="switchTab('promos',document.querySelectorAll('.tab')[3]);setTimeout(openPromoModal,100)"><svg viewBox="0 0 24 24"><path d="M19 5L5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>Nouvelle bannière</button>
 <button onclick="switchTab('slides',document.querySelectorAll('.tab')[4]);setTimeout(openSlideModal,100)"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 15l-5-5-8 8"/></svg>Nouveau slide</button>
 <a href="/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Voir le site</a></div></div>
   <div class="stat-row">
@@ -554,12 +554,7 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
     <div class="stat-card">
       <div class="stat-card-ico ico-o"><svg viewBox="0 0 24 24"><path d="M19 5L5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></div>
       <div class="stat-card-val" id="stat-promos">—</div>
-      <div class="stat-card-lbl">Promos actives</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-card-ico ico-p"><svg viewBox="0 0 24 24"><path d="M20.6 13.4l-7.2 7.2a2 2 0 01-2.8 0L2 12V2h10l8.6 8.6a2 2 0 010 2.8z"/><circle cx="7" cy="7" r="1.5"/></svg></div>
-      <div class="stat-card-val" id="stat-offers">—</div>
-      <div class="stat-card-lbl">Offres actives</div>
+      <div class="stat-card-lbl">Bannières actives</div>
     </div>
     <div class="stat-card">
       <div class="stat-card-ico ico-y"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.6 5.8 21l1.4-7L2 9.3l7-.8z"/></svg></div>
@@ -572,7 +567,7 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
       <div class="stat-card-lbl">Stock bas (≤5)</div>
     </div>
   </div>
-  <div class="sc-wrap"><div class="sec-hd" style="margin-top:6px"><span>Gérer le <span class="gr">site</span></span></div><div class="sc-grid"><div class="sc" role="button" tabindex="0" onclick="goTab('products')" onkeydown="if(event.key==='Enter')goTab('products')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span><div class="sc-tx"><b>Produits</b><small>Catalogue, prix, stock, photos</small></div><button class="sc-add" title="Ajouter" aria-label="Ajouter" onclick="event.stopPropagation();goTab('products');setTimeout(openProductModal,120)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div><div class="sc" role="button" tabindex="0" onclick="goTab('categories')" onkeydown="if(event.key==='Enter')goTab('categories')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span><div class="sc-tx"><b>Catégories</b><small>Images vitrine, couleurs, icônes</small></div><button class="sc-add" title="Ajouter" aria-label="Ajouter" onclick="event.stopPropagation();goTab('categories');setTimeout(openCatModal,120)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div><div class="sc" role="button" tabindex="0" onclick="goTab('slides')" onkeydown="if(event.key==='Enter')goTab('slides')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 15l-5-5-8 8"/></svg></span><div class="sc-tx"><b>Slides</b><small>Grand carrousel de l'accueil</small></div><button class="sc-add" title="Ajouter" aria-label="Ajouter" onclick="event.stopPropagation();goTab('slides');setTimeout(openSlideModal,120)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div><div class="sc" role="button" tabindex="0" onclick="goTab('promos')" onkeydown="if(event.key==='Enter')goTab('promos')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5L5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span><div class="sc-tx"><b>Bannières & offres</b><small>Promos de l'accueil et flyers</small></div><button class="sc-add" title="Ajouter" aria-label="Ajouter" onclick="event.stopPropagation();goTab('promos');setTimeout(openPromoModal,120)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div><div class="sc" role="button" tabindex="0" onclick="goTab('ticker')" onkeydown="if(event.key==='Enter')goTab('ticker')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></span><div class="sc-tx"><b>Bandeau du haut</b><small>Messages qui défilent</small></div></div><div class="sc" role="button" tabindex="0" onclick="goTab('homepage')" onkeydown="if(event.key==='Enter')goTab('homepage')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/></svg></span><div class="sc-tx"><b>Textes de l'accueil</b><small>Titres, sections, contenus</small></div></div><div class="sc" role="button" tabindex="0" onclick="goTab('reviews')" onkeydown="if(event.key==='Enter')goTab('reviews')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.6 5.8 21l1.4-7L2 9.3l7-.8z"/></svg></span><div class="sc-tx"><b>Avis clients</b><small>Modérer et ajouter des avis</small></div></div><div class="sc" role="button" tabindex="0" onclick="goTab('personnel')" onkeydown="if(event.key==='Enter')goTab('personnel')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></span><div class="sc-tx"><b>Personnel</b><small>Comptes et rôles</small></div></div><div class="sc" role="button" tabindex="0" onclick="goTab('jeux')" onkeydown="if(event.key==='Enter')goTab('jeux')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11h4M8 9v4"/><circle cx="15" cy="12" r="1"/><circle cx="18" cy="10" r="1"/><path d="M17.3 5H6.7a4 4 0 00-3.9 3.2L2 15a3 3 0 005.3 2.2L9 15h6l1.7 2.2A3 3 0 0022 15l-.8-6.8A4 4 0 0017.3 5z"/></svg></span><div class="sc-tx"><b>Jeux & concours</b><small>Récompenses et codes promo</small></div></div><div class="sc sc-legal"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span><div class="sc-tx"><b>Pages légales</b><small>Connecté en admin, un bouton « Modifier » apparaît sur ces pages</small></div><div class="sc-links"><a href="/conditions-utilisation" target="_blank" rel="noopener">Conditions d'utilisation</a><a href="/confidentiality" target="_blank" rel="noopener">Confidentialité</a></div></div><a class="sc" href="/" target="_blank" rel="noopener"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></span><div class="sc-tx"><b>Voir le site</b><small>Ouvrir wykht.com dans un nouvel onglet</small></div></a></div></div><!--/sc-wrap-->
+  <div class="sc-wrap"><div class="sec-hd" style="margin-top:6px"><span>Gérer le <span class="gr">site</span></span></div><div class="sc-grid"><div class="sc" role="button" tabindex="0" onclick="goTab('products')" onkeydown="if(event.key==='Enter')goTab('products')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span><div class="sc-tx"><b>Produits</b><small>Catalogue, prix, stock, photos</small></div><button class="sc-add" title="Ajouter" aria-label="Ajouter" onclick="event.stopPropagation();goTab('products');setTimeout(openProductModal,120)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div><div class="sc" role="button" tabindex="0" onclick="goTab('categories')" onkeydown="if(event.key==='Enter')goTab('categories')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span><div class="sc-tx"><b>Catégories</b><small>Images vitrine, couleurs, icônes</small></div><button class="sc-add" title="Ajouter" aria-label="Ajouter" onclick="event.stopPropagation();goTab('categories');setTimeout(openCatModal,120)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div><div class="sc" role="button" tabindex="0" onclick="goTab('slides')" onkeydown="if(event.key==='Enter')goTab('slides')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 15l-5-5-8 8"/></svg></span><div class="sc-tx"><b>Slides</b><small>Grand carrousel de l'accueil</small></div><button class="sc-add" title="Ajouter" aria-label="Ajouter" onclick="event.stopPropagation();goTab('slides');setTimeout(openSlideModal,120)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div><div class="sc" role="button" tabindex="0" onclick="goTab('promos')" onkeydown="if(event.key==='Enter')goTab('promos')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5L5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span><div class="sc-tx"><b>Bannières</b><small>Pubs de l'accueil (autres pages, promos)</small></div><button class="sc-add" title="Ajouter" aria-label="Ajouter" onclick="event.stopPropagation();goTab('promos');setTimeout(openPromoModal,120)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button></div><div class="sc" role="button" tabindex="0" onclick="goTab('ticker')" onkeydown="if(event.key==='Enter')goTab('ticker')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></span><div class="sc-tx"><b>Bandeau du haut</b><small>Messages qui défilent</small></div></div><div class="sc" role="button" tabindex="0" onclick="goTab('homepage')" onkeydown="if(event.key==='Enter')goTab('homepage')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/></svg></span><div class="sc-tx"><b>Textes de l'accueil</b><small>Titres, sections, contenus</small></div></div><div class="sc" role="button" tabindex="0" onclick="goTab('reviews')" onkeydown="if(event.key==='Enter')goTab('reviews')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.6 5.8 21l1.4-7L2 9.3l7-.8z"/></svg></span><div class="sc-tx"><b>Avis clients</b><small>Modérer et ajouter des avis</small></div></div><div class="sc" role="button" tabindex="0" onclick="goTab('personnel')" onkeydown="if(event.key==='Enter')goTab('personnel')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></span><div class="sc-tx"><b>Personnel</b><small>Comptes et rôles</small></div></div><div class="sc" role="button" tabindex="0" onclick="goTab('jeux')" onkeydown="if(event.key==='Enter')goTab('jeux')"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11h4M8 9v4"/><circle cx="15" cy="12" r="1"/><circle cx="18" cy="10" r="1"/><path d="M17.3 5H6.7a4 4 0 00-3.9 3.2L2 15a3 3 0 005.3 2.2L9 15h6l1.7 2.2A3 3 0 0022 15l-.8-6.8A4 4 0 0017.3 5z"/></svg></span><div class="sc-tx"><b>Jeux & concours</b><small>Récompenses et codes promo</small></div></div><div class="sc sc-legal"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span><div class="sc-tx"><b>Pages légales</b><small>Connecté en admin, un bouton « Modifier » apparaît sur ces pages</small></div><div class="sc-links"><a href="/conditions-utilisation" target="_blank" rel="noopener">Conditions d'utilisation</a><a href="/confidentiality" target="_blank" rel="noopener">Confidentialité</a></div></div><a class="sc" href="/" target="_blank" rel="noopener"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></span><div class="sc-tx"><b>Voir le site</b><small>Ouvrir wykht.com dans un nouvel onglet</small></div></a></div></div><!--/sc-wrap-->
 
 </div>
 
@@ -599,12 +594,6 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
   <div class="bn-intro"><span class="bn-intro-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5L5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span><div style="flex:1;min-width:200px"><b>Bannières de l'accueil</b><p>Ces cartes s'affichent sur la page d'accueil, sous « Promotions » (titre, sous-titre, étiquette, bouton et affiche). Les bannières <em>actives</em> apparaissent, 4 au maximum, la plus récente en premier. Touche une carte pour la modifier.</p></div><button class="btn-add" onclick="openPromoModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Ajouter</button></div>
   <div id="promos-list" class="bn-grid"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
 
-  <div class="sec-divider" style="margin-top:24px"><span>Flyers & offres (affichés si aucune bannière)</span></div>
-  <div class="sec-hd">
-    <h2>Mes <em>flyers</em></h2>
-    <button class="btn-add" onclick="openOfferModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Ajouter</button>
-  </div>
-  <div id="offers-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
 </div>
 
 <!-- ═══════ SLIDES ═══════ -->
@@ -1151,8 +1140,17 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
         </div>
       </div>
       <div class="form-group">
-        <label class="form-lbl">Lien du bouton (optionnel)</label>
-        <input class="form-input" type="text" id="promo-link" placeholder="Vide = ouvre WhatsApp. Sinon : /categories ou https://…">
+        <label class="form-lbl">Où mène la bannière ?</label>
+        <select class="form-input" id="promo-quick" onchange="if(this.value!=='')document.getElementById('promo-link').value=this.value==='-'?'':this.value">
+          <option value="">Choisir une page du site…</option>
+          <option value="/jeux">Jeux (jouer pour gagner)</option>
+          <option value="/categories">Toutes les catégories</option>
+          <option value="/#promos">Promotions</option>
+          <option value="/apropos">À propos</option>
+          <option value="/compte">Mon compte</option>
+          <option value="-">WhatsApp (par défaut)</option>
+        </select>
+        <input class="form-input" type="text" id="promo-link" style="margin-top:8px" placeholder="Ou colle un lien : /jeux ou https://…  (vide = ouvre WhatsApp)">
       </div>
       <div class="grp-t">Image de couverture</div>
       <div class="form-group">
@@ -1165,7 +1163,7 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
         <input class="form-input" type="url" id="promo-image-url" style="display:none;margin-top:10px" placeholder="https://… (lien direct vers l'image)" oninput="updatePromoLive()">
         <button type="button" class="cat-rm" id="promo-img-rm" style="display:none" onclick="removePromoImg()">Retirer l'image</button>
         <div id="promo-img-preview" style="display:none"></div>
-        <div style="font-size:11.5px;opacity:.65;margin-top:8px;line-height:1.5">L'affiche est affichée en entier. À activer une fois dans Supabase : <code style="user-select:all">alter table promos add column if not exists image_url text; alter table promos add column if not exists link text;</code></div>
+        <div style="font-size:11.5px;opacity:.65;margin-top:8px;line-height:1.5">L'image s'adapte à son format sur le site (pas de recadrage). Si l'image ou le lien ne s'enregistre pas, exécute une fois ce SQL dans Supabase : <code style="user-select:all">alter table promos add column if not exists image_url text; alter table promos add column if not exists link text; alter table promos add column if not exists created_at timestamptz default now();</code></div>
       </div>
       <div class="grp-t">Affichage</div>
       <div class="toggle-row">
@@ -1174,55 +1172,6 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
       </div>
       <button class="btn-submit" id="promo-submit" onclick="savePromo()">
         <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Enregistrer la bannière
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ MODAL OFFRE/FLYER ═══ -->
-<div class="modal-ov" id="offerModal">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <div class="modal-head">
-      <div class="modal-title" id="offerModalTitle">Nouveau flyer</div>
-      <button class="modal-cls" onclick="closeModal('offerModal')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>
-    </div>
-    <div class="modal-body">
-      <input type="hidden" id="offer-id">
-      <div class="form-group">
-        <label class="form-lbl">Titre *</label>
-        <input class="form-input" type="text" id="offer-title" placeholder="Ex: Promo Chaussures Homme">
-      </div>
-      <div class="form-group">
-        <label class="form-lbl">Description</label>
-        <textarea class="form-input" id="offer-desc" placeholder="Description de l'offre…"></textarea>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-lbl">Badge</label>
-          <input class="form-input" type="text" id="offer-badge" placeholder="Ex: PROMO -30%">
-        </div>
-        <div class="form-group">
-          <label class="form-lbl">Message WhatsApp</label>
-          <input class="form-input" type="text" id="offer-wa" placeholder="Ex: Je veux cette offre chaussures">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-lbl">Image du flyer</label>
-        <div class="img-upload-area">
-          <input type="file" id="offer-image" accept="image/*" onchange="handleOfferImg(this)">
-          <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          <p><strong>Clique</strong> pour choisir l'image du flyer</p>
-          <p style="font-size:.68rem;margin-top:4px">Grand format recommandé — JPG ou PNG</p>
-        </div>
-        <div id="offer-img-preview" style="margin-top:8px"></div>
-      </div>
-      <div class="toggle-row">
-        <span class="toggle-lbl">Offre active</span>
-        <label class="toggle"><input type="checkbox" id="offer-active" checked><div class="toggle-track"></div></label>
-      </div>
-      <button class="btn-submit" id="offer-submit" onclick="saveOffer()">
-        <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Enregistrer le flyer
       </button>
     </div>
   </div>
@@ -1660,7 +1609,7 @@ function switchTab(name,el){
   if(name==='categories')loadCategories();
   if(name==='slides')loadSlides();
   if(name==='ticker')loadTicker();
-  if(name==='promos'){loadPromos();loadOffers();}
+  if(name==='promos'){loadPromos();}
   if(name==='homepage')loadHomeContent();
   if(name==='reviews')loadReviews();
   if(name==='personnel')loadPersonnel();
@@ -1941,9 +1890,9 @@ var promoImgFile=null,promoImgBlob='';
 async function loadPromos(){
   var el=document.getElementById('promos-list');
   el.innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
-  var res=await db.from('promos').select('*').order('created_at',{ascending:false});
-  if(res.error){el.innerHTML='<div class="empty-state"><p>Erreur</p></div>';return}
-  promosList=res.data||[];
+  var res=await db.from('promos').select('*');
+  if(res.error){el.innerHTML='<div class="empty-state"><p>Erreur de chargement : '+bEsc(res.error.message)+'</p></div>';return}
+  promosList=(res.data||[]).slice().sort(function(a,b){return String(b.created_at||'').localeCompare(String(a.created_at||''))});
   if(!promosList.length){el.innerHTML='<div class="empty-state"><p>Aucune bannière. Clique sur « Ajouter » pour créer la première.</p></div>';return}
   var shown=0;
   el.innerHTML=promosList.map(function(p){var st,cls;if(!p.active){st='Masquée';cls='off'}else if(shown<4){shown++;st="Affichée sur l'accueil";cls='on'}else{st='En attente (4 maximum)';cls='wait'}
@@ -1956,7 +1905,7 @@ function handlePromoImg(input){if(input.files[0]){promoImgFile=input.files[0];pr
 function removePromoImg(){promoImgFile=null;promoImgBlob='';document.getElementById('promo-image-url').value='';document.getElementById('promo-image').value='';updatePromoLive()}
 function openPromoModal(){
   ['promo-id','promo-title','promo-subtitle','promo-tag','promo-link','promo-image-url'].forEach(function(i){document.getElementById(i).value=''});
-  document.getElementById('promo-btn').value='Profiter';document.getElementById('promo-active').checked=true;
+  document.getElementById('promo-btn').value='Profiter';document.getElementById('promo-active').checked=true;var q=document.getElementById('promo-quick');if(q)q.value='';
   document.getElementById('promoModalTitle').textContent='Nouvelle bannière';
   promoImgFile=null;promoImgBlob='';setPromoImgMode('up');updatePromoLive();
   openModal('promoModal');
@@ -1966,7 +1915,7 @@ function editPromo(id){
   document.getElementById('promoModalTitle').textContent='Modifier la bannière';
   document.getElementById('promo-id').value=p.id;document.getElementById('promo-title').value=p.title||'';
   document.getElementById('promo-subtitle').value=p.subtitle||'';document.getElementById('promo-tag').value=p.tag||'';
-  document.getElementById('promo-btn').value=p.button_text||'Profiter';document.getElementById('promo-link').value=p.link||'';
+  document.getElementById('promo-btn').value=p.button_text||'Profiter';document.getElementById('promo-link').value=p.link||'';var q=document.getElementById('promo-quick');if(q)q.value='';
   document.getElementById('promo-active').checked=p.active!==false;document.getElementById('promo-image-url').value=p.image_url||'';
   promoImgFile=null;promoImgBlob='';setPromoImgMode(p.image_url?'url':'up');updatePromoLive();
   openModal('promoModal');
@@ -1994,74 +1943,10 @@ async function savePromo(){
   showToast(existingId?'Bannière modifiée ✓':'Bannière ajoutée ✓');closeModal('promoModal');loadPromos();btn.classList.remove('loading');
 }
 async function deletePromo(id){
-  if(!confirm('Supprimer cette promo ?'))return;
+  if(!confirm('Supprimer cette bannière ?'))return;
   var {error}=await db.from('promos').delete().eq('id',id);
-  if(error){showToast('Erreur',true);return}
-  showToast('Promo supprimée');loadPromos();
-}
-
-// ══════════════════════════════════════════
-// OFFERS (FLYERS)
-// ══════════════════════════════════════════
-var offersList=[];var offerImgFile=null;
-async function loadOffers(){
-  var el=document.getElementById('offers-list');
-  el.innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
-  var {data,error}=await db.from('offers').select('*').order('created_at',{ascending:false});
-  if(error){el.innerHTML='<div class="empty-state"><p>Erreur</p></div>';return}
-  offersList=data||[];
-  if(!offersList.length){el.innerHTML='<div class="empty-state"><p>Aucun flyer. Clique sur Ajouter !</p></div>';return}
-  el.innerHTML='';
-  offersList.forEach(function(o){
-    var card=document.createElement('div');card.className='offer-card';
-    card.innerHTML=(o.image_url?'<img class="offer-img" src="'+o.image_url+'" alt="">':'<div class="offer-img-placeholder"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>')
-      +'<div class="offer-body"><div style="flex:1;min-width:0">'+(o.badge?'<div class="offer-badge">'+o.badge+'</div>':'')+'<div class="data-item-name">'+o.title+'</div>'+(o.description?'<div class="data-item-sub">'+o.description+'</div>':'')+'</div>'
-      +'<div class="data-item-actions"><button class="btn-edit" onclick="editOffer(\''+o.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button><button class="btn-del" onclick="deleteOffer(\''+o.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></div></div>';
-    el.appendChild(card);
-  });
-}
-function openOfferModal(){
-  document.getElementById('offer-id').value='';document.getElementById('offer-title').value='';
-  document.getElementById('offer-desc').value='';document.getElementById('offer-badge').value='OFFRE';
-  document.getElementById('offer-wa').value='';document.getElementById('offer-active').checked=true;
-  document.getElementById('offer-img-preview').innerHTML='';offerImgFile=null;
-  document.getElementById('offerModalTitle').textContent='Nouveau flyer';
-  openModal('offerModal');
-}
-function editOffer(id){
-  var o=offersList.find(function(x){return x.id===id});if(!o)return;
-  document.getElementById('offerModalTitle').textContent='Modifier le flyer';
-  document.getElementById('offer-id').value=o.id;document.getElementById('offer-title').value=o.title||'';
-  document.getElementById('offer-desc').value=o.description||'';document.getElementById('offer-badge').value=o.badge||'OFFRE';
-  document.getElementById('offer-wa').value=o.wa_message||'';document.getElementById('offer-active').checked=o.active!==false;
-  if(o.image_url)document.getElementById('offer-img-preview').innerHTML='<img src="'+o.image_url+'" style="width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-top:6px">';
-  offerImgFile=null;openModal('offerModal');
-}
-function handleOfferImg(input){
-  if(input.files[0]){offerImgFile=input.files[0];var url=URL.createObjectURL(offerImgFile);document.getElementById('offer-img-preview').innerHTML='<img src="'+url+'" style="width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-top:6px">';}
-}
-async function saveOffer(){
-  var btn=document.getElementById('offer-submit');
-  var title=document.getElementById('offer-title').value.trim();
-  if(!title){showToast('Titre requis !',true);return}
-  btn.classList.add('loading');
-  var payload={title,description:document.getElementById('offer-desc').value||null,badge:document.getElementById('offer-badge').value||'OFFRE',wa_message:document.getElementById('offer-wa').value||null,active:document.getElementById('offer-active').checked};
-  var existingId=document.getElementById('offer-id').value;var offerId=existingId;var error;
-  if(existingId){({error}=await db.from('offers').update(payload).eq('id',existingId));}
-  else{var res=await db.from('offers').insert([payload]).select();error=res.error;if(!error&&res.data)offerId=res.data[0].id;}
-  if(error){showToast('Erreur: '+error.message,true);btn.classList.remove('loading');return}
-  if(offerImgFile&&offerId){
-    var ext=offerImgFile.name.split('.').pop();var path='offers/'+offerId+'/'+Date.now()+'.'+ext;
-    var {error:upErr}=await db.storage.from(BUCKET).upload(path,offerImgFile,{upsert:true,contentType:offerImgFile.type});
-    if(!upErr){var {data:{publicUrl}}=db.storage.from(BUCKET).getPublicUrl(path);await db.from('offers').update({image_url:publicUrl}).eq('id',offerId);}
-  }
-  showToast(existingId?'Flyer modifié ✓':'Flyer ajouté ✓');closeModal('offerModal');loadOffers();btn.classList.remove('loading');
-}
-async function deleteOffer(id){
-  if(!confirm('Supprimer ce flyer ?'))return;
-  var {error}=await db.from('offers').delete().eq('id',id);
-  if(error){showToast('Erreur',true);return}
-  showToast('Flyer supprimé');loadOffers();
+  if(error){showToast('Erreur : '+error.message,true);return}
+  showToast('Bannière supprimée');loadPromos();
 }
 
 // ══════════════════════════════════════════
@@ -2765,7 +2650,7 @@ async function loadBadgesList(){
 // ══════════════════════════════════════════
 function openModal(id){document.getElementById(id).classList.add('on');document.body.style.overflow='hidden'}
 function closeModal(id){document.getElementById(id).classList.remove('on');document.body.style.overflow=''}
-var allModals=['productModal','catModal','slideModal','promoModal','offerModal','reviewModal','mgrModal','staffResetModal','rewardModal'];
+var allModals=['productModal','catModal','slideModal','promoModal','reviewModal','mgrModal','staffResetModal','rewardModal'];
 allModals.forEach(function(id){
   var el=document.getElementById(id);
   if(el)el.addEventListener('click',function(e){if(e.target===this)closeModal(id)});

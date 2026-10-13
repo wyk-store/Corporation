@@ -577,7 +577,7 @@ h1,h2,h3,h4{font-family:var(--fd);letter-spacing:-.02em;line-height:1.05}
 .hz-plain,.pb:not(.has-img){background:var(--sbg,linear-gradient(125deg,#16161a,#2a0c12 60%,#8f0b18))}
 .hz-brand{background:radial-gradient(900px 520px at 88% -12%,rgba(232,25,44,.55),transparent 62%),linear-gradient(135deg,#09090b 0%,#151014 58%,#2a0b12 100%)}
 .pb.b2:not(.has-img){background:linear-gradient(130deg,#16161a,#34343b)}
-.hz-pl{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;gap:8px;padding:0 clamp(18px,5vw,64px);max-width:680px;color:#fff}
+.pb:not(.has-img){min-height:0}.pb:not(.has-img) .hz-pl{position:static;padding:clamp(20px,3.4vw,34px) clamp(18px,4vw,44px);max-width:none}.pb:not(.has-img) .hz-pl h2{font-size:clamp(20px,3.2vw,34px)}.hz-pl{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;gap:8px;padding:0 clamp(18px,5vw,64px);max-width:680px;color:#fff}
 .hz-pl h2{font-size:clamp(22px,4.4vw,54px);font-weight:800;line-height:1.04}
 .hz-pl p{font-size:clamp(12.5px,1.5vw,17px);opacity:.88;max-width:460px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .hz-pl .hz-cta{position:static;align-self:flex-start;margin-top:8px}
@@ -604,7 +604,7 @@ h1,h2,h3,h4{font-family:var(--fd);letter-spacing:-.02em;line-height:1.05}
 .dual{grid-template-columns:1fr!important;gap:14px}
 .pb{position:relative;display:block;overflow:hidden;isolation:isolate;border-radius:22px;aspect-ratio:var(--pr,21/7);color:#fff;box-shadow:0 10px 28px rgba(0,0,0,.12)}
 @media(max-width:980px){.rn{display:none!important}}
-@media(max-width:760px){.hero2{padding-left:10px;padding-right:10px}.hs.hz{border-radius:20px}.pb{border-radius:18px}.pb:not(.has-img){aspect-ratio:2/1}.hz-cap{max-width:58%}.hz-cap span{display:none}.hz-pl p{display:none}}
+@media(max-width:760px){.hero2{padding-left:10px;padding-right:10px}.hs.hz{border-radius:20px}.pb{border-radius:18px}.pb:not(.has-img){aspect-ratio:auto}.hz-cap{max-width:58%}.hz-cap span{display:none}.hz-pl p{display:none}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "WYK", "url": "https://wykht.com/", "logo": "https://i.postimg.cc/150DzRjK/Logo-wyk-avec-fond-blanc.png", "slogan": "Faites vos achats autrement.", "description": "Boutique en ligne haïtienne : produits, alimentation, abonnements et services. Commande sur WhatsApp, prix en gourdes (HTG).", "areaServed": "HT", "contactPoint": {"@type": "ContactPoint", "telephone": "+509-40-30-09-66", "contactType": "customer service", "availableLanguage": ["fr", "ht"]}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "WYK", "url": "https://wykht.com/", "inLanguage": "fr"}</script>
@@ -732,7 +732,7 @@ W.load=function(){if(_data)return _data;
   T(db.from('categories').select('*').order('name')),
   T(db.from('slides').select('*').eq('active',true).order('position')),
   T(db.from('ticker_messages').select('*').eq('active',true).order('position')),
-  T(db.from('promos').select('*').eq('active',true).order('created_at',{ascending:false})),
+  T(db.from('promos').select('*').eq('active',true)),
   T(db.from('offers').select('*').eq('active',true))
  ]).then(build)})});
  return _data};
@@ -1046,7 +1046,7 @@ W.load().then(function(d){
     $('#all-chips').onclick=function(e){var a=e.target.closest('[data-f]');if(!a)return;e.preventDefault();fcat=a.getAttribute('data-f');W.$$('#all-chips .cb').forEach(function(x){x.classList.toggle('on',x===a)});refill()};
     $('#all-sort').onchange=function(){fsort=this.value;refill()};refill();
   }else{$('#new-sec').style.display='';$('#new').innerHTML='<div class="empty"><b>Aucun produit pour l\'instant</b>Revenez très bientôt !</div>'}
-  var bn=d.promos.slice(0,4);if(!bn.length&&d.offers.length)bn=d.offers.slice(0,2);
+  var bn=d.promos.slice().sort(function(a,b){return String(b.created_at||'').localeCompare(String(a.created_at||''))}).slice(0,4);
   if(bn.length){$('#offres').style.display='';$('#dual').innerHTML=bn.map(function(b,i){var wa=b.wa_message?'https://wa.me/'+W.WA+'?text='+encodeURIComponent(b.wa_message):'https://wa.me/'+W.WA;
     var img=b.image_url,href=b.link||wa,ext=!b.link||/^https?:/i.test(b.link),tg=b.tag||b.badge,sb=b.subtitle||b.description,cta='<span class="hz-cta">'+esc(b.button_text||'Profiter')+AR+'</span>',
      lk=' href="'+esc(href)+'"'+(ext?' target="_blank" rel="noopener"':'')+' aria-label="'+esc((b.button_text||'Profiter')+' : '+b.title)+'"';
