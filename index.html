@@ -609,6 +609,22 @@ h1,h2,h3,h4{font-family:var(--fd);letter-spacing:-.02em;line-height:1.05}
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "WYK", "url": "https://wykht.com/", "logo": "https://i.postimg.cc/150DzRjK/Logo-wyk-avec-fond-blanc.png", "slogan": "Faites vos achats autrement.", "description": "Boutique en ligne haïtienne : produits, alimentation, abonnements et services. Commande sur WhatsApp, prix en gourdes (HTG).", "areaServed": "HT", "contactPoint": {"@type": "ContactPoint", "telephone": "+509-40-30-09-66", "contactType": "customer service", "availableLanguage": ["fr", "ht"]}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "WYK", "url": "https://wykht.com/", "inLanguage": "fr"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Comment passer une commande ?", "acceptedAnswer": {"@type": "Answer", "text": "Ajoutez vos produits au panier puis touchez « Commander sur WhatsApp ». Votre commande arrive dans notre conversation, on la confirme avec vous."}}, {"@type": "Question", "name": "Quels sont les moyens de paiement ?", "acceptedAnswer": {"@type": "Answer", "text": "Les prix sont en gourdes (HTG). Le mode de paiement est confirmé avec vous sur WhatsApp avant toute livraison."}}, {"@type": "Question", "name": "Livrez-vous partout ?", "acceptedAnswer": {"@type": "Answer", "text": "Nous livrons dans de nombreuses zones, dès 500 HTG. Indiquez votre adresse dans le panier, on vous confirme le tarif. Le retrait est aussi possible."}}, {"@type": "Question", "name": "Puis-je commander un produit qui n'est pas listé ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui ! Écrivez-nous sur WhatsApp, on cherche pour vous (produits, alimentation, abonnements, services)."}}, {"@type": "Question", "name": "Mes favoris et mon panier sont-ils sauvegardés ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui, sur votre appareil. Créez un compte pour les retrouver partout."}}]}</script>
+<style id="ssl-badge-css">
+/* SSLCanary — carte de confiance premium, suit le thème clair/sombre */
+.ssl-card{position:relative;display:inline-flex;align-items:center;gap:11px;padding:7px 8px 7px 10px;border-radius:18px;background:var(--surface,rgba(128,128,128,.06));border:1px solid var(--line,var(--bdr,rgba(128,128,128,.22)));box-shadow:0 8px 22px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.35);transition:border-color .25s,transform .25s,box-shadow .25s}
+.ssl-card:hover{transform:translateY(-1px);border-color:rgba(232,25,44,.45);box-shadow:0 12px 28px rgba(0,0,0,.1),inset 0 1px 0 rgba(255,255,255,.35)}
+.ssl-card .sc-ico{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;color:var(--red,#e8192c);background:var(--red-s,rgba(232,25,44,.1))}
+.ssl-card .sc-ico svg{width:16px;height:16px}
+.ssl-card .sc-tx{display:flex;flex-direction:column;line-height:1.2;min-width:0}
+.ssl-card .sc-tx b{font-size:12px;font-weight:700;letter-spacing:-.01em;color:var(--ink,var(--text,inherit))}
+.ssl-card .sc-tx small{font-size:10.5px;color:var(--mut,var(--t3,rgba(128,128,128,.9)));margin-top:2px}
+.ssl-badge{display:inline-flex;align-items:center;line-height:0;padding:4px 9px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.08);box-shadow:0 1px 3px rgba(0,0,0,.08);text-decoration:none}
+.ssl-badge img{display:block;height:28px;width:auto;max-width:100%}
+.ssl-card .ssl-badge{margin-left:4px}
+.ssl-card .ssl-badge::after{content:"";position:absolute;inset:0;border-radius:inherit}
+.ssl-strip{display:flex;justify-content:center;padding:14px 16px 18px}
+@media(max-width:620px){.ssl-card{width:100%;max-width:380px;justify-content:space-between}.ssl-card .ssl-badge{margin-left:auto}}
+</style>
 </head>
 <body>
 <div id="wyk-top"></div>
@@ -827,10 +843,11 @@ W.mount=function(active){var cur=active||'';
  '<div id="wyk-toast" class="toast" role="status"></div>'+
 '<nav class="bnav glass"><a href="/" class="'+(cur==='home'?'on':'')+'">'+I('home')+'Accueil</a><a href="/categories" class="'+(cur==='cats'?'on':'')+'">'+I('grid')+'Catégories</a><button id="bn-fav">'+I('heart')+'Favoris<span class="bd" data-bd="fav"></span></button><button id="bn-cart">'+I('cart')+'Panier<span class="bd" data-bd="cart"></span></button><a href="/compte" class="'+(cur==='acc'?'on':'')+'">'+I('user')+'Compte</a></nav>'+
  '<div class="fabs"><button class="fab up" id="totop" aria-label="Haut de page">'+I('arrowup')+'</button><a class="fab wa" href="https://wa.me/'+WA+'" target="_blank" rel="noopener" aria-label="WhatsApp">'+I('wa')+'</a></div>';
+ var SSL='<span class="ssl-card"><span class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5L15.5 10"/></svg></span><span class="sc-tx"><b>Connexion sécurisée</b><small>Certificat SSL surveillé</small></span><a class="ssl-badge" href="https://sslcanary.com/en/tools/ssl-checker?host=wykht.com" target="_blank" rel="noopener"><img src="https://sslcanary.com/badge/wykht.com.svg" alt="SSL monitored by SSLCanary" height="28" loading="lazy" decoding="async"></a></span>';
  var foot='<footer class="ft2"><div class="wrap"><div class="ft2-row"><div class="ft2-b">'+brand('ft')+'<p>Produits, alimentation, abonnements et services — au même endroit.</p></div>'+
  '<nav class="ft2-n" aria-label="Pied de page"><a href="/categories">Catégories</a><a href="/#promos">Promos</a><a href="/apropos">À propos</a><a href="/jeux">Jeux</a><a href="/compte">Mon compte</a><a href="/confidentiality">Confidentialité</a></nav>'+
  '<div class="ft2-s"><a href="https://wa.me/'+WA+'" target="_blank" rel="noopener" aria-label="WhatsApp">'+I('wa')+'<span>WhatsApp</span></a><a href="https://whatsapp.com/channel/0029Vb96LBDEgGfJ4l6LIS2R" target="_blank" rel="noopener" aria-label="Chaîne WhatsApp">'+I('chat')+'<span>Chaîne</span></a></div></div>'+
- '<div class="ft2-bt"><span>© '+new Date().getFullYear()+' WYK — wykht.com</span><span class="fpin">'+I('pin')+'Fait en Haïti</span></div></div></footer>';
+ '<div class="ft2-bt"><span>© '+new Date().getFullYear()+' WYK — wykht.com</span><span class="fpin">'+I('pin')+'Fait en Haïti</span>'+SSL+'</div></div></footer>';
  var a=$('#wyk-top'),b=$('#wyk-foot');
  if(!a){a=document.createElement('div');a.id='wyk-top';document.body.insertBefore(a,document.body.firstChild)}
  if(!document.querySelector('link[href*="Bricolage"]')){var fl=document.createElement('link');fl.rel='stylesheet';fl.href='https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap';document.head.appendChild(fl)}
@@ -840,7 +857,7 @@ W.mount=function(active){var cur=active||'';
  R.addEventListener('click',deleg);R.addEventListener('click',delegQ);R.addEventListener('click',delegS);
  R.addEventListener('click',function(e){var d=R.getElementById('mg');if(d&&d.open&&e.composedPath().indexOf(d)<0)d.open=false});
  if(b)b.innerHTML=foot;
- if(!b){var st=document.createElement('style');st.textContent='@media(max-width:620px){body{padding-bottom:88px!important}}';document.head.appendChild(st)}
+ if(!b){var st=document.createElement('style');st.textContent='@media(max-width:620px){body{padding-bottom:88px!important}}';document.head.appendChild(st);var sp=document.createElement('div');sp.className='ssl-strip';sp.innerHTML=SSL;document.body.appendChild(sp)}
  var T=function(id,fn){var el=$(id);if(el)el.addEventListener('click',fn)};
  T('#b-search',openSearch);T('#m-s',openSearch);T('#b-cart',function(){openD('cart')});T('#bn-cart',function(){openD('cart')});T('#m-cart',function(){openD('cart')});T('#b-fav',function(){openD('fav')});T('#bn-fav',function(){openD('fav')});T('#m-fav',function(){openD('fav')});T('#b-theme',W.theme);T('#m-theme',W.theme);T('#b-menu',function(){openD('menu')});
  T('#ov',closeAll);$$('[data-close]').forEach(function(b){b.addEventListener('click',closeAll)});
