@@ -4,7 +4,7 @@
  *   produit/<id>.html   page légère avec les balises Open Graph (titre, prix, description, image)
  *                       -> adresse partagée : https://wykht.com/produit/<id>
  *                       -> les visiteurs sont renvoyés tout de suite vers /?p=<id> (la vraie fiche)
- *   og/<id>.png         image de partage 1200x630 : photo, nom, prix, promo, bouton WhatsApp
+ *   og/<id>.jpg         image de partage 1200x630 : photo, nom, prix, promo, bouton WhatsApp
  * et supprime les fichiers des produits retirés. Seuls les produits modifiés sont regénérés.
  *
  * Lancement : node tools/generate-share.cjs        (automatique via .github/workflows/share-pages.yml)
@@ -73,11 +73,11 @@ html,body{width:1200px;height:630px;overflow:hidden}
 body{font-family:'Inter',system-ui,sans-serif;background:#0d0d0c;color:#fff;position:relative;-webkit-font-smoothing:antialiased}
 .fd{font-family:'Bricolage Grotesque','Inter',system-ui,sans-serif;letter-spacing:-.025em}
 .glow{position:absolute;inset:0;background:radial-gradient(620px 420px at 100% 0%,rgba(232,25,44,.38),transparent 70%),radial-gradient(520px 380px at 0% 100%,rgba(245,200,66,.10),transparent 70%)}
-.logo{font-size:44px;font-weight:800;line-height:1}.logo b{color:#e8192c;font-weight:800}
+.logo{font-size:54px;font-weight:800;line-height:1}.logo b{color:#e8192c;font-weight:800}
 .grain{position:absolute;inset:0;background:linear-gradient(135deg,#141413 0%,#0d0d0c 55%,#1a0e10 100%)}`;
 
 function productHtml(p, photo) {
-  const nameSize = p.name.length > 52 ? 40 : p.name.length > 34 ? 46 : 54;
+  const nameSize = p.name.length > 52 ? 46 : p.name.length > 34 ? 56 : 70;
   const stockTxt = p.stock != null && p.stock <= 0 ? 'Rupture de stock' : p.stock != null && p.stock <= 5 ? 'Plus que ' + p.stock + ' en stock' : 'En stock';
   const stockCol = p.stock != null && p.stock <= 0 ? '#ff6b78' : p.stock != null && p.stock <= 5 ? '#f5c842' : '#3ddc84';
   return `<!doctype html><html><head><meta charset="utf-8">${FONTS}<style>${BASE_CSS}
@@ -86,19 +86,19 @@ function productHtml(p, photo) {
 .left .card{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .left .card img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 30px rgba(0,0,0,.45))}
 .left .card .ph{font-size:150px;opacity:.15;color:#000}
-.badge{position:absolute;left:26px;top:26px;background:linear-gradient(120deg,#e8192c,#ff4b5c);color:#fff;font-weight:800;font-size:27px;letter-spacing:.02em;padding:10px 20px;border-radius:40px;box-shadow:0 8px 22px rgba(232,25,44,.5)}
+.badge{position:absolute;left:26px;top:26px;background:linear-gradient(120deg,#e8192c,#ff4b5c);color:#fff;font-weight:800;font-size:34px;letter-spacing:.02em;padding:12px 24px;border-radius:40px;box-shadow:0 8px 22px rgba(232,25,44,.5)}
 .right{position:absolute;left:610px;top:0;right:0;bottom:0;padding:44px 44px 40px 38px;display:flex;flex-direction:column}
 .top{display:flex;align-items:center;justify-content:space-between}
-.pill{font-size:20px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#ffb3ba;background:rgba(232,25,44,.16);border:1px solid rgba(232,25,44,.4);padding:8px 18px;border-radius:30px;max-width:230px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-h1{font-size:${nameSize}px;font-weight:800;line-height:1.04;margin-top:34px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.pill{font-size:23px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#ffb3ba;background:rgba(232,25,44,.16);border:1px solid rgba(232,25,44,.4);padding:8px 18px;border-radius:30px;max-width:330px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+h1{font-size:${nameSize}px;font-weight:800;line-height:1.04;margin-top:30px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .price{margin-top:auto;display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
-.price b{font-size:66px;font-weight:800;line-height:1;color:#fff}
-.price s{font-size:28px;color:rgba(255,255,255,.5);font-weight:500}
-.stock{margin-top:14px;font-size:22px;font-weight:600;color:${stockCol};display:flex;align-items:center;gap:10px}
-.stock i{width:11px;height:11px;border-radius:50%;background:${stockCol};box-shadow:0 0 12px ${stockCol}}
+.price b{font-size:84px;font-weight:800;line-height:1;color:#fff}
+.price s{font-size:32px;color:rgba(255,255,255,.5);font-weight:500}
+.stock{margin-top:14px;font-size:27px;font-weight:600;color:${stockCol};display:flex;align-items:center;gap:10px}
+.stock i{width:13px;height:13px;border-radius:50%;background:${stockCol};box-shadow:0 0 12px ${stockCol}}
 .cta{margin-top:26px;display:flex;align-items:center;justify-content:space-between}
-.wa{background:#25d366;color:#04230f;font-weight:700;font-size:24px;padding:15px 26px;border-radius:50px;display:flex;align-items:center;gap:12px;white-space:nowrap;box-shadow:0 10px 28px rgba(37,211,102,.35)}
-.wa svg{width:28px;height:28px}
+.wa{background:#25d366;color:#04230f;font-weight:700;font-size:29px;padding:17px 30px;border-radius:50px;display:flex;align-items:center;gap:12px;white-space:nowrap;box-shadow:0 10px 28px rgba(37,211,102,.35)}
+.wa svg{width:34px;height:34px}
 .url{font-size:23px;font-weight:600;color:rgba(255,255,255,.55);letter-spacing:.02em}
 </style></head><body><div class="grain"></div><div class="glow"></div>
 <div class="left"><div class="bg" style="${photo ? 'background-image:url(' + photo + ')' : ''}"></div>
@@ -133,7 +133,7 @@ h1 em{font-style:normal;color:#e8192c}
 }
 
 function productPage(p) {
-  const url = SITE + '/produit/' + encodeURIComponent(p.id), img = SITE + '/og/' + encodeURIComponent(p.id) + '.png';
+  const url = SITE + '/produit/' + encodeURIComponent(p.id), img = SITE + '/og/' + encodeURIComponent(p.id) + '.jpg';
   const title = p.name + ' — ' + fmt(p.price) + ' | WYK';
   const bits = [fmt(p.price) + (p.old ? ' (au lieu de ' + fmt(p.old) + ')' : '')];
   if (p.cat) bits.push(p.cat);
@@ -157,7 +157,7 @@ function productPage(p) {
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:image" content="${esc(img)}">
 <meta property="og:image:secure_url" content="${esc(img)}">
-<meta property="og:image:type" content="image/png">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="${esc(p.name)}">
@@ -193,7 +193,7 @@ function productPage(p) {
     await page.setContent(html, { waitUntil: 'load' });
     try { await page.evaluate(() => document.fonts.ready); } catch (e) {}
     await page.waitForTimeout(250);
-    await page.screenshot({ path: out, clip: { x: 0, y: 0, width: 1200, height: 630 } });
+    await page.screenshot(Object.assign({ path: out, clip: { x: 0, y: 0, width: 1200, height: 630 } }, out.endsWith('.jpg') ? { type: 'jpeg', quality: 84 } : {}));
   }
 
   if (process.argv.includes('--default')) {
@@ -206,9 +206,9 @@ function productPage(p) {
   let man = {}; try { man = JSON.parse(fs.readFileSync(MANIFEST, 'utf8')); } catch (e) {}
   const next = {}, todo = [];
   for (const p of prods) {
-    const h = sha(JSON.stringify(p) + '|v2');
+    const h = sha(JSON.stringify(p) + '|v3');
     next[p.id] = h;
-    if (!(man[p.id] === h && fs.existsSync(path.join(ODIR, p.id + '.png')) && fs.existsSync(path.join(PDIR, p.id + '.html')))) todo.push(p);
+    if (!(man[p.id] === h && fs.existsSync(path.join(ODIR, p.id + '.jpg')) && fs.existsSync(path.join(PDIR, p.id + '.html')))) todo.push(p);
   }
   const goneIds = Object.keys(man).filter(id => !next[id]);
 
@@ -218,11 +218,13 @@ function productPage(p) {
   for (const p of todo) {
     console.log('→', p.id, p.name);
     const photo = await toDataUri(p.img);
-    await shot(productHtml(p, photo), path.join(ODIR, p.id + '.png'));
+    await shot(productHtml(p, photo), path.join(ODIR, p.id + '.jpg'));
     fs.writeFileSync(path.join(PDIR, p.id + '.html'), productPage(p));
   }
   for (const id of goneIds)
-    for (const f of [path.join(ODIR, id + '.png'), path.join(PDIR, id + '.html')]) try { fs.unlinkSync(f); } catch (e) {}
+    for (const f of [path.join(ODIR, id + '.jpg'), path.join(PDIR, id + '.html')]) try { fs.unlinkSync(f); } catch (e) {}
+  /* anciennes images .png (trop lourdes pour WhatsApp) : supprimées, sauf l'image par défaut */
+  for (const f of fs.readdirSync(ODIR)) if (f.endsWith('.png') && f !== 'default.png') try { fs.unlinkSync(path.join(ODIR, f)); } catch (e) {}
   fs.writeFileSync(MANIFEST, JSON.stringify(next, null, 1) + '\n');
   if (browser) await browser.close();
   console.log(`Produits : ${prods.length} · générés ${todo.length} · inchangés ${prods.length - todo.length} · supprimés ${goneIds.length}`);
