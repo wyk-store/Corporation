@@ -1,0 +1,45 @@
+name: Pages de partage produit
+
+# Crée / met à jour automatiquement, pour chaque produit, la page d'aperçu (produit/<id>.html)
+# et son image de partage (og/<id>.png) utilisées par WhatsApp, Facebook, Messenger, etc.
+on:
+  schedule:
+    - cron: '*/20 * * * *'   # toutes les 20 min (ne fait rien si le catalogue n'a pas changé)
+  workflow_dispatch:          # bouton « Run workflow » dans l'onglet Actions
+  push:
+    paths:
+      - 'tools/generate-share.cjs'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: share-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Y a-t-il quelque chose à générer ?
+        id: plan
+        run: echo "n=$(node tools/generate-share.cjs --plan)" >> "$GITHUB_OUTPUT"
+      - name: Installer Chromium
+        if: steps.plan.outputs.n != '0'
+        run: |
+          npm i --no-save playwright@1
+          npx playwright install --with-deps chromium
+      - name: Générer les pages et images
+        if: steps.plan.outputs.n != '0'
+        run: node tools/generate-share.cjs
+      - name: Enregistrer les changements
+        if: steps.plan.outputs.n != '0'
+        run: |
+          git config user.name "wyk-bot"
+          git config user.email "wyk-bot@users.noreply.github.com"
+          git add produit og
+          git diff --cached --quiet || (git commit -m "Pages de partage produit (auto)" && git push)
