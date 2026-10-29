@@ -1,11 +1,9 @@
 name: Pages de partage produit
 
-# Crée / met à jour automatiquement, pour chaque produit, la page d'aperçu (produit/<id>.html)
-# et son image de partage (og/<id>.png) utilisées par WhatsApp, Facebook, Messenger, etc.
 on:
   schedule:
-    - cron: '*/20 * * * *'   # toutes les 20 min (ne fait rien si le catalogue n'a pas changé)
-  workflow_dispatch:          # bouton « Run workflow » dans l'onglet Actions
+    - cron: '*/20 * * * *'
+  workflow_dispatch:
   push:
     paths:
       - 'tools/generate-share.cjs'
