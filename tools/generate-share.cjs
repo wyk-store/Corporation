@@ -77,27 +77,27 @@ body{font-family:'Inter',system-ui,sans-serif;background:#0d0d0c;color:#fff;posi
 .grain{position:absolute;inset:0;background:linear-gradient(135deg,#141413 0%,#0d0d0c 55%,#1a0e10 100%)}`;
 
 function productHtml(p, photo) {
-  const nameSize = p.name.length > 52 ? 46 : p.name.length > 34 ? 54 : 62;
+  const nameSize = p.name.length > 52 ? 40 : p.name.length > 34 ? 46 : 54;
   const stockTxt = p.stock != null && p.stock <= 0 ? 'Rupture de stock' : p.stock != null && p.stock <= 5 ? 'Plus que ' + p.stock + ' en stock' : 'En stock';
   const stockCol = p.stock != null && p.stock <= 0 ? '#ff6b78' : p.stock != null && p.stock <= 5 ? '#f5c842' : '#3ddc84';
   return `<!doctype html><html><head><meta charset="utf-8">${FONTS}<style>${BASE_CSS}
-.left{position:absolute;left:0;top:0;width:520px;height:630px;overflow:hidden;background:#1b1b19}
-.left .bg{position:absolute;inset:-40px;background:center/cover no-repeat;filter:blur(36px) saturate(1.3) brightness(.42);transform:scale(1.15)}
-.left .card{position:absolute;left:44px;top:44px;width:432px;height:542px;border-radius:34px;background:#fff;box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.4) inset;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.left .card img{width:100%;height:100%;object-fit:contain;padding:14px}
+.left{position:absolute;left:0;top:0;width:610px;height:630px;overflow:hidden;background:#1b1b19}
+.left .bg{position:absolute;inset:-40px;background:center/cover no-repeat;filter:blur(30px) saturate(1.2) brightness(.6);transform:scale(1.15)}
+.left .card{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.left .card img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 30px rgba(0,0,0,.45))}
 .left .card .ph{font-size:150px;opacity:.15;color:#000}
-.badge{position:absolute;left:68px;top:68px;background:linear-gradient(120deg,#e8192c,#ff4b5c);color:#fff;font-weight:800;font-size:27px;letter-spacing:.02em;padding:10px 20px;border-radius:40px;box-shadow:0 8px 22px rgba(232,25,44,.5)}
-.right{position:absolute;left:560px;top:0;right:0;bottom:0;padding:46px 56px 40px 28px;display:flex;flex-direction:column}
+.badge{position:absolute;left:26px;top:26px;background:linear-gradient(120deg,#e8192c,#ff4b5c);color:#fff;font-weight:800;font-size:27px;letter-spacing:.02em;padding:10px 20px;border-radius:40px;box-shadow:0 8px 22px rgba(232,25,44,.5)}
+.right{position:absolute;left:610px;top:0;right:0;bottom:0;padding:44px 44px 40px 38px;display:flex;flex-direction:column}
 .top{display:flex;align-items:center;justify-content:space-between}
-.pill{font-size:20px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#ffb3ba;background:rgba(232,25,44,.16);border:1px solid rgba(232,25,44,.4);padding:8px 18px;border-radius:30px;max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill{font-size:20px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#ffb3ba;background:rgba(232,25,44,.16);border:1px solid rgba(232,25,44,.4);padding:8px 18px;border-radius:30px;max-width:230px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 h1{font-size:${nameSize}px;font-weight:800;line-height:1.04;margin-top:34px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .price{margin-top:auto;display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
-.price b{font-size:74px;font-weight:800;line-height:1;color:#fff}
-.price s{font-size:30px;color:rgba(255,255,255,.5);font-weight:500}
+.price b{font-size:66px;font-weight:800;line-height:1;color:#fff}
+.price s{font-size:28px;color:rgba(255,255,255,.5);font-weight:500}
 .stock{margin-top:14px;font-size:22px;font-weight:600;color:${stockCol};display:flex;align-items:center;gap:10px}
 .stock i{width:11px;height:11px;border-radius:50%;background:${stockCol};box-shadow:0 0 12px ${stockCol}}
 .cta{margin-top:26px;display:flex;align-items:center;justify-content:space-between}
-.wa{background:#25d366;color:#04230f;font-weight:700;font-size:25px;padding:15px 28px;border-radius:50px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 28px rgba(37,211,102,.35)}
+.wa{background:#25d366;color:#04230f;font-weight:700;font-size:24px;padding:15px 26px;border-radius:50px;display:flex;align-items:center;gap:12px;white-space:nowrap;box-shadow:0 10px 28px rgba(37,211,102,.35)}
 .wa svg{width:28px;height:28px}
 .url{font-size:23px;font-weight:600;color:rgba(255,255,255,.55);letter-spacing:.02em}
 </style></head><body><div class="grain"></div><div class="glow"></div>
@@ -107,7 +107,7 @@ h1{font-size:${nameSize}px;font-weight:800;line-height:1.04;margin-top:34px;disp
 <h1 class="fd">${esc(p.name)}</h1>
 <div class="price"><b class="fd">${esc(fmt(p.price))}</b>${p.old ? '<s>' + esc(fmt(p.old)) + '</s>' : ''}</div>
 <div class="stock"><i></i>${stockTxt}</div>
-<div class="cta"><div class="wa"><svg viewBox="0 0 24 24" fill="#04230f"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm5.2 13.9c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7a11.4 11.4 0 01-4.7-4.1c-.4-.5-1.2-1.6-1.2-3s.8-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.7 1.2 1.5 1.9 1 .9 1.900 1.200 2.200 1.300.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.8-.1 1.300z"/></svg>Commander sur WhatsApp</div><div class="url">wykht.com</div></div></div>
+<div class="cta"><div class="wa"><svg viewBox="0 0 24 24" fill="#04230f"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm5.2 13.9c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7a11.4 11.4 0 01-4.7-4.1c-.4-.5-1.2-1.6-1.2-3s.8-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.7 1.2 1.5 1.9 1 .9 1.900 1.200 2.200 1.300.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.8-.1 1.300z"/></svg>Commander sur WhatsApp</div></div></div>
 </body></html>`;
 }
 
@@ -206,7 +206,7 @@ function productPage(p) {
   let man = {}; try { man = JSON.parse(fs.readFileSync(MANIFEST, 'utf8')); } catch (e) {}
   const next = {}, todo = [];
   for (const p of prods) {
-    const h = sha(JSON.stringify(p) + '|v1');
+    const h = sha(JSON.stringify(p) + '|v2');
     next[p.id] = h;
     if (!(man[p.id] === h && fs.existsSync(path.join(ODIR, p.id + '.png')) && fs.existsSync(path.join(PDIR, p.id + '.html')))) todo.push(p);
   }
