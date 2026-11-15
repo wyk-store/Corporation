@@ -658,7 +658,7 @@ h1,h2,h3,h4{font-family:var(--fd);letter-spacing:-.02em;line-height:1.05}
 
   <div id="cat-sections"></div>
 
-  <section class="sec" id="all-sec" style="display:none"><div class="sh reveal"><div><span class="tag">Catalogue</span><h2>Tous les produits</h2></div><select id="all-sort" style="padding:11px 16px;border-radius:30px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 13px var(--fb)"><option value="new">Plus récents</option><option value="asc">Prix croissant</option><option value="desc">Prix décroissant</option><option value="promo">Promotions d'abord</option></select></div><div class="catbar" id="all-chips"></div><div class="grid" id="all"></div><div style="text-align:center;margin-top:26px"><button class="btn btn-line" id="more" style="display:none">Voir plus de produits</button></div></section>
+  <section class="sec" id="all-sec" style="display:none"><div class="sh reveal"><div><span class="tag">Catalogue</span><h2>Tous les produits</h2></div><select id="all-sort" style="padding:11px 16px;border-radius:30px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 13px var(--fb)"><option value="mix" selected>Éparpillé</option><option value="new">Plus récents</option><option value="asc">Prix croissant</option><option value="desc">Prix décroissant</option><option value="promo">Promotions d'abord</option></select></div><div class="catbar" id="all-chips"></div><div class="grid" id="all"></div><div style="text-align:center;margin-top:26px"><button class="btn btn-line" id="more" style="display:none">Voir plus de produits</button></div></section>
 
   <section class="sec" id="recent-sec" style="display:none"><div class="sh reveal"><div><span class="tag">Pour vous</span><h2>Récemment consultés</h2></div></div><div id="recent"></div></section>
 
@@ -676,7 +676,7 @@ h1,h2,h3,h4{font-family:var(--fd);letter-spacing:-.02em;line-height:1.05}
     <details><summary>Mes favoris et mon panier sont-ils sauvegardés ?</summary><p>Oui, sur votre appareil. Créez un compte pour les retrouver partout.</p></details>
   </div></section>
   <section class="sec seo-intro" id="a-propos-wyk" aria-labelledby="seo-h"><div class="sh"><div><span class="tag">Boutique en ligne en Haïti</span><h2 id="seo-h">WYK Haïti, votre boutique en ligne à Carrefour</h2></div></div>
-    <p>WYK (aussi écrit WYK HT ou WYKHT) est une boutique en ligne haïtienne basée à Carrefour. Retrouvez au même endroit de la technologie, de la mode pour femme et pour homme, des chaussures, des produits de beauté et de cosmétique, des fleurs et packages cadeaux, ainsi que de l'alimentation, des abonnements et des services.</p>
+    <p>WYK est une boutique en ligne haïtienne basée à Carrefour. Retrouvez au même endroit de la technologie, de la mode pour femme et pour homme, des chaussures, des produits de beauté et de cosmétique, des fleurs et packages cadeaux, ainsi que de l'alimentation, des abonnements et des services.</p>
     <p>Pour commander, ajoutez vos produits au panier puis envoyez votre commande sur WhatsApp : l'équipe WYK la confirme avec vous. Les prix sont affichés en gourdes (HTG) et le mode de paiement ainsi que la livraison sont précisés avec vous avant toute expédition.</p>
     <div class="seo-l"><a href="/categories">Toutes les catégories</a><a href="/apropos">À propos de WYK</a><a href="/jeux">Jeux et concours</a><a href="/conditions-utilisation">Conditions d'utilisation</a><a href="/confidentiality">Confidentialité</a><a href="https://wa.me/50940300966" target="_blank" rel="noopener">Commander sur WhatsApp</a><a href="https://www.instagram.com/wykht.co/" target="_blank" rel="noopener">Instagram @wykht.co</a></div>
   </section>
@@ -1093,10 +1093,28 @@ function marquee(d){
   var one=C.map(function(c){return'<a class="cmq-i" href="'+W.catUrl(c)+'" style="'+W.catStyle(c)+'"><i>'+(c.image_url?'<img class="ph" src="'+esc(c.image_url)+'" alt="" loading="lazy" draggable="false">':W.catIcon(c))+'</i><span>'+esc(c.name)+'</span></a>'}).join('');
   var reps=Math.max(1,Math.ceil(12/C.length)),seq=new Array(reps+1).join(one),dup=seq.replace(/<a class="cmq-i"/g,'<a aria-hidden="true" tabindex="-1" class="cmq-i"');
   var tr=$('#cmq-track');tr.innerHTML=seq+dup;tr.style.setProperty('--cmq-d',Math.max(36,C.length*reps*4.5)+'s');$('#cmq').style.display=''}
-var shown=0,STEP=12,list=[],ALL=[],fcat='',fsort='new';
+/* ordre par date (récent d'abord) */
+function byDate(a,b){return String(b.created_at||'').localeCompare(String(a.created_at||''))}
+function shufA(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+/* Nouveautés : le plus récent de CHAQUE catégorie, puis le 2e de chaque (2 max par catégorie) */
+function newMix(P){var g={},ord=[];P.slice().sort(byDate).forEach(function(p){var k=p.category_id;if(!g[k]){g[k]=[];ord.push(k)}if(g[k].length<2)g[k].push(p)});
+  var out=[];for(var r=0;r<2;r++)ord.forEach(function(k){if(g[k][r])out.push(g[k][r])});return out}
+/* « Éparpillé » : catégories mélangées (jamais 2 de suite si possible) + 2 nouveautés glissées dans les premiers produits */
+function scatter(L){
+  var nw=L.slice().sort(byDate),fresh=[];
+  nw.forEach(function(p){if(fresh.length<2&&!fresh.some(function(x){return x.category_id===p.category_id}))fresh.push(p)});
+  nw.forEach(function(p){if(fresh.length<2&&fresh.indexOf(p)<0)fresh.push(p)});
+  var g={};L.forEach(function(p){if(fresh.indexOf(p)<0)(g[p.category_id]=g[p.category_id]||[]).push(p)});
+  var keys=Object.keys(g);keys.forEach(function(k){shufA(g[k])});
+  var out=[],last=null;
+  while(keys.length){var c=keys.filter(function(k){return k!==last});if(!c.length)c=keys;var k=c[Math.floor(Math.random()*c.length)];out.push(g[k].pop());last=k;if(!g[k].length)keys.splice(keys.indexOf(k),1)}
+  var lim=Math.min(STEP,out.length+fresh.length),pos=[];while(pos.length<fresh.length&&pos.length<lim){var q=Math.floor(Math.random()*lim);if(pos.indexOf(q)<0)pos.push(q)}
+  pos.sort(function(a,b){return a-b});fresh.forEach(function(p,i){out.splice(Math.min(pos[i]!=null?pos[i]:0,out.length),0,p)});
+  return out}
+var shown=0,STEP=12,list=[],ALL=[],fcat='',fsort='mix';
 function more(){var g=$('#all');g.insertAdjacentHTML('beforeend',list.slice(shown,shown+STEP).map(W.card).join(''));shown+=STEP;$('#more').style.display=shown<list.length?'':'none'}
 function refill(){list=ALL.filter(function(p){return!fcat||p.category_id===fcat}).slice();
-  if(fsort==='asc')list.sort(function(a,b){return a.price-b.price});if(fsort==='desc')list.sort(function(a,b){return b.price-a.price});if(fsort==='promo')list.sort(function(a,b){return(b.old_price>b.price)-(a.old_price>a.price)});
+  if(fsort==='mix')list=scatter(list);if(fsort==='new')list.sort(byDate);if(fsort==='asc')list.sort(function(a,b){return a.price-b.price});if(fsort==='desc')list.sort(function(a,b){return b.price-a.price});if(fsort==='promo')list.sort(function(a,b){return(b.old_price>b.price)-(a.old_price>a.price)});
   shown=0;$('#all').innerHTML='';if(!list.length){$('#all').innerHTML='<div class="empty" style="grid-column:1/-1"><b>Aucun produit</b>Rien dans cette catégorie pour le moment.</div>';$('#more').style.display='none';return}more()}
 W.load().then(function(d){
   hero(d);marquee(d);
@@ -1106,7 +1124,7 @@ W.load().then(function(d){
     var capCat=function(l,n){var c={};return l.filter(function(p){var k=p.category_id;c[k]=(c[k]||0)+1;return c[k]<=n})},
         disc=function(p){return p.old_price&&p.old_price>p.price?1-p.price/p.old_price:(p.badge==='promo'?.0001:0)},
         shuf=function(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a};
-    var nw=capCat(P.slice().sort(function(a,b){return String(b.created_at||'').localeCompare(String(a.created_at||''))}),2).slice(0,10);$('#new-sec').style.display='';$('#new').innerHTML=W.rail(nw);
+    var nw=newMix(P).slice(0,10);$('#new-sec').style.display='';$('#new').innerHTML=W.rail(nw);
     /* promos : plus grosses réductions (2 max par catégorie), tirées au hasard à chaque visite parmi les 14 meilleures */
     var pr=shuf(capCat(P.filter(function(p){return disc(p)>0}).sort(function(a,b){return disc(b)-disc(a)}),2).slice(0,14)).slice(0,10);
     if(pr.length){$('#promos').style.display='';$('#promo-rail').innerHTML=W.rail(pr)}else $('#promos').remove();
