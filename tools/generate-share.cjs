@@ -12,6 +12,7 @@
  * Image par défaut du site (og/default.png) : node tools/generate-share.cjs --default
  */
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
+const { buildPage, seoStatus } = require('./product-page.cjs');
 function getChromium() {
   try { return require('playwright').chromium; }
   catch (e) { return require(require('child_process').execSync('npm root -g').toString().trim() + '/playwright').chromium; }
@@ -39,7 +40,10 @@ async function loadCatalog() {
   } catch (e) { console.warn('catalog.json indisponible, essai direct sur la base :', e.message); }
   const r = await fetch(SUPA + '/rest/v1/products?select=*,categories(*),product_images(url,position)&active=eq.true', { headers: { apikey: ANON, Authorization: 'Bearer ' + ANON } });
   if (!r.ok) throw new Error('Impossible de lire le catalogue (' + r.status + ')');
-  return { products: await r.json() };
+  const products = await r.json();
+  let categories = [];
+  try { const rc = await fetch(SUPA + '/rest/v1/categories?select=*', { headers: { apikey: ANON, Authorization: 'Bearer ' + ANON } }); if (rc.ok) categories = await rc.json(); } catch (e) {}
+  return { products, categories };
 }
 
 function norm(p) {
@@ -64,6 +68,26 @@ async function toDataUri(url) {
     const type = (r.headers.get('content-type') || 'image/jpeg').split(';')[0];
     return 'data:' + type + ';base64,' + Buffer.from(await r.arrayBuffer()).toString('base64');
   } catch (e) { console.warn('  image illisible :', url, e.message); return ''; }
+}
+
+/* informations supplémentaires pour la fiche HTML (n'entrent pas dans le hash des images) */
+const slugify = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+const catNames = cats => { const m = {}; (cats || []).forEach(c => { m[c.id] = clean(c.name); }); return m; };
+function catSlugs(cats) {            // même règle que categorie.html
+  const used = {}, map = {};
+  (cats || []).forEach(c => { let s = (c.slug && String(c.slug).trim()) || slugify(clean(c.name)) || String(c.id); if (used[s]) s = s + '-' + String(c.id).slice(0, 4); used[s] = 1; map[c.id] = s; });
+  return map;
+}
+function seoExtra(raw, p, slugMap, nameMap) {
+  const imgs = (raw.product_images || []).slice().sort((a, b) => (a.position || 0) - (b.position || 0)).map(i => i.url).filter(Boolean);
+  const cat = raw.categories || raw.cat || null;
+  const list = v => (Array.isArray(v) ? v : []).map(x => clean(x)).filter(Boolean);
+  return Object.assign({}, p, {
+    cat: p.cat || (raw.category_id != null && nameMap[raw.category_id]) || '',
+    imgs: imgs.length ? imgs : (raw._imgs || []), sizes: list(raw.sizes), colors: list(raw.colors),
+    catSlug: (raw.category_id != null && slugMap[raw.category_id]) || (cat ? ((cat.slug && String(cat.slug).trim()) || slugify(clean(cat.name))) : ''),
+    noName: !clean(raw.name)
+  });
 }
 
 const FONTS = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@500;600;700&display=swap">';
@@ -132,55 +156,6 @@ h1 em{font-style:normal;color:#e8192c}
 </body></html>`;
 }
 
-function productPage(p) {
-  const url = SITE + '/produit/' + encodeURIComponent(p.id), img = SITE + '/og/' + encodeURIComponent(p.id) + '.jpg';
-  const title = p.name + ' — ' + fmt(p.price) + ' | WYK';
-  const bits = [fmt(p.price) + (p.old ? ' (au lieu de ' + fmt(p.old) + ')' : '')];
-  if (p.cat) bits.push(p.cat);
-  const desc = cut(bits.join(' · ') + (p.desc ? ' — ' + p.desc : ' — Commandez sur WhatsApp, livraison en Haïti.'), 200);
-  const real = SITE + '/?p=' + encodeURIComponent(p.id);
-  const ld = { '@context': 'https://schema.org', '@type': 'Product', name: p.name, image: p.img || img, description: p.desc || p.name, offers: { '@type': 'Offer', price: String(p.price), priceCurrency: 'HTG', url: real, availability: p.stock != null && p.stock <= 0 ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock' } };
-  return `<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(title)}</title>
-<meta name="description" content="${esc(desc)}">
-<meta name="robots" content="noindex, follow">
-<link rel="canonical" href="${esc(real)}">
-<meta property="og:site_name" content="WYK">
-<meta property="og:type" content="product">
-<meta property="og:locale" content="fr_HT">
-<meta property="og:url" content="${esc(url)}">
-<meta property="og:title" content="${esc(p.name + ' — ' + fmt(p.price))}">
-<meta property="og:description" content="${esc(desc)}">
-<meta property="og:image" content="${esc(img)}">
-<meta property="og:image:secure_url" content="${esc(img)}">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="${esc(p.name)}">
-<meta property="product:price:amount" content="${esc(p.price)}">
-<meta property="product:price:currency" content="HTG">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${esc(p.name + ' — ' + fmt(p.price))}">
-<meta name="twitter:description" content="${esc(desc)}">
-<meta name="twitter:image" content="${esc(img)}">
-<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>
-<script>location.replace('/?p='+${JSON.stringify(encodeURIComponent(p.id))}+location.hash)</script>
-<style>body{font-family:system-ui,sans-serif;background:#0d0d0c;color:#fff;display:flex;min-height:100vh;align-items:center;justify-content:center;text-align:center;padding:24px}a{color:#ff7482}</style>
-</head>
-<body>
-<main>
-<h1>${esc(p.name)}</h1>
-<p>${esc(bits.join(' · '))}</p>
-<p><a href="${esc('/?p=' + encodeURIComponent(p.id))}">Voir le produit sur WYK</a></p>
-</main>
-</body>
-</html>
-`;
-}
 
 (async () => {
   fs.mkdirSync(PDIR, { recursive: true }); fs.mkdirSync(ODIR, { recursive: true });
@@ -202,30 +177,47 @@ function productPage(p) {
   }
 
   const cat = await loadCatalog();
-  const prods = (cat.products || []).filter(p => p && p.id != null && p.active !== false).map(norm).filter(p => isFinite(p.price));
+  const slugMap = catSlugs(cat.categories), nameMap = catNames(cat.categories);
+  const raws = (cat.products || []).filter(p => p && p.id != null && p.active !== false);
+  const prods = raws.map(r => ({ r, p: norm(r) })).filter(x => isFinite(x.p.price)).map(x => Object.assign(seoExtra(x.r, x.p, slugMap, nameMap)));
+  const base = prods.map(x => norm(raws.find(r => String(r.id) === x.id)));   // forme historique : sert au hash des images
   let man = {}; try { man = JSON.parse(fs.readFileSync(MANIFEST, 'utf8')); } catch (e) {}
   const next = {}, todo = [];
-  for (const p of prods) {
-    const h = sha(JSON.stringify(p) + '|v3');
+  base.forEach(p => {
+    const h = sha(JSON.stringify(p) + '|v3');          // inchangé : les images existantes restent valides
     next[p.id] = h;
-    if (!(man[p.id] === h && fs.existsSync(path.join(ODIR, p.id + '.jpg')) && fs.existsSync(path.join(PDIR, p.id + '.html')))) todo.push(p);
-  }
+    if (!(man[p.id] === h && fs.existsSync(path.join(ODIR, p.id + '.jpg')))) todo.push(p);
+  });
   const goneIds = Object.keys(man).filter(id => !next[id]);
 
-  /* --plan : n'affiche que le nombre de changements à faire (sert au workflow pour éviter d'installer Chromium pour rien) */
-  if (process.argv.includes('--plan')) { console.log(todo.length + goneIds.length); return; }
+  /* fiches HTML : toutes recalculées (instantané), écrites seulement si le contenu change */
+  const idx = prods.filter(p => seoStatus(p).index);
+  const dup = new Set(), seen = {};
+  prods.forEach(p => { const k = p.name + '|' + p.price; if (seen[k]) dup.add(k); seen[k] = 1; });
+  const pages = {};
+  prods.forEach(p => {
+    const related = idx.filter(x => x.id !== p.id && p.cat && x.cat === p.cat).sort((a, b) => a.name.localeCompare(b.name, 'fr') || a.id.localeCompare(b.id)).slice(0, 6);
+    pages[p.id] = buildPage(p, { related, dupTitle: dup });
+  });
+  const pageTodo = Object.keys(pages).filter(id => { try { return fs.readFileSync(path.join(PDIR, id + '.html'), 'utf8') !== pages[id]; } catch (e) { return true; } });
 
-  for (const p of todo) {
-    console.log('→', p.id, p.name);
+  /* --plan : nombre total de changements ; --plan-img : seulement les images (Chromium n'est installé que si nécessaire) */
+  if (process.argv.includes('--plan-img')) { console.log(process.argv.includes('--pages-only') ? 0 : todo.length); return; }
+  if (process.argv.includes('--plan')) { console.log(todo.length + pageTodo.length + goneIds.length); return; }
+
+  const pagesOnly = process.argv.includes('--pages-only');
+  if (!pagesOnly) for (const p of todo) {
+    console.log('→ image', p.id, p.name);
     const photo = await toDataUri(p.img);
     await shot(productHtml(p, photo), path.join(ODIR, p.id + '.jpg'));
-    fs.writeFileSync(path.join(PDIR, p.id + '.html'), productPage(p));
   }
+  for (const id of pageTodo) fs.writeFileSync(path.join(PDIR, id + '.html'), pages[id]);
   for (const id of goneIds)
     for (const f of [path.join(ODIR, id + '.jpg'), path.join(PDIR, id + '.html')]) try { fs.unlinkSync(f); } catch (e) {}
   /* anciennes images .png (trop lourdes pour WhatsApp) : supprimées, sauf l'image par défaut */
   for (const f of fs.readdirSync(ODIR)) if (f.endsWith('.png') && f !== 'default.png') try { fs.unlinkSync(path.join(ODIR, f)); } catch (e) {}
-  fs.writeFileSync(MANIFEST, JSON.stringify(next, null, 1) + '\n');
+  if (!pagesOnly) fs.writeFileSync(MANIFEST, JSON.stringify(next, null, 1) + '\n');
   if (browser) await browser.close();
-  console.log(`Produits : ${prods.length} · générés ${todo.length} · inchangés ${prods.length - todo.length} · supprimés ${goneIds.length}`);
+  console.log(`Produits : ${prods.length} · fiches écrites ${pageTodo.length} · indexables ${idx.length} · noindex ${prods.length - idx.length} · images générées ${pagesOnly ? 0 : todo.length} · supprimés ${goneIds.length}`);
+  prods.filter(p => !seoStatus(p).index).forEach(p => console.log('  noindex :', p.id, p.name, '—', seoStatus(p).why));
 })().catch(e => { console.error(e); process.exit(1); });
