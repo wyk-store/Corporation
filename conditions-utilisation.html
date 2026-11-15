@@ -7,9 +7,8 @@
 <title>Conditions d'utilisation — WYK | wykht.com</title>
 <meta name="description" content="Conditions d'utilisation de WYK (wykht.com) : compte, commandes sur WhatsApp, prix en HTG, livraison, retours, jeux et données personnelles.">
 <link rel="canonical" href="https://wykht.com/conditions-utilisation">
-<meta property="og:title" content="Conditions d'utilisation — WYK"><meta property="og:url" content="https://wykht.com/conditions-utilisation"><meta property="og:image" content="https://wykht.com/og/default.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:type" content="image/png">
-<link rel="icon" type="image/png" href="https://i.postimg.cc/150DzRjK/Logo-wyk-avec-fond-blanc.png">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta property="og:site_name" content="WYK"><meta property="og:type" content="website"><meta property="og:locale" content="fr_HT"><meta property="og:title" content="Conditions d'utilisation — WYK Haïti"><meta property="og:description" content="Conditions d'utilisation de WYK (wykht.com), boutique en ligne en Haïti : compte, commandes sur WhatsApp, prix en HTG, livraison et retours."><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Conditions d'utilisation — WYK Haïti"><meta name="twitter:image" content="https://wykht.com/og/default.png"><meta property="og:url" content="https://wykht.com/conditions-utilisation"><meta property="og:image" content="https://wykht.com/og/default.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:type" content="image/png">
+<link rel="icon" type="image/png" sizes="any" href="https://wykht.com/assets/brand/wyk-icon.png"><link rel="icon" type="image/png" sizes="any" href="https://wykht.com/assets/brand/wyk-icon-dark.png" media="(prefers-color-scheme: dark)"><link rel="apple-touch-icon" href="https://wykht.com/assets/brand/wyk-icon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Conditions d'utilisation WYK","url":"https://wykht.com/conditions-utilisation","inLanguage":"fr","isPartOf":{"@type":"WebSite","name":"WYK","url":"https://wykht.com/"}}</script>
 <style>
@@ -102,7 +101,7 @@ if(location.hash){setTimeout(function(){var e=document.getElementById(location.h
 'use strict';
 var SUPA_URL='https://byrklytqoucdskzvcoau.supabase.co',
 SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5cmtseXRxb3VjZHNrenZjb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTQ0ODcsImV4cCI6MjA5NDI3MDQ4N30.nH7LKYevuBd9jGmFmv7KMNoJu3X_rDaY1BHXZR1v3wM',
-WA='50940300966',ADMIN_UID='dcdb1af5-6305-4138-b991-cf3a931740ed',LOGO='https://i.postimg.cc/J43jh72q/No-background.png';
+WA='50940300966',ADMIN_UID='dcdb1af5-6305-4138-b991-cf3a931740ed',LOGO='https://wykht.com/assets/brand/wyk-logo.png';
 var W=window.WYK={WA:WA,LOGO:LOGO},db=null;
 var R=null,_dbp=null;
 function initDb(){try{db=window.supabase.createClient(SUPA_URL,SUPA_KEY);W.db=db}catch(e){console.warn('Supabase indisponible',e)}}
@@ -217,13 +216,14 @@ W.catUrl=function(c){return'/categorie?c='+encodeURIComponent(c._slug||c.slug||c
 W.card=function(p){var off=p.old_price&&p.old_price>p.price?Math.round((1-p.price/p.old_price)*100):0,b=p.badge,bt=b==='new'?'Nouveau':b==='promo'?'Promo':b==='pop'||b==='popular'?'Populaire':b?esc(b):(off?'-'+off+'%':''),bc=b==='new'?'new':(b==='promo'||(!b&&off))?'promo':b?'pop':'';
  return'<article class="card" data-p="'+p.id+'"><div class="im">'+(p._imgs[0]?'<img src="'+esc(p._imgs[0])+'" alt="'+esc(p.name)+'" loading="lazy">':'<div class="ph">'+I('bag')+'</div>')+(bt?'<span class="bdg '+bc+'">'+bt+'</span>':'')+
  '<button class="wish'+(W.isFav(p.id)?' on':'')+'" data-id="'+p.id+'" aria-label="Favori">'+I('heart')+'</button></div>'+
- '<div class="bo"><span class="ct">'+esc(p.cat?p.cat.name:'WYK')+'</span><h3>'+esc(p.name)+'</h3><div class="pr"><b>'+fmt(p.price)+'</b>'+(off?'<s>'+fmt(p.old_price)+'</s><em>-'+off+'%</em>':'')+'</div></div><div class="addw">'+addArea(p)+'</div></article>'};
+ '<div class="bo"><span class="ct">'+esc(p.cat?p.cat.name:'WYK')+'</span><h3><a class="pl" href="/produit/'+encodeURIComponent(p.id)+'" style="color:inherit;text-decoration:none">'+esc(p.name)+'</a></h3><div class="pr"><b>'+fmt(p.price)+'</b>'+(off?'<s>'+fmt(p.old_price)+'</s><em>-'+off+'%</em>':'')+'</div></div><div class="addw">'+addArea(p)+'</div></article>'};
 W.rail=function(list){return'<div class="rail-w"><button class="rn l" data-rn="-1" aria-label="Précédent">'+I('chevl')+'</button><div class="rail">'+list.map(W.card).join('')+'</div><button class="rn r" data-rn="1" aria-label="Suivant">'+I('chevr')+'</button></div>'};
 /* délégation : clics cartes / favoris / ajout / flèches des rails */
 var deleg=function(e){var t=e.target;
  var w=t.closest('.wish');if(w){e.stopPropagation();W.toggleFav(w.getAttribute('data-id'),w);return}
  var cp=t.closest('[data-cp],[data-cm]');if(cp){e.stopPropagation();var pid=cp.getAttribute('data-cp')||cp.getAttribute('data-cm'),pp=W.byId(pid);if(pp)W.setCart(pp,W.cartQty(pid)+(cp.hasAttribute('data-cp')?1:-1));return}
  var a=t.closest('[data-add]');if(a){e.stopPropagation();var p=W.byId(a.getAttribute('data-add'));if(p){if((p.sizes&&p.sizes.length)||(p.colors&&p.colors.length))W.openProduct(p.id);else W.addToCart(p,1)}return}
+ var pl=t.closest('a.pl');if(pl){if(e.metaKey||e.ctrlKey||e.shiftKey||e.button>0)return;e.preventDefault()}
  var c=t.closest('.card[data-p]');if(c){W.openProduct(c.getAttribute('data-p'));return}
  var r=t.closest('[data-rn]');if(r){var rl=r.parentNode.querySelector('.rail');rl.scrollBy({left:(+r.getAttribute('data-rn'))*rl.clientWidth*.8,behavior:'smooth'})}
  var sr=t.closest('[data-open]');if(sr){W.openProduct(sr.getAttribute('data-open'));closeDOM()}
@@ -240,7 +240,7 @@ W.carousel=function(root,opt){var tr=$('.hs-track',root),n=tr.children.length,i=
  var x0=null;root.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});root.addEventListener('touchend',function(e){if(x0==null)return;var d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>40){go(i+(d<0?1:-1));auto()}x0=null});
  root.addEventListener('mouseenter',function(){clearInterval(t)});root.addEventListener('mouseleave',auto);go(0);auto();return{go:function(k){go(k);auto()},next:function(){go(i+1);auto()}}};
 /* ---- mise en page commune ---- */
-var LOGO_NB='https://i.postimg.cc/J43jh72q/No-background.png',LOGO_WB='https://i.postimg.cc/150DzRjK/Logo-wyk-avec-fond-blanc.png';
+var LOGO_NB='https://wykht.com/assets/brand/wyk-logo.png',LOGO_WB='https://wykht.com/assets/brand/wyk-logo-dark.png';
 W.LOGO_NB=LOGO_NB;W.LOGO_WB=LOGO_WB;
 function brand(cls){return'<a class="brand '+(cls||'')+'" href="/" aria-label="WYK"><img class="lg lg-l" src="'+LOGO_NB+'" alt="WYK" onerror="this.parentNode.classList.add(\'nologo\')"><img class="lg lg-d" src="'+LOGO_WB+'" alt="WYK" onerror="this.parentNode.classList.add(\'nologo\')"><span class="lg-t">W<em>YK</em></span></a>'}
 var DEF_TICK=['Livraison rapide — dès 500 HTG','Abonnements Netflix & Spotify en HTG','Commandez en 1 clic sur WhatsApp','Nouveautés chaque semaine sur WYK'];
@@ -270,7 +270,7 @@ W.mount=function(active){var cur=active||'';
  var SSL='<span class="ssl-card"><span class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5L15.5 10"/></svg></span><span class="sc-tx"><b>Connexion sécurisée</b><small>Certificat SSL surveillé</small></span><a class="ssl-badge" href="https://sslcanary.com/en/tools/ssl-checker?host=wykht.com" target="_blank" rel="noopener"><img src="https://sslcanary.com/badge/wykht.com.svg" alt="SSL monitored by SSLCanary" height="28" loading="lazy" decoding="async"></a></span>';
  var foot='<footer class="ft2"><div class="wrap"><div class="ft2-row"><div class="ft2-b">'+brand('ft')+'<p>Produits, alimentation, abonnements et services — au même endroit.</p></div>'+
  '<nav class="ft2-n" aria-label="Pied de page"><a href="/categories">Catégories</a><a href="/#promos">Promos</a><a href="/apropos">À propos</a><a href="/jeux">Jeux</a><a href="/compte">Mon compte</a><a href="/confidentiality">Confidentialité</a></nav>'+
- '<div class="ft2-s"><a href="https://wa.me/'+WA+'" target="_blank" rel="noopener" aria-label="WhatsApp">'+I('wa')+'<span>WhatsApp</span></a><a href="https://whatsapp.com/channel/0029Vb96LBDEgGfJ4l6LIS2R" target="_blank" rel="noopener" aria-label="Chaîne WhatsApp">'+I('chat')+'<span>Chaîne</span></a><a href="mailto:contact@wykht.com" aria-label="E-mail">'+I('mail')+'<span>E-mail</span></a></div></div>'+
+ '<div class="ft2-s"><a href="https://wa.me/'+WA+'" target="_blank" rel="noopener" aria-label="WhatsApp">'+I('wa')+'<span>WhatsApp</span></a><a href="https://whatsapp.com/channel/0029Vb96LBDEgGfJ4l6LIS2R" target="_blank" rel="noopener" aria-label="Chaîne WhatsApp">'+I('chat')+'<span>Chaîne</span></a><a href="https://www.instagram.com/wykht.co/" target="_blank" rel="noopener" aria-label="Instagram WYK"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6"/></svg><span>Instagram</span></a><a href="mailto:contact@wykht.com" aria-label="E-mail">'+I('mail')+'<span>E-mail</span></a></div></div>'+
  '<div class="ft2-bt"><span>© '+new Date().getFullYear()+' WYK — wykht.com</span><span class="fpin">'+I('pin')+'Fait en Haïti</span>'+SSL+'</div></div></footer>';
  var a=$('#wyk-top'),b=$('#wyk-foot');
  if(!a){a=document.createElement('div');a.id='wyk-top';document.body.insertBefore(a,document.body.firstChild)}
