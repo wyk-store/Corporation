@@ -624,11 +624,14 @@ h1,h2,h3,h4{font-family:var(--fd);letter-spacing:-.02em;line-height:1.05}
 @media(max-width:620px){.ssl-card{width:100%;max-width:380px;justify-content:space-between}.ssl-card .ssl-badge{margin-left:auto}}
 </style>
 <style id="seo-intro-css">
-.seo-intro{max-width:880px}
-.seo-intro p{margin:0 0 12px;line-height:1.65;font-size:15px;opacity:.82}
-.seo-intro .seo-l{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px;font-size:14px;font-weight:600}
-.seo-intro a{color:var(--red,#e8192c);text-decoration:none}
-.seo-intro a:hover{text-decoration:underline}
+.seo-intro{max-width:880px;padding-top:clamp(24px,4vw,40px)!important;padding-bottom:6px}
+.seo-intro .sh{margin-bottom:8px}
+.seo-intro .sh h2{font-size:14px;font-weight:700;margin:0;opacity:.75}
+.seo-intro .sh h2:before{display:none}
+.seo-intro p{margin:0 0 8px;line-height:1.6;font-size:12.5px;opacity:.6}
+.seo-intro .seo-l{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:12.5px;font-weight:600}
+.seo-intro a{color:inherit;opacity:.8;text-decoration:none}
+.seo-intro a:hover{color:var(--red,#e8192c);opacity:1}
 </style>
 </head>
 <body>
@@ -857,7 +860,7 @@ W.mount=function(active){var cur=active||'';
  var SSL='<span class="ssl-card"><span class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5L15.5 10"/></svg></span><span class="sc-tx"><b>Connexion sécurisée</b><small>Certificat SSL surveillé</small></span><a class="ssl-badge" href="https://sslcanary.com/en/tools/ssl-checker?host=wykht.com" target="_blank" rel="noopener"><img src="https://sslcanary.com/badge/wykht.com.svg" alt="SSL monitored by SSLCanary" height="28" loading="lazy" decoding="async"></a></span>';
  var foot='<footer class="ft2"><div class="wrap"><div class="ft2-row"><div class="ft2-b">'+brand('ft')+'<p>Produits, alimentation, abonnements et services — au même endroit.</p></div>'+
  '<nav class="ft2-n" aria-label="Pied de page"><a href="/categories">Catégories</a><a href="/#promos">Promos</a><a href="/apropos">À propos</a><a href="/jeux">Jeux</a><a href="/compte">Mon compte</a><a href="/confidentiality">Confidentialité</a></nav>'+
- '<div class="ft2-s"><a href="https://wa.me/'+WA+'" target="_blank" rel="noopener" aria-label="WhatsApp">'+I('wa')+'<span>WhatsApp</span></a><a href="https://whatsapp.com/channel/0029Vb96LBDEgGfJ4l6LIS2R" target="_blank" rel="noopener" aria-label="Chaîne WhatsApp">'+I('chat')+'<span>Chaîne</span></a><a href="https://www.instagram.com/wykht.co/" target="_blank" rel="noopener" aria-label="Instagram WYK"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6"/></svg><span>Instagram</span></a><a href="mailto:contact@wykht.com" aria-label="E-mail">'+I('mail')+'<span>E-mail</span></a></div></div>'+
+ '<div class="ft2-s"><a href="https://wa.me/'+WA+'" target="_blank" rel="noopener" aria-label="WhatsApp">'+I('wa')+'<span>WhatsApp</span></a><a href="https://whatsapp.com/channel/0029Vb96LBDEgGfJ4l6LIS2R" target="_blank" rel="noopener" aria-label="Chaîne WhatsApp">'+I('chat')+'<span>Chaîne</span></a><a href="mailto:contact@wykht.com" aria-label="E-mail">'+I('mail')+'<span>E-mail</span></a></div></div>'+
  '<div class="ft2-bt"><span>© '+new Date().getFullYear()+' WYK — wykht.com</span><span class="fpin">'+I('pin')+'Fait en Haïti</span>'+SSL+'</div></div></footer>';
  var a=$('#wyk-top'),b=$('#wyk-foot');
  if(!a){a=document.createElement('div');a.id='wyk-top';document.body.insertBefore(a,document.body.firstChild)}
