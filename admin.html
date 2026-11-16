@@ -826,6 +826,29 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
     </select>
   </div>
 
+  <!-- Page Jeux & classement -->
+  <div class="home-section">
+    <div class="home-section-title">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4z"/></svg>
+      Page Jeux &amp; <em>classement</em>
+    </div>
+    <div class="toggle-row">
+      <span class="toggle-lbl">Page Jeux ouverte aux joueurs</span>
+      <label class="toggle"><input type="checkbox" id="jg-page-open" checked onchange="savePageOpen()"><div class="toggle-track"></div></label>
+    </div>
+    <div class="form-group" style="margin-top:12px">
+      <label class="form-lbl">Message affiché quand la page est fermée</label>
+      <input class="form-input" id="jg-page-msg" maxlength="240" placeholder="Ex. : Maintenance en cours, retour demain." onchange="savePageOpen()">
+      <div class="form-hint">Fermer la page empêche de lancer une partie depuis /jeux. Pour couper un seul jeu, utilise l'interrupteur « Jeu accessible aux joueurs » plus bas. Tu peux aussi tout piloter directement depuis la page /jeux (barre Admin).</div>
+    </div>
+    <div class="form-row" style="margin-top:14px;align-items:flex-end">
+      <div class="form-group"><label class="form-lbl">Réinitialiser le classement</label>
+        <select class="form-input" id="jg-reset-scope"><option value="">Tous les jeux</option><option value="guess">Devine le Nombre</option><option value="code">Dino Run</option></select></div>
+      <div class="form-group"><button type="button" class="btn-sm danger" style="width:100%;padding:12px;border-radius:12px;font-weight:800;background:#ef4444;color:#fff" onclick="resetLeaderboard()">🔄 Réinitialiser</button></div>
+    </div>
+    <div class="form-hint">Remet les victoires et parties du classement à zéro (action définitive).</div>
+  </div>
+
   <!-- Disponibilité -->
   <div class="home-section">
     <div class="home-section-title">
@@ -2453,6 +2476,33 @@ var _gameSettingsCache={};
 var _currentDifficulty='normal';
 function fmtDateJ(d){try{return new Date(d).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'})}catch(e){return d}}
 
+
+async function loadPageOpen(){
+  try{
+    var r=await db.from('site_pages').select('content').eq('slug','jeux-config').maybeSingle();
+    var c=(r&&r.data&&r.data.content)?JSON.parse(r.data.content):{};
+    document.getElementById('jg-page-open').checked=c.enabled!==false;
+    document.getElementById('jg-page-msg').value=c.message||'';
+  }catch(e){}
+}
+async function savePageOpen(){
+  var en=document.getElementById('jg-page-open').checked,msg=document.getElementById('jg-page-msg').value.trim();
+  var r=await db.from('site_pages').upsert({slug:'jeux-config',title:'Réglages page Jeux',content:JSON.stringify({enabled:en,message:msg}),updated_at:new Date().toISOString()},{onConflict:'slug'});
+  if(r.error){showToast('Erreur: '+r.error.message,true);return}
+  showToast(en?'Page Jeux ouverte ✓':'Page Jeux fermée');
+}
+async function resetLeaderboard(){
+  var sc=document.getElementById('jg-reset-scope').value||null;
+  if(!confirm('Réinitialiser le classement ('+(sc?(sc==='guess'?'Devine le Nombre':'Dino Run'):'tous les jeux')+') ? Action définitive.'))return;
+  var r=await db.rpc('admin_game_reset_leaderboard',{p_admin_uid:ADMIN_UID,p_game_id:sc});
+  if(r.error){
+    var miss=/could not find|does not exist|PGRST202|42883/i.test((r.error.message||'')+(r.error.code||''));
+    showToast(miss?'Fonction SQL manquante : voir SQL-JEUX-CLASSEMENT.txt':'Erreur: '+r.error.message,true);return;
+  }
+  showToast('Classement réinitialisé ✓');
+  loadGameHistory();
+}
+
 async function loadJeuxTab(){
   var {data,error}=await db.rpc('admin_game_list_settings',{p_admin_uid:ADMIN_UID});
   if(!error&&data){data.forEach(function(g){_gameSettingsCache[g.game_id]=g});}
@@ -2460,6 +2510,7 @@ async function loadJeuxTab(){
   loadGameSettingsForm();
   loadRewardsAdmin();
   loadGameHistory();
+  loadPageOpen();
   loadClaims();
   loadBadgesList();
 }

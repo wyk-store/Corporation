@@ -3,8 +3,9 @@
 <head><script>if(/\.html$/.test(location.pathname)){history.replaceState(null,'',location.pathname.replace(/index\.html$/,'').replace(/\.html$/,'')+location.search+location.hash)}</script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-<title>Jeux et concours WYK Haïti | Gagnez des codes promo</title>
-<meta name="description" content="Joue et gagne des codes promo WYK ! Devine le nombre, Dino Run, classement des joueurs. Sur wykht.com, Carrefour, Haïti.">
+<title>Jeux et concours WYK Haïti (WYK HT) | Gagnez des codes promo</title>
+<meta name="description" content="Jeux gratuits de WYK Haïti (WYK HT, WYKHT) à Carrefour : Devine le Nombre, Dino Run, classement des joueurs et codes promo à gagner. Joue sur wykht.com.">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://wykht.com/jeux">
 
 <!-- Favicons -->
@@ -14,8 +15,8 @@
 <!-- Open Graph / Twitter -->
 <meta property="og:site_name" content="WYK" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Jeux &amp; Concours | WYK — wykht.com" />
-<meta property="og:description" content="Joue et gagne des codes promo WYK ! Devine le nombre, Dino Run, classement des joueurs." />
+<meta property="og:title" content="Jeux et concours WYK Haïti (WYK HT)" />
+<meta property="og:description" content="Jeux gratuits de WYK Haïti (WYK HT, WYKHT) à Carrefour : Devine le Nombre, Dino Run, classement des joueurs et codes promo à gagner. Joue sur wykht.com." />
 <meta property="og:url" content="https://wykht.com/jeux" />
 <meta property="og:image" content="https://wykht.com/og/default.png" />
 <meta property="og:image:width" content="1200" />
@@ -24,19 +25,190 @@
 <meta property="og:image:alt" content="WYK — Jeux &amp; Concours" />
 <meta property="og:locale" content="fr_HT" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Jeux &amp; Concours | WYK" />
-<meta name="twitter:description" content="Joue et gagne des codes promo WYK ! Devine le nombre, Dino Run, classement des joueurs." />
+<meta name="twitter:title" content="Jeux et concours WYK Haïti (WYK HT)" />
+<meta name="twitter:description" content="Jeux gratuits de WYK Haïti (WYK HT, WYKHT) à Carrefour : Devine le Nombre, Dino Run, classement des joueurs et codes promo à gagner. Joue sur wykht.com." />
 <meta name="twitter:image" content="https://wykht.com/og/default.png" />
 
-<!-- JSON-LD : fil d'Ariane -->
+<!-- JSON-LD : page, jeux, FAQ, fil d'Ariane -->
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {"@type":"ListItem","position":1,"name":"Accueil","item":"https://wykht.com/"},
-    {"@type":"ListItem","position":2,"name":"Jeux & Concours","item":"https://wykht.com/jeux"}
-  ]
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Organization",
+   "@id": "https://wykht.com/#organization",
+   "name": "WYK",
+   "alternateName": [
+    "WYK HT",
+    "WYKHT",
+    "WYK Haïti",
+    "WYK Haiti"
+   ],
+   "url": "https://wykht.com/",
+   "sameAs": [
+    "https://www.instagram.com/wykht.co/"
+   ]
+  },
+  {
+   "@type": "WebPage",
+   "@id": "https://wykht.com/jeux#webpage",
+   "url": "https://wykht.com/jeux",
+   "name": "Jeux et concours WYK Haïti (WYK HT) | Gagnez des codes promo",
+   "description": "Jeux gratuits de WYK Haïti (WYK HT, WYKHT) à Carrefour : Devine le Nombre, Dino Run, classement des joueurs et codes promo à gagner. Joue sur wykht.com.",
+   "inLanguage": "fr-HT",
+   "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://wykht.com/#website",
+    "url": "https://wykht.com/",
+    "name": "WYK",
+    "alternateName": [
+     "WYK HT",
+     "WYKHT"
+    ]
+   },
+   "about": {
+    "@id": "https://wykht.com/#organization"
+   },
+   "breadcrumb": {
+    "@id": "https://wykht.com/jeux#breadcrumb"
+   },
+   "mainEntity": {
+    "@id": "https://wykht.com/jeux#jeux"
+   }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "@id": "https://wykht.com/jeux#breadcrumb",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Accueil",
+     "item": "https://wykht.com/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Jeux et concours",
+     "item": "https://wykht.com/jeux"
+    }
+   ]
+  },
+  {
+   "@type": "ItemList",
+   "@id": "https://wykht.com/jeux#jeux",
+   "name": "Jeux WYK Haïti",
+   "numberOfItems": 2,
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "item": {
+      "@type": "VideoGame",
+      "name": "Devine le Nombre",
+      "description": "Trouve le nombre mystère en un minimum d'essais avec des indices chaud / froid. Gagne un code promo WYK.",
+      "url": "https://wykht.com/jeux#gcard-guess",
+      "inLanguage": "fr",
+      "genre": "Jeu de réflexion",
+      "gamePlatform": "Navigateur web",
+      "applicationCategory": "Game",
+      "operatingSystem": "Tous",
+      "isAccessibleForFree": true,
+      "publisher": {
+       "@id": "https://wykht.com/#organization"
+      },
+      "offers": {
+       "@type": "Offer",
+       "price": "0",
+       "priceCurrency": "HTG",
+       "availability": "https://schema.org/InStock",
+       "url": "https://wykht.com/jeux"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "item": {
+      "@type": "VideoGame",
+      "name": "Dino Run",
+      "description": "Cours, saute par-dessus les cactus et baisse-toi sous les oiseaux le plus longtemps possible. Gagne un code promo WYK.",
+      "url": "https://wykht.com/jeux#gcard-code",
+      "inLanguage": "fr",
+      "genre": "Jeu d'arcade",
+      "gamePlatform": "Navigateur web",
+      "applicationCategory": "Game",
+      "operatingSystem": "Tous",
+      "isAccessibleForFree": true,
+      "publisher": {
+       "@id": "https://wykht.com/#organization"
+      },
+      "offers": {
+       "@type": "Offer",
+       "price": "0",
+       "priceCurrency": "HTG",
+       "availability": "https://schema.org/InStock",
+       "url": "https://wykht.com/jeux"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "@id": "https://wykht.com/jeux#faq",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Comment jouer aux jeux WYK ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Crée un compte WYK gratuit ou connecte-toi, choisis Devine le Nombre ou Dino Run, puis lance une partie."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Combien de parties puis-je jouer par jour ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Le nombre d'essais quotidiens est affiché sur ton profil et sur chaque jeu. Il se réinitialise chaque jour à minuit (heure UTC)."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Comment gagner un code promo WYK ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Remporte une partie : si une récompense est encore disponible, ton code s'affiche. Copie-le puis envoie-le à WYK sur WhatsApp pour l'utiliser sur ta commande. Une récompense par jeu et par joueur."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Les jeux sont-ils gratuits ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Oui, jouer ne coûte rien. Il suffit d'avoir un compte WYK."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Comment obtenir un badge de certification ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Connecte-toi puis utilise le bouton « Demander mon badge » de ton profil joueur : il ouvre une conversation WhatsApp avec l'équipe WYK."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Qu'est-ce que WYK, WYK HT ou WYKHT ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "WYK (aussi écrit WYK HT, WYKHT ou WYK Haïti) est une boutique en ligne haïtienne basée à Carrefour : technologie, mode, chaussures, cosmétique, fleurs, alimentation et services. Prix en gourdes (HTG), commande confirmée sur WhatsApp."
+     }
+    }
+   ]
+  }
+ ]
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -400,6 +572,135 @@ header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px
 
 /* ── RESPONSIVE ── */
 @media(min-width:900px){.bnav{display:none}body{padding-bottom:0}}
+
+/* ═══ v2.12 — Jeux : interface néomorphique ═══ */
+:root{--nm-bg:#15161b;--nm-hi:rgba(255,255,255,.04);--nm-lo:rgba(0,0,0,.6);--nm-line:rgba(255,255,255,.05)}
+[data-theme="light"]{--nm-bg:#e7eaf1;--nm-hi:rgba(255,255,255,.95);--nm-lo:rgba(150,164,190,.62);--nm-line:rgba(0,0,0,.05)}
+body{background:var(--nm-bg)}
+body::before{background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(232,25,44,.07),transparent)}
+#jeux-main{max-width:960px;margin:0 auto;padding:0 0 24px}
+.nm-card{background:var(--nm-bg);border-radius:26px;box-shadow:9px 9px 20px var(--nm-lo),-7px -7px 18px var(--nm-hi)}
+.nm-in{background:var(--nm-bg);border-radius:18px;box-shadow:inset 5px 5px 11px var(--nm-lo),inset -5px -5px 11px var(--nm-hi)}
+.nm-h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;letter-spacing:-.01em;color:var(--text);margin:0 0 14px}
+.nm-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:100px;font-weight:800;font-size:.8rem;color:var(--text);background:var(--nm-bg);box-shadow:6px 6px 14px var(--nm-lo),-5px -5px 12px var(--nm-hi);transition:transform .15s,box-shadow .2s;text-decoration:none;white-space:nowrap}
+.nm-btn svg{width:15px;height:15px;stroke:currentColor;stroke-width:2.1;fill:none}
+.nm-btn:hover{transform:translateY(-1px)}
+.nm-btn:active{transform:scale(.97);box-shadow:inset 4px 4px 9px var(--nm-lo),inset -4px -4px 9px var(--nm-hi)}
+.nm-btn.pri{color:#fff;background:linear-gradient(145deg,#f0293c,#c4111f);box-shadow:6px 6px 16px var(--nm-lo),-4px -4px 12px var(--nm-hi),0 0 22px rgba(232,25,44,.25)}
+.nm-btn.sm{padding:10px 16px;font-size:.74rem}
+.nm-btn:focus-visible,.tab:focus-visible,.adm-ic:focus-visible,.faq-i summary:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+/* hero */
+.nm-hero{padding:22px 14px 8px}
+.nm-hero-card{padding:26px 22px;text-align:left;position:relative;overflow:hidden}
+.nm-hero-card::after{content:'';position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(232,25,44,.16),transparent 70%);pointer-events:none}
+.nm-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--t2);padding:7px 12px;border-radius:100px;background:var(--nm-bg);box-shadow:inset 3px 3px 7px var(--nm-lo),inset -3px -3px 7px var(--nm-hi)}
+.nm-eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);animation:pulse-dot 2s infinite}
+.nm-hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.7rem,7vw,2.6rem);line-height:1.08;letter-spacing:-.03em;color:var(--text);margin:16px 0 10px}
+.nm-hero h1 em{font-style:normal;color:var(--red)}
+.nm-lead{font-size:.88rem;line-height:1.7;color:var(--t2);max-width:560px}
+.nm-lead strong{color:var(--text)}
+.nm-cta{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0 4px}
+.nm-stats{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
+.nm-stats li{padding:12px 8px;text-align:center;border-radius:16px;background:var(--nm-bg);box-shadow:inset 4px 4px 9px var(--nm-lo),inset -4px -4px 9px var(--nm-hi)}
+.nm-stats b{display:block;font-family:'Syne',sans-serif;font-size:.98rem;color:var(--text)}
+.nm-stats span{font-size:.62rem;color:var(--t3);font-weight:700;letter-spacing:.04em}
+/* étapes */
+.nm-steps{padding:18px 14px 4px}
+.nm-steps-list{list-style:none;display:grid;gap:12px}
+.nm-step{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:20px}
+.nm-num{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:var(--gold);background:var(--nm-bg);box-shadow:inset 4px 4px 8px var(--nm-lo),inset -4px -4px 8px var(--nm-hi)}
+.nm-step h3{font-size:.86rem;font-weight:800;color:var(--text)}
+.nm-step p{font-size:.74rem;color:var(--t2);line-height:1.5;margin-top:2px}
+/* profil */
+.profile-card{background:var(--nm-bg);border:0;border-radius:26px;box-shadow:9px 9px 20px var(--nm-lo),-7px -7px 18px var(--nm-hi);margin:18px 14px 6px}
+.profile-card::before{display:none}
+.pc-quota-pill{background:var(--nm-bg);border:0;border-radius:12px;box-shadow:inset 3px 3px 7px var(--nm-lo),inset -3px -3px 7px var(--nm-hi)}
+.pc-quotas{border-top:1px solid var(--nm-line)}
+.pc-badge-req{border-radius:100px;box-shadow:4px 4px 10px var(--nm-lo),-3px -3px 8px var(--nm-hi)}
+/* onglets = contrôle segmenté */
+.tabs{position:static;margin:18px 14px 4px;padding:6px;gap:6px;border:0;border-radius:100px;background:var(--nm-bg);box-shadow:inset 5px 5px 11px var(--nm-lo),inset -5px -5px 11px var(--nm-hi);justify-content:stretch}
+.tab{flex:1;justify-content:center;padding:11px 14px;border:0;border-radius:100px;color:var(--t2);cursor:pointer}
+.tab.on{color:var(--text);border:0;background:var(--nm-bg);box-shadow:5px 5px 11px var(--nm-lo),-4px -4px 9px var(--nm-hi)}
+.tab.on svg{stroke:var(--red)}
+/* jeux */
+.games-section{padding:18px 14px 6px}
+.section-lbl{font-family:'DM Sans',sans-serif}
+.games-grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:620px){.games-grid{grid-template-columns:1fr 1fr}.nm-steps-list{grid-template-columns:repeat(3,1fr)}.nm-step{flex-direction:column;text-align:center}}
+.g-card{background:var(--nm-bg);border-radius:26px;padding:20px;box-shadow:9px 9px 20px var(--nm-lo),-7px -7px 18px var(--nm-hi);display:flex;flex-direction:column;gap:10px;transition:transform .2s}
+.g-card:hover{transform:translateY(-2px)}
+.g-top{display:flex;align-items:center;justify-content:space-between}
+.g-ico{width:54px;height:54px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.7rem;background:var(--nm-bg);box-shadow:inset 5px 5px 10px var(--nm-lo),inset -5px -5px 10px var(--nm-hi)}
+.g-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text);letter-spacing:-.01em;margin-top:4px}
+.g-desc{font-size:.8rem;color:var(--t2);line-height:1.55}
+.g-facts{list-style:none;display:grid;gap:6px;margin:4px 0}
+.g-facts li{font-size:.72rem;color:var(--t2);display:flex;gap:8px;align-items:center}
+.g-facts li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;box-shadow:0 0 6px rgba(245,200,66,.5)}
+.g-card .gc-quota{font-size:.7rem;font-weight:700;color:var(--gold);min-height:1em}
+.g-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:6px}
+.g-state{display:inline-flex;align-items:center;gap:7px;font-size:.68rem;font-weight:800;color:var(--green);letter-spacing:.04em}
+.g-state i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+.g-card.is-off{opacity:.62}
+.g-card.is-off .g-state{color:#ef4444}.g-card.is-off .g-state i{background:#ef4444;box-shadow:0 0 8px #ef4444}
+.auth-gate{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:14px;text-align:left;padding:18px 20px;margin:0 0 18px;border-radius:22px;background:var(--nm-bg);box-shadow:inset 5px 5px 11px var(--nm-lo),inset -5px -5px 11px var(--nm-hi);align-items:center}
+.auth-gate-ico{width:48px;height:48px;margin:0;font-size:1.3rem;border:0;border-radius:16px;background:var(--nm-bg);box-shadow:5px 5px 11px var(--nm-lo),-4px -4px 9px var(--nm-hi)}
+.ag-txt{flex:1;min-width:200px}.auth-gate h3{font-size:.95rem;margin:0 0 3px}.auth-gate p{max-width:none;margin:0;font-size:.76rem}
+/* classement */
+.lb-section{padding:18px 14px 6px}
+.lb-item{background:var(--nm-bg);border:0;border-radius:18px;box-shadow:6px 6px 14px var(--nm-lo),-5px -5px 12px var(--nm-hi);margin-bottom:12px}
+.lb-item:hover{transform:translateY(-1px);box-shadow:6px 6px 14px var(--nm-lo),-5px -5px 12px var(--nm-hi)}
+.lb-item:has(.r1){background:var(--nm-bg);box-shadow:6px 6px 14px var(--nm-lo),-5px -5px 12px var(--nm-hi),0 0 0 1px var(--gold-m)}
+/* contenu indexable */
+.seo-sec{padding:26px 14px 0}
+.seo-grid{display:grid;gap:16px}
+@media(min-width:620px){.seo-grid{grid-template-columns:1fr 1fr}}
+.seo-card{padding:18px 18px 20px}
+.seo-card h3{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:800;color:var(--text);margin-bottom:8px}
+.seo-card p{font-size:.78rem;line-height:1.7;color:var(--t2)}
+.faq{display:grid;gap:12px}
+.faq-i{padding:0}
+.faq-i summary{cursor:pointer;list-style:none;padding:15px 44px 15px 16px;font-size:.82rem;font-weight:700;color:var(--text);position:relative}
+.faq-i summary::-webkit-details-marker{display:none}
+.faq-i summary::after{content:'';position:absolute;right:18px;top:50%;width:8px;height:8px;border-right:2px solid var(--t2);border-bottom:2px solid var(--t2);transform:translateY(-70%) rotate(45deg);transition:transform .2s}
+.faq-i[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.faq-i p{padding:0 16px 16px;font-size:.78rem;line-height:1.7;color:var(--t2)}
+.seo-links{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:18px;font-size:.72rem}
+.seo-links a{color:var(--t2);font-weight:700;border-bottom:1px solid var(--nm-line)}
+.seo-links a:hover{color:var(--red)}
+/* barre admin */
+.adm-bar{max-width:960px;margin:12px auto 0;padding:0 14px}
+.adm-bar[hidden],.site-off[hidden]{display:none}
+.adm-bar{display:block}
+.adm-tt{display:flex;align-items:center;gap:6px;font-size:.6rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 4px 8px}
+.adm-tt svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none}
+.adm-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:12px;border-radius:24px;background:var(--nm-bg);box-shadow:inset 5px 5px 11px var(--nm-lo),inset -5px -5px 11px var(--nm-hi)}
+.adm-ic{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px 8px;border-radius:18px;background:var(--nm-bg);color:var(--text);box-shadow:5px 5px 11px var(--nm-lo),-4px -4px 9px var(--nm-hi);transition:transform .15s,box-shadow .2s;min-width:0;text-decoration:none}
+.adm-ic:active{transform:scale(.96);box-shadow:inset 3px 3px 7px var(--nm-lo),inset -3px -3px 7px var(--nm-hi)}
+.adm-ic svg{width:20px;height:20px;stroke:currentColor;stroke-width:2;fill:none}
+.adm-em{font-size:1.15rem;line-height:20px}
+.adm-lb{font-size:.58rem;font-weight:800;letter-spacing:.03em;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.adm-st{font-size:.54rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--green)}
+.adm-ic.off .adm-st{color:#ef4444}.adm-ic.off{opacity:.78}
+.adm-ic.danger svg{color:#ef4444}.adm-ic.danger .adm-st{color:#ef4444}
+.adm-ic[disabled]{opacity:.5;pointer-events:none}
+.site-off{max-width:932px;margin:12px 14px 0;padding:14px 16px;border-radius:20px;background:var(--nm-bg);box-shadow:inset 4px 4px 10px var(--nm-lo),inset -4px -4px 10px var(--nm-hi);font-size:.8rem;color:var(--t2);line-height:1.6;border-left:3px solid #ef4444}
+@media(min-width:980px){.site-off{margin-left:auto;margin-right:auto}}
+.site-off strong{color:var(--text)}
+/* modale admin */
+.adm-sheet{max-width:440px;background:var(--nm-bg);border-radius:28px 28px 0 0}
+@media(min-width:640px){#modal-adm{align-items:center}.adm-sheet{border-radius:28px}}
+.adm-m-body{padding:6px 22px 26px;text-align:center}
+.adm-m-ico{width:58px;height:58px;margin:8px auto 12px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:var(--nm-bg);box-shadow:inset 5px 5px 10px var(--nm-lo),inset -5px -5px 10px var(--nm-hi)}
+.adm-m-body h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:var(--text);margin-bottom:6px}
+.adm-m-body p{font-size:.78rem;color:var(--t2);line-height:1.6}
+#admExtra{margin:14px 0 4px;text-align:left}
+#admExtra label{display:block;font-size:.66rem;font-weight:800;color:var(--t2);margin:0 0 6px 4px;letter-spacing:.05em;text-transform:uppercase}
+#admExtra select,#admExtra textarea{width:100%;padding:12px 14px;border:0;border-radius:14px;font:inherit;font-size:.82rem;color:var(--text);background:var(--nm-bg);box-shadow:inset 4px 4px 9px var(--nm-lo),inset -4px -4px 9px var(--nm-hi);outline:none;resize:vertical}
+.adm-m-btns{display:flex;gap:12px;justify-content:center;margin-top:18px}
+.adm-m-btns .nm-btn{flex:1}
+.adm-m-btns .nm-btn.danger{background:linear-gradient(145deg,#ef4444,#b91c1c);color:#fff}
+@media(max-width:420px){.adm-row{gap:7px;padding:9px}.adm-lb{font-size:.54rem}.nm-hero-card{padding:22px 18px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 <style id="ssl-badge-css">
 /* SSLCanary — carte de confiance premium, suit le thème clair/sombre */
@@ -473,16 +774,37 @@ header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px
   </div>
 </header>
 
-<!-- HERO -->
-<div class="hero-band">
-  <div class="hero-eyebrow"><span class="eyebrow-dot"></span>Joue · Gagne · Récompenses</div>
-  <h1 class="hero-h1">Challenge ton<br><em>instinct.</em></h1>
-  <p class="hero-desc">2 jeux, des récompenses réelles en codes promo WYK. Connecte-toi pour jouer et gagner.</p>
-  <div class="hero-chips">
-    <div class="hero-chip"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>Jeu équitable</div>
-    <div class="hero-chip"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 8v13m0-13V6a4 4 0 00-4-4H5.45a4 4 0 00-3.393 6.1L5 12m7-4h10m-10 0a4 4 0 014-4h2.55a4 4 0 013.392 6.1L17 12m-5-4v13"/></svg>Récompenses réelles</div>
+<!-- ADMIN BAR (visible seulement pour l'admin) -->
+<div class="adm-bar" id="admBar" hidden>
+  <div class="adm-tt"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l8 3v6c0 4.5-3.2 8.3-8 9-4.8-.7-8-4.5-8-9V6l8-3z"/></svg><span>Admin</span></div>
+  <div class="adm-row">
+    <button type="button" class="adm-ic" id="adm-g-guess" onclick="admToggleGame('guess')" aria-label="Activer ou désactiver Devine le Nombre" title="Devine le Nombre"><span class="adm-em">🎯</span><span class="adm-lb">Nombre</span><span class="adm-st">…</span></button>
+    <button type="button" class="adm-ic" id="adm-g-code" onclick="admToggleGame('code')" aria-label="Activer ou désactiver Dino Run" title="Dino Run"><span class="adm-em">🦖</span><span class="adm-lb">Dino</span><span class="adm-st">…</span></button>
+    <button type="button" class="adm-ic" id="adm-page" onclick="admOpenPage()" aria-label="Activer ou désactiver toute la page Jeux" title="Toute la page"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 3v9M6.4 6.6a8 8 0 1011.2 0"/></svg><span class="adm-lb">Page</span><span class="adm-st">…</span></button>
+    <button type="button" class="adm-ic danger" onclick="admOpenReset()" aria-label="Réinitialiser le classement" title="Réinitialiser le classement"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M20 20v-5h-5M5.6 15a8 8 0 0013.6 2M18.4 9A8 8 0 005 7"/></svg><span class="adm-lb">Classement</span><span class="adm-st">Reset</span></button>
+    <a class="adm-ic" href="/admin" aria-label="Réglages avancés des jeux" title="Réglages (difficulté, essais, récompenses)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg><span class="adm-lb">Réglages</span><span class="adm-st">Admin</span></a>
   </div>
 </div>
+<div class="site-off" id="siteOff" hidden></div>
+
+<main id="jeux-main">
+<!-- HERO -->
+<section class="nm-hero" aria-labelledby="jeux-h1">
+  <div class="nm-card nm-hero-card">
+    <span class="nm-eyebrow"><i></i>Jeux · Concours · Codes promo</span>
+    <h1 id="jeux-h1">Jeux et concours <em>WYK Haïti</em></h1>
+    <p class="nm-lead">Joue gratuitement aux jeux de <strong>WYK HT</strong> (WYKHT), la boutique en ligne de Carrefour, grimpe au classement des joueurs et gagne de vrais <strong>codes promo</strong> pour tes prochains achats.</p>
+    <div class="nm-cta">
+      <a class="nm-btn pri" href="#jeux-liste"><svg viewBox="0 0 24 24"><polygon fill="currentColor" stroke="none" points="6 3 20 12 6 21 6 3"/></svg>Jouer maintenant</a>
+      <button type="button" class="nm-btn" onclick="goTab('classement')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4zM17 5h3v2a3 3 0 01-3 3M7 5H4v2a3 3 0 003 3"/></svg>Classement</button>
+    </div>
+    <ul class="nm-stats" aria-label="En bref">
+      <li><b>2</b><span>jeux</span></li>
+      <li><b>0 HTG</b><span>pour jouer</span></li>
+      <li><b>Codes</b><span>promo à gagner</span></li>
+    </ul>
+  </div>
+</section>
 
 <!-- PROFIL JOUEUR -->
 <div class="profile-card" id="profileCard" style="display:none">
@@ -492,73 +814,104 @@ header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px
       <div class="pc-name" id="pcName">Joueur <span id="pcBadge"></span></div>
       <div class="pc-rank" id="pcRank">Chargement du classement…</div>
     </div>
-    <a class="pc-badge-req" id="pcBadgeReq" href="#" target="_blank">✨ Demander mon badge</a>
+    <a class="pc-badge-req" id="pcBadgeReq" href="#" target="_blank" rel="noopener">✨ Demander mon badge</a>
   </div>
   <div class="pc-quotas" id="pcQuotas"><div class="pc-quota-loading">Chargement des essais du jour…</div></div>
   <div class="pc-reset-timer" id="pcResetTimer"></div>
 </div>
 
-<!-- TABS -->
-<div class="tabs">
-  <div class="tab on" onclick="switchTab('games',this)"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path stroke-linecap="round" d="M12 12h.01M17 12h.01M7 9v6M4 12h6"/></svg>Jeux</div>
-  <div class="tab" onclick="switchTab('classement',this)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>Classement</div>
+<!-- COMMENT ÇA MARCHE (étapes) -->
+<section class="nm-steps" aria-labelledby="h-steps">
+  <h2 id="h-steps" class="nm-h2">Comment ça marche</h2>
+  <ol class="nm-steps-list">
+    <li class="nm-card nm-step"><span class="nm-num">1</span><div><h3>Connecte-toi</h3><p>Un compte WYK gratuit suffit pour jouer.</p></div></li>
+    <li class="nm-card nm-step"><span class="nm-num">2</span><div><h3>Joue</h3><p>Plusieurs essais par jour, qui reviennent chaque jour.</p></div></li>
+    <li class="nm-card nm-step"><span class="nm-num">3</span><div><h3>Gagne un code</h3><p>Une victoire peut te donner un code promo WYK.</p></div></li>
+  </ol>
+</section>
+
+<!-- ONGLETS -->
+<div class="tabs" role="tablist" aria-label="Sections">
+  <div class="tab on" role="tab" tabindex="0" onclick="switchTab('games',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchTab('games',this)}"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path stroke-linecap="round" d="M12 12h.01M17 12h.01M7 9v6M4 12h6"/></svg>Jeux</div>
+  <div class="tab" role="tab" tabindex="0" onclick="switchTab('classement',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchTab('classement',this)}"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4z"/></svg>Classement</div>
 </div>
 
 <!-- TAB: JEUX -->
 <div class="tab-pane on" id="pane-games">
-  <div class="auth-gate" id="authGate" style="display:none">
-    <div class="auth-gate-ico">🔒</div>
-    <h3>Connexion requise</h3>
-    <p>Pour jouer et gagner des récompenses, crée un compte ou connecte-toi.</p>
-    <a href="/compte" class="btn-auth-gate"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>Se connecter pour jouer</a>
-  </div>
-  <div class="games-section" id="gamesGrid" style="display:none">
-    <div class="section-lbl">Choisis ton jeu</div>
-    <div class="games-grid">
-      <!-- 1. Devine le nombre -->
-      <div class="game-card gc-red" onclick="openGame('guess')">
-        <div class="gc-accent"></div>
-        <div class="gc-inner">
-          <div class="gc-top-row">
-            <div class="gc-icon-tile">🎯</div>
-            <span class="gc-diff-pill gc-diff-normal" id="gcd-guess">Normal</span>
-          </div>
-          <div class="gc-name">Devine le Nombre</div>
-          <div class="gc-desc" id="gcdesc-guess">Trouve le nombre mystère en un minimum d'essais</div>
+  <section class="games-section" id="jeux-liste" aria-labelledby="h-jeux">
+    <div class="auth-gate" id="authGate" style="display:none">
+      <div class="auth-gate-ico">🔒</div>
+      <div class="ag-txt"><h3>Connexion requise pour jouer</h3><p>Crée un compte gratuit ou connecte-toi pour lancer une partie et gagner des récompenses.</p></div>
+      <a href="/compte" class="btn-auth-gate"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>Se connecter</a>
+    </div>
+    <div id="gamesGrid">
+      <h2 class="section-lbl" id="h-jeux">Choisis ton jeu</h2>
+      <div class="games-grid">
+        <article class="g-card" id="gcard-guess">
+          <div class="g-top"><div class="g-ico" aria-hidden="true">🎯</div><span class="gc-diff-pill gc-diff-normal" id="gcd-guess">Normal</span></div>
+          <h3 class="g-name">Devine le Nombre</h3>
+          <p class="g-desc" id="gcdesc-guess">Trouve le nombre mystère en un minimum d'essais.</p>
+          <ul class="g-facts"><li>Un nombre secret à trouver</li><li>Indices chaud / froid ou plus haut / plus bas</li><li>Nombre d'essais limité par partie</li></ul>
           <div class="gc-quota" id="gcq-guess"></div>
-          <div class="gc-footer">
-            <div class="gc-badge gc-badge-classic"><div class="gc-dot" style="background:var(--cyan)"></div>Classique</div>
-            <div class="gc-play-arrow gc-red"><svg viewBox="0 0 24 24"><polygon fill="currentColor" points="5 3 19 12 5 21 5 3"/></svg></div>
-          </div>
-        </div>
-      </div>
-      <!-- 2. Dino Run -->
-      <div class="game-card gc-cyan" onclick="openGame('code')">
-        <div class="gc-accent"></div>
-        <div class="gc-inner">
-          <div class="gc-top-row">
-            <div class="gc-icon-tile">🦖</div>
-            <span class="gc-diff-pill gc-diff-normal" id="gcd-code">Normal</span>
-          </div>
-          <div class="gc-name">Dino Run</div>
-          <div class="gc-desc" id="gcdesc-code">Cours, saute et évite les obstacles le plus longtemps possible</div>
+          <div class="g-foot"><span class="g-state" id="gst-guess"><i></i>Disponible</span><button type="button" class="nm-btn pri sm" id="gbtn-guess" onclick="openGame('guess')"><svg viewBox="0 0 24 24"><polygon fill="currentColor" stroke="none" points="6 3 20 12 6 21 6 3"/></svg>Jouer</button></div>
+        </article>
+        <article class="g-card" id="gcard-code">
+          <div class="g-top"><div class="g-ico" aria-hidden="true">🦖</div><span class="gc-diff-pill gc-diff-normal" id="gcd-code">Normal</span></div>
+          <h3 class="g-name">Dino Run</h3>
+          <p class="g-desc" id="gcdesc-code">Cours, saute et évite les obstacles le plus longtemps possible.</p>
+          <ul class="g-facts"><li>Cactus et oiseaux à éviter</li><li>Saute ou baisse-toi au bon moment</li><li>La vitesse augmente avec ton score</li></ul>
           <div class="gc-quota" id="gcq-code"></div>
-          <div class="gc-footer">
-            <div class="gc-badge gc-badge-classic"><div class="gc-dot" style="background:var(--cyan)"></div>Classique</div>
-            <div class="gc-play-arrow gc-cyan"><svg viewBox="0 0 24 24"><polygon fill="currentColor" points="5 3 19 12 5 21 5 3"/></svg></div>
-          </div>
-        </div>
+          <div class="g-foot"><span class="g-state" id="gst-code"><i></i>Disponible</span><button type="button" class="nm-btn pri sm" id="gbtn-code" onclick="openGame('code')"><svg viewBox="0 0 24 24"><polygon fill="currentColor" stroke="none" points="6 3 20 12 6 21 6 3"/></svg>Jouer</button></div>
+        </article>
       </div>
     </div>
-  </div>
+  </section>
 </div>
 
 <!-- TAB: CLASSEMENT -->
 <div class="tab-pane" id="pane-classement">
   <div class="lb-section">
+    <h2 class="section-lbl">Classement des joueurs</h2>
     <div id="lbList"><div style="padding:32px;text-align:center;color:var(--t3);font-size:.8rem">Chargement…</div></div>
   </div>
 </div>
+
+<!-- CONTENU INDEXABLE (toujours visible, lisible par Google) -->
+<section class="seo-sec" aria-labelledby="h-regles">
+  <h2 class="nm-h2" id="h-regles">Les jeux WYK Haïti en détail</h2>
+  <div class="seo-grid">
+    <article class="nm-card seo-card"><h3>🎯 Devine le Nombre</h3><p>Un nombre mystère est tiré au hasard dans une fourchette (1 à 100 par défaut). Tu as un nombre d'essais limité pour le trouver. En mode normal, un indicateur chaud / froid te guide ; en mode difficile, seul « plus haut » ou « plus bas » est indiqué ; en mode ultra, la fourchette s'élargit si tu te trompes.</p></article>
+    <article class="nm-card seo-card"><h3>🦖 Dino Run</h3><p>Un jeu de course inspiré du dinosaure hors-ligne de Chrome : saute par-dessus les cactus, baisse-toi sous les oiseaux et tiens le plus longtemps possible. La vitesse augmente au fil de la partie, et atteindre le score cible (environ 1 000 points) compte comme une victoire.</p></article>
+    <article class="nm-card seo-card"><h3>🎁 Récompenses</h3><p>Quand tu gagnes, un code promo WYK peut s'afficher. Copie-le puis envoie-le sur WhatsApp à l'équipe WYK pour l'utiliser sur ta commande. Le nombre de récompenses est limité : il est indiqué sur chaque jeu.</p></article>
+    <article class="nm-card seo-card"><h3>🏆 Classement</h3><p>Le classement des joueurs WYK compte tes victoires et tes parties jouées. Les comptes certifiés affichent un badge, que tu peux demander sur WhatsApp.</p></article>
+  </div>
+</section>
+
+<section class="seo-sec" aria-labelledby="h-faq">
+  <h2 class="nm-h2" id="h-faq">Questions fréquentes</h2>
+  <div class="faq">
+    <details class="nm-in faq-i"><summary>Comment jouer aux jeux WYK ?</summary><p>Crée un compte WYK gratuit ou connecte-toi, choisis Devine le Nombre ou Dino Run, puis lance une partie.</p></details>
+    <details class="nm-in faq-i"><summary>Combien de parties puis-je jouer par jour ?</summary><p>Le nombre d'essais quotidiens est affiché sur ton profil et sur chaque jeu. Il se réinitialise chaque jour à minuit (heure UTC), avec un compte à rebours visible.</p></details>
+    <details class="nm-in faq-i"><summary>Comment gagner un code promo WYK ?</summary><p>Remporte une partie : si une récompense est encore disponible, ton code s'affiche. Copie-le puis envoie-le à WYK sur WhatsApp pour l'utiliser sur ta commande. Une récompense par jeu et par joueur.</p></details>
+    <details class="nm-in faq-i"><summary>Les jeux sont-ils gratuits ?</summary><p>Oui, jouer ne coûte rien. Il suffit d'avoir un compte WYK.</p></details>
+    <details class="nm-in faq-i"><summary>Comment obtenir un badge de certification ?</summary><p>Connecte-toi puis utilise le bouton « Demander mon badge » de ton profil joueur : il ouvre une conversation WhatsApp avec l'équipe WYK.</p></details>
+    <details class="nm-in faq-i"><summary>Qu'est-ce que WYK, WYK HT ou WYKHT ?</summary><p>WYK (aussi écrit WYK HT, WYKHT ou WYK Haïti) est une boutique en ligne haïtienne basée à Carrefour : technologie, mode, chaussures, cosmétique, fleurs, alimentation et services. Prix en gourdes (HTG), commande confirmée sur WhatsApp.</p></details>
+  </div>
+  <p class="seo-links"><a href="/">Boutique WYK HT</a><a href="/categories">Catégories</a><a href="/apropos">À propos de WYK</a><a href="https://www.instagram.com/wykht.co/" target="_blank" rel="noopener">Instagram @wykht.co</a><a href="/conditions-utilisation">Conditions d'utilisation</a></p>
+</section>
+</main>
+
+<!-- Modal admin (confirmations) -->
+<div class="modal-ov" id="modal-adm"><div class="modal-sheet adm-sheet" role="dialog" aria-modal="true" aria-labelledby="admTitle">
+  <div class="modal-handle"></div>
+  <div class="adm-m-body">
+    <div class="adm-m-ico" id="admIco"></div>
+    <h3 id="admTitle">Titre</h3>
+    <p id="admText"></p>
+    <div id="admExtra"></div>
+    <div class="adm-m-btns"><button type="button" class="nm-btn" onclick="admClose()">Annuler</button><button type="button" class="nm-btn pri" id="admOk">Confirmer</button></div>
+  </div>
+</div></div>
 
 <!-- ═══ MODALS ═══ -->
 
@@ -705,7 +1058,7 @@ async function initAuth(){
     document.getElementById('userName').textContent=name;
     document.getElementById('userPill').classList.add('show');
     document.getElementById('loginBtn').style.display='none';
-    if(_isAdmin){document.getElementById('adminDot').style.display='block'}
+    if(_isAdmin){document.getElementById('adminDot').style.display='block';initAdminBar();applySiteCfg();}
     document.getElementById('authGate').style.display='none';
     document.getElementById('gamesGrid').style.display='block';
     document.getElementById('profileCard').style.display='block';
@@ -714,7 +1067,7 @@ async function initAuth(){
     loadGameCardsMeta();
   } else {
     document.getElementById('authGate').style.display='flex';
-    document.getElementById('gamesGrid').style.display='none';
+    document.getElementById('gamesGrid').style.display='block';
     document.getElementById('profileCard').style.display='none';
   }
 }
@@ -850,6 +1203,7 @@ async function loadGameCardsMeta(){
       if(!st)continue;
       var cfg=st.config||{};
       var diff=cfg.difficulty||'normal';
+      if(typeof setCardActive==='function')setCardActive(g,st.active!==false);
       var pill=document.getElementById('gcd-'+g);
       if(pill){
         pill.className='gc-diff-pill gc-diff-'+DIFF_CLASS[diff];
@@ -937,7 +1291,8 @@ async function renderLeaderboard(){
    OPEN GAME
 ═══════════════════════════════════════ */
 async function openGame(id){
-  if(!_user){showToast('Connecte-toi pour jouer !',false);return}
+  if(!_user){showToast('Connecte-toi pour jouer !',false);var ag=document.getElementById('authGate');if(ag){ag.style.display='flex';ag.scrollIntoView({behavior:'smooth',block:'center'})}return}
+  if(typeof _siteCfg!=='undefined'&&!_siteCfg.enabled&&!_isAdmin){showToast(siteOffMsg(),false);return}
   if(_isBanned){showToast('Ton compte a été suspendu — tu ne peux plus jouer.',false);return}
   var res=await db.rpc('game_get_state',{p_game_id:id});
   if(res.error||!res.data||!res.data.length){showToast('Erreur de chargement du jeu',false);return}
@@ -1995,6 +2350,118 @@ function lightbox(imgs,i){if(!imgs.length)return;var o=$('#lb');if(!o){o=documen
 W.count=function(el,to){var n=+to||0,t0=null;function st(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/1100);el.textContent=Math.round(n*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(st)}requestAnimationFrame(st)};
 })();
 
-</script><script>WYK.mount('games')</script><!--/WYKSHELL-->
+</script>
+<script>
+/* ═══ v2.12 — Jeux : onglets, état du site, barre admin, réinitialisation du classement ═══ */
+var _siteCfg={enabled:true,message:''};
+var _gameSettings={};
+var _admReady=false;
+var GAME_IDS=['guess','code'];
+function goTab(id){var tabs=document.querySelectorAll('.tab');switchTab(id,tabs[id==='classement'?1:0]);var t=document.querySelector('.tabs');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}
+function siteOffMsg(){return _siteCfg.message||'Les jeux sont temporairement fermés. Reviens bientôt !'}
+async function loadSiteCfg(){
+  try{
+    var r=await db.from('site_pages').select('content').eq('slug','jeux-config').maybeSingle();
+    if(r&&r.data&&r.data.content){var c=JSON.parse(r.data.content);_siteCfg={enabled:c.enabled!==false,message:String(c.message||'')}}
+  }catch(e){}
+  applySiteCfg();
+}
+function applySiteCfg(){
+  var el=document.getElementById('siteOff');
+  if(el){
+    if(!_siteCfg.enabled){
+      el.hidden=false;
+      el.innerHTML='<strong>🚧 Jeux fermés</strong><br>'+escH(siteOffMsg())+(_isAdmin?'<br><em style="color:var(--t3)">Les joueurs ne peuvent pas lancer de partie. Toi, en tant qu\'admin, tu peux encore tester.</em>':'');
+    } else el.hidden=true;
+  }
+  var closed=!_siteCfg.enabled&&!_isAdmin;
+  GAME_IDS.forEach(function(g){var b=document.getElementById('gbtn-'+g);if(b)b.disabled=closed;});
+  renderAdminBar();
+}
+/* état visuel d'une carte de jeu (actif / désactivé) */
+function setCardActive(g,on){
+  var c=document.getElementById('gcard-'+g),s=document.getElementById('gst-'+g);
+  if(c)c.classList.toggle('is-off',!on);
+  if(s)s.innerHTML='<i></i>'+(on?'Disponible':'Indisponible');
+}
+async function initAdminBar(){
+  var bar=document.getElementById('admBar');if(bar)bar.hidden=false;
+  try{
+    var r=await db.rpc('admin_game_list_settings',{p_admin_uid:ADMIN_UID});
+    if(!r.error&&r.data){r.data.forEach(function(g){_gameSettings[g.game_id]=g});_admReady=true;}
+    else if(r.error)showToast('Réglages admin indisponibles : '+r.error.message,false);
+  }catch(e){}
+  GAME_IDS.forEach(function(g){var s=_gameSettings[g];if(s)setCardActive(g,s.active!==false)});
+  renderAdminBar();
+}
+function renderAdminBar(){
+  GAME_IDS.forEach(function(g){
+    var b=document.getElementById('adm-g-'+g);if(!b)return;
+    var s=_gameSettings[g],on=!s||s.active!==false;
+    b.classList.toggle('off',!on);b.setAttribute('aria-pressed',on?'true':'false');
+    b.querySelector('.adm-st').textContent=on?'Actif':'Off';
+  });
+  var p=document.getElementById('adm-page');
+  if(p){p.classList.toggle('off',!_siteCfg.enabled);p.setAttribute('aria-pressed',_siteCfg.enabled?'true':'false');p.querySelector('.adm-st').textContent=_siteCfg.enabled?'Ouverte':'Fermée';}
+}
+async function admToggleGame(g){
+  var s=_gameSettings[g];
+  if(!_admReady||!s){showToast('Réglages non chargés — recharge la page.',false);return}
+  var next=s.active===false;
+  var btn=document.getElementById('adm-g-'+g);if(btn)btn.disabled=true;
+  var r=await db.rpc('admin_game_upsert_settings',{p_admin_uid:ADMIN_UID,p_game_id:g,p_active:next,p_disabled_message:s.disabled_message||'',p_daily_attempts:s.daily_attempts||3,p_config:s.config||{}});
+  if(btn)btn.disabled=false;
+  if(r.error){showToast('Erreur : '+r.error.message,false);return}
+  _gameSettings[g]=Object.assign({},s,{active:next});
+  setCardActive(g,next);renderAdminBar();
+  showToast((g==='guess'?'Devine le Nombre':'Dino Run')+(next?' activé ✓':' désactivé'));
+}
+/* modale générique */
+function admOpen(o){
+  document.getElementById('admIco').textContent=o.ico||'⚙️';
+  document.getElementById('admTitle').textContent=o.title;
+  document.getElementById('admText').textContent=o.text||'';
+  document.getElementById('admExtra').innerHTML=o.extra||'';
+  var ok=document.getElementById('admOk');ok.textContent=o.ok||'Confirmer';ok.className='nm-btn '+(o.danger?'danger':'pri');
+  ok.onclick=function(){o.onOk()};
+  document.getElementById('modal-adm').classList.add('on');
+}
+function admClose(){document.getElementById('modal-adm').classList.remove('on')}
+document.getElementById('modal-adm').addEventListener('click',function(e){if(e.target===this)admClose()});
+function admOpenPage(){
+  var closing=_siteCfg.enabled;
+  admOpen({ico:closing?'🚧':'✅',title:closing?'Fermer toute la page Jeux ?':'Rouvrir la page Jeux ?',
+    text:closing?'Les joueurs verront un message et ne pourront plus lancer de partie. Le contenu de la page reste visible pour Google.':'Les joueurs pourront de nouveau jouer.',
+    extra:closing?'<label for="admMsg">Message affiché aux joueurs (facultatif)</label><textarea id="admMsg" rows="3" maxlength="240" placeholder="Ex. : Maintenance en cours, retour demain."></textarea>':'',
+    ok:closing?'Fermer la page':'Rouvrir',danger:closing,
+    onOk:async function(){
+      var msg=closing?(document.getElementById('admMsg').value||'').trim():'';
+      var r=await db.from('site_pages').upsert({slug:'jeux-config',title:'Réglages page Jeux',content:JSON.stringify({enabled:!closing,message:msg}),updated_at:new Date().toISOString()},{onConflict:'slug'});
+      if(r.error){showToast('Erreur : '+r.error.message,false);return}
+      _siteCfg={enabled:!closing,message:msg};admClose();applySiteCfg();
+      showToast(closing?'Page Jeux fermée':'Page Jeux rouverte ✓');
+    }});
+}
+function admOpenReset(){
+  admOpen({ico:'🏆',title:'Réinitialiser le classement ?',
+    text:'Les victoires et parties du classement seront remises à zéro. Cette action est définitive.',
+    extra:'<label for="admScope">Portée</label><select id="admScope"><option value="">Tous les jeux</option><option value="guess">Devine le Nombre uniquement</option><option value="code">Dino Run uniquement</option></select>',
+    ok:'Réinitialiser',danger:true,
+    onOk:async function(){
+      var sc=document.getElementById('admScope').value||null;
+      var r=await db.rpc('admin_game_reset_leaderboard',{p_admin_uid:ADMIN_UID,p_game_id:sc});
+      if(r.error){
+        var miss=/could not find|does not exist|PGRST202|42883/i.test((r.error.message||'')+(r.error.code||''));
+        admClose();
+        showToast(miss?'Fonction SQL manquante : voir SQL-JEUX-CLASSEMENT.txt':'Erreur : '+r.error.message,false);
+        return;
+      }
+      admClose();showToast('Classement réinitialisé ✓');
+      renderLeaderboard();if(_user)loadProfileCard((_user.user_metadata&&_user.user_metadata.pseudo)||(_user.email&&_user.email.split('@')[0])||'Joueur');
+    }});
+}
+loadSiteCfg();
+</script>
+<script>WYK.mount('games')</script><!--/WYKSHELL-->
 </body>
                                                                                                         </html>
