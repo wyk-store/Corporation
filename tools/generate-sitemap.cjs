@@ -1,7 +1,6 @@
 /* WYK — générateur de sitemap.xml (phase 2 : fiable et strict)
  * Pages fixes + une entrée par catégorie ayant au moins un produit actif
- * + les fiches produit /produit/<id> INDEXABLES (lues dans produit/*.html : on retient seulement les fiches sans « noindex »
- *   dont le canonical pointe vers elles-mêmes). Les fiches noindex n'y figurent jamais.
+ * + les fiches produit /produit/<id> (indexables depuis v2.11, canonical vers elles-mêmes)
  * Adresse de catégorie = https://wykht.com/categorie?c=<slug> (même règle de slug que categorie.html).
  * Aucune date « lastmod » (non vérifiable). Pages privées / noindex / fiches produit : jamais incluses.
  *

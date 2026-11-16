@@ -12,7 +12,6 @@
  * Image par défaut du site (og/default.png) : node tools/generate-share.cjs --default
  */
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
-const { buildPage, seoStatus } = require('./product-page.cjs');
 function getChromium() {
   try { return require('playwright').chromium; }
   catch (e) { return require(require('child_process').execSync('npm root -g').toString().trim() + '/playwright').chromium; }
@@ -40,10 +39,7 @@ async function loadCatalog() {
   } catch (e) { console.warn('catalog.json indisponible, essai direct sur la base :', e.message); }
   const r = await fetch(SUPA + '/rest/v1/products?select=*,categories(*),product_images(url,position)&active=eq.true', { headers: { apikey: ANON, Authorization: 'Bearer ' + ANON } });
   if (!r.ok) throw new Error('Impossible de lire le catalogue (' + r.status + ')');
-  const products = await r.json();
-  let categories = [];
-  try { const rc = await fetch(SUPA + '/rest/v1/categories?select=*', { headers: { apikey: ANON, Authorization: 'Bearer ' + ANON } }); if (rc.ok) categories = await rc.json(); } catch (e) {}
-  return { products, categories };
+  return { products: await r.json() };
 }
 
 function norm(p) {
@@ -68,26 +64,6 @@ async function toDataUri(url) {
     const type = (r.headers.get('content-type') || 'image/jpeg').split(';')[0];
     return 'data:' + type + ';base64,' + Buffer.from(await r.arrayBuffer()).toString('base64');
   } catch (e) { console.warn('  image illisible :', url, e.message); return ''; }
-}
-
-/* informations supplémentaires pour la fiche HTML (n'entrent pas dans le hash des images) */
-const slugify = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-const catNames = cats => { const m = {}; (cats || []).forEach(c => { m[c.id] = clean(c.name); }); return m; };
-function catSlugs(cats) {            // même règle que categorie.html
-  const used = {}, map = {};
-  (cats || []).forEach(c => { let s = (c.slug && String(c.slug).trim()) || slugify(clean(c.name)) || String(c.id); if (used[s]) s = s + '-' + String(c.id).slice(0, 4); used[s] = 1; map[c.id] = s; });
-  return map;
-}
-function seoExtra(raw, p, slugMap, nameMap) {
-  const imgs = (raw.product_images || []).slice().sort((a, b) => (a.position || 0) - (b.position || 0)).map(i => i.url).filter(Boolean);
-  const cat = raw.categories || raw.cat || null;
-  const list = v => (Array.isArray(v) ? v : []).map(x => clean(x)).filter(Boolean);
-  return Object.assign({}, p, {
-    cat: p.cat || (raw.category_id != null && nameMap[raw.category_id]) || '',
-    imgs: imgs.length ? imgs : (raw._imgs || []), sizes: list(raw.sizes), colors: list(raw.colors),
-    catSlug: (raw.category_id != null && slugMap[raw.category_id]) || (cat ? ((cat.slug && String(cat.slug).trim()) || slugify(clean(cat.name))) : ''),
-    noName: !clean(raw.name)
-  });
 }
 
 const FONTS = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@500;600;700&display=swap">';
@@ -156,6 +132,91 @@ h1 em{font-style:normal;color:#e8192c}
 </body></html>`;
 }
 
+const slugify = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+function productPage(p, related) {
+  related = related || [];
+  const url = SITE + '/produit/' + encodeURIComponent(p.id), img = SITE + '/og/' + encodeURIComponent(p.id) + '.jpg';
+  const shop = SITE + '/?p=' + encodeURIComponent(p.id);
+  const title = cut(p.name + ' — ' + fmt(p.price) + ' | WYK Haïti', 70);
+  const bits = [fmt(p.price) + (p.old ? ' (au lieu de ' + fmt(p.old) + ')' : '')];
+  if (p.cat) bits.push(p.cat);
+  const desc = cut(p.name + ' chez WYK HT (WYK Haïti) : ' + bits.join(' · ') + (p.desc ? ' — ' + p.desc : '') + '. Commandez sur WhatsApp, livraison en Haïti.', 300);
+  const catUrl = p.cat ? SITE + '/categorie?c=' + encodeURIComponent(slugify(p.cat)) : '';
+  const wa = 'https://wa.me/' + WA + '?text=' + encodeURIComponent('Bonjour WYK, je veux commander : ' + p.name + ' (' + fmt(p.price) + ') ' + url);
+  const inStock = !(p.stock != null && p.stock <= 0);
+  const offer = { '@type': 'Offer', url, price: String(p.price), priceCurrency: 'HTG', availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock', seller: { '@type': 'Organization', name: 'WYK', alternateName: ['WYK HT', 'WYKHT'], url: SITE + '/' } };
+  const ld = { '@context': 'https://schema.org', '@type': 'Product', '@id': url + '#product', url, name: p.name, sku: p.id, image: [p.img, img].filter(Boolean), description: p.desc || (p.name + ' — disponible chez WYK HT, boutique en ligne à Carrefour (Haïti).'), brand: { '@type': 'Brand', name: 'WYK' }, offers: offer };
+  if (p.cat) ld.category = p.cat;
+  const crumbs = [['Accueil', SITE + '/']]; if (p.cat) crumbs.push([p.cat, catUrl]); crumbs.push([p.name, url]);
+  const bc = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c[0], item: c[1] })) };
+  const J = o => JSON.stringify(o).replace(/</g, '\\u003c');
+  const rel = related.length ? `<section class="rel"><h2>Autres produits WYK HT${p.cat ? ' — ' + esc(p.cat) : ''}</h2><ul>${related.map(r => `<li><a href="/produit/${esc(encodeURIComponent(r.id))}">${esc(r.name)}</a> <span>${esc(fmt(r.price))}</span></li>`).join('')}</ul></section>` : '';
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(desc)}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="${esc(url)}">
+<meta property="og:site_name" content="WYK">
+<meta property="og:type" content="product">
+<meta property="og:locale" content="fr_HT">
+<meta property="og:url" content="${esc(url)}">
+<meta property="og:title" content="${esc(p.name + ' — ' + fmt(p.price))}">
+<meta property="og:description" content="${esc(desc)}">
+<meta property="og:image" content="${esc(img)}">
+<meta property="og:image:secure_url" content="${esc(img)}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${esc(p.name)}">
+<meta property="product:price:amount" content="${esc(p.price)}">
+<meta property="product:price:currency" content="HTG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${esc(p.name + ' — ' + fmt(p.price))}">
+<meta name="twitter:description" content="${esc(desc)}">
+<meta name="twitter:image" content="${esc(img)}">
+<link rel="icon" type="image/png" href="${SITE}/assets/brand/wyk-icon.png">
+<script type="application/ld+json">${J(ld)}</script>
+<script type="application/ld+json">${J(bc)}</script>
+<style>:root{--bg:#f6f5f2;--card:#fff;--ink:#101010;--mut:rgba(16,16,16,.62);--red:#e8192c;--line:rgba(128,128,128,.22)}@media(prefers-color-scheme:dark){:root{--bg:#0d0d0c;--card:#181817;--ink:#f4f4f2;--mut:rgba(244,244,242,.62);--line:rgba(255,255,255,.12)}}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+a{color:inherit}.w{max-width:880px;margin:0 auto;padding:18px 18px 48px}
+nav.bc{font-size:12.5px;color:var(--mut);margin-bottom:16px}nav.bc a{text-decoration:none}nav.bc a:hover{color:var(--red)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr}
+.ph{background:#8883;display:flex;align-items:center;justify-content:center;min-height:260px}.ph img{width:100%;height:100%;max-height:520px;object-fit:contain;display:block}
+.in{padding:24px;display:flex;flex-direction:column;gap:10px}h1{font-size:clamp(22px,4vw,30px);line-height:1.2;margin:0}
+.pr{font-size:26px;font-weight:800}.pr s{font-size:15px;font-weight:600;color:var(--mut);margin-left:8px}
+.cat{font-size:12.5px;font-weight:700;color:var(--red);text-decoration:none}.d{white-space:pre-line;color:var(--mut);font-size:14.5px;margin:0}
+.b{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}.b a{padding:12px 20px;border-radius:30px;font-weight:700;font-size:14px;text-decoration:none;border:1px solid var(--line)}.b a.wa{background:#25d366;color:#04230f;border-color:#25d366}
+.rel{margin-top:28px}.rel h2{font-size:15px;margin:0 0 8px}.rel ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}.rel li{font-size:14px;display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:6px 0}.rel li span{color:var(--mut);white-space:nowrap}
+.f{margin-top:28px;font-size:12.5px;color:var(--mut)}@media(max-width:640px){.card{grid-template-columns:1fr}}</style>
+</head>
+<body>
+<div class="w">
+<nav class="bc" aria-label="Fil d'Ariane"><a href="/">WYK Haïti</a>${p.cat ? ' › <a href="' + esc('/categorie?c=' + encodeURIComponent(slugify(p.cat))) + '">' + esc(p.cat) + '</a>' : ''} › ${esc(p.name)}</nav>
+<main>
+<article class="card">
+<div class="ph">${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.name + ' — WYK HT Haïti')}" width="600" height="600" decoding="async">` : ''}</div>
+<div class="in">
+${p.cat ? `<a class="cat" href="${esc('/categorie?c=' + encodeURIComponent(slugify(p.cat)))}">${esc(p.cat)}</a>` : ''}
+<h1>${esc(p.name)}</h1>
+<div class="pr">${esc(fmt(p.price))}${p.old ? ` <s>${esc(fmt(p.old))}</s>` : ''}</div>
+${p.desc ? `<p class="d">${esc(p.desc)}</p>` : ''}
+<p class="d">${inStock ? 'Disponible chez WYK HT (WYK Haïti), boutique en ligne à Carrefour. Prix en gourdes (HTG), livraison en Haïti précisée avec vous avant l\u2019expédition.' : 'Actuellement indisponible. Écrivez-nous sur WhatsApp pour connaître le retour en stock.'}</p>
+<div class="b"><a class="wa" href="${esc(wa)}" target="_blank" rel="noopener">Commander sur WhatsApp</a><a href="${esc('/?p=' + encodeURIComponent(p.id))}">Voir dans la boutique</a></div>
+</div>
+</article>
+${rel}
+<p class="f">WYK (WYK HT, WYKHT) — boutique en ligne haïtienne à Carrefour. <a href="/">Accueil</a> · <a href="/categories">Catégories</a> · <a href="/apropos">À propos</a> · <a href="https://www.instagram.com/wykht.co/" target="_blank" rel="noopener">Instagram @wykht.co</a></p>
+</main>
+</div>
+</body>
+</html>
+`;
+}
 
 (async () => {
   fs.mkdirSync(PDIR, { recursive: true }); fs.mkdirSync(ODIR, { recursive: true });
@@ -177,47 +238,36 @@ h1 em{font-style:normal;color:#e8192c}
   }
 
   const cat = await loadCatalog();
-  const slugMap = catSlugs(cat.categories), nameMap = catNames(cat.categories);
-  const raws = (cat.products || []).filter(p => p && p.id != null && p.active !== false);
-  const prods = raws.map(r => ({ r, p: norm(r) })).filter(x => isFinite(x.p.price)).map(x => Object.assign(seoExtra(x.r, x.p, slugMap, nameMap)));
-  const base = prods.map(x => norm(raws.find(r => String(r.id) === x.id)));   // forme historique : sert au hash des images
+  const prods = (cat.products || []).filter(p => p && p.id != null && p.active !== false).map(norm).filter(p => isFinite(p.price));
   let man = {}; try { man = JSON.parse(fs.readFileSync(MANIFEST, 'utf8')); } catch (e) {}
   const next = {}, todo = [];
-  base.forEach(p => {
-    const h = sha(JSON.stringify(p) + '|v3');          // inchangé : les images existantes restent valides
+  for (const p of prods) {
+    const h = sha(JSON.stringify(p) + '|v3');
     next[p.id] = h;
-    if (!(man[p.id] === h && fs.existsSync(path.join(ODIR, p.id + '.jpg')))) todo.push(p);
-  });
+    if (!(man[p.id] === h && fs.existsSync(path.join(ODIR, p.id + '.jpg')) && fs.existsSync(path.join(PDIR, p.id + '.html')))) todo.push(p);
+  }
+  const relatedOf = p => prods.filter(q => q.id !== p.id && p.cat && q.cat === p.cat).slice(0, 6);
   const goneIds = Object.keys(man).filter(id => !next[id]);
+  /* anciennes fiches (redirection + noindex) : remplacées par la fiche indexable, sans refaire les images */
+  const isOld = id => { try { return !fs.readFileSync(path.join(PDIR, id + '.html'), 'utf8').includes('index, follow, max-image-preview'); } catch (e) { return false; } };
+  const todoIds = new Set(todo.map(p => p.id));
+  const stale = prods.filter(p => !todoIds.has(p.id) && isOld(p.id));
 
-  /* fiches HTML : toutes recalculées (instantané), écrites seulement si le contenu change */
-  const idx = prods.filter(p => seoStatus(p).index);
-  const dup = new Set(), seen = {};
-  prods.forEach(p => { const k = p.name + '|' + p.price; if (seen[k]) dup.add(k); seen[k] = 1; });
-  const pages = {};
-  prods.forEach(p => {
-    const related = idx.filter(x => x.id !== p.id && p.cat && x.cat === p.cat).sort((a, b) => a.name.localeCompare(b.name, 'fr') || a.id.localeCompare(b.id)).slice(0, 6);
-    pages[p.id] = buildPage(p, { related, dupTitle: dup });
-  });
-  const pageTodo = Object.keys(pages).filter(id => { try { return fs.readFileSync(path.join(PDIR, id + '.html'), 'utf8') !== pages[id]; } catch (e) { return true; } });
+  /* --plan : n'affiche que le nombre de changements à faire (sert au workflow pour éviter d'installer Chromium pour rien) */
+  if (process.argv.includes('--plan')) { console.log(todo.length + stale.length + goneIds.length); return; }
 
-  /* --plan : nombre total de changements ; --plan-img : seulement les images (Chromium n'est installé que si nécessaire) */
-  if (process.argv.includes('--plan-img')) { console.log(process.argv.includes('--pages-only') ? 0 : todo.length); return; }
-  if (process.argv.includes('--plan')) { console.log(todo.length + pageTodo.length + goneIds.length); return; }
-
-  const pagesOnly = process.argv.includes('--pages-only');
-  if (!pagesOnly) for (const p of todo) {
-    console.log('→ image', p.id, p.name);
+  for (const p of todo) {
+    console.log('→', p.id, p.name);
     const photo = await toDataUri(p.img);
     await shot(productHtml(p, photo), path.join(ODIR, p.id + '.jpg'));
+    fs.writeFileSync(path.join(PDIR, p.id + '.html'), productPage(p, relatedOf(p)));
   }
-  for (const id of pageTodo) fs.writeFileSync(path.join(PDIR, id + '.html'), pages[id]);
+  for (const p of stale) { console.log('↺ fiche remise', p.id); fs.writeFileSync(path.join(PDIR, p.id + '.html'), productPage(p, relatedOf(p))); }
   for (const id of goneIds)
     for (const f of [path.join(ODIR, id + '.jpg'), path.join(PDIR, id + '.html')]) try { fs.unlinkSync(f); } catch (e) {}
   /* anciennes images .png (trop lourdes pour WhatsApp) : supprimées, sauf l'image par défaut */
   for (const f of fs.readdirSync(ODIR)) if (f.endsWith('.png') && f !== 'default.png') try { fs.unlinkSync(path.join(ODIR, f)); } catch (e) {}
-  if (!pagesOnly) fs.writeFileSync(MANIFEST, JSON.stringify(next, null, 1) + '\n');
+  fs.writeFileSync(MANIFEST, JSON.stringify(next, null, 1) + '\n');
   if (browser) await browser.close();
-  console.log(`Produits : ${prods.length} · fiches écrites ${pageTodo.length} · indexables ${idx.length} · noindex ${prods.length - idx.length} · images générées ${pagesOnly ? 0 : todo.length} · supprimés ${goneIds.length}`);
-  prods.filter(p => !seoStatus(p).index).forEach(p => console.log('  noindex :', p.id, p.name, '—', seoStatus(p).why));
+  console.log(`Produits : ${prods.length} · générés ${todo.length} · inchangés ${prods.length - todo.length} · supprimés ${goneIds.length}`);
 })().catch(e => { console.error(e); process.exit(1); });
