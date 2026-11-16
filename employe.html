@@ -302,7 +302,7 @@ select.form-input{cursor:pointer}
       <div class="form-row">
         <div class="form-group">
           <label class="form-lbl">Prix (HTG) *</label>
-          <input class="form-input" type="number" id="prod-price" placeholder="3500">
+          <input class="form-input" type="number" id="prod-price" placeholder="3500" oninput="updPackPreview()">
         </div>
         <div class="form-group">
           <label class="form-lbl">Ancien prix (HTG)</label>
@@ -329,6 +329,48 @@ select.form-input{cursor:pointer}
         <label class="form-lbl">Stock</label>
         <input class="form-input" type="number" id="prod-stock" placeholder="0">
       </div>
+      <div class="form-group">
+        <div class="toggle-row" style="margin-bottom:6px">
+          <span class="toggle-lbl">Vente par lot (douzaine, duo, pack…)</span>
+          <label class="toggle"><input type="checkbox" id="prod-pack-on" onchange="togglePackUI()"><div class="toggle-track"></div></label>
+        </div>
+        <div class="form-hint">Pour les produits vendus par 2, 3, 6, 12… ou avec un prix avantageux pour un lot.</div>
+      </div>
+      <div id="pack-box" style="display:none">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-lbl">Quantité par lot *</label>
+            <input class="form-input" type="number" min="2" id="prod-pack-size" placeholder="12" oninput="updPackPreview()">
+          </div>
+          <div class="form-group">
+            <label class="form-lbl">Style affiché au panier</label>
+            <select class="form-input" id="prod-pack-style" onchange="updPackPreview()">
+              <option value="auto">Nom automatique (Duo, Trio, Douzaine…)</option>
+              <option value="x">Multiplicateur (x6)</option>
+              <option value="pack" selected>Pack de N</option>
+              <option value="lot">Lot de N</option>
+              <option value="carton">Carton de N</option>
+              <option value="boite">Boîte de N</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-lbl">Prix du lot (HTG)</label>
+            <input class="form-input" type="number" id="prod-pack-price" placeholder="Vide = prix × quantité" oninput="updPackPreview()">
+          </div>
+          <div class="form-group">
+            <label class="form-lbl">Mode de vente</label>
+            <select class="form-input" id="prod-pack-mode" onchange="updPackPreview()">
+              <option value="opt">À l'unité ou par lot (le client choisit)</option>
+              <option value="only">Par lot uniquement</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-hint" id="pack-preview" style="margin-bottom:14px"></div>
+        <div class="form-hint" style="margin-bottom:14px">Le champ « Prix » ci-dessus reste le prix à l'unité (laisse-le vide si tu ne renseignes que le prix du lot). Le stock se compte en unités : 24 unités = 2 lots de 12.</div>
+      </div>
+
       <div class="form-group">
         <label class="form-lbl">Tailles (appuie Entrée pour ajouter)</label>
         <div class="tags-wrap" id="sizes-wrap" onclick="document.getElementById('sizes-input').focus()">
@@ -502,7 +544,7 @@ async function loadProducts(){
   el.innerHTML='<div class="loading-box"><div class="spinner"></div>Chargement…</div>';
   var {data,error}=await db.from('products').select('*, categories(name), product_images(url,position)').order('created_at',{ascending:false});
   if(error){el.innerHTML='<div class="empty-state"><p>Erreur de chargement</p></div>';return}
-  productsList=data||[];
+  productsList=data||[];window._hasPackCols=productsList.some(function(x){return 'pack_size' in x});
   if(!productsList.length){el.innerHTML='<div class="empty-state"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg><p>Aucun produit. Clique sur Ajouter !</p></div>';return}
   el.innerHTML='';
   var list=document.createElement('div');list.className='data-list';
@@ -512,7 +554,7 @@ async function loadProducts(){
     var badgeHtml=p.badge?'<span class="badge-pill badge-'+p.badge+'">'+(p.badge==='new'?'NOUVEAU':p.badge==='promo'?'PROMO':'⭐')+'</span>':'';
     var item=document.createElement('div');item.className='data-item';
     item.innerHTML='<div class="data-item-img">'+(imgUrl?'<img src="'+imgUrl+'" alt="">':'<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14"/></svg>')+'</div>'
-      +'<div class="data-item-body"><div class="data-item-name">'+p.name+'</div><div class="data-item-sub">'+(p.categories?p.categories.name:'Sans catégorie')+' · Stock: '+(p.stock||0)+'</div>'+badgeHtml+'</div>'
+      +'<div class="data-item-body"><div class="data-item-name">'+p.name+'</div><div class="data-item-sub">'+(p.categories?p.categories.name:'Sans catégorie')+' · Stock: '+(p.stock||0)+packSummary(p)+'</div>'+badgeHtml+'</div>'
       +'<span class="data-item-price">'+formatPrice(p.price)+'</span>'
       +'<div class="data-item-actions"><button class="btn-edit" onclick="editProduct(\''+p.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button></div>';
     list.appendChild(item);
@@ -591,12 +633,50 @@ async function loadCatSelect(){
   sel.innerHTML='<option value="">Aucune catégorie</option>';
   (data||[]).forEach(function(c){sel.innerHTML+='<option value="'+c.id+'">'+c.name+'</option>';});
 }
+
+/* ---- vente par lot ---- */
+function packLabelAdm(n,st){n=+n;
+  if(st==='x')return'x'+n;
+  if(st==='auto'){var m={2:'Duo',3:'Trio',4:'Quatuor',6:'Demi-douzaine',12:'Douzaine',24:'Deux douzaines'};return m[n]||('Lot de '+n)}
+  if(st==='lot')return'Lot de '+n;if(st==='carton')return'Carton de '+n;if(st==='boite')return'Boîte de '+n;
+  return'Pack de '+n}
+function togglePackUI(){var on=document.getElementById('prod-pack-on').checked;document.getElementById('pack-box').style.display=on?'block':'none';updPackPreview()}
+function updPackPreview(){var el=document.getElementById('pack-preview');if(!el)return;
+  if(!document.getElementById('prod-pack-on').checked){el.textContent='';return}
+  var n=parseInt(document.getElementById('prod-pack-size').value,10);if(!(n>=2)){el.textContent='Indique la quantité par lot (2 minimum).';return}
+  var st=document.getElementById('prod-pack-style').value,u=Number(document.getElementById('prod-price').value)||0,pp=Number(document.getElementById('prod-pack-price').value)||0;
+  var lot=pp||(u*n),unit=lot?Math.round(lot/n):0,only=document.getElementById('prod-pack-mode').value==='only';
+  var txt='Aperçu panier : « '+packLabelAdm(n,st)+' »';
+  if(lot)txt+=' · '+Number(lot).toLocaleString('fr')+' HTG le lot ('+Number(unit).toLocaleString('fr')+' HTG / unité)';
+  if(!only&&u&&pp&&u*n>pp)txt+=' · économie de '+Number(u*n-pp).toLocaleString('fr')+' HTG';
+  txt+=only?' · vendu uniquement par lot':' · au choix du client';
+  el.textContent=txt}
+function setPackForm(p){var on=!!(p&&parseInt(p.pack_size,10)>=2);
+  document.getElementById('prod-pack-on').checked=on;
+  document.getElementById('prod-pack-size').value=on?p.pack_size:'';
+  document.getElementById('prod-pack-style').value=(on&&p.pack_style)||'pack';
+  document.getElementById('prod-pack-price').value=(on&&p.pack_price)?p.pack_price:'';
+  document.getElementById('prod-pack-mode').value=(on&&p.pack_only)?'only':'opt';
+  togglePackUI()}
+function readPackForm(price){
+  var on=document.getElementById('prod-pack-on').checked;
+  var hadCols=!!window._hasPackCols;
+  if(!on)return{ok:true,price:price,f:hadCols?{pack_size:null,pack_style:null,pack_price:null,pack_only:false}:{}};
+  var n=parseInt(document.getElementById('prod-pack-size').value,10);
+  if(!(n>=2))return{ok:false,price:price,msg:'Quantité par lot : 2 minimum'};
+  var pp=document.getElementById('prod-pack-price').value;pp=pp?Number(pp):null;
+  var only=document.getElementById('prod-pack-mode').value==='only';
+  if(!price&&pp)price=String(Math.round(pp/n));
+  if(!price)return{ok:false,price:price,msg:'Indique le prix à l\'unité ou le prix du lot'};
+  return{ok:true,price:price,f:{pack_size:n,pack_style:document.getElementById('prod-pack-style').value||'pack',pack_price:pp,pack_only:only}}}
+function packSummary(p){var n=parseInt(p.pack_size,10);if(!(n>=2))return'';var lab=packLabelAdm(n,p.pack_style||'pack'),lot=Number(p.pack_price)||(Number(p.price)||0)*n;
+  return' · <span style="color:#e8192c;font-weight:700">'+lab+(lot?' : '+Number(lot).toLocaleString('fr')+' HTG':'')+(p.pack_only?' (lot seul)':'')+'</span>'}
 function resetProductForm(){
   document.getElementById('prod-id').value='';document.getElementById('prod-name').value='';document.getElementById('prod-desc').value='';
   document.getElementById('prod-price').value='';document.getElementById('prod-old-price').value='';document.getElementById('prod-stock').value='';
   document.getElementById('prod-badge').value='';document.getElementById('prod-active').checked=true;
   document.getElementById('prod-img-previews').innerHTML='';
-  selectedImages=[];existingImages=[];sizesData=[];colorsData=[];renderTags('sizes');renderColorDots();
+  selectedImages=[];existingImages=[];sizesData=[];colorsData=[];renderTags('sizes');renderColorDots();setPackForm(null);
 }
 async function editProduct(id){
   var p=productsList.find(function(x){return x.id===id});if(!p)return;
@@ -607,7 +687,7 @@ async function editProduct(id){
   document.getElementById('prod-old-price').value=p.old_price||'';document.getElementById('prod-stock').value=p.stock||'';
   document.getElementById('prod-badge').value=p.badge||'';document.getElementById('prod-active').checked=p.active!==false;
   document.getElementById('prod-category').value=p.category_id||'';
-  sizesData=p.sizes||[];colorsData=p.colors||[];renderTags('sizes');renderColorDots();
+  sizesData=p.sizes||[];colorsData=p.colors||[];renderTags('sizes');renderColorDots();setPackForm(p);
   var imgs=(p.product_images||[]).sort(function(a,b){return a.position-b.position});
   existingImages=imgs.map(function(i){return{url:i.url}});
   imgs.forEach(function(img,i){addImgPreview(img.url,i,'existing')});
@@ -616,13 +696,15 @@ async function editProduct(id){
 async function saveProduct(){
   var btn=document.getElementById('prod-submit');
   var name=document.getElementById('prod-name').value.trim();var price=document.getElementById('prod-price').value;
-  if(!name||!price){showToast('Nom et prix requis !',true);return}
+  var _pf=readPackForm(price);if(_pf.ok)price=_pf.price;
+  if(!name||!price){showToast((_pf.ok||!document.getElementById('prod-pack-on').checked)?'Nom et prix requis !':_pf.msg,true);return}
+  if(!_pf.ok){showToast(_pf.msg,true);return}
   btn.classList.add('loading');btn.innerHTML='<div class="spinner" style="width:16px;height:16px;border-width:2px;border-color:rgba(255,255,255,.3);border-top-color:#fff"></div>Enregistrement…';
-  var payload={name,description:document.getElementById('prod-desc').value||null,price:Number(price),old_price:document.getElementById('prod-old-price').value?Number(document.getElementById('prod-old-price').value):null,stock:Number(document.getElementById('prod-stock').value)||0,badge:document.getElementById('prod-badge').value||null,active:document.getElementById('prod-active').checked,category_id:document.getElementById('prod-category').value||null,sizes:sizesData.length?sizesData:null,colors:colorsData.length?colorsData:null};
+  var payload={name,description:document.getElementById('prod-desc').value||null,price:Number(price),old_price:document.getElementById('prod-old-price').value?Number(document.getElementById('prod-old-price').value):null,stock:Number(document.getElementById('prod-stock').value)||0,badge:document.getElementById('prod-badge').value||null,active:document.getElementById('prod-active').checked,category_id:document.getElementById('prod-category').value||null,sizes:sizesData.length?sizesData:null,colors:colorsData.length?colorsData:null};Object.assign(payload,_pf.f);
   var existingId=document.getElementById('prod-id').value;var productId=existingId;var error;
   if(existingId){var res=await db.from('products').update(payload).eq('id',existingId);error=res.error;}
   else{var res=await db.from('products').insert([payload]).select();error=res.error;if(!error&&res.data)productId=res.data[0].id;}
-  if(error){showToast('Erreur: '+error.message,true);btn.classList.remove('loading');btn.innerHTML='<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Enregistrer le produit';return}
+  if(error){showToast('Erreur: '+error.message+(/pack_/.test(error.message||'')?' — exécute d\'abord le SQL de la vente par lot (voir LISEZ-MOI)':''),true);btn.classList.remove('loading');btn.innerHTML='<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Enregistrer le produit';return}
   if(selectedImages.filter(Boolean).length&&productId){
     var urls=await uploadImages(productId);
     var allUrls=[...existingImages.filter(Boolean).map(function(i){return i.url}),...urls.filter(function(u){return!existingImages.find(function(e){return e&&e.url===u})})];
