@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<script>try{var t=localStorage.getItem('wyk-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}if(/\.html$/.test(location.pathname)){history.replaceState(null,'',location.pathname.replace(/index\.html$/,'').replace(/\.html$/,'')+location.search+location.hash)}</script>
+<title>Finaliser la commande — WYK</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#e8192c">
+<link rel="icon" type="image/png" href="https://wykht.com/assets/brand/wyk-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f5f2;--surface:#fff;--s2:#efeeea;--ink:#101010;--t2:#4a4a44;--mut:rgba(16,16,16,.56);--line:rgba(16,16,16,.1);
+  --red:#e8192c;--red-d:#bf0f20;--red-s:rgba(232,25,44,.09);--ok:#16a34a;--ok-s:rgba(22,163,74,.1);--warn:#d97706;--warn-s:rgba(217,119,6,.1);
+  --glass:rgba(255,255,255,.78);--sh1:0 1px 2px rgba(0,0,0,.05),0 4px 14px rgba(0,0,0,.05);--sh2:0 18px 50px rgba(0,0,0,.12);
+  --fd:'Bricolage Grotesque','Inter',system-ui,sans-serif;--fb:'Inter',system-ui,-apple-system,sans-serif;--r:18px;
+}
+[data-theme="dark"]{
+  --bg:#0d0d0c;--surface:#171716;--s2:#20201e;--ink:#f3f3ee;--t2:#b9b9b0;--mut:rgba(243,243,238,.58);--line:rgba(255,255,255,.1);
+  --red-s:rgba(232,25,44,.16);--ok-s:rgba(22,163,74,.16);--warn-s:rgba(217,119,6,.16);--glass:rgba(23,23,22,.78);
+  --sh1:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);--sh2:0 18px 50px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--fb);-webkit-font-smoothing:antialiased;padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+a{color:inherit}
+svg.i{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-.2em}
+svg.i.f{fill:currentColor;stroke:none}
+
+/* ── barre du haut ── */
+.top{position:sticky;top:0;z-index:30;background:var(--glass);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+.top-in{max-width:1120px;margin:0 auto;height:60px;padding:0 16px;display:flex;align-items:center;gap:12px}
+.ib{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);transition:.2s}
+.ib:hover{border-color:var(--red);color:var(--red)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.logo img{height:34px;width:auto;display:block}
+.logo .lg-d{display:none}[data-theme="dark"] .logo .lg-l{display:none}[data-theme="dark"] .logo .lg-d{display:block}
+.top h1{font:700 15px var(--fd);margin:0;letter-spacing:-.01em;padding-left:12px;border-left:1px solid var(--line);white-space:nowrap}
+.sp{flex:1}
+.secure{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--ok);background:var(--ok-s);padding:6px 10px;border-radius:30px;white-space:nowrap}
+
+/* ── étapes ── */
+.steps{max-width:1120px;margin:0 auto;padding:18px 16px 4px;display:flex;align-items:center;gap:8px}
+.st{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--mut);white-space:nowrap}
+.st b{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;background:var(--s2);border:1px solid var(--line)}
+.st.on{color:var(--ink)}.st.on b{background:var(--red);color:#fff;border-color:var(--red)}
+.st.ok b{background:var(--ok);color:#fff;border-color:var(--ok)}.st.ok{color:var(--ink)}
+.st-l{flex:1;height:1px;background:var(--line);min-width:12px}
+
+/* ── mise en page ── */
+.wrap{max-width:1120px;margin:0 auto;padding:12px 16px 0;display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:22px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--sh1);margin-bottom:16px}
+.card-h{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.card-h .n{width:34px;height:34px;border-radius:11px;background:var(--red-s);color:var(--red);display:grid;place-items:center;flex:none}
+.card-h h2{font:700 18px var(--fd);margin:0;letter-spacing:-.02em}
+.card-h small{display:block;color:var(--mut);font-size:12.5px;font-weight:400;margin-top:1px}
+.card-h .cnt{margin-left:auto;font-size:12px;color:var(--mut);font-weight:600;white-space:nowrap}
+
+/* ── articles ── */
+.items{display:grid;gap:12px}
+.it{display:grid;grid-template-columns:96px 1fr;gap:14px;padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--bg);transition:.2s}
+.it.gone{opacity:.55}
+.it-img{width:96px;height:96px;border-radius:14px;background:#fff;display:grid;place-items:center;overflow:hidden;position:relative;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06),0 6px 16px rgba(0,0,0,.08)}
+.it-img img{width:100%;height:100%;object-fit:contain;padding:6px;display:block}
+.it-img .ph{color:#b4b4ab}.it-img .ph svg{width:34px;height:34px}
+.it-img .pkb{position:absolute;left:6px;bottom:6px;background:var(--red);color:#fff;font:700 10px var(--fb);padding:3px 7px;border-radius:20px;letter-spacing:.02em}
+.it-b{min-width:0;display:flex;flex-direction:column}
+.it-cat{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+.it-n{font:700 16px/1.25 var(--fd);letter-spacing:-.015em;margin:2px 0 7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:30px;background:var(--surface);border:1px solid var(--line);color:var(--t2)}
+.chip i{width:12px;height:12px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+.chip.warn{background:var(--warn-s);border-color:transparent;color:var(--warn)}
+.it-f{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:10px}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:30px;background:var(--surface)}
+.qty button{width:32px;height:32px;display:grid;place-items:center;border-radius:50%}
+.qty button:hover{color:var(--red)}
+.qty span{min-width:24px;text-align:center;font-weight:700;font-size:14px}
+.rm{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--mut)}.rm:hover{color:var(--red);background:var(--red-s)}
+.it-p{margin-left:auto;text-align:right;line-height:1.2}
+.it-p b{font:700 16px var(--fd);white-space:nowrap}.it-p small{display:block;font-size:11px;color:var(--mut);margin-top:2px}
+.empty{text-align:center;padding:36px 12px}.empty .ei{width:64px;height:64px;border-radius:20px;background:var(--red-s);color:var(--red);display:grid;place-items:center;margin:0 auto 12px}.empty .ei svg{width:28px;height:28px}
+.empty b{font:700 18px var(--fd);display:block}.empty p{color:var(--mut);margin:6px 0 16px}
+
+/* ── formulaires ── */
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;background:var(--s2);border-radius:14px;margin-bottom:16px}
+.seg button{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border-radius:10px;font-weight:600;font-size:14px;color:var(--mut);transition:.2s}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--sh1)}
+.seg button.on svg{color:var(--red)}
+.fg{margin-bottom:14px}
+.fg>label,.lbl{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;font-weight:600;color:var(--t2);margin-bottom:6px}
+.fg>label em{font-style:normal;font-weight:500;color:var(--mut);font-size:11.5px}
+.fg .req{color:var(--red)}
+.inp{display:flex;align-items:center;gap:10px;background:var(--bg);border:1.5px solid var(--line);border-radius:13px;padding:0 14px;transition:.18s}
+.inp:focus-within{border-color:var(--red);box-shadow:0 0 0 3px var(--red-s);background:var(--surface)}
+.inp.bad{border-color:#ef4444;box-shadow:0 0 0 3px rgba(239,68,68,.12)}
+.inp svg{color:var(--mut)}.inp:focus-within svg{color:var(--red)}
+.inp input,.inp textarea,.inp select{flex:1;min-width:0;background:none;border:0;outline:0;padding:13px 0;font-size:15px}
+.inp textarea{resize:vertical;min-height:84px;padding:12px 0;line-height:1.45}
+.inp select{appearance:none;-webkit-appearance:none;cursor:pointer}
+.inp .pre{font-weight:600;color:var(--t2);padding-right:10px;border-right:1px solid var(--line);font-size:14px}
+.inp.ta{align-items:flex-start}.inp.ta svg{margin-top:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hint{font-size:12px;color:var(--mut);margin-top:6px;display:flex;gap:6px;align-items:flex-start}
+.zones{display:grid;gap:8px}
+.zn{display:flex;align-items:center;gap:12px;text-align:left;padding:13px 14px;border:1.5px solid var(--line);border-radius:14px;background:var(--bg);transition:.18s;width:100%}
+.zn:hover{border-color:var(--red)}
+.zn .rd{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;transition:.18s}
+.zn.on{border-color:var(--red);background:var(--red-s)}
+.zn.on .rd{border-color:var(--red);background:var(--red)}.zn.on .rd::after{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
+.zn b{font-weight:600;font-size:14.5px;display:block}.zn small{color:var(--mut);font-size:12px}
+.zn .fee{margin-left:auto;font:700 14px var(--fd);white-space:nowrap}
+.geo{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.btn-o{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:30px;border:1.5px solid var(--line);font-weight:600;font-size:13px;background:var(--surface);transition:.2s}
+.btn-o:hover{border-color:var(--red);color:var(--red)}
+.geo-ok{display:none;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--ok);background:var(--ok-s);padding:8px 12px;border-radius:30px}
+.geo-ok.on{display:inline-flex}.geo-ok button{color:inherit;opacity:.7;display:grid}
+.pickup{display:flex;gap:12px;padding:14px;border-radius:14px;background:var(--bg);border:1px dashed var(--line);font-size:14px;margin-bottom:14px}
+.pickup svg{color:var(--red);margin-top:2px}
+
+/* ── paiement ── */
+.pm{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.pmb{position:relative;text-align:left;padding:14px;border:1.5px solid var(--line);border-radius:16px;background:var(--bg);transition:.2s;display:flex;flex-direction:column;gap:8px;min-height:94px}
+.pmb:hover:not(:disabled){border-color:var(--ac,var(--red))}
+.pmb .lg{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;color:#fff;background:var(--ac,var(--red));font:800 12px var(--fd)}
+.pmb b{font:700 15px var(--fd);display:block;line-height:1.1}.pmb small{color:var(--mut);font-size:12px}
+.pmb .tick{position:absolute;right:10px;top:10px;width:20px;height:20px;border-radius:50%;background:var(--ac,var(--red));color:#fff;display:none;place-items:center}
+.pmb.on{border-color:var(--ac,var(--red));background:color-mix(in srgb,var(--ac,var(--red)) 8%,var(--surface))}
+.pmb.on .tick{display:grid}
+.pmb:disabled{opacity:.5;cursor:not-allowed}
+.pay-box{display:none;margin-top:16px;animation:up .3s ease}.pay-box.on{display:block}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.how{border-radius:16px;border:1px solid var(--line);border-left:4px solid var(--ac,var(--red));background:var(--bg);padding:16px}
+.how h4{margin:0 0 10px;font:700 11.5px var(--fb);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.how ol{margin:0;padding-left:20px;font-size:14px}.how li{margin:6px 0}
+.acct{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.acct small{display:block;font-size:11.5px;color:var(--mut)}
+.acct .nm{font:700 16px var(--fd);color:var(--ac,var(--red))}
+.acct .no{font:700 22px var(--fd);letter-spacing:.03em;white-space:nowrap}
+.cp{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:30px;border:1.5px solid var(--line);font-weight:600;font-size:12.5px;white-space:nowrap;background:var(--surface)}
+.cp.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.amt{display:inline-block;font:700 15px var(--fd);padding:2px 10px;border-radius:30px;background:var(--red-s);color:var(--red)}
+.proof{margin-top:16px;border:1.5px solid var(--line);border-radius:16px;padding:18px}
+.proof h3{margin:0 0 4px;font:700 15px var(--fd);display:flex;align-items:center;gap:8px}
+.proof h3 svg{color:var(--red)}
+.proof>p{margin:0 0 14px;color:var(--mut);font-size:13px}
+.lock{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:16px;background:var(--warn-s);margin-top:16px}
+.lock svg{color:var(--warn);width:22px;height:22px;margin-top:2px}
+.lock b{display:block;margin-bottom:2px}.lock p{margin:0 0 10px;font-size:13.5px;color:var(--t2)}
+.file{display:flex;align-items:center;gap:12px;border:2px dashed var(--line);border-radius:14px;padding:16px;cursor:pointer;color:var(--mut);transition:.2s}
+.file:hover{border-color:var(--red);color:var(--red)}
+.file svg{width:24px;height:24px}.file b{display:block;color:var(--ink);font-size:14px}.file small{font-size:12px}
+.pv{display:none;align-items:center;gap:12px;margin-top:10px;padding:10px;border:1px solid var(--ok);border-radius:14px;background:var(--ok-s)}
+.pv.on{display:flex;animation:up .3s}
+.pv img{width:60px;height:60px;border-radius:10px;object-fit:cover;cursor:zoom-in}
+.pv .pdf{width:60px;height:60px;border-radius:10px;background:var(--line);display:grid;place-items:center}
+.pv b{color:var(--ok);font-size:13px;display:block}.pv small{color:var(--mut);display:block;word-break:break-all}
+.pv .x{margin-left:auto;color:var(--mut);display:grid;width:30px;height:30px;place-items:center;border-radius:50%}.pv .x:hover{background:var(--line)}
+
+/* ── récapitulatif ── */
+.sum{position:sticky;top:78px}
+.sum .card{margin:0}
+.sl{display:flex;justify-content:space-between;gap:10px;padding:6px 0;font-size:14px;color:var(--t2)}.sl b{color:var(--ink);font-weight:600}
+.sl.tot{border-top:1px dashed var(--line);margin-top:8px;padding-top:14px;font-size:15px;color:var(--ink)}
+.sl.tot b{font:800 24px var(--fd);letter-spacing:-.02em;color:var(--ink)}
+.sum-mini{display:flex;margin:0 0 14px}.sum-mini span{width:42px;height:42px;border-radius:11px;background:#fff;border:2px solid var(--surface);margin-left:-10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.14);display:grid;place-items:center}
+.sum-mini span:first-child{margin-left:0}.sum-mini img{width:100%;height:100%;object-fit:contain}.sum-mini .more{background:var(--red);color:#fff;font:700 12px var(--fb)}
+.btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:15px;border-radius:15px;font:700 15px var(--fb);background:var(--red);color:#fff;transition:.2s;text-decoration:none;box-shadow:0 8px 22px rgba(232,25,44,.28)}
+.btn:hover{background:var(--red-d);transform:translateY(-1px)}
+.btn:disabled{opacity:.55;pointer-events:none}
+.btn.wa{background:#25d366;color:#04230f;box-shadow:0 8px 22px rgba(37,211,102,.28)}.btn.wa:hover{background:#1fbd5b}
+.btn.ghost{background:var(--surface);color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+.sum .btn+.btn{margin-top:10px}
+.trust{display:grid;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.trust div{display:flex;gap:10px;align-items:center;font-size:12.5px;color:var(--mut)}.trust svg{color:var(--ok)}
+.err{display:none;margin:12px 0 0;padding:12px 14px;border-radius:12px;background:rgba(239,68,68,.1);color:#dc2626;font-size:13.5px;font-weight:500}
+.err.on{display:block;animation:up .25s}
+.sum-toggle{display:none}
+
+/* ── barre basse mobile ── */
+.mbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));align-items:center;gap:14px}
+.mbar .t small{display:block;font-size:11px;color:var(--mut)}.mbar .t b{font:800 20px var(--fd);letter-spacing:-.02em}
+.mbar .btn{width:auto;flex:1;padding:14px;box-shadow:none}
+
+/* ── succès ── */
+.done{display:none;max-width:560px;margin:24px auto;padding:0 16px}.done.on{display:block;animation:up .4s}
+.done .card{text-align:center;padding:32px 22px}
+.chk{width:76px;height:76px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;margin:0 auto 16px;animation:pop .5s}
+.chk svg{width:38px;height:38px;stroke-width:2.6}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.done h2{font:800 24px var(--fd);margin:0 0 6px;letter-spacing:-.02em}
+.ref{display:inline-block;margin:10px 0 4px;padding:8px 16px;border-radius:30px;background:var(--s2);font:700 15px var(--fd);letter-spacing:.06em}
+.tl{text-align:left;margin:22px 0;display:grid;gap:0}
+.tl div{display:flex;gap:14px;position:relative;padding-bottom:18px}
+.tl div:last-child{padding-bottom:0}
+.tl div::before{content:"";position:absolute;left:13px;top:28px;bottom:0;width:2px;background:var(--line)}.tl div:last-child::before{display:none}
+.tl i{width:28px;height:28px;border-radius:50%;background:var(--s2);display:grid;place-items:center;flex:none;font-style:normal;font-size:12px;font-weight:700;color:var(--mut);z-index:1}
+.tl div.on i{background:var(--ok);color:#fff}
+.tl b{display:block;font-size:14px}.tl small{color:var(--mut);font-size:12.5px}
+#zoom{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;place-items:center;z-index:99}#zoom.on{display:grid}#zoom img{max-width:94vw;max-height:90vh;border-radius:12px}
+.toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:30px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:.3s;z-index:90;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.skel{height:96px;border-radius:16px;background:linear-gradient(90deg,var(--s2),var(--bg),var(--s2));background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+
+@media(max-width:900px){
+  .wrap{grid-template-columns:1fr}
+  .sum{position:static}
+  .sum .btn,.sum .trust{display:none}
+  .mbar{display:flex}
+  .top h1{display:none}
+  .st span{display:none}.st.on span{display:inline}
+}
+@media(max-width:520px){
+  .it-f{flex-wrap:wrap}.it-p{flex-basis:100%;margin-left:0;display:flex;justify-content:space-between;align-items:baseline;text-align:left;padding-top:2px}.it-p small{margin:0}
+  .acct .no{font-size:19px}.pmb{min-height:84px;padding:12px}
+  .row2{grid-template-columns:1fr}
+  .it{grid-template-columns:78px 1fr;gap:12px}.it-img{width:78px;height:78px}
+  .card{padding:16px;border-radius:16px}
+  .secure span{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6l8-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></symbol>
+<symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7.5" cy="18" r="2"/><circle cx="17.5" cy="18" r="2"/></symbol>
+<symbol id="i-store" viewBox="0 0 24 24"><path d="M4 9l1.5-5h13L20 9M4 9v11h16V9M4 9h16M9 20v-6h6v6"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></symbol>
+<symbol id="i-note" viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5z"/><path d="M14 3v5h5M8 13h8M8 17h5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
+<symbol id="i-wallet" viewBox="0 0 24 24"><path d="M3 7a2 2 0 012-2h13v4"/><path d="M3 7v11a2 2 0 002 2h15V9H5a2 2 0 01-2-2z"/><circle cx="16.5" cy="14.5" r="1.2"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></symbol>
+<symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5z"/><path d="M3 8v8l9 5 9-5V8M12 13v8"/></symbol>
+<symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.8h-.01a9.9 9.9 0 01-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 01-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 016.99 2.9 9.82 9.82 0 012.9 6.99c0 5.46-4.44 9.9-9.9 9.9zm8.42-18.3A11.8 11.8 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.4z"/></symbol>
+</defs></svg>
+
+<header class="top"><div class="top-in">
+  <button class="ib" id="back" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button>
+  <a class="logo" href="/" aria-label="WYK — accueil">
+    <img class="lg-l" src="/assets/brand/wyk-logo-transparent.png" alt="WYK" onerror="this.style.display='none'">
+    <img class="lg-d" src="/assets/brand/wyk-logo-dark-transparent.png" alt="WYK" onerror="this.style.display='none'">
+  </a>
+  <h1>Finaliser la commande</h1>
+  <span class="sp"></span>
+  <span class="secure"><svg class="i"><use href="#i-lock"/></svg><span>Paiement sécurisé</span></span>
+  <button class="ib" id="theme" aria-label="Changer de thème"><svg class="i"><use href="#i-moon"/></svg></button>
+</div></header>
+
+<div id="main">
+  <div class="steps" aria-label="Progression">
+    <div class="st ok" id="s1"><b>1</b><span>Articles</span></div><div class="st-l"></div>
+    <div class="st on" id="s2"><b>2</b><span>Livraison</span></div><div class="st-l"></div>
+    <div class="st" id="s3"><b>3</b><span>Paiement</span></div>
+  </div>
+
+  <div class="wrap">
+    <div class="col">
+      <!-- 1. ARTICLES -->
+      <section class="card" id="c-items">
+        <div class="card-h"><span class="n"><svg class="i"><use href="#i-bag"/></svg></span><div><h2>Votre panier</h2><small>Vérifiez les articles, tailles et quantités</small></div><span class="cnt" id="cnt"></span></div>
+        <div class="items" id="items"><div class="skel"></div><div class="skel"></div></div>
+      </section>
+
+      <!-- 2. LIVRAISON -->
+      <section class="card" id="c-deliv">
+        <div class="card-h"><span class="n"><svg class="i"><use href="#i-truck"/></svg></span><div><h2>Livraison ou retrait</h2><small>Plus l'adresse est précise, plus la livraison est rapide</small></div></div>
+        <div class="seg" id="mode">
+          <button type="button" data-m="livraison" class="on"><svg class="i"><use href="#i-truck"/></svg>Livraison</button>
+          <button type="button" data-m="retrait"><svg class="i"><use href="#i-store"/></svg>Retrait</button>
+        </div>
+
+        <div id="b-liv">
+          <div class="fg"><label>Zone de livraison <span class="req">*</span></label><div class="zones" id="zones"><div class="skel" style="height:56px"></div></div></div>
+          <div class="fg"><label>Adresse (quartier, rue, numéro) <span class="req">*</span></label>
+            <div class="inp"><svg class="i"><use href="#i-pin"/></svg><input id="addr" placeholder="Ex : Carrefour, rue Chavannes #12" autocomplete="street-address"></div></div>
+          <div class="fg"><label>Point de repère <em>très utile pour le livreur</em></label>
+            <div class="inp"><svg class="i"><use href="#i-target"/></svg><input id="landmark" placeholder="Ex : près de l'église, en face de la pharmacie, portail bleu"></div></div>
+          <div class="fg geo">
+            <button type="button" class="btn-o" id="geo"><svg class="i"><use href="#i-target"/></svg>Partager ma position</button>
+            <span class="geo-ok" id="geo-ok"><svg class="i"><use href="#i-check"/></svg><span id="geo-t">Position ajoutée</span><button type="button" id="geo-x" aria-label="Retirer la position"><svg class="i"><use href="#i-x"/></svg></button></span>
+          </div>
+        </div>
+
+        <div id="b-ret" style="display:none">
+          <div class="pickup"><svg class="i"><use href="#i-store"/></svg><div><b>Retrait gratuit</b><div id="pick-addr" style="color:var(--mut)">Nous vous confirmons l'adresse de retrait sur WhatsApp.</div></div></div>
+        </div>
+
+        <div class="row2">
+          <div class="fg"><label id="l-name">Nom de la personne qui réceptionne <span class="req">*</span></label>
+            <div class="inp"><svg class="i"><use href="#i-user"/></svg><input id="name" placeholder="Prénom et nom" autocomplete="name"></div></div>
+          <div class="fg"><label>Téléphone <span class="req">*</span></label>
+            <div class="inp"><span class="pre">+509</span><input id="phone" inputmode="tel" placeholder="XXXX XXXX" autocomplete="tel-national"></div></div>
+        </div>
+        <div class="fg" id="g-slot"><label>Créneau souhaité</label>
+          <div class="inp"><svg class="i"><use href="#i-clock"/></svg>
+            <select id="slot"><option value="">Dès que possible</option><option>Matin (8 h – 12 h)</option><option>Après-midi (12 h – 17 h)</option><option>Soir (17 h – 20 h)</option></select></div></div>
+        <div class="fg" style="margin-bottom:0"><label>Note pour la commande <em>facultatif</em></label>
+          <div class="inp ta"><svg class="i"><use href="#i-note"/></svg><textarea id="note" placeholder="Instructions particulières, étage, appeler avant d'arriver, emballage cadeau…"></textarea></div></div>
+      </section>
+
+      <!-- 3. PAIEMENT -->
+      <section class="card" id="c-pay">
+        <div class="card-h"><span class="n"><svg class="i"><use href="#i-wallet"/></svg></span><div><h2>Paiement</h2><small>Choisissez comment régler votre commande</small></div></div>
+        <div class="pm" id="pm"><div class="skel" style="height:94px"></div><div class="skel" style="height:94px"></div></div>
+
+        <div class="pay-box" id="paybox">
+          <div class="how" id="how"></div>
+
+          <div class="lock" id="lock" style="display:none">
+            <svg class="i"><use href="#i-lock"/></svg>
+            <div><b>Connectez-vous pour envoyer votre preuve</b><p>Le suivi de paiement et de livraison se fait dans votre compte. Vous pouvez aussi commander directement sur WhatsApp, sans compte : tout le contenu du panier sera transmis.</p>
+              <a class="btn" style="width:auto;display:inline-flex;padding:11px 18px;font-size:14px" id="login-link" href="/compte?next=commande">Se connecter / créer un compte</a></div>
+          </div>
+
+          <div class="proof" id="proof" style="display:none">
+            <h3><svg class="i"><use href="#i-shield"/></svg><span id="ptitle">Preuve de paiement</span></h3>
+            <p id="pnotice">Votre paiement sera vérifié manuellement.</p>
+            <div id="pfields"></div>
+            <div class="fg"><label>Capture d'écran du paiement <span class="req" id="pf-req">*</span></label>
+              <label class="file" for="ps" id="pfl"><svg class="i"><use href="#i-upload"/></svg><div><b>Choisir une capture</b><small>JPG, PNG ou PDF · 8 Mo max</small></div></label>
+              <input id="ps" type="file" accept="image/*,.pdf" hidden>
+              <div class="pv" id="pv"></div></div>
+          </div>
+        </div>
+        <div class="err" id="err" role="alert"></div>
+      </section>
+    </div>
+
+    <!-- RÉCAP -->
+    <aside class="sum" id="sum">
+      <div class="card">
+        <div class="card-h" style="margin-bottom:12px"><div><h2>Récapitulatif</h2></div></div>
+        <div class="sum-mini" id="mini"></div>
+        <div class="sl"><span id="sl-n">Sous-total</span><b id="sub">—</b></div>
+        <div class="sl"><span id="sl-d">Livraison</span><b id="fee">—</b></div>
+        <div class="sl tot"><span>Total à payer</span><b id="total">0 HTG</b></div>
+        <button class="btn" id="go" style="margin-top:16px"><svg class="i" id="go-i"><use href="#i-wa"/></svg><span id="go-t">Commander sur WhatsApp</span></button>
+        <button class="btn wa" id="go-wa" style="display:none"><svg class="i"><use href="#i-wa"/></svg>Plutôt sur WhatsApp</button>
+        <div class="trust">
+          <div><svg class="i"><use href="#i-shield"/></svg>Paiement vérifié manuellement par notre équipe</div>
+          <div><svg class="i"><use href="#i-truck"/></svg>Suivi de livraison dans votre compte</div>
+          <div><svg class="i"><use href="#i-wa"/></svg>Support WhatsApp avant et après l'achat</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="mbar" id="mbar">
+  <div class="t"><small>Total</small><b id="m-total">0 HTG</b></div>
+  <button class="btn" id="m-go"><svg class="i"><use href="#i-wa"/></svg><span id="m-go-t">Commander</span></button>
+</div>
+
+<section class="done" id="done">
+  <div class="card">
+    <div class="chk"><svg class="i"><use href="#i-check"/></svg></div>
+    <h2 id="d-h">Commande envoyée</h2>
+    <p style="color:var(--mut);margin:0" id="d-p">Merci ! Nous revenons vers vous très vite.</p>
+    <div class="ref" id="d-ref"></div>
+    <div class="tl" id="d-tl"></div>
+    <a class="btn" id="d-acc" href="/compte#commandes" style="display:none">Suivre ma commande</a>
+    <a class="btn wa" id="d-wa" target="_blank" rel="noopener" style="margin-top:10px"><svg class="i"><use href="#i-wa"/></svg>Écrire sur WhatsApp</a>
+    <a class="btn ghost" href="/" style="margin-top:10px">Continuer mes achats</a>
+  </div>
+</section>
+
+<div id="zoom"><img id="zi" alt="Aperçu"></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+'use strict';
+var SUPA_URL='https://byrklytqoucdskzvcoau.supabase.co',SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5cmtseXRxb3VjZHNrenZjb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTQ0ODcsImV4cCI6MjA5NDI3MDQ4N30.nH7LKYevuBd9jGmFmv7KMNoJu3X_rDaY1BHXZR1v3wM',WA='50940300966';
+var db=null;try{db=supabase.createClient(SUPA_URL,SUPA_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}})}catch(e){}
+var $=function(id){return document.getElementById(id)},esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+var fmt=function(n){return Number(n||0).toLocaleString('fr')+' HTG'};
+var clean=function(t){return String(t==null?'':t).replace(/[\u{1F000}-\u{1FAFF}\u{2190}-\u{21FF}\u{2300}-\u{23FF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/gu,'').replace(/[ \t]{2,}/g,' ').trim()};
+var ic=function(n,c){return '<svg class="i '+(c||'')+'"><use href="#i-'+n+'"/></svg>'};
+
+/* ── état ── */
+var S={cart:[],lines:[],zones:[],cfg:{payment:{},checkout:{}},user:null,mode:'livraison',zoneId:'',method:'',file:null,geo:'',busy:false,done:false};
+var FORM_KEY='wyk_checkout_form';
+
+function rd(k){try{var v=JSON.parse(localStorage.getItem(k)||'[]');return Array.isArray(v)?v:[]}catch(e){return[]}}
+function wr(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(function(){t.classList.remove('on')},2400)}
+
+/* ── noms de couleurs (hex → nom français approximatif) ── */
+var CN=[['Noir','#111111'],['Blanc','#ffffff'],['Gris','#808080'],['Gris clair','#c8c8c8'],['Rouge','#e8192c'],['Rouge foncé','#8b0000'],['Rose','#ff7eb6'],['Rose vif','#e91e8c'],['Orange','#ff8c1a'],['Jaune','#f5c842'],['Beige','#d9c7a3'],['Marron','#7b4a24'],['Vert','#22a559'],['Vert foncé','#14532d'],['Vert clair','#8fd694'],['Turquoise','#14b8a6'],['Bleu ciel','#7ec8f4'],['Bleu','#2563eb'],['Bleu marine','#16255c'],['Violet','#7c3aed'],['Mauve','#c4a1ff'],['Doré','#c9a227'],['Argenté','#b8bcc4']];
+var NAMED={black:'Noir',white:'Blanc',red:'Rouge',blue:'Bleu',green:'Vert',yellow:'Jaune',orange:'Orange',pink:'Rose',purple:'Violet',gray:'Gris',grey:'Gris',brown:'Marron',gold:'Doré',silver:'Argenté',navy:'Bleu marine',beige:'Beige'};
+function hexRgb(h){h=String(h||'').trim().replace('#','');if(h.length===3)h=h.replace(/./g,'$&$&');if(!/^[0-9a-f]{6}$/i.test(h))return null;var n=parseInt(h,16);return[n>>16,n>>8&255,n&255]}
+function colorName(c){var k=String(c||'').trim().toLowerCase();if(NAMED[k])return NAMED[k];var a=hexRgb(k);if(!a)return clean(c);var b=null,d=1e9;CN.forEach(function(x){var r=hexRgb(x[1]),dd=Math.pow(a[0]-r[0],2)+Math.pow(a[1]-r[1],2)+Math.pow(a[2]-r[2],2);if(dd<d){d=dd;b=x[0]}});return b}
+
+/* ── lignes du panier (enrichies avec le catalogue actuel) ── */
+function packPrice(p){var n=parseInt(p.pack_size,10);if(!(n>=2))return null;var pp=(p.pack_price!=null&&p.pack_price!==''&&Number(p.pack_price)>0)?Number(p.pack_price):(Number(p.price)||0)*n;return{n:n,price:pp}}
+function buildLines(prods){
+  var by={};(prods||[]).forEach(function(p){by[String(p.id)]=p});
+  S.lines=S.cart.map(function(c){
+    var p=by[String(c.id)],gone=!!prods&&(!p||p.active===false),price=Number(c.price)||0,img=c.img||null,cat='';
+    if(p){var imgs=(p.product_images||[]).slice().sort(function(a,b){return a.position-b.position}).map(function(i){return i.url}).filter(Boolean);
+      if(imgs[0])img=imgs[0];cat=p.categories&&p.categories.name?clean(p.categories.name):'';
+      var pk=c.pk?packPrice(p):null;price=pk&&c.pk?pk.price:(p.pack_only&&packPrice(p)?packPrice(p).price:Number(p.price)||price)}
+    return{key:c.key,id:c.id,name:clean(c.name||(p&&p.name)||'Produit'),price:price,qty:Math.max(1,c.qty|0),img:img,size:c.size||null,color:c.color||null,pk:c.pk||null,cat:cat,gone:gone}
+  });
+}
+function avail(){return S.lines.filter(function(l){return!l.gone})}
+function subtotal(){return avail().reduce(function(s,l){return s+l.price*l.qty},0)}
+function zone(){return S.zones.filter(function(z){return String(z.id)===String(S.zoneId)})[0]||null}
+function feeNow(){if(S.mode==='retrait')return 0;var z=zone();return z?Number(z.fee)||0:null}
+function totalNow(){var f=feeNow();return subtotal()+(f||0)}
+
+/* ── rendu : articles ── */
+function renderItems(){
+  var el=$('items'),L=S.lines;
+  $('cnt').textContent=avail().reduce(function(s,l){return s+l.qty},0)+' article'+(avail().reduce(function(s,l){return s+l.qty},0)>1?'s':'');
+  if(!L.length){el.innerHTML='<div class="empty"><div class="ei">'+ic('bag')+'</div><b>Votre panier est vide</b><p>Ajoutez des produits pour passer commande.</p><a class="btn" style="width:auto;display:inline-flex;padding:12px 22px" href="/categories">Découvrir la boutique</a></div>';return}
+  el.innerHTML=L.map(function(l){
+    var chips='';
+    if(l.size)chips+='<span class="chip">Taille <b>'+esc(l.size)+'</b></span>';
+    if(l.color)chips+='<span class="chip"><i style="background:'+esc(l.color)+'"></i>'+esc(colorName(l.color))+'</span>';
+    if(l.pk)chips+='<span class="chip">'+ic('box')+esc(l.pk.label)+' · '+(l.qty*l.pk.n)+' unités</span>';
+    if(l.gone)chips+='<span class="chip warn">Plus disponible</span>';
+    return '<article class="it'+(l.gone?' gone':'')+'" data-k="'+esc(l.key)+'">'+
+      '<div class="it-img">'+(l.img?'<img src="'+esc(l.img)+'" alt="'+esc(l.name)+'" loading="lazy" decoding="async">':'<div class="ph">'+ic('bag')+'</div>')+(l.pk?'<span class="pkb">'+esc(l.pk.label)+'</span>':'')+'</div>'+
+      '<div class="it-b">'+(l.cat?'<div class="it-cat">'+esc(l.cat)+'</div>':'')+'<div class="it-n">'+esc(l.name)+'</div>'+(chips?'<div class="chips">'+chips+'</div>':'')+
+      '<div class="it-f"><div class="qty"><button type="button" data-d="-1" aria-label="Moins">'+ic('minus')+'</button><span>'+l.qty+'</span><button type="button" data-d="1" aria-label="Plus">'+ic('plus')+'</button></div><button type="button" class="rm" data-rm aria-label="Retirer">'+ic('trash')+'</button>'+
+      '<div class="it-p"><b>'+fmt(l.price*l.qty)+'</b><small>'+fmt(l.price)+(l.pk?' / '+esc(String(l.pk.label).toLowerCase()):' / unité')+'</small></div></div></div></article>'}).join('');
+}
+
+/* ── rendu : résumé ── */
+function renderSummary(){
+  var A=avail(),n=A.reduce(function(s,l){return s+l.qty},0),f=feeNow();
+  $('sl-n').textContent='Sous-total · '+n+' article'+(n>1?'s':'');
+  $('sub').textContent=fmt(subtotal());
+  $('sl-d').textContent=S.mode==='retrait'?'Retrait en boutique':'Livraison'+(zone()?' · '+zone().name:'');
+  $('fee').textContent=S.mode==='retrait'?'Gratuit':f==null?'Choisir une zone':(f?fmt(f):'Gratuit');
+  var t=fmt(totalNow());$('total').textContent=t;$('m-total').textContent=t;
+  var mini=A.slice(0,4).map(function(l){return '<span>'+(l.img?'<img src="'+esc(l.img)+'" alt="">':ic('bag'))+'</span>'}).join('')+(A.length>4?'<span class="more">+'+(A.length-4)+'</span>':'');
+  $('mini').innerHTML=mini;
+  var pm=S.method==='moncash'||S.method==='natcash';
+  var login=pm&&!S.user;
+  var txt=!pm?'Commander sur WhatsApp':login?'Se connecter pour envoyer la preuve':'Envoyer ma commande et ma preuve';
+  $('go-t').textContent=txt;$('m-go-t').textContent=login?'Se connecter':pm?'Envoyer':'Commander';
+  $('go-i').firstElementChild.setAttribute('href',pm&&!login?'#i-shield':login?'#i-lock':'#i-wa');
+  $('go-wa').style.display=pm?'':'none';
+  $('s3').className='st'+(S.method?' ok':'');
+  var okD=deliveryOk(true);$('s2').className='st'+(okD?' ok':' on');if(!okD&&!S.method)$('s3').className='st';
+  var disabled=!A.length;$('go').disabled=disabled;$('m-go').disabled=disabled;
+}
+
+/* ── zones ── */
+function renderZones(){
+  var z=S.zones;
+  $('zones').innerHTML=z.length?z.map(function(x){return '<button type="button" class="zn'+(String(x.id)===String(S.zoneId)?' on':'')+'" data-z="'+esc(x.id)+'"><span class="rd"></span><span><b>'+esc(x.name)+'</b><small>'+(x.eta?esc(x.eta):'')+(x.note?(x.eta?' · ':'')+esc(x.note):'')+'</small></span><span class="fee">'+(Number(x.fee)?fmt(x.fee):'Gratuit')+'</span></button>'}).join(''):'<div class="hint">'+ic('info')+'Les zones de livraison seront bientôt disponibles. Indiquez votre quartier dans l\'adresse : nous confirmons les frais sur WhatsApp.</div>';
+}
+
+/* ── paiement ── */
+var PM={moncash:{n:'MonCash',op:'Digicel',c:'#d9232d',l:'MC'},natcash:{n:'NatCash',op:'Natcom',c:'#e8710a',l:'NC'}};
+function payCfg(k){return(S.cfg.payment||{})[k]||{}}
+function proofCfg(){var p=(S.cfg.payment||{}).proof||{};return{name:p.require_name!==false,phone:p.require_phone!==false,ref:p.require_ref!==false,shot:p.require_screenshot!==false,extra:Array.isArray(p.extra)?p.extra:[],notice:p.notice||'Votre paiement sera vérifié manuellement. Vous recevrez une réponse dans Mon compte.'}}
+function digits(s){return String(s||'').replace(/\D/g,'')}
+function renderMethods(){
+  var h='';
+  ['moncash','natcash'].forEach(function(k){var c=payCfg(k);if(c.enabled===false)return;var ok=!!digits(c.number);
+    h+='<button type="button" class="pmb'+(S.method===k?' on':'')+'" data-p="'+k+'"'+(ok?'':' disabled')+' style="--ac:'+PM[k].c+'"><span class="tick">'+ic('check')+'</span><span class="lg">'+PM[k].l+'</span><span><b>'+PM[k].n+'</b><small>'+(ok?PM[k].op+' · avec preuve':'Bientôt disponible')+'</small></span></button>'});
+  if((S.cfg.payment||{}).whatsapp_enabled!==false)h+='<button type="button" class="pmb'+(S.method==='whatsapp'?' on':'')+'" data-p="whatsapp" style="--ac:#25d366"><span class="tick">'+ic('check')+'</span><span class="lg">'+ic('wa')+'</span><span><b>WhatsApp</b><small>Paiement assisté, sans compte</small></span></button>';
+  $('pm').innerHTML=h||'<div class="hint">'+ic('info')+'Aucun mode de paiement disponible pour le moment.</div>';
+}
+function renderHow(){
+  var box=$('paybox');
+  if(!S.method){box.classList.remove('on');return}
+  box.classList.add('on');
+  var how=$('how');
+  if(S.method==='whatsapp'){
+    how.style.setProperty('--ac','#25d366');
+    how.innerHTML='<h4>Paiement assisté sur WhatsApp</h4><ol><li>Appuyez sur <b>Commander sur WhatsApp</b>.</li><li>Votre panier, votre adresse et vos notes sont envoyés automatiquement.</li><li>Un conseiller confirme la commande et vous guide pour payer.</li></ol>';
+    $('lock').style.display='none';$('proof').style.display='none';return}
+  var a=PM[S.method],c=payCfg(S.method),num=c.number||'';
+  how.style.setProperty('--ac',a.c);
+  how.innerHTML='<h4>Instructions '+a.n+'</h4><ol><li>Ouvrez votre application <b>'+a.n+'</b>.</li><li>Envoyez <span class="amt" id="amt">'+fmt(totalNow())+'</span> à :</li></ol>'+
+    '<div class="acct"><div><small>Bénéficiaire</small><span class="nm">'+esc(c.name||'—')+'</span><div class="no">'+(String(num).charAt(0)==='+'?'':'+509 ')+esc(num)+'</div></div><button type="button" class="cp" id="cp">'+ic('copy')+'Copier</button></div>'+
+    '<ol start="3"><li>Notez l\'<b>ID de transaction</b> reçu par SMS.</li><li>Faites une <b>capture d\'écran</b> du reçu.</li><li>Remplissez la fiche ci-dessous pour joindre la preuve à votre commande.</li></ol>';
+  $('cp').onclick=function(){var d=digits(num);if(d.length===8)d='509'+d;try{navigator.clipboard.writeText(d)}catch(e){}var b=$('cp');b.innerHTML=ic('check')+'Copié';b.classList.add('ok');setTimeout(function(){b.innerHTML=ic('copy')+'Copier';b.classList.remove('ok')},1800)};
+  var pc=proofCfg();
+  $('lock').style.display=S.user?'none':'flex';$('proof').style.display=S.user?'block':'none';
+  $('ptitle').textContent='Preuve de paiement '+a.n;$('pnotice').textContent=pc.notice;
+  var f='';
+  function fld(id,label,req,ph,icn,extra){f+='<div class="fg"><label>'+esc(label)+(req?' <span class="req">*</span>':' <em>facultatif</em>')+'</label><div class="inp">'+ic(icn)+'<input id="'+id+'" placeholder="'+esc(ph)+'"'+(extra||'')+'></div></div>'}
+  fld('pn','Nom du payeur',pc.name,'Nom complet sur le compte '+a.n,'user',' autocomplete="name"');
+  fld('pp','Téléphone utilisé pour payer',pc.phone,'+509 XXXX XXXX','phone',' inputmode="tel"');
+  fld('pt','ID / N° de transaction',pc.ref,'Ex : TX123456789','note');
+  pc.extra.forEach(function(x,i){fld('px'+i,x.label||('Champ '+(i+1)),!!x.required,x.placeholder||'','info')});
+  $('pfields').innerHTML=f;$('pf-req').style.display=pc.shot?'':'none';
+  var nm=$('pn'),ph=$('pp');if(nm&&!nm.value)nm.value=$('name').value;if(ph&&!ph.value)ph.value=digits($('phone').value).length>=8?fullPhone():'';
+  var amt=$('amt');if(amt)amt.textContent=fmt(totalNow());
+}
+
+/* ── formulaire : sauvegarde locale + validation ── */
+var FIELDS=['addr','landmark','name','phone','slot','note'];
+function saveForm(){var o={mode:S.mode,zone:S.zoneId,method:S.method,geo:S.geo};FIELDS.forEach(function(k){o[k]=$(k).value});try{localStorage.setItem(FORM_KEY,JSON.stringify(o))}catch(e){}}
+function loadForm(){try{var o=JSON.parse(localStorage.getItem(FORM_KEY)||'{}');FIELDS.forEach(function(k){if(o[k]!=null)$(k).value=o[k]});if(o.mode)S.mode=o.mode;if(o.zone)S.zoneId=o.zone;if(o.geo)S.geo=o.geo;if(o.method)S.method=o.method}catch(e){}}
+function setMode(m){S.mode=m;[].forEach.call($('mode').children,function(b){b.classList.toggle('on',b.getAttribute('data-m')===m)});
+  $('b-liv').style.display=m==='livraison'?'':'none';$('b-ret').style.display=m==='retrait'?'':'none';
+  $('l-name').innerHTML=(m==='retrait'?'Nom pour le retrait':'Nom de la personne qui réceptionne')+' <span class="req">*</span>';
+  $('g-slot').style.display=m==='livraison'?'':'none'}
+function mark(id,bad){var e=$(id);if(e&&e.parentNode)e.parentNode.classList.toggle('bad',!!bad)}
+function bad(m,id){var e=$('err');e.textContent=m;e.classList.add('on');if(id){mark(id,true);var t=$(id);if(t){t.scrollIntoView({block:'center',behavior:'smooth'});try{t.focus({preventScroll:true})}catch(x){}}}else e.scrollIntoView({block:'center',behavior:'smooth'});return false}
+function clearErr(){$('err').classList.remove('on');['addr','name','phone','pn','pp','pt'].forEach(function(i){mark(i,false)})}
+function deliveryOk(quiet){
+  if(S.mode==='livraison'){if(S.zones.length&&!S.zoneId)return quiet?false:bad('Choisissez votre zone de livraison.');if($('addr').value.trim().length<5)return quiet?false:bad('Indiquez votre adresse (quartier et rue).','addr')}
+  if($('name').value.trim().length<2)return quiet?false:bad(S.mode==='retrait'?'Indiquez le nom pour le retrait.':'Indiquez le nom de la personne qui réceptionne.','name');
+  if(digits($('phone').value).length<8)return quiet?false:bad('Entrez un numéro de téléphone valide (8 chiffres).','phone');
+  return true}
+function check(){clearErr();if(!avail().length)return bad('Votre panier est vide.');var mo=Number((S.cfg.checkout||{}).min_order)||0;if(mo&&subtotal()<mo)return bad('Commande minimum : '+fmt(mo)+'.');return deliveryOk(false)}
+function fullPhone(){var d=digits($('phone').value);return '+509 '+(d.length===8?d.slice(0,4)+' '+d.slice(4):d)}
+function fullNotes(){var s=$('slot').value;return((S.mode==='livraison'&&s?'Créneau souhaité : '+s+'\n':'')+$('note').value.trim()).trim()}
+
+/* ── message WhatsApp complet ── */
+function lineText(l,i){
+  var fm=[];if(l.size)fm.push('Taille '+l.size);if(l.color)fm.push('Couleur '+colorName(l.color));if(l.pk)fm.push(l.pk.label+' (= '+(l.qty*l.pk.n)+' unités)');
+  return (i+1)+'. *'+l.name+'*'+(l.cat?'  _'+l.cat+'_':'')+'\n'+(fm.length?'    Format : '+fm.join(' · ')+'\n':'')+'    '+l.qty+' × '+fmt(l.price)+' = *'+fmt(l.price*l.qty)+'*'}
+function waMessage(ref,paidNote){
+  var z=zone(),f=feeNow()||0,A=avail(),L=[];
+  L.push('*NOUVELLE COMMANDE — WYK*');if(ref)L.push('Réf. : *'+ref+'*');
+  L.push('','*ARTICLES ('+A.reduce(function(s,l){return s+l.qty},0)+')*');
+  A.forEach(function(l,i){L.push(lineText(l,i))});
+  L.push('','Sous-total : '+fmt(subtotal()));
+  L.push(S.mode==='retrait'?'Retrait en boutique : gratuit':'Livraison'+(z?' ('+z.name+')':'')+' : '+(z?(f?fmt(f):'gratuite'):'à confirmer'));
+  L.push('*TOTAL : '+fmt(totalNow())+'*','');
+  L.push(S.mode==='retrait'?'*RETRAIT EN BOUTIQUE*':'*LIVRAISON*');
+  if(S.mode==='livraison'){if(z)L.push('Zone : '+z.name+(z.eta?' ('+z.eta+')':''));L.push('Adresse : '+$('addr').value.trim());if($('landmark').value.trim())L.push('Repère : '+$('landmark').value.trim());if(S.geo)L.push('Position : '+S.geo);if($('slot').value)L.push('Créneau : '+$('slot').value)}
+  L.push((S.mode==='retrait'?'Nom : ':'Réceptionne : ')+$('name').value.trim());L.push('Téléphone : '+fullPhone());
+  if($('note').value.trim())L.push('','*NOTE*',$('note').value.trim());
+  L.push('','*PAIEMENT*',paidNote||(S.method==='moncash'||S.method==='natcash'?PM[S.method].n+' — à confirmer':'À confirmer avec un conseiller'));
+  L.push('','Merci !');return L.join('\n')}
+function waLink(t){return 'https://wa.me/'+WA+'?text='+encodeURIComponent(t)}
+function newRef(){var d=new Date(),p=function(n){return String(n).padStart(2,'0')};var a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r='';for(var i=0;i<4;i++)r+=a[Math.floor(Math.random()*a.length)];return 'WYK-'+String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+'-'+r}
+
+/* ── création de commande (connecté uniquement) ── */
+async function makeOrder(method,channel,ref){
+  var z=zone(),f=feeNow()||0,A=avail();
+  var row={user_id:S.user.id,order_ref:ref,customer_name:$('name').value.trim(),phone:fullPhone(),delivery_mode:S.mode,zone:S.mode==='retrait'?'Retrait en boutique':(z?z.name:null),delivery_fee:f,
+    address:S.mode==='livraison'?$('addr').value.trim():null,landmark:$('landmark').value.trim()||null,receiver:$('name').value.trim(),notes:fullNotes()||null,geo:S.geo||null,
+    items:A.map(function(l){return{id:l.id,name:l.name,qty:l.qty,price:l.price,size:l.size,color:l.color,color_name:l.color?colorName(l.color):null,pack:l.pk?l.pk.label:null,pack_units:l.pk?l.qty*l.pk.n:null,img:l.img,category:l.cat||null}}),
+    total:totalNow(),pay_method:method,pay_status:'en_attente',delivery_status:'preparation',channel:channel,status:'en_attente'};
+  var r=await db.from('orders').insert(row).select().single();if(r.error)throw r.error;
+  /* mémorise le téléphone dans le profil + points de fidélité (1 point / 100 HTG, comme avant) */
+  try{var pr=await db.from('profiles').select('points,phone,name').eq('id',S.user.id).maybeSingle();var d=pr&&pr.data||{};
+    var up={id:S.user.id,points:(Number(d.points)||0)+Math.floor(row.total/100),updated_at:new Date().toISOString()};if(!d.phone)up.phone=fullPhone();if(!d.name)up.name=row.customer_name;
+    await db.from('profiles').upsert(up)}catch(e){}
+  return r.data}
+
+function finish(opts){
+  S.done=true;wr('wyk_cart',[]);try{localStorage.removeItem(FORM_KEY)}catch(e){}
+  $('main').style.display='none';$('mbar').style.display='none';$('done').classList.add('on');
+  $('d-h').textContent=opts.title;$('d-p').textContent=opts.text;$('d-ref').textContent=opts.ref||'';$('d-ref').style.display=opts.ref?'':'none';
+  var steps=opts.steps||[];$('d-tl').innerHTML=steps.map(function(s,i){return '<div class="'+(i===0?'on':'')+'"><i>'+(i===0?ic('check'):i+1)+'</i><span><b>'+esc(s[0])+'</b><small>'+esc(s[1])+'</small></span></div>'}).join('');
+  $('d-acc').style.display=opts.account?'':'none';$('d-wa').href=waLink(opts.wa||'Bonjour WYK, j\'ai une question sur ma commande.');scrollTo(0,0)}
+
+async function sendWhatsApp(){
+  if(!check())return;
+  if(S.busy)return;S.busy=true;
+  var ref=newRef(),msg,order=null;
+  /* ouvre WhatsApp tout de suite (les navigateurs bloquent les fenêtres ouvertes après un await) */
+  var w=window.open('about:blank','_blank');
+  if(S.user){try{order=await makeOrder('whatsapp','whatsapp',ref)}catch(e){console.warn('order',e);toast('Commande envoyée sur WhatsApp (suivi en ligne indisponible)')}}
+  msg=waMessage(order?ref:'',null);
+  var url=waLink(msg);if(w&&!w.closed)w.location.href=url;else location.href=url;
+  S.busy=false;
+  finish({title:'Commande transmise',text:'Votre commande a été préparée sur WhatsApp. Envoyez le message pour la valider : un conseiller vous répond.',ref:order?ref:'',account:!!order,wa:'Bonjour WYK, je viens d\'envoyer ma commande'+(order?' '+ref:'')+'.',
+    steps:[['Commande préparée','Message WhatsApp avec tout le détail'],['Confirmation','Un conseiller confirme les articles et le paiement'],['Livraison','Vous êtes livré à l\'adresse indiquée']]})}
+
+async function sendProof(){
+  if(!S.user){location.href='/compte?next=commande';return}
+  if(!check())return;if(S.busy)return;
+  var pc=proofCfg(),n=$('pn').value.trim(),p=$('pp').value.trim(),t=$('pt').value.trim(),f=S.file;
+  if(pc.name&&!n)return bad('Indiquez le nom du payeur.','pn');if(pc.phone&&digits(p).length<8)return bad('Indiquez le téléphone utilisé pour payer.','pp');if(pc.ref&&t.length<4)return bad('Indiquez l\'ID de la transaction.','pt');
+  var extra={};for(var i=0;i<pc.extra.length;i++){var v=($('px'+i)||{}).value||'';v=v.trim();if(pc.extra[i].required&&!v)return bad('Renseignez : '+(pc.extra[i].label||'champ requis')+'.','px'+i);if(v)extra[pc.extra[i].label||('Champ '+(i+1))]=v}
+  if(pc.shot&&!f)return bad('Joignez la capture d\'écran du paiement.');
+  S.busy=true;$('go').disabled=true;$('m-go').disabled=true;$('go-t').textContent='Envoi en cours…';
+  var ref=newRef();
+  try{
+    var o=await makeOrder(S.method,'site',ref);
+    var path=null;
+    if(f){var file=await shrink(f),ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'');path=S.user.id+'/'+o.id+'-'+Date.now()+'.'+ext;
+      var up=await db.storage.from('proofs').upload(path,file,{contentType:file.type||undefined});if(up.error)throw up.error}
+    var r=await db.from('payment_proofs').insert({order_id:o.id,user_id:S.user.id,method:S.method,payer_name:n||null,phone:p||null,tx_ref:t||null,extra:extra,screenshot_url:path});if(r.error)throw r.error;
+    var A=waMessage(ref,PM[S.method].n+' — preuve envoyée sur le site'+(t?' (réf. '+t+')':''));
+    finish({title:'Commande et preuve envoyées',text:'Nous vérifions votre paiement. Vous serez informé dans votre compte.',ref:ref,account:true,wa:A,
+      steps:[['Commande reçue','Votre commande est enregistrée'],['Vérification du paiement','Notre équipe contrôle votre preuve'],['Préparation','Votre commande est préparée'],['Livraison','Suivi en direct dans Mon compte']]});
+  }catch(e){
+    console.error(e);var m=(e&&e.message)||String(e);
+    bad(/column|relation|does not exist|schema/i.test(m)?'La boutique n\'est pas encore prête pour les commandes en ligne (configuration en cours). Utilisez WhatsApp en attendant.':'Échec de l\'envoi : '+m);
+    S.busy=false;$('go').disabled=false;$('m-go').disabled=false;renderSummary();return}
+  S.busy=false}
+
+/* allège les grosses captures (max 1600 px) pour un envoi rapide en 3G */
+function shrink(f){return new Promise(function(res){
+  if(!/^image\/(jpeg|png|webp)$/.test(f.type)||f.size<1.2*1048576)return res(f);
+  var im=new Image(),u=URL.createObjectURL(f);im.onload=function(){URL.revokeObjectURL(u);var k=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+    c.toBlob(function(b){if(!b)return res(f);try{res(new File([b],'preuve.jpg',{type:'image/jpeg'}))}catch(e){b.name='preuve.jpg';res(b)}},'image/jpeg',.82)};im.onerror=function(){URL.revokeObjectURL(u);res(f)};im.src=u})}
+
+/* ── actions ── */
+function primary(){
+  if(S.method==='moncash'||S.method==='natcash')return sendProof();
+  if(!S.method){S.method='whatsapp';renderMethods();renderHow()}
+  return sendWhatsApp()}
+
+function bind(){
+  $('back').onclick=function(){if(history.length>1&&document.referrer&&document.referrer.indexOf(location.host)>-1)history.back();else location.href='/'};
+  $('theme').onclick=function(){var d=document.documentElement,n=d.getAttribute('data-theme')==='dark'?'light':'dark';d.setAttribute('data-theme',n);try{localStorage.setItem('wyk-theme',n)}catch(e){}themeIcon()};
+  themeIcon();
+  $('items').addEventListener('click',function(e){var row=e.target.closest('.it');if(!row)return;var k=row.getAttribute('data-k'),c=rd('wyk_cart'),it=c.filter(function(x){return x.key===k})[0];if(!it)return;
+    var d=e.target.closest('[data-d]'),r=e.target.closest('[data-rm]');
+    if(r)c=c.filter(function(x){return x!==it});else if(d){it.qty=(it.qty|0)+(+d.getAttribute('data-d'));if(it.qty<=0)c=c.filter(function(x){return x!==it})}else return;
+    wr('wyk_cart',c);S.cart=c;S.lines=S.lines.map(function(l){var m=c.filter(function(x){return x.key===l.key})[0];if(!m)return null;l.qty=m.qty;return l}).filter(Boolean);renderItems();renderSummary();renderHow()});
+  $('mode').addEventListener('click',function(e){var b=e.target.closest('[data-m]');if(!b)return;setMode(b.getAttribute('data-m'));saveForm();renderSummary();renderHow()});
+  $('zones').addEventListener('click',function(e){var b=e.target.closest('[data-z]');if(!b)return;S.zoneId=b.getAttribute('data-z');[].forEach.call($('zones').children,function(x){x.classList.toggle('on',x===b)});saveForm();renderSummary();renderHow();$('err').classList.remove('on')});
+  $('pm').addEventListener('click',function(e){var b=e.target.closest('[data-p]');if(!b||b.disabled)return;S.method=b.getAttribute('data-p');[].forEach.call($('pm').children,function(x){x.classList.toggle('on',x===b)});saveForm();renderHow();renderSummary();setTimeout(function(){$('paybox').scrollIntoView({block:'nearest',behavior:'smooth'})},60)});
+  FIELDS.forEach(function(k){var el=$(k);var fn=function(){saveForm();if(k==='addr'||k==='name'||k==='phone')renderSummary();if(el.parentNode)el.parentNode.classList.remove('bad')};el.addEventListener('input',fn);el.addEventListener('change',fn)});
+  $('geo').onclick=function(){if(!navigator.geolocation)return toast('Position non disponible sur cet appareil');var b=$('geo');b.disabled=true;
+    navigator.geolocation.getCurrentPosition(function(p){b.disabled=false;S.geo='https://maps.google.com/?q='+p.coords.latitude.toFixed(6)+','+p.coords.longitude.toFixed(6);$('geo-t').textContent='Position ajoutée · ±'+Math.round(p.coords.accuracy)+' m';$('geo-ok').classList.add('on');saveForm()},function(){b.disabled=false;toast('Autorisez la localisation pour partager votre position')},{enableHighAccuracy:true,timeout:12000})};
+  $('geo-x').onclick=function(){S.geo='';$('geo-ok').classList.remove('on');saveForm()};
+  $('ps').addEventListener('change',function(){var f=$('ps').files[0],v=$('pv');if(v._u){URL.revokeObjectURL(v._u);v._u=null}
+    if(!f){S.file=null;v.className='pv';return}
+    if(f.size>8*1048576){$('ps').value='';S.file=null;v.className='pv';return bad('Fichier trop lourd (8 Mo maximum).')}
+    S.file=f;var kb=f.size>1048576?(f.size/1048576).toFixed(1)+' Mo':Math.round(f.size/1024)+' Ko',img=f.type.indexOf('image/')===0;if(img)v._u=URL.createObjectURL(f);
+    v.innerHTML=(img?'<img src="'+v._u+'" alt="Aperçu de la capture">':'<div class="pdf">'+ic('file')+'</div>')+'<div><b>Capture prête à être envoyée</b><small>'+esc(f.name)+' · '+kb+'</small></div><button type="button" class="x" id="pv-x" aria-label="Retirer">'+ic('x')+'</button>';v.className='pv on';
+    var im=v.querySelector('img');if(im)im.onclick=function(){$('zi').src=v._u;$('zoom').classList.add('on')};
+    $('pv-x').onclick=function(){$('ps').value='';S.file=null;v.className='pv'}});
+  $('zoom').onclick=function(){this.classList.remove('on')};
+  $('go').onclick=primary;$('m-go').onclick=primary;$('go-wa').onclick=sendWhatsApp}
+function themeIcon(){var d=document.documentElement.getAttribute('data-theme')==='dark';$('theme').innerHTML=ic(d?'sun':'moon')}
+
+/* ── démarrage ── */
+(async function init(){
+  S.cart=rd('wyk_cart').filter(function(c){return c&&c.id});
+  loadForm();setMode(S.mode);bind();
+  S.lines=S.cart.map(function(c){return{key:c.key,id:c.id,name:clean(c.name),price:Number(c.price)||0,qty:Math.max(1,c.qty|0),img:c.img||null,size:c.size||null,color:c.color||null,pk:c.pk||null,cat:'',gone:false}});
+  renderItems();renderSummary();
+  if(S.geo){$('geo-ok').classList.add('on')}
+  if(!db){renderZones();renderMethods();return}
+  var T=function(p){return Promise.race([p,new Promise(function(r){setTimeout(function(){r({data:null})},8000)})]).catch(function(){return{data:null}})};
+  var ids=S.cart.map(function(c){return c.id});
+  var rs=await Promise.all([
+    ids.length?T(db.from('products').select('id,name,price,active,pack_size,pack_style,pack_price,pack_only,product_images(url,position),categories(name)').in('id',ids)):{data:[]},
+    T(db.from('delivery_zones').select('*').eq('is_active',true).order('sort_order')),
+    T(db.from('site_settings').select('key,value')),
+    T(db.auth.getSession())]);
+  var prods=rs[0].data;if(prods)buildLines(prods);
+  S.zones=rs[1].data||[];
+  (rs[2].data||[]).forEach(function(r){S.cfg[r.key]=r.value||{}});
+  S.user=rs[3]&&rs[3].data&&rs[3].data.session?rs[3].data.session.user:null;
+  if(S.zoneId&&!S.zones.some(function(z){return String(z.id)===String(S.zoneId)}))S.zoneId='';
+  var ck=S.cfg.checkout||{};
+  if(ck.pickup_enabled===false){S.mode='livraison';setMode('livraison');$('mode').style.display='none'}
+  if(ck.pickup_address)$('pick-addr').textContent=ck.pickup_address;
+  if(ck.notes_hint)$('note').placeholder=ck.notes_hint;
+  /* préremplit nom + téléphone pour un client connecté */
+  if(S.user){
+    var md=S.user.user_metadata||{};
+    if(!$('name').value)$('name').value=md.full_name||md.name||'';
+    try{var pr=await db.from('profiles').select('name,phone,zone').eq('id',S.user.id).maybeSingle();var d=pr&&pr.data;
+      if(d){if(!$('name').value&&d.name)$('name').value=d.name;if(!$('phone').value&&d.phone)$('phone').value=digits(d.phone).slice(-8);if(!$('addr').value&&d.zone&&S.mode==='livraison')$('addr').value=d.zone}}catch(e){}
+  }
+  var cur=['moncash','natcash','whatsapp'];if(S.method&&cur.indexOf(S.method)<0)S.method='';
+  renderItems();renderZones();renderMethods();renderHow();renderSummary();
+})();
+})();
+</script>
+</body>
+</html>

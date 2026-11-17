@@ -514,20 +514,20 @@ input,select,textarea,.finput{background:var(--bg)!important;border:none!importa
 .auth-legal a{color:var(--red)!important;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(232,25,44,.35)}.auth-legal a:hover{border-bottom-color:var(--red)}
 </style>
 <style id="ssl-badge-css">
-/* SSLCanary — carte de confiance premium, suit le thème clair/sombre */
-.ssl-card{position:relative;display:inline-flex;align-items:center;gap:11px;padding:7px 8px 7px 10px;border-radius:18px;background:var(--surface,rgba(128,128,128,.06));border:1px solid var(--line,var(--bdr,rgba(128,128,128,.22)));box-shadow:0 8px 22px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.35);transition:border-color .25s,transform .25s,box-shadow .25s}
-.ssl-card:hover{transform:translateY(-1px);border-color:rgba(232,25,44,.45);box-shadow:0 12px 28px rgba(0,0,0,.1),inset 0 1px 0 rgba(255,255,255,.35)}
-.ssl-card .sc-ico{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;color:var(--red,#e8192c);background:var(--red-s,rgba(232,25,44,.1))}
-.ssl-card .sc-ico svg{width:16px;height:16px}
-.ssl-card .sc-tx{display:flex;flex-direction:column;line-height:1.2;min-width:0}
-.ssl-card .sc-tx b{font-size:12px;font-weight:700;letter-spacing:-.01em;color:var(--ink,var(--text,inherit))}
-.ssl-card .sc-tx small{font-size:10.5px;color:var(--mut,var(--t3,rgba(128,128,128,.9)));margin-top:2px}
-.ssl-badge{display:inline-flex;align-items:center;line-height:0;padding:4px 9px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.08);box-shadow:0 1px 3px rgba(0,0,0,.08);text-decoration:none}
-.ssl-badge img{display:block;height:28px;width:auto;max-width:100%}
-.ssl-card .ssl-badge{margin-left:4px}
+/* Badge SSL — pastille minimaliste, adaptative, suit le thème clair/sombre */
+.ssl-card{position:relative;display:inline-flex;align-items:center;gap:9px;padding:4px 5px;border-radius:999px;background:var(--surface,rgba(128,128,128,.06));border:1px solid var(--line,var(--bdr,rgba(128,128,128,.22)));line-height:1;max-width:100%;transition:border-color .2s,box-shadow .2s,transform .2s}
+.ssl-card:hover{border-color:rgba(22,163,74,.55);box-shadow:0 6px 18px rgba(22,163,74,.12);transform:translateY(-1px)}
+.ssl-card .sc-ico{width:24px;height:24px;border-radius:50%;flex:none;display:grid;place-items:center;color:#16a34a;background:rgba(22,163,74,.12)}
+.ssl-card .sc-ico svg{width:14px;height:14px}
+.ssl-card .sc-tx{display:flex;flex-direction:column;gap:3px;min-width:0}
+.ssl-card .sc-tx b{font-size:11.5px;font-weight:700;letter-spacing:-.005em;color:var(--ink,var(--text,inherit));white-space:nowrap}
+.ssl-card .sc-tx small{font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mut,var(--t3,rgba(128,128,128,.9)));white-space:nowrap}
+.ssl-card .ssl-badge{width:24px;height:24px;border-radius:50%;flex:none;display:grid;place-items:center;color:var(--mut,var(--t3,rgba(128,128,128,.9)));text-decoration:none}
+.ssl-card .ssl-badge svg{width:12px;height:12px}
 .ssl-card .ssl-badge::after{content:"";position:absolute;inset:0;border-radius:inherit}
-.ssl-strip{display:flex;justify-content:center;padding:14px 16px 18px}
-@media(max-width:620px){.ssl-card{width:100%;max-width:380px;justify-content:space-between}.ssl-card .ssl-badge{margin-left:auto}}
+.ssl-card:hover .ssl-badge{color:#16a34a}
+.ssl-strip{display:flex;justify-content:center;padding:12px 16px 16px}
+@media(max-width:380px){.ssl-card .sc-tx small{display:none}}
 </style>
 <style id="ssl-compte-css">
 /* Compte : section « Sécurité et confiance » (même langage neumorphique que .menu-item) */
@@ -537,6 +537,170 @@ input,select,textarea,.finput{background:var(--bg)!important;border:none!importa
 .trust-card .tc-tip{font-size:.66rem;color:var(--t3);line-height:1.4;flex:1;min-width:150px}
 /* le bandeau de pied de page ne double pas la section quand le tableau de bord est affiché */
 #viewDashboard.active~.ssl-strip{display:none}
+</style>
+<style id="wyk-compte-pro">
+/* ═══ WYK — connexion / inscription (panneau coulissant) ═══ */
+@media(min-width:640px){body:has(#viewAuth.active){max-width:none!important}}
+#viewAuth.view{width:100%}
+#viewAuth .au-wrap{min-height:calc(100vh - 120px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(14px,3vw,36px) 14px}
+#viewAuth .au{position:relative;width:min(980px,100%);height:640px;background:var(--surface);border:1px solid var(--bdr);border-radius:30px;box-shadow:var(--sh3);overflow:hidden}
+#viewAuth .au-f{position:absolute;top:0;width:50%;height:100%;display:flex;align-items:center;justify-content:center;padding:26px 38px;overflow-y:auto;transition:transform .75s cubic-bezier(.65,0,.25,1),opacity .45s ease;scrollbar-width:none}
+#viewAuth .au-f::-webkit-scrollbar{display:none}
+#viewAuth .au-in-box{width:100%;max-width:370px;margin:auto}
+#viewAuth .au-login{left:50%}
+#viewAuth .au-reg{left:0;opacity:0;pointer-events:none;transform:translateX(100%)}
+#viewAuth .au.reg .au-login{opacity:0;pointer-events:none;transform:translateX(-100%)}
+#viewAuth .au.reg .au-reg{opacity:1;pointer-events:auto;transform:none}
+#viewAuth .au-brand{display:none;margin-bottom:14px}
+#viewAuth .au-brand img{height:42px;width:auto}
+#viewAuth .au-brand .lg-d,[data-theme="dark"] #viewAuth .au-brand .lg-l{display:none}
+[data-theme="dark"] #viewAuth .au-brand .lg-d{display:block}
+#viewAuth h2{font:800 28px/1.1 'Bricolage Grotesque','Syne',sans-serif;letter-spacing:-.03em;color:var(--text)}
+#viewAuth .au-sub{color:var(--t3);font-size:13.5px;line-height:1.5;margin:6px 0 18px}
+#viewAuth .au-g{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;border-radius:14px;border:1.5px solid var(--bdr2);background:var(--surface);color:var(--text);font-weight:600;font-size:14px;transition:.2s}
+#viewAuth .au-g:hover{background:var(--s2);transform:translateY(-1px)}
+#viewAuth .au-or{display:flex;align-items:center;gap:10px;margin:14px 0 4px;color:var(--t3);font-size:11.5px;font-weight:600}
+#viewAuth .au-or::before,#viewAuth .au-or::after{content:"";flex:1;height:1px;background:var(--bdr)}
+#viewAuth .au-l{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--t2);margin:12px 0 6px}
+#viewAuth .au-l a{color:var(--red);font-weight:600}
+#viewAuth .au-in{display:flex;align-items:center;gap:10px;background:var(--s2)!important;border:1.5px solid transparent!important;border-radius:14px!important;padding:0 14px;box-shadow:none!important;transition:.18s}
+#viewAuth .au-in:focus-within{border-color:var(--red)!important;background:var(--surface)!important;box-shadow:0 0 0 3px var(--red-s)!important}
+#viewAuth .au-in>svg{width:17px;height:17px;stroke:var(--t3);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+#viewAuth .au-in:focus-within>svg{stroke:var(--red)}
+#viewAuth .au-in input{flex:1;min-width:0;border:0!important;outline:0!important;background:transparent!important;box-shadow:none!important;padding:13px 0!important;font:500 14.5px 'DM Sans',sans-serif;color:var(--text);border-radius:0!important}
+#viewAuth .au-in input::placeholder{color:var(--t3)}
+#viewAuth .au-pre{font-weight:700;font-size:13px;color:var(--t2);padding-right:9px;border-right:1px solid var(--bdr2)}
+#viewAuth .au-eye{display:grid;place-items:center;color:var(--t3);padding:4px}
+#viewAuth .au-eye svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.8;fill:none}
+#viewAuth .au-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:10px}#viewAuth .au-row>div{min-width:0}#viewAuth .au-pre{flex:none}
+#viewAuth .field-err{display:none;color:#ef4444;font-size:12px;margin-top:6px;font-weight:500}
+#viewAuth .field-err.show{display:block}
+#viewAuth .au-btn{position:relative;width:100%;margin-top:18px;padding:14px;border-radius:14px;background:linear-gradient(120deg,#e8192c,#ff4b5c);color:#fff;font:700 15px 'DM Sans',sans-serif;box-shadow:0 10px 24px rgba(232,25,44,.28);transition:.2s}
+#viewAuth .au-btn:hover{transform:translateY(-1px);box-shadow:0 14px 28px rgba(232,25,44,.34)}
+#viewAuth .au-spin{display:none;position:absolute;right:16px;top:50%;width:18px;height:18px;margin-top:-9px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:auspin .7s linear infinite}
+#viewAuth .au-btn.loading{pointer-events:none;opacity:.85}#viewAuth .au-btn.loading .au-spin{display:block}
+@keyframes auspin{to{transform:rotate(360deg)}}
+#viewAuth .au-sw{display:none;text-align:center;font-size:13px;color:var(--t3);margin-top:14px}
+#viewAuth .au-sw button{color:var(--red);font-weight:700}
+#viewAuth .au-legal{font-size:11px;color:var(--t3);text-align:center;line-height:1.6;margin-top:14px}
+#viewAuth .au-legal a{color:var(--red)}
+#viewAuth .pw-strength{margin-top:8px}
+#viewAuth .au-ssl{display:flex;align-items:center;gap:7px;margin-top:14px;font-size:11.5px;font-weight:600;color:var(--t3)}
+#viewAuth .au-ssl svg{width:14px;height:14px;stroke:#16a34a;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+/* panneau */
+#viewAuth .au-pan{position:absolute;top:0;left:0;width:50%;height:100%;z-index:3;overflow:hidden;color:#fff;background:linear-gradient(150deg,#14090a 0%,#2a0a10 55%,#4a0b15 100%);border-radius:0 120px 120px 0;transition:transform .75s cubic-bezier(.65,0,.25,1),border-radius .75s cubic-bezier(.65,0,.25,1)}
+#viewAuth .au.reg .au-pan{transform:translateX(100%);border-radius:120px 0 0 120px}
+#viewAuth .au-glow{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55}
+#viewAuth .g1{width:320px;height:320px;background:#e8192c;right:-120px;top:-100px}
+#viewAuth .g2{width:260px;height:260px;background:#ff6a3d;left:-100px;bottom:-90px;opacity:.28}
+#viewAuth .au-pan::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:34px 34px;mask-image:radial-gradient(circle at 30% 30%,#000,transparent 75%);-webkit-mask-image:radial-gradient(circle at 30% 30%,#000,transparent 75%);pointer-events:none}
+#viewAuth .au-mos{position:absolute;right:-10px;bottom:150px;width:260px;height:190px;pointer-events:none}
+#viewAuth .au-mos span{position:absolute;width:104px;height:104px;border-radius:20px;background:#fff;box-shadow:0 14px 34px rgba(0,0,0,.45);overflow:hidden;display:grid;place-items:center;animation:aufloat 7s ease-in-out infinite}
+#viewAuth .au-mos span img{width:100%;height:100%;object-fit:contain;padding:8px}
+#viewAuth .au-mos span:nth-child(1){right:128px;top:30px;transform:rotate(-8deg)}
+#viewAuth .au-mos span:nth-child(2){right:14px;top:0;transform:rotate(7deg);animation-delay:-2s}
+#viewAuth .au-mos span:nth-child(3){right:64px;top:86px;transform:rotate(-3deg);animation-delay:-4s}
+@keyframes aufloat{50%{translate:0 -9px}}
+#viewAuth .au-pan-in{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;padding:34px 40px}
+#viewAuth .au-plogo{height:54px;width:auto;align-self:flex-start}
+#viewAuth .au-pt{position:absolute;left:40px;right:40px;top:130px;transition:opacity .5s .2s,transform .6s .2s}
+#viewAuth .au-pt h3{font:800 34px/1.05 'Bricolage Grotesque','Syne',sans-serif;letter-spacing:-.03em}
+#viewAuth .au-pt h3 em{font-style:normal;color:#ff5a68}
+#viewAuth .au-pt p{margin:12px 0 18px;font-size:14px;line-height:1.55;opacity:.8;max-width:290px}
+#viewAuth .au-ghost{padding:11px 24px;border-radius:30px;border:1.5px solid rgba(255,255,255,.55);color:#fff;font-weight:700;font-size:14px;transition:.2s}
+#viewAuth .au-ghost:hover{background:#fff;color:#2a0a10}
+#viewAuth .au-pt.pr{opacity:0;transform:translateY(10px);pointer-events:none}
+#viewAuth .au.reg .au-pt.pl{opacity:0;transform:translateY(10px);pointer-events:none}
+#viewAuth .au.reg .au-pt.pr{opacity:1;transform:none;pointer-events:auto}
+#viewAuth .au-feat{list-style:none;margin:auto 0 0;display:grid;gap:9px;padding:0}
+#viewAuth .au-feat li{display:flex;align-items:center;gap:11px;font-size:12.5px;font-weight:600;opacity:.92}
+#viewAuth .au-feat i{width:30px;height:30px;border-radius:10px;background:rgba(255,255,255,.12);backdrop-filter:blur(6px);display:grid;place-items:center}
+#viewAuth .au-feat i svg{width:16px;height:16px;stroke:#fff;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:860px){
+ #viewAuth .au{height:auto;border-radius:24px}
+ #viewAuth .au-pan{position:relative;width:100%;height:auto;border-radius:0 0 40px 40px;transform:none!important}
+ #viewAuth .au.reg .au-pan{border-radius:0 0 40px 40px}
+ #viewAuth .au-pan-in{padding:20px 24px 24px}
+ #viewAuth .au-plogo{height:40px}
+ #viewAuth .au-pt{position:static;display:none}
+ #viewAuth .au-pt h3{font-size:24px}
+ #viewAuth .au-pt.pl{display:block;margin-top:10px}
+ #viewAuth .au.reg .au-pt.pl{display:none}#viewAuth .au.reg .au-pt.pr{display:block;margin-top:10px}
+ #viewAuth .au-pt p{margin:8px 0 0;font-size:13px}
+ #viewAuth .au-ghost,#viewAuth .au-feat,#viewAuth .au-mos{display:none}
+ #viewAuth .au-f{position:relative;width:100%;height:auto;padding:22px 22px 26px;transform:none!important;left:0!important}
+ #viewAuth .au-login,#viewAuth .au-reg{order:2}
+ #viewAuth .au{display:flex;flex-direction:column}
+ #viewAuth .au-pan{order:1}
+ #viewAuth .au-reg,#viewAuth .au.reg .au-login{display:none}
+ #viewAuth .au.reg .au-reg{display:flex}
+ #viewAuth .au-sw{display:block}
+}
+
+/* ═══ WYK compte — listes, commandes, support (v2) ═══ */
+.mini-item.enter{animation:miniEnter .35s cubic-bezier(.22,1,.36,1) both}
+@keyframes miniEnter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.mini-item .mini-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.mini-chip{display:inline-flex;align-items:center;gap:5px;font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--s2);color:var(--t2);border:1px solid var(--bdr)}
+.mini-chip i{width:9px;height:9px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.2)}
+.mini-img.big{width:64px;height:64px;background:#fff}
+.cart-note{font-size:.68rem;color:var(--t3);margin:8px 2px 0;display:flex;gap:6px;align-items:center}
+.ph-banner{display:flex;gap:12px;align-items:center;padding:13px 14px;border-radius:16px;background:rgba(217,119,6,.1);border:1px solid rgba(217,119,6,.25);margin-bottom:12px}
+.ph-banner>svg{width:22px;height:22px;stroke:#d97706;fill:none;stroke-width:1.8;flex:none}
+.ph-banner div{flex:1;min-width:0}.ph-banner b{display:block;font-size:.82rem;color:var(--text)}.ph-banner span{font-size:.72rem;color:var(--t2);line-height:1.4;display:block}
+.ph-banner button{background:#d97706;color:#fff;font-weight:700;font-size:.75rem;padding:8px 14px;border-radius:20px;flex:none}
+.ord-list{display:grid;gap:12px}
+.ord{background:var(--surface);border:1px solid var(--bdr);border-radius:20px;overflow:hidden;box-shadow:var(--sh1)}
+.ord-h{display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;width:100%;text-align:left}
+.ord-th{display:flex;flex:none}.ord-th span{width:40px;height:40px;border-radius:11px;background:#fff;border:2px solid var(--surface);margin-left:-12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.14);display:grid;place-items:center}
+.ord-th span:first-child{margin-left:0}.ord-th img{width:100%;height:100%;object-fit:contain}.ord-th .m{background:var(--red);color:#fff;font-size:.68rem;font-weight:800}
+.ord-m{flex:1;min-width:0}.ord-ref{font:800 .85rem 'Bricolage Grotesque','Syne',sans-serif;color:var(--text);letter-spacing:.02em}
+.ord-d{font-size:.7rem;color:var(--t3);margin-top:1px}
+.ord-p{text-align:right;flex:none}.ord-p b{font:800 .9rem 'Bricolage Grotesque','Syne',sans-serif;display:block;color:var(--text)}
+.ord-chev{width:16px;height:16px;stroke:var(--t3);fill:none;stroke-width:2;transition:.25s;flex:none}.ord.open .ord-chev{transform:rotate(180deg)}
+.ord-st{display:inline-flex;align-items:center;gap:5px;font-size:.6rem;font-weight:800;border-radius:20px;padding:3px 9px;margin-top:4px}
+.ord-st.s0{background:rgba(217,119,6,.12);color:#d97706}.ord-st.s1{background:rgba(37,99,235,.12);color:#2563eb}.ord-st.s2{background:rgba(124,58,237,.12);color:#7c3aed}.ord-st.s3{background:rgba(8,145,178,.12);color:#0891b2}.ord-st.s4{background:rgba(22,163,74,.12);color:#16a34a}.ord-st.sx{background:rgba(239,68,68,.12);color:#ef4444}
+.ord-b{display:none;padding:0 14px 14px;border-top:1px solid var(--bdr)}.ord.open .ord-b{display:block}
+.trk{display:flex;margin:16px 0 6px}
+.trk div{flex:1;text-align:center;position:relative;font-size:.58rem;font-weight:700;color:var(--t3);line-height:1.25;padding:0 2px}
+.trk div::before{content:"";position:absolute;top:11px;left:-50%;width:100%;height:2px;background:var(--bdr2)}.trk div:first-child::before{display:none}
+.trk i{display:grid;place-items:center;width:24px;height:24px;margin:0 auto 6px;border-radius:50%;background:var(--s2);border:2px solid var(--bdr2);position:relative;z-index:1;font-style:normal;font-size:.6rem}
+.trk i svg{width:12px;height:12px;stroke:#fff;stroke-width:3;fill:none}
+.trk div.done{color:var(--text)}.trk div.done i{background:#16a34a;border-color:#16a34a}.trk div.done::before{background:#16a34a}
+.trk div.cur i{background:var(--red);border-color:var(--red);box-shadow:0 0 0 4px var(--red-s)}.trk div.cur{color:var(--red)}.trk div.cur::before{background:#16a34a}
+.ord-it{display:flex;gap:11px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--bdr)}
+.ord-it .im{width:52px;height:52px;border-radius:12px;background:#fff;border:1px solid var(--bdr);overflow:hidden;flex:none;display:grid;place-items:center}.ord-it .im img{width:100%;height:100%;object-fit:contain}
+.ord-it b{font-size:.8rem;display:block;color:var(--text)}.ord-it small{font-size:.68rem;color:var(--t3);display:block;margin-top:2px}.ord-it .pr{margin-left:auto;font-weight:800;font-size:.8rem;white-space:nowrap}
+.ord-inf{display:grid;gap:8px;margin:12px 0;font-size:.76rem;color:var(--t2)}
+.ord-inf div{display:flex;gap:8px}.ord-inf span{flex:none;width:86px;color:var(--t3);font-weight:600}.ord-inf b{font-weight:600;color:var(--text);word-break:break-word}
+.ord-alert{padding:11px 13px;border-radius:12px;font-size:.76rem;margin:10px 0;line-height:1.45}.ord-alert.bad{background:rgba(239,68,68,.1);color:#dc2626}.ord-alert.warn{background:rgba(217,119,6,.1);color:#b45309}.ord-alert.ok{background:rgba(22,163,74,.1);color:#15803d}
+.ord-act{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.ord-act button,.ord-act a{padding:9px 14px;border-radius:30px;border:1.5px solid var(--bdr2);font-size:.74rem;font-weight:700;color:var(--text);background:var(--surface);text-decoration:none}
+.ord-act .pri{background:var(--red);border-color:var(--red);color:#fff}
+.sup{display:grid;gap:12px}
+.sup-dot{background:var(--red);color:#fff;font-size:.6rem;border-radius:20px;padding:1px 7px;margin-left:6px;vertical-align:middle}
+.sup-how,.chat,.faq{background:var(--surface);border:1px solid var(--bdr);border-radius:20px;box-shadow:var(--sh1)}
+.sup-how{padding:16px}.sup-how h4{margin:0 0 12px;font:800 .8rem 'Bricolage Grotesque','Syne',sans-serif;letter-spacing:.02em}
+.sup-steps{list-style:none;margin:0;padding:0;display:grid;gap:12px}.sup-steps li{display:flex;gap:12px}
+.sup-steps i{width:26px;height:26px;border-radius:50%;background:var(--red-s);color:var(--red);font-style:normal;font-weight:800;font-size:.72rem;display:grid;place-items:center;flex:none}
+.sup-steps b{font-size:.8rem;display:block;color:var(--text)}.sup-steps span{font-size:.72rem;color:var(--t3);line-height:1.4}
+.chat{overflow:hidden}.chat-h{display:flex;gap:11px;align-items:center;padding:13px 14px;border-bottom:1px solid var(--bdr)}
+.chat-av{width:36px;height:36px;border-radius:12px;background:var(--red);display:grid;place-items:center}.chat-av svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.9;stroke-linejoin:round}
+.chat-h b{font-size:.84rem;display:block;color:var(--text)}.chat-h span{font-size:.68rem;color:var(--t3)}
+.chat-ctx{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 14px;background:var(--red-s);font-size:.72rem;font-weight:600;color:var(--red)}.chat-ctx button{color:inherit;font-size:1rem}
+.chat-box{height:300px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--s2);overscroll-behavior:contain}
+.chat-empty{margin:auto;color:var(--t3);font-size:.76rem;text-align:center}
+.msg{max-width:82%;padding:9px 12px;border-radius:16px;font-size:.8rem;line-height:1.45;white-space:pre-wrap;word-break:break-word}
+.msg small{display:block;font-size:.58rem;opacity:.65;margin-top:3px}
+.msg.client{align-self:flex-end;background:var(--red);color:#fff;border-bottom-right-radius:5px}
+.msg.equipe{align-self:flex-start;background:var(--surface);color:var(--text);border:1px solid var(--bdr);border-bottom-left-radius:5px}
+.msg em{display:block;font-style:normal;font-size:.6rem;font-weight:700;opacity:.8;margin-bottom:2px}
+.chat-in{display:flex;gap:8px;padding:10px;border-top:1px solid var(--bdr);align-items:flex-end}
+.chat-in textarea{flex:1;resize:none;border:1.5px solid var(--bdr2)!important;border-radius:14px!important;padding:10px 12px!important;font:500 .82rem 'DM Sans',sans-serif;max-height:110px;background:var(--surface)!important;color:var(--text)}
+.chat-in button{width:42px;height:42px;border-radius:14px;background:var(--red);display:grid;place-items:center;flex:none}.chat-in button svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.faq{padding:0 14px}.faq summary{padding:13px 0;font-size:.8rem;font-weight:700;cursor:pointer;color:var(--text)}.faq p{margin:0 0 13px;font-size:.76rem;color:var(--t2);line-height:1.55}
+.sup-wa{display:flex;align-items:center;justify-content:center;gap:9px;padding:13px;border-radius:16px;background:#25d366;color:#04230f;font-weight:800;font-size:.82rem;text-decoration:none}.sup-wa svg{width:18px;height:18px}
+@media(prefers-reduced-motion:reduce){.mini-item.enter{animation:none}}
 </style>
 </head>
 <body>
@@ -598,64 +762,72 @@ input,select,textarea,.finput{background:var(--bg)!important;border:none!importa
 </header>
 
 <!-- AUTH VIEW -->
-<main id="viewAuth" class="view active" style="padding-bottom:80px">
-  <div class="auth-shell">
-  <aside class="auth-show">
-    <a class="ash-brand" href="/"><span>W<em>YK</em></span></a>
-    <h2>Faites vos achats <em>autrement.</em></h2>
-    <p>Un seul compte pour vos favoris, votre panier et vos commandes — partout, sur tous vos appareils.</p>
-    <ul>
-      <li><i><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1em;height:1.1em;vertical-align:-.18em"><path d="M4.3 6.3a4.5 4.5 0 000 6.4L12 20.4l7.7-7.7a4.5 4.5 0 00-6.4-6.4L12 7.6l-1.3-1.3a4.5 4.5 0 00-6.4 0z"/></svg></i><div><b>Favoris synchronisés</b><span>Retrouvez-les sur mobile et ordinateur</span></div></li>
-      <li><i><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1em;height:1.1em;vertical-align:-.18em"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 01-8 0"/></svg></i><div><b>Panier et commandes</b><span>Suivi simple, commande par WhatsApp</span></div></li>
-      <li><i><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1em;height:1.1em;vertical-align:-.18em"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5L17 22l-5-3-5 3 1.5-8.5"/></svg></i><div><b>Avantages membres</b><span>Points et badges selon vos achats</span></div></li>
-    </ul>
-    <div class="ash-orb o1"></div><div class="ash-orb o2"></div>
-  </aside>
-  <section class="auth-card">
-  <div class="auth-head"><h2>Bon retour</h2><p>Heureux de vous revoir. Connectez-vous pour continuer.</p></div>
-  <div class="auth-tabs">
-    <button class="tab-btn on" id="tabLogin" onclick="switchTab('login')">Connexion</button>
-    <button class="tab-btn" id="tabRegister" onclick="switchTab('register')">S'inscrire</button>
-  </div>
-  <div id="formLogin" class="auth-form">
-    <button class="btn-google" onclick="loginGoogle()">
-      <svg class="g-logo" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
-      Continuer avec Google
-    </button>
-    <div class="divider"><span>ou avec email</span></div>
-    <div class="form-group">
-      <label class="form-label">Email</label>
-      <div class="finput" id="fLoginEmail"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><input type="email" id="loginEmail" placeholder="tonemail@exemple.com" autocomplete="email"></div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Mot de passe <a href="#" onclick="resetPassword(event)">Oublié ?</a></label>
-      <div class="finput" id="fLoginPw"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path stroke-linecap="round" d="M7 11V7a5 5 0 0110 0v4"/></svg><input type="password" id="loginPw" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"><button type="button" class="pw-toggle" onclick="togglePw('loginPw',this)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
-      <div class="field-err" id="loginErr">Email ou mot de passe incorrect</div>
-    </div>
-    <button class="btn-submit" id="btnLogin" onclick="doLogin()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>Se connecter</button>
-    <p class="auth-legal">En vous connectant, vous acceptez nos <a href="/conditions-utilisation#acceptation">Conditions d'utilisation</a> et notre <a href="/confidentiality">Politique de confidentialité</a>.</p>
-  </div>
-  <div id="formRegister" class="auth-form" style="display:none">
-    <button class="btn-google" onclick="loginGoogle()"><svg class="g-logo" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z"/></svg>S'inscrire avec Google</button>
-    <div class="divider"><span>ou avec email</span></div>
-    <div class="form-group">
-      <label class="form-label">Prénom (optionnel)</label>
-      <div class="finput"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg><input type="text" id="regName" placeholder="Ex: Jean-Pierre" autocomplete="given-name"></div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Email</label>
-      <div class="finput"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><input type="email" id="regEmail" placeholder="tonemail@exemple.com" autocomplete="email"></div>
-      <div class="field-err" id="regEmailErr">Email déjà utilisé ou invalide</div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Mot de passe</label>
-      <div class="finput"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path stroke-linecap="round" d="M7 11V7a5 5 0 0110 0v4"/></svg><input type="password" id="regPw" placeholder="Minimum 6 caractères" autocomplete="new-password" oninput="checkPwStrength(this.value)"><button type="button" class="pw-toggle" onclick="togglePw('regPw',this)"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
-      <div class="pw-strength"><div class="pw-bars"><div class="pw-bar" id="pb1"></div><div class="pw-bar" id="pb2"></div><div class="pw-bar" id="pb3"></div><div class="pw-bar" id="pb4"></div></div><div class="pw-stxt" id="pwTxt">Entre un mot de passe</div></div>
-    </div>
-    <button class="btn-submit" id="btnRegister" onclick="doRegister()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>Créer mon compte</button>
-    <p class="auth-legal">En créant un compte, vous acceptez nos <a href="/conditions-utilisation#acceptation">Conditions d'utilisation</a> et reconnaissez avoir pris connaissance de notre <a href="/confidentiality">Politique de confidentialité</a>.</p>
-  </div>
+<main id="viewAuth" class="view active" style="padding-bottom:40px">
+<div class="au-wrap">
+ <div class="au" id="au">
+  <!-- CONNEXION -->
+  <section class="au-f au-login" id="formLogin" aria-label="Connexion">
+   <div class="au-in-box">
+    <a class="au-brand" href="/" aria-label="WYK"><img class="lg-l" src="/assets/brand/wyk-logo-transparent.png" alt="WYK"><img class="lg-d" src="/assets/brand/wyk-logo-dark-transparent.png" alt="WYK"></a>
+    <h2>Bon retour</h2><p class="au-sub">Connectez-vous pour suivre vos commandes et retrouver vos favoris.</p>
+    <button class="au-g" type="button" onclick="loginGoogle()"><svg viewBox="0 0 18 18" width="18" height="18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z"/></svg>Continuer avec Google</button>
+    <div class="au-or"><span>ou avec votre email</span></div>
+    <label class="au-l" for="loginEmail">Email</label>
+    <div class="au-in" id="fLoginEmail"><svg viewBox="0 0 24 24"><path d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><input type="email" id="loginEmail" placeholder="vous@exemple.com" autocomplete="email"></div>
+    <label class="au-l" for="loginPw">Mot de passe <a href="#" onclick="resetPassword(event)">Oublié ?</a></label>
+    <div class="au-in" id="fLoginPw"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg><input type="password" id="loginPw" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"><button type="button" class="au-eye" onclick="togglePw('loginPw',this)" aria-label="Afficher le mot de passe"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+    <div class="field-err" id="loginErr">Email ou mot de passe incorrect</div>
+    <button class="au-btn" id="btnLogin" type="button" onclick="doLogin()"><span>Se connecter</span><i class="au-spin"></i></button>
+    <p class="au-sw">Pas encore de compte ? <button type="button" onclick="switchTab('register')">Créer un compte</button></p>
+    <p class="au-legal">En vous connectant, vous acceptez nos <a href="/conditions-utilisation#acceptation">Conditions</a> et notre <a href="/confidentiality">Politique de confidentialité</a>.</p>
+   </div>
   </section>
+  <!-- INSCRIPTION -->
+  <section class="au-f au-reg" id="formRegister" aria-label="Inscription">
+   <div class="au-in-box">
+    <a class="au-brand" href="/" aria-label="WYK"><img class="lg-l" src="/assets/brand/wyk-logo-transparent.png" alt="WYK"><img class="lg-d" src="/assets/brand/wyk-logo-dark-transparent.png" alt="WYK"></a>
+    <h2>Créer un compte</h2><p class="au-sub">Gratuit et rapide : commandez, payez et suivez votre livraison.</p>
+    <div class="au-row">
+     <div><label class="au-l" for="regName">Prénom</label><div class="au-in"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg><input type="text" id="regName" placeholder="Jean" autocomplete="given-name"></div></div>
+     <div><label class="au-l" for="regPhone">Téléphone</label><div class="au-in"><span class="au-pre">+509</span><input type="tel" inputmode="tel" id="regPhone" placeholder="XXXX XXXX" autocomplete="tel-national"></div></div>
+    </div>
+    <label class="au-l" for="regEmail">Email</label>
+    <div class="au-in"><svg viewBox="0 0 24 24"><path d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><input type="email" id="regEmail" placeholder="vous@exemple.com" autocomplete="email"></div>
+    <div class="field-err" id="regEmailErr">Email déjà utilisé ou invalide</div>
+    <label class="au-l" for="regPw">Mot de passe</label>
+    <div class="au-in"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg><input type="password" id="regPw" placeholder="6 caractères minimum" autocomplete="new-password" oninput="checkPwStrength(this.value)"><button type="button" class="au-eye" onclick="togglePw('regPw',this)" aria-label="Afficher le mot de passe"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+    <div class="pw-strength"><div class="pw-bars"><div class="pw-bar" id="pb1"></div><div class="pw-bar" id="pb2"></div><div class="pw-bar" id="pb3"></div><div class="pw-bar" id="pb4"></div></div><div class="pw-stxt" id="pwTxt">Entrez un mot de passe</div></div>
+    <button class="au-btn" id="btnRegister" type="button" onclick="doRegister()"><span>Créer mon compte</span><i class="au-spin"></i></button>
+    <button class="au-g" type="button" onclick="loginGoogle()" style="margin-top:10px"><svg viewBox="0 0 18 18" width="18" height="18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z"/></svg>S'inscrire avec Google</button>
+    <p class="au-sw">Déjà client ? <button type="button" onclick="switchTab('login')">Se connecter</button></p>
+    <p class="au-legal">En créant un compte, vous acceptez nos <a href="/conditions-utilisation#acceptation">Conditions</a> et notre <a href="/confidentiality">Politique de confidentialité</a>.</p>
+   </div>
+  </section>
+  <!-- PANNEAU COULISSANT -->
+  <aside class="au-pan" aria-hidden="false">
+   <div class="au-glow g1"></div><div class="au-glow g2"></div>
+   <div class="au-mos" id="auMos" aria-hidden="true"></div>
+   <div class="au-pan-in">
+    <img class="au-plogo" src="/assets/brand/wyk-logo-dark-transparent.png" alt="WYK">
+    <div class="au-pt pl">
+     <h3>Faites vos achats <em>autrement.</em></h3>
+     <p>Pas encore de compte ? Rejoignez WYK pour commander en quelques clics.</p>
+     <button type="button" class="au-ghost" onclick="switchTab('register')">Créer un compte</button>
+    </div>
+    <div class="au-pt pr">
+     <h3>Content de vous <em>revoir.</em></h3>
+     <p>Vous avez déjà un compte ? Retrouvez vos commandes et vos favoris.</p>
+     <button type="button" class="au-ghost" onclick="switchTab('login')">Se connecter</button>
+    </div>
+    <ul class="au-feat">
+     <li><i><svg viewBox="0 0 24 24"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7.5" cy="18" r="2"/><circle cx="17.5" cy="18" r="2"/></svg></i>Livraison suivie en direct</li>
+     <li><i><svg viewBox="0 0 24 24"><path d="M12 3l8 3v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg></i>Paiement MonCash &amp; NatCash vérifié</li>
+     <li><i><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg></i>Support client dans votre compte</li>
+    </ul>
+   </div>
+  </aside>
+ </div>
+ <div class="au-ssl"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>Connexion chiffrée SSL · wykht.com</div>
 </div>
 </main>
 
@@ -744,8 +916,35 @@ input,select,textarea,.finput{background:var(--bg)!important;border:none!importa
 
   <!-- COMMANDES -->
   <div id="ordersSection">
-    <div class="sec-lbl a3"><span><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1em;height:1.1em;vertical-align:-.18em"><path d="M21 8l-9-5-9 5 9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg> Historique commandes</span></div>
-    <div id="ordersList" class="mini-list a3"></div>
+    <div class="sec-lbl a3"><span><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1em;height:1.1em;vertical-align:-.18em"><path d="M20 7L12 3 4 7m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg> Mes commandes</span></div>
+    <div id="phoneBanner" class="ph-banner" style="display:none"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg><div><b>Ajoutez votre numéro de téléphone</b><span>Il est indispensable pour envoyer une commande et être contacté pour la livraison.</span></div><button type="button" onclick="openEditModal()">Ajouter</button></div>
+    <div id="ordersList" class="ord-list a3"></div>
+  </div>
+
+  <!-- SUPPORT CLIENT -->
+  <div id="supportSection">
+    <div class="sec-lbl a3"><span><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1em;height:1.1em;vertical-align:-.18em"><path d="M4 5h16v11H8l-4 4z"/></svg> Support client <b id="supDot" class="sup-dot" style="display:none">0</b></span></div>
+    <div class="sup a3">
+      <div class="sup-how"><h4>Comment se passe votre livraison</h4>
+        <ol class="sup-steps">
+          <li><i>1</i><div><b>Commande reçue</b><span>Vous envoyez votre panier et votre preuve de paiement.</span></div></li>
+          <li><i>2</i><div><b>Paiement vérifié</b><span>Notre équipe contrôle la preuve MonCash / NatCash.</span></div></li>
+          <li><i>3</i><div><b>Préparation</b><span>Votre commande est emballée avec soin.</span></div></li>
+          <li><i>4</i><div><b>En route</b><span>Le livreur vous appelle sur le numéro indiqué.</span></div></li>
+          <li><i>5</i><div><b>Livrée</b><span>Vous recevez et vérifiez vos articles.</span></div></li>
+        </ol>
+      </div>
+      <div class="chat">
+        <div class="chat-h"><div class="chat-av"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg></div><div><b>Équipe WYK</b><span>Réponse dans votre compte, en général sous quelques heures</span></div></div>
+        <div class="chat-ctx" id="chatCtx" style="display:none"></div>
+        <div class="chat-box" id="chatBox"><div class="chat-empty">Aucun message. Posez votre question ci-dessous.</div></div>
+        <div class="chat-in"><textarea id="chatIn" rows="1" maxlength="1000" placeholder="Écrivez votre message…"></textarea><button type="button" id="chatSend" onclick="sendMsg()" aria-label="Envoyer"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></div>
+      </div>
+      <details class="faq"><summary>Quels sont les délais de livraison ?</summary><p>Ils dépendent de votre zone et sont affichés au moment de la commande.</p></details>
+      <details class="faq"><summary>Comment payer avec MonCash ou NatCash ?</summary><p>Envoyez le montant au numéro indiqué à l'étape Paiement, puis joignez l'ID de transaction et la capture d'écran depuis votre compte connecté.</p></details>
+      <details class="faq"><summary>Mon paiement a été refusé, que faire ?</summary><p>Ouvrez la commande concernée et utilisez « Renvoyer une preuve », ou écrivez-nous ici.</p></details>
+      <a class="sup-wa" href="https://wa.me/50940300966" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/></svg>Urgent ? Écrire sur WhatsApp</a>
+    </div>
   </div>
 
   <!-- MENU -->
@@ -791,16 +990,7 @@ input,select,textarea,.finput{background:var(--bg)!important;border:none!importa
   <!-- SÉCURITÉ & CONFIANCE (badge SSLCanary) -->
   <div class="sec-lbl a4">Sécurité et confiance</div>
   <div class="menu-list a4">
-    <div class="trust-card">
-      <div class="tc-top">
-        <div class="mi-ico ico-g"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path stroke-linecap="round" stroke-linejoin="round" d="M8.5 12l2.5 2.5L15.5 10"/></svg></div>
-        <div class="mi-body"><div class="mi-name">Connexion sécurisée</div><div class="mi-sub">Le certificat SSL de wykht.com est surveillé par SSLCanary.</div></div>
-      </div>
-      <div class="tc-foot">
-        <a class="ssl-badge" href="https://sslcanary.com/en/tools/ssl-checker?host=wykht.com" target="_blank" rel="noopener"><img src="https://sslcanary.com/badge/wykht.com.svg" alt="SSL monitored by SSLCanary" height="28" loading="lazy" decoding="async"></a>
-        <span class="tc-tip">Vérifie que l'adresse commence par https://wykht.com</span>
-      </div>
-    </div>
+    <div class="trust-card" style="display:flex;flex-direction:column;align-items:flex-start;gap:10px"><span class="ssl-card"><span class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span><span class="sc-tx"><b>Connexion sécurisée</b><small>SSL · wykht.com</small></span><a class="ssl-badge" href="https://sslcanary.com/en/tools/ssl-checker?host=wykht.com" target="_blank" rel="noopener" aria-label="Vérifier le certificat SSL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a></span><span class="tc-tip">Vérifiez que l'adresse commence par https://wykht.com</span></div>
   </div>
 
   <div class="logout-area">
@@ -849,6 +1039,20 @@ input,select,textarea,.finput{background:var(--bg)!important;border:none!importa
       <div class="m-form-group"><label class="m-lbl">Numéro WhatsApp</label><input class="m-input" type="tel" id="editPhone" placeholder="+509 XXXX XXXX"></div>
       <div class="m-form-group"><label class="m-lbl">Zone de livraison</label><input class="m-input" type="text" id="editZone" placeholder="Ex: Carrefour, rue Macajoux"></div>
       <button class="btn-save" onclick="saveProfile()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Sauvegarder</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-ov" id="proofModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-head"><div class="modal-title">Preuve de paiement</div><button class="modal-cls" onclick="closeProofModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="modal-body">
+      <p id="pmInfo" style="font-size:.8rem;color:var(--t3);margin:0 0 12px;line-height:1.5"></p>
+      <div id="pmFields"></div>
+      <div class="m-form-group"><label class="m-lbl">Capture d'écran du paiement</label><input class="m-input" type="file" id="pmFile" accept="image/*,.pdf"></div>
+      <div class="field-err" id="pmErr" style="display:none;color:#ef4444;font-size:.78rem;margin:-4px 0 10px"></div>
+      <button class="btn-save" id="pmSend" onclick="submitProof()">Envoyer la preuve</button>
     </div>
   </div>
 </div>
@@ -961,7 +1165,9 @@ function objectFitFallback(imgEl,mode){
 }
 
 /* ── TABS ── */
-function switchTab(tab){var l=tab==='login';var ah=document.querySelector('.auth-head');if(ah){ah.querySelector('h2').textContent=l?'Bon retour':'Créer un compte';ah.querySelector('p').textContent=l?'Heureux de vous revoir. Connectez-vous pour continuer.':'Quelques informations et c\'est parti : gratuit et rapide.'}document.getElementById('tabLogin').classList.toggle('on',l);document.getElementById('tabRegister').classList.toggle('on',!l);document.getElementById('formLogin').style.display=l?'block':'none';document.getElementById('formRegister').style.display=l?'none':'block'}
+var _nextDest=(function(){try{var q=new URLSearchParams(location.search).get('next');if(q==='commande')sessionStorage.setItem('wyk_next','commande');return sessionStorage.getItem('wyk_next')}catch(e){return null}})();
+function switchTab(tab){document.getElementById('au').classList.toggle('reg',tab!=='login');var a=document.querySelector('#viewAuth .au-f'+(tab==='login'?'.au-login':'.au-reg')+' input');if(a&&window.innerWidth>860)setTimeout(function(){a.focus({preventScroll:true})},700)}
+if(location.hash==='#inscription')switchTab('register');
 
 /* ── PW ── */
 function togglePw(id){var inp=document.getElementById(id);inp.type=inp.type==='text'?'password':'text'}
@@ -989,136 +1195,82 @@ function getProfile(){return safeParse('wyk-profile',{})}
 /* ══════════════════════════════════
    RENDU FAVORIS
 ══════════════════════════════════ */
+/* ── listes à clé : on ne reconstruit que ce qui change (plus de scintillement ni d'animation rejouée) ── */
+function syncList(el,items,keyOf,sigOf,build){
+  var old={};
+  [].slice.call(el.children).forEach(function(c){if(c._k==null)el.removeChild(c);else old[c._k]=c});
+  var prev=null;
+  items.forEach(function(it){
+    var k=String(keyOf(it)),s=sigOf(it),n=old[k];
+    if(!n){n=build(it);n._k=k;n._s=s;n.classList.add('enter')}
+    else{delete old[k];if(n._s!==s){var m=build(it);m._k=k;m._s=s;el.replaceChild(m,n);n=m}}
+    var ref=prev?prev.nextSibling:el.firstChild;
+    if(n!==ref)el.insertBefore(n,ref);
+    prev=n;
+  });
+  Object.keys(old).forEach(function(k){if(old[k].parentNode===el)el.removeChild(old[k])});
+}
+var COL_NAMES=[['Noir','#111111'],['Blanc','#ffffff'],['Gris','#808080'],['Rouge','#e8192c'],['Rouge foncé','#8b0000'],['Rose','#ff7eb6'],['Orange','#ff8c1a'],['Jaune','#f5c842'],['Beige','#d9c7a3'],['Marron','#7b4a24'],['Vert','#22a559'],['Vert foncé','#14532d'],['Turquoise','#14b8a6'],['Bleu ciel','#7ec8f4'],['Bleu','#2563eb'],['Bleu marine','#16255c'],['Violet','#7c3aed'],['Doré','#c9a227'],['Argenté','#b8bcc4']];
+function colorName(c){
+  var h=String(c||'').trim().toLowerCase().replace('#','');if(h.length===3)h=h.replace(/./g,'$&$&');
+  if(!/^[0-9a-f]{6}$/.test(h))return String(c||'');
+  var n=parseInt(h,16),a=[n>>16,n>>8&255,n&255],best='',d=1e9;
+  COL_NAMES.forEach(function(x){var m=parseInt(x[1].slice(1),16),dd=Math.pow(a[0]-(m>>16),2)+Math.pow(a[1]-(m>>8&255),2)+Math.pow(a[2]-(m&255),2);if(dd<d){d=dd;best=x[0]}});
+  return best;
+}
+function emptyMini(el,svg,html){if(el._empty===html)return;el._empty=html;el.innerHTML='<div class="empty-mini"><svg viewBox="0 0 24 24">'+svg+'</svg>'+html+'</div>'}
+function miniImg(p,big){
+  return '<div class="mini-img'+(big?' big':'')+'">'+(p.img?'<img src="'+escHtml(p.img)+'" alt="'+escHtml(p.name)+'" loading="lazy" decoding="async">':'<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14"/></svg>')+'</div>';
+}
+
 function renderFavs(){
-  var favs=getFavs();
-  var el=document.getElementById('favList');
-  var badge=document.getElementById('badgeFavs');
+  var favs=getFavs(),el=document.getElementById('favList'),badge=document.getElementById('badgeFavs');
   document.getElementById('statFavs').textContent=favs.length;
   if(favs.length){badge.style.display='flex';badge.textContent=favs.length}else badge.style.display='none';
-
-  el.classList.remove('list-fresh');
-  if(!favs.length){
-    el.innerHTML='<div class="empty-mini"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>Aucun favori pour l\'instant.<br><a href="/">Explorer les produits</a> et appuie sur le cœur !</div>';
-    return;
-  }
-  el.innerHTML='';
-  favs.forEach(function(p){
+  if(!favs.length){el._empty=null;emptyMini(el,'<path stroke-linecap="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>','Aucun favori pour l\'instant.<br><a href="/">Explorer les produits</a> et appuie sur le cœur !');return}
+  el._empty=null;
+  syncList(el,favs,function(p){return p.id},function(p){return JSON.stringify([p.name,p.price,p.img,p.category])},function(p){
     var d=document.createElement('div');d.className='mini-item';
-    var imgHtml=p.img
-      ?'<img src="'+escHtml(p.img)+'" alt="'+escHtml(p.name)+'" loading="lazy" onload="objectFitFallback(this)">'
-      :'<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14"/></svg>';
-
-    d.innerHTML=
-      '<div class="mini-img">'+imgHtml+'</div>'
-      +'<div class="mini-body">'
-        +'<div class="mini-name">'+escHtml(p.name)+'</div>'
-        +'<div class="mini-sub"><span class="mini-cat-dot"></span>'+escHtml(p.category||'WYK')+'</div>'
-      +'</div>'
-      +'<div class="mini-price">'+fmtPrice(p.price)+'</div>'
-      +'<button class="mini-rm" title="Retirer" onclick="removeFav(event,\''+escHtml(p.id)+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>';
-
-    /* Clic sur la carte → popup produit */
-    d.addEventListener('click',function(e){if(!e.target.closest('.mini-rm'))openProdPopup(p,'fav')});
-    el.appendChild(d);
-  });
-  requestAnimationFrame(function(){el.classList.add('list-fresh');setTimeout(function(){el.classList.remove('list-fresh')},900)});
+    d.innerHTML=miniImg(p)+'<div class="mini-body"><div class="mini-name">'+escHtml(p.name)+'</div><div class="mini-sub"><span class="mini-cat-dot"></span>'+escHtml(p.category||'WYK')+'</div></div><div class="mini-price">'+fmtPrice(p.price)+'</div><button class="mini-rm" title="Retirer" data-rmfav="'+escHtml(p.id)+'"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button>';
+    d._p=p;return d});
 }
-
-function removeFav(e,id){
-  e.stopPropagation();
-  saveFavs(getFavs().filter(function(f){return f.id!==id}));
-  renderFavs();
-  showToast('Retiré des favoris');
-}
+function removeFav(e,id){if(e)e.stopPropagation();saveFavs(getFavs().filter(function(f){return f.id!==id}));renderFavs();showToast('Retiré des favoris')}
 function clearFavorites(){if(!getFavs().length)return;saveFavs([]);renderFavs();showToast('Favoris effacés')}
 
-/* ══════════════════════════════════
-   RENDU PANIER
-══════════════════════════════════ */
 function renderCart(){
-  var cart=getCart();
-  var el=document.getElementById('cartList');
-  var tb=document.getElementById('cartTotalBar');
-  var badge=document.getElementById('badgeCart');
-  var total=cart.reduce(function(s,i){return s+Number(i.price)*i.qty},0);
-  var totalQty=cart.reduce(function(s,i){return s+i.qty},0);
-  document.getElementById('statCart').textContent=totalQty;
-  if(totalQty){badge.style.display='flex';badge.textContent=totalQty}else badge.style.display='none';
-
-  el.classList.remove('list-fresh');
-  if(!cart.length){
-    el.innerHTML='<div class="empty-mini"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>Ton panier est vide.<br><a href="/">Ajoute des produits</a> depuis l\'accueil !</div>';
-    tb.innerHTML='';return;
-  }
-
-  el.innerHTML='';
-  cart.forEach(function(p){
+  var cart=getCart(),el=document.getElementById('cartList'),tb=document.getElementById('cartTotalBar'),badge=document.getElementById('badgeCart');
+  var total=cart.reduce(function(s,i){return s+Number(i.price)*i.qty},0),tq=cart.reduce(function(s,i){return s+i.qty},0);
+  document.getElementById('statCart').textContent=tq;
+  if(tq){badge.style.display='flex';badge.textContent=tq}else badge.style.display='none';
+  if(!cart.length){el._empty=null;emptyMini(el,'<path stroke-linecap="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>','Ton panier est vide.<br><a href="/categories">Découvrir la boutique</a>');tb.innerHTML='';tb._s='';return}
+  el._empty=null;
+  syncList(el,cart,function(p){return p.key},function(p){return JSON.stringify([p.name,p.price,p.img,p.size,p.color,p.qty,p.pk])},function(p){
     var d=document.createElement('div');d.className='mini-item';
-    var imgHtml=p.img
-      ?'<img src="'+escHtml(p.img)+'" alt="'+escHtml(p.name)+'" loading="lazy" onload="objectFitFallback(this)">'
-      :'<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16"/></svg>';
-
-    d.innerHTML=
-      '<div class="mini-img">'+imgHtml+'</div>'
-      +'<div class="mini-body">'
-        +'<div class="mini-name">'+escHtml(p.name)+'</div>'
-        +'<div class="mini-sub">'+fmtPrice(p.price)+' / unité'+(p.size?' · '+escHtml(p.size):'')+'</div>'
-      +'</div>'
-      +'<div class="cart-item-qty">'
-        +'<button class="qty-btn" onclick="updateQty(event,\''+escHtml(p.key)+'\',-1)">−</button>'
-        +'<span class="qty-val">'+p.qty+'</span>'
-        +'<button class="qty-btn" onclick="updateQty(event,\''+escHtml(p.key)+'\',1)">+</button>'
-      +'</div>';
-
-    /* Clic carte → popup */
-    d.addEventListener('click',function(e){if(!e.target.closest('.qty-btn'))openProdPopup(p,'cart')});
-    el.appendChild(d);
-  });
-
-  /* Barre total */
-  tb.innerHTML='<div class="cart-total-bar">'
-    +'<div class="cart-total-info"><div class="cart-total-lbl">Total panier ('+totalQty+' article'+(totalQty>1?'s':'')+')</div><div class="cart-total-val">'+fmtPrice(total)+'</div></div>'
-    +'<button class="cart-wa-btn" onclick="orderWhatsApp()">'
-      +'<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
-      +'Commander'
-    +'</button>'
-    +'</div>';
-  requestAnimationFrame(function(){el.classList.add('list-fresh');setTimeout(function(){el.classList.remove('list-fresh')},900)});
+    var chips='';if(p.size)chips+='<span class="mini-chip">Taille '+escHtml(p.size)+'</span>';
+    if(p.color)chips+='<span class="mini-chip"><i style="background:'+escHtml(p.color)+'"></i>'+escHtml(colorName(p.color))+'</span>';
+    if(p.pk)chips+='<span class="mini-chip">'+escHtml(p.pk.label)+' · '+(p.qty*p.pk.n)+' u.</span>';
+    d.innerHTML=miniImg(p,true)+'<div class="mini-body"><div class="mini-name">'+escHtml(p.name)+'</div><div class="mini-sub">'+fmtPrice(p.price)+(p.pk?' / '+escHtml(String(p.pk.label).toLowerCase()):' / unité')+'</div>'+(chips?'<div class="mini-chips">'+chips+'</div>':'')+'</div>'
+      +'<div class="cart-item-qty"><button class="qty-btn" data-q="-1">−</button><span class="qty-val">'+p.qty+'</span><button class="qty-btn" data-q="1">+</button></div>';
+    d._p=p;return d});
+  var sig=tq+'|'+total;
+  if(tb._s!==sig){tb._s=sig;
+    tb.innerHTML='<div class="cart-total-bar"><div class="cart-total-info"><div class="cart-total-lbl">Total panier ('+tq+' article'+(tq>1?'s':'')+')</div><div class="cart-total-val">'+fmtPrice(total)+'</div></div><button class="cart-wa-btn" onclick="goCheckout()">Commander<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div><div class="cart-note">Livraison, paiement et preuve à l\'étape suivante</div>'}
 }
-
 function updateQty(e,key,delta){
-  e.stopPropagation();
-  var cart=getCart();
-  var item=cart.find(function(i){return i.key===key});
-  if(!item)return;
-  item.qty=Math.max(0,item.qty+delta);
-  if(item.qty===0)cart=cart.filter(function(i){return i.key!==key});
+  if(e)e.stopPropagation();
+  var cart=getCart(),item=cart.find(function(i){return i.key===key});if(!item)return;
+  item.qty=Math.max(0,item.qty+delta);if(item.qty===0)cart=cart.filter(function(i){return i.key!==key});
   saveCart(cart);renderCart();
 }
 function clearCart(){if(!getCart().length)return;saveCart([]);renderCart();showToast('Panier vidé')}
-
-async function orderWhatsApp(){
-  var cart=getCart();if(!cart.length)return;
-  var total=cart.reduce(function(s,i){return s+Number(i.price)*i.qty},0);
-  var msg='Bonjour WYK, voici ma commande :\n\n'+cart.map(function(p){return '• '+p.name+' x'+p.qty+(p.size?' ('+p.size+')':'')+' — '+fmtPrice(Number(p.price)*p.qty)}).join('\n')+'\n\n*Total : '+fmtPrice(total)+'*\n\nMerci !';
-  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');
-
-  /* Enregistrement de la commande + points de fidélité (uniquement si connecté) */
-  if(_currentUser){
-    try{
-      var {error}=await sb.from('orders').insert({user_id:_currentUser.id,items:cart,total:total,status:'en_attente'});
-      if(error){console.error('orders insert',error)}
-      else{
-        var earned=Math.floor(total/100); /* 1 point / 100 HTG dépensés */
-        var current=getProfile();
-        var newPoints=(current.points||0)+earned;
-        await upsertProfile({points:newPoints});
-        renderTier(newPoints);
-        loadOrders();
-      }
-    }catch(e){console.error('order insert',e)}
-  }
-}
+function goCheckout(){if(!getCart().length)return;location.href='/commande'}
+function orderWhatsApp(){goCheckout()}
+/* un seul écouteur délégué par liste (aucun onclick recréé à chaque rendu) */
+(function(){
+  var f=document.getElementById('favList'),c=document.getElementById('cartList');
+  f.addEventListener('click',function(e){var r=e.target.closest('[data-rmfav]');if(r){removeFav(e,r.getAttribute('data-rmfav'));return}var it=e.target.closest('.mini-item');if(it&&it._p)openProdPopup(it._p,'fav')});
+  c.addEventListener('click',function(e){var q=e.target.closest('[data-q]'),it=e.target.closest('.mini-item');if(!it||!it._p)return;if(q){updateQty(e,it._p.key,+q.getAttribute('data-q'));return}openProdPopup(it._p,'cart')});
+})();
 
 /* ══════════════════════════════════
    POPUP PRODUIT
@@ -1327,32 +1479,182 @@ document.getElementById('addrModal').addEventListener('click',function(e){if(e.t
 /* ══════════════════════════════════
    HISTORIQUE COMMANDES (table orders)
 ══════════════════════════════════ */
-function statusLabel(s){return {en_attente:'En attente',confirmee:'Confirmée',livree:'Livrée',annulee:'Annulée'}[s]||'En attente'}
-
-async function loadOrders(){
-  if(!_currentUser)return;
-  var {data,error}=await sb.from('orders').select('*').eq('user_id',_currentUser.id).order('created_at',{ascending:false}).limit(20);
-  if(error){console.error('loadOrders',error);return}
-  renderOrders(data||[]);
+/* ══════════════════════════════════
+   COMMANDES — suivi, preuve, support
+══════════════════════════════════ */
+var _orders=[],_proofs={},_openOrd={},_rtUid=null,_chatOrder=null,_msgs=[],_unread=0,_proofOrder=null,_payCfg=null;
+function ordStage(o){
+  if(o.status==='annulee')return -1;
+  if(o.delivery_status==='livree'||o.status==='livree')return 4;
+  if(o.delivery_status==='en_route')return 3;
+  if(o.pay_status==='verifie'||o.status==='confirmee')return 2;
+  var pr=_proofs[o.id];
+  return (pr||o.pay_method==='whatsapp'||!o.pay_method)?1:0;
+}
+var STAGE_LBL=['Commande reçue','Paiement en vérification','En préparation','En route','Livrée'];
+function ordChip(o){var s=ordStage(o);if(s<0)return '<span class="ord-st sx">Annulée</span>';
+  if(o.pay_status==='refuse')return '<span class="ord-st sx">Paiement refusé</span>';
+  var lbl=s===1&&(o.pay_method==='whatsapp')?'Confirmation WhatsApp':STAGE_LBL[s];return '<span class="ord-st s'+s+'">'+lbl+'</span>'}
+function fmtItemLine(i){var p=[];if(i.size)p.push('Taille '+i.size);if(i.color)p.push(i.color_name||colorName(i.color));if(i.pack)p.push(i.pack+(i.pack_units?' ('+i.pack_units+' u.)':''));return p.join(' · ')}
+function buildOrder(o){
+  var items=Array.isArray(o.items)?o.items:[],st=ordStage(o),pr=_proofs[o.id],open=!!_openOrd[o.id];
+  var d=document.createElement('article');d.className='ord'+(open?' open':'');
+  var nb=items.reduce(function(s,i){return s+(Number(i.qty)||1)},0);
+  var th=items.slice(0,3).map(function(i){return '<span>'+(i.img?'<img src="'+escHtml(i.img)+'" alt="" loading="lazy">':'')+'</span>'}).join('')+(items.length>3?'<span class="m">+'+(items.length-3)+'</span>':'');
+  var dt=new Date(o.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
+  var h='<button type="button" class="ord-h" data-tg="'+o.id+'"><div class="ord-th">'+th+'</div><div class="ord-m"><div class="ord-ref">'+escHtml(o.order_ref||('Commande du '+dt))+'</div><div class="ord-d">'+dt+' · '+nb+' article'+(nb>1?'s':'')+'</div>'+ordChip(o)+'</div><div class="ord-p"><b>'+fmtPrice(o.total)+'</b></div><svg class="ord-chev" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button>';
+  var b='<div class="ord-b">';
+  if(st>=0){
+    b+='<div class="trk">'+STAGE_LBL.map(function(l,i){var c=i<st?'done':i===st?'cur':'';if(i===0)c='done';return '<div class="'+c+'"><i>'+(c==='done'?'<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.5 4.5L19 7"/></svg>':'')+'</i>'+l+'</div>'}).join('')+'</div>';
+  }
+  if(o.pay_status==='refuse')b+='<div class="ord-alert bad"><b>Paiement refusé.</b> '+escHtml((pr&&pr.admin_note)||'Veuillez renvoyer une preuve valide ou nous contacter.')+'</div>';
+  else if(pr&&pr.status==='en_attente'&&o.pay_status!=='verifie')b+='<div class="ord-alert warn">Votre preuve a bien été reçue. Elle est en cours de vérification.</div>';
+  else if(o.pay_status==='verifie')b+='<div class="ord-alert ok">Paiement vérifié, merci !</div>';
+  else if((o.pay_method==='moncash'||o.pay_method==='natcash')&&!pr)b+='<div class="ord-alert warn">Aucune preuve de paiement envoyée pour cette commande.</div>';
+  b+=items.map(function(i){var f=fmtItemLine(i);return '<div class="ord-it"><div class="im">'+(i.img?'<img src="'+escHtml(i.img)+'" alt="" loading="lazy">':'')+'</div><div><b>'+escHtml(i.name)+'</b><small>'+(f?escHtml(f)+' · ':'')+(Number(i.qty)||1)+' × '+fmtPrice(i.price)+'</small></div><div class="pr">'+fmtPrice((Number(i.price)||0)*(Number(i.qty)||1))+'</div></div>'}).join('');
+  var inf=[];
+  inf.push(['Mode',o.delivery_mode==='retrait'?'Retrait en boutique':'Livraison'+(o.zone?' · '+o.zone:'')]);
+  if(o.address)inf.push(['Adresse',o.address+(o.landmark?' ('+o.landmark+')':'')]);
+  if(o.receiver)inf.push(['Réceptionne',o.receiver]);
+  if(o.phone)inf.push(['Téléphone',o.phone]);
+  if(o.notes)inf.push(['Note',o.notes]);
+  if(o.pay_method)inf.push(['Paiement',({moncash:'MonCash',natcash:'NatCash',whatsapp:'WhatsApp'})[o.pay_method]||o.pay_method]);
+  if(Number(o.delivery_fee))inf.push(['Livraison',fmtPrice(o.delivery_fee)]);
+  b+='<div class="ord-inf">'+inf.map(function(x){return '<div><span>'+x[0]+'</span><b>'+escHtml(x[1])+'</b></div>'}).join('')+'</div>';
+  b+='<div class="ord-act">';
+  if((o.pay_method==='moncash'||o.pay_method==='natcash')&&st>=0&&o.pay_status!=='verifie'&&(!pr||o.pay_status==='refuse'))b+='<button type="button" class="pri" data-proof="'+o.id+'">'+(pr?'Renvoyer une preuve':'Envoyer ma preuve')+'</button>';
+  b+='<button type="button" data-ask="'+o.id+'">Question sur cette commande</button>';
+  if(o.geo)b+='<a href="'+escHtml(o.geo)+'" target="_blank" rel="noopener">Ma position</a>';
+  b+='</div></div>';
+  d.innerHTML=h+b;return d;
 }
 function renderOrders(list){
-  var el=document.getElementById('ordersList');
-  if(!list.length){
-    el.innerHTML='<div class="empty-mini"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M20 7L12 3 4 7m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>Aucune commande pour l\'instant.</div>';
-    return;
-  }
-  el.innerHTML='';
-  list.forEach(function(o){
-    var d=document.createElement('div');d.className='mini-item';
-    var date=new Date(o.created_at);
-    var dstr=date.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
-    var nbItems=(o.items||[]).reduce(function(s,i){return s+(Number(i.qty)||1)},0);
-    d.innerHTML='<div class="mini-img"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M20 7L12 3 4 7m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div>'
-      +'<div class="mini-body"><div class="mini-name">Commande du '+dstr+'</div><div class="mini-sub">'+nbItems+' article'+(nbItems>1?'s':'')+'</div><span class="order-status st-'+(o.status||'en_attente')+'">'+statusLabel(o.status)+'</span></div>'
-      +'<div class="mini-price">'+fmtPrice(o.total)+'</div>';
-    el.appendChild(d);
-  });
+  var el=document.getElementById('ordersList');_orders=list;
+  var ph=getProfile().phone;document.getElementById('phoneBanner').style.display=ph?'none':'flex';
+  if(!list.length){el._empty=null;emptyMini(el,'<path stroke-linecap="round" d="M20 7L12 3 4 7m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>','Aucune commande pour l\'instant.<br><a href="/categories">Découvrir la boutique</a>');return}
+  el._empty=null;
+  syncList(el,list,function(o){return o.id},function(o){var pr=_proofs[o.id];return JSON.stringify([o,pr&&pr.status,pr&&pr.admin_note,!!_openOrd[o.id]])},buildOrder);
 }
+async function loadOrders(){
+  if(!_currentUser)return;
+  var r=await sb.from('orders').select('*').eq('user_id',_currentUser.id).order('created_at',{ascending:false}).limit(30);
+  if(r.error){console.error('loadOrders',r.error);return}
+  var ids=(r.data||[]).map(function(o){return o.id}),px={};
+  if(ids.length){try{var q=await sb.from('payment_proofs').select('*').in('order_id',ids).order('created_at',{ascending:true});(q.data||[]).forEach(function(p){px[p.order_id]=p})}catch(e){}}
+  _proofs=px;renderOrders(r.data||[]);
+}
+function subscribeRealtime(){
+  if(!_currentUser||_rtUid===_currentUser.id)return;_rtUid=_currentUser.id;
+  var deb=function(fn){var t;return function(){clearTimeout(t);t=setTimeout(fn,400)}};
+  try{
+    sb.channel('wyk-ord-'+_rtUid).on('postgres_changes',{event:'*',schema:'public',table:'orders',filter:'user_id=eq.'+_rtUid},deb(loadOrders))
+      .on('postgres_changes',{event:'*',schema:'public',table:'payment_proofs',filter:'user_id=eq.'+_rtUid},deb(loadOrders))
+      .on('postgres_changes',{event:'INSERT',schema:'public',table:'order_messages',filter:'user_id=eq.'+_rtUid},function(p){var m=p.new;if(!m||_msgs.some(function(x){return x.id===m.id}))return;_msgs.push(m);renderMsgs();if(m.sender==='equipe'){showToast('Nouveau message de l\'équipe WYK');setUnread()}}).subscribe();
+  }catch(e){console.warn('realtime',e)}
+}
+document.getElementById('ordersList').addEventListener('click',function(e){
+  var t=e.target.closest('[data-tg]'),pf=e.target.closest('[data-proof]'),ask=e.target.closest('[data-ask]');
+  if(t){var id=t.getAttribute('data-tg');_openOrd[id]=!_openOrd[id];var card=t.closest('.ord');card.classList.toggle('open',!!_openOrd[id]);if(card._s)card._s=card._s.replace(/(true|false)\]$/,(!!_openOrd[id])+']');return}
+  if(pf){openProofModal(pf.getAttribute('data-proof'));return}
+  if(ask){askSupport(ask.getAttribute('data-ask'))}
+});
+
+/* ── preuve de paiement (renvoi depuis le compte) ── */
+async function openProofModal(orderId){
+  var o=_orders.filter(function(x){return x.id===orderId})[0];if(!o)return;_proofOrder=o;
+  try{var r=await sb.from('site_settings').select('value').eq('key','payment').maybeSingle();_payCfg=(r.data&&r.data.value)||{}}catch(e){_payCfg={}}
+  var pc=_payCfg.proof||{},ex=Array.isArray(pc.extra)?pc.extra:[],acc=_payCfg[o.pay_method]||{};
+  document.getElementById('pmInfo').innerHTML='Commande <b>'+escHtml(o.order_ref||'')+'</b> · '+fmtPrice(o.total)+(acc.number?'<br>Paiement '+(o.pay_method==='moncash'?'MonCash':'NatCash')+' envoyé à <b>'+escHtml(acc.name||'')+' '+escHtml(acc.number)+'</b>':'')+(pc.notice?'<br>'+escHtml(pc.notice):'');
+  function f(id,l,ph,req){return '<div class="m-form-group"><label class="m-lbl">'+escHtml(l)+(req?' *':'')+'</label><input class="m-input" id="'+id+'" placeholder="'+escHtml(ph||'')+'"></div>'}
+  document.getElementById('pmFields').innerHTML=f('pmName','Nom du payeur','Nom sur le compte',pc.require_name!==false)+f('pmPhone','Téléphone utilisé pour payer','+509 XXXX XXXX',pc.require_phone!==false)+f('pmTx','ID / N° de transaction','Ex : TX123456789',pc.require_ref!==false)+ex.map(function(x,i){return f('pmX'+i,x.label||'Champ '+(i+1),x.placeholder,!!x.required)}).join('');
+  document.getElementById('pmName').value=o.customer_name||'';document.getElementById('pmPhone').value=o.phone||'';
+  document.getElementById('pmFile').value='';document.getElementById('pmErr').style.display='none';
+  document.getElementById('proofModal').classList.add('on');document.body.style.overflow='hidden';
+}
+function closeProofModal(){document.getElementById('proofModal').classList.remove('on');document.body.style.overflow=''}
+function pmBad(m){var e=document.getElementById('pmErr');e.textContent=m;e.style.display='block'}
+async function submitProof(){
+  var o=_proofOrder;if(!o||!_currentUser)return;
+  var pc=(_payCfg&&_payCfg.proof)||{},ex=Array.isArray(pc.extra)?pc.extra:[],g=function(i){return document.getElementById(i).value.trim()};
+  var n=g('pmName'),p=g('pmPhone'),t=g('pmTx'),f=document.getElementById('pmFile').files[0];
+  if(pc.require_name!==false&&!n)return pmBad('Indiquez le nom du payeur.');
+  if(pc.require_phone!==false&&p.replace(/\D/g,'').length<8)return pmBad('Indiquez le téléphone utilisé pour payer.');
+  if(pc.require_ref!==false&&t.length<4)return pmBad('Indiquez l\'ID de transaction.');
+  var extra={};for(var i=0;i<ex.length;i++){var v=g('pmX'+i);if(ex[i].required&&!v)return pmBad('Renseignez : '+(ex[i].label||'champ requis'));if(v)extra[ex[i].label||('Champ '+(i+1))]=v}
+  if(pc.require_screenshot!==false&&!f)return pmBad('Joignez la capture d\'écran.');
+  if(f&&f.size>8*1048576)return pmBad('Fichier trop lourd (8 Mo max).');
+  var btn=document.getElementById('pmSend');btn.disabled=true;btn.textContent='Envoi…';
+  try{
+    var path=null;
+    if(f){var ext=(f.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'');path=_currentUser.id+'/'+o.id+'-'+Date.now()+'.'+ext;var up=await sb.storage.from('proofs').upload(path,f,{contentType:f.type||undefined});if(up.error)throw up.error}
+    var r=await sb.from('payment_proofs').insert({order_id:o.id,user_id:_currentUser.id,method:o.pay_method,payer_name:n||null,phone:p||null,tx_ref:t||null,extra:extra,screenshot_url:path});if(r.error)throw r.error;
+    closeProofModal();showToast('Preuve envoyée, vérification en cours');await loadOrders();
+  }catch(e){pmBad('Échec de l\'envoi : '+(e.message||e))}
+  btn.disabled=false;btn.textContent='Envoyer la preuve';
+}
+document.getElementById('proofModal').addEventListener('click',function(e){if(e.target===this)closeProofModal()});
+
+/* ── support client (messagerie) ── */
+function setUnread(){
+  _unread=_msgs.filter(function(m){return m.sender==='equipe'&&!m.read}).length;
+  var d=document.getElementById('supDot');d.textContent=_unread;d.style.display=_unread?'inline-block':'none';
+}
+function renderMsgs(){
+  var box=document.getElementById('chatBox');
+  if(!_msgs.length){if(!box.querySelector('.chat-empty'))box.innerHTML='<div class="chat-empty">Aucun message. Posez votre question ci-dessous.</div>';return}
+  var e=box.querySelector('.chat-empty');if(e)box.removeChild(e);
+  var stick=box.scrollHeight-box.scrollTop-box.clientHeight<60,have={};
+  [].forEach.call(box.children,function(c){have[c.getAttribute('data-id')]=1});
+  _msgs.forEach(function(m){
+    if(have[m.id])return;
+    var d=document.createElement('div');d.className='msg '+m.sender;d.setAttribute('data-id',m.id);
+    var ord=m.order_id?_orders.filter(function(o){return o.id===m.order_id})[0]:null;
+    d.innerHTML=(m.sender==='equipe'?'<em>Équipe WYK</em>':'')+(ord&&ord.order_ref?'<em>'+escHtml(ord.order_ref)+'</em>':'')+escHtml(m.body)+'<small>'+new Date(m.created_at).toLocaleString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})+'</small>';
+    box.appendChild(d)});
+  if(stick||!have[_msgs[0].id])box.scrollTop=box.scrollHeight;
+}
+async function loadMsgs(){
+  if(!_currentUser)return;
+  var r=await sb.from('order_messages').select('*').eq('user_id',_currentUser.id).order('created_at',{ascending:true}).limit(200);
+  if(r.error)return;_msgs=r.data||[];renderMsgs();setUnread();
+}
+async function markRead(){
+  if(!_unread||!_currentUser)return;
+  try{await sb.from('order_messages').update({read:true}).eq('user_id',_currentUser.id).eq('sender','equipe').eq('read',false)}catch(e){}
+  _msgs.forEach(function(m){if(m.sender==='equipe')m.read=true});setUnread();
+}
+function askSupport(orderId){
+  _chatOrder=orderId||null;var o=_orders.filter(function(x){return x.id===orderId})[0],c=document.getElementById('chatCtx');
+  if(o){c.style.display='flex';c.innerHTML='<span>À propos de '+escHtml(o.order_ref||'la commande')+'</span><button type="button" onclick="askSupport(null)" aria-label="Retirer">×</button>'}else c.style.display='none';
+  if(orderId){document.getElementById('supportSection').scrollIntoView({behavior:'smooth',block:'start'});setTimeout(function(){document.getElementById('chatIn').focus({preventScroll:true})},500)}
+}
+async function sendMsg(){
+  var ta=document.getElementById('chatIn'),body=ta.value.trim();if(!body||!_currentUser)return;
+  var btn=document.getElementById('chatSend');btn.disabled=true;
+  var r=await sb.from('order_messages').insert({user_id:_currentUser.id,order_id:_chatOrder,sender:'client',body:body}).select().single();
+  btn.disabled=false;
+  if(r.error){showToast('Message non envoyé : '+r.error.message);return}
+  ta.value='';ta.style.height='';
+  if(!_msgs.some(function(m){return m.id===r.data.id})){_msgs.push(r.data);renderMsgs()}
+}
+(function(){
+  var ta=document.getElementById('chatIn');
+  ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg()}});
+  ta.addEventListener('input',function(){ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,110)+'px'});
+  if('IntersectionObserver' in window){new IntersectionObserver(function(en){if(en[0].isIntersecting)markRead()},{threshold:.4}).observe(document.getElementById('chatBox'))}
+})();
+
+/* ── panneau de connexion : mosaïque de vrais produits ── */
+(async function(){
+  try{
+    var box=document.getElementById('auMos');if(!box)return;
+    var r=await fetch(SUPABASE_URL+'/storage/v1/object/public/public-data/catalog.json',{cache:'force-cache'});if(!r.ok)return;
+    var j=await r.json(),arr=(j.products||j||[]),imgs=[];
+    arr.forEach(function(p){var u=(p._imgs&&p._imgs[0])||(p.product_images&&p.product_images[0]&&p.product_images[0].url)||p.img;if(u&&imgs.length<12)imgs.push(u)});
+    for(var i=imgs.length-1;i>0;i--){var k=Math.floor(Math.random()*(i+1)),t=imgs[i];imgs[i]=imgs[k];imgs[k]=t}
+    box.innerHTML=imgs.slice(0,3).map(function(u){return '<span><img src="'+escHtml(u)+'" alt="" loading="lazy"></span>'}).join('');
+  }catch(e){}
+})();
 
 /* ══════════════════════════════════
    SÉCURITÉ — mot de passe / suppression
@@ -1411,15 +1713,18 @@ async function doLogin(){
 
 async function doRegister(){
   var email=document.getElementById('regEmail').value.trim(),pw=document.getElementById('regPw').value,name=document.getElementById('regName').value.trim();
+  var phone=(document.getElementById('regPhone').value||'').replace(/\D/g,'');
   document.getElementById('regEmailErr').classList.remove('show');
   if(!email||!email.includes('@')){document.getElementById('regEmailErr').classList.add('show');return}
+  if(phone.length<8){showToast('Entrez un numéro de téléphone valide (8 chiffres)');document.getElementById('regPhone').focus();return}
   if(pw.length<6){showToast('Mot de passe trop court (min 6 caractères)');return}
   document.getElementById('btnRegister').classList.add('loading');
-  var {data,error}=await sb.auth.signUp({email,password:pw,options:{data:{full_name:name}}});
+  var {data,error}=await sb.auth.signUp({email,password:pw,options:{data:{full_name:name,phone:'+509 '+phone.slice(-8)}}});
   document.getElementById('btnRegister').classList.remove('loading');
   if(error){if(error.message.includes('already'))document.getElementById('regEmailErr').classList.add('show');else showToast('Erreur : '+error.message);return}
-  if(name)localStorage.setItem('wyk-profile',JSON.stringify({name}));
-  if(data.user){showDashboard(data.user);showToast('Bienvenue sur WYK')}
+  var fullPh='+509 '+phone.slice(-8);
+  localStorage.setItem('wyk-profile',JSON.stringify({name:name,phone:fullPh}));
+  if(data.user){_currentUser=data.user;if(data.session){try{await upsertProfile({name:name,phone:fullPh})}catch(e){}}showDashboard(data.user);showToast('Bienvenue sur WYK')}
 }
 
 async function resetPassword(e){
@@ -1432,7 +1737,7 @@ async function resetPassword(e){
 
 async function doLogout(){
   await sb.auth.signOut();
-  _currentUser=null;
+  _currentUser=null;_orders=[];_msgs=[];
   document.getElementById('viewDashboard').classList.remove('active');
   document.getElementById('viewAuth').classList.add('active');
   showToast('Déconnecté avec succès');
@@ -1440,6 +1745,7 @@ async function doLogout(){
 
 async function showDashboard(user){
   _currentUser=user;
+  if(_nextDest==='commande'){try{sessionStorage.removeItem('wyk_next')}catch(e){}location.replace('/commande');return}
   var isAdmin=user.id===ADMIN_UID;
   var dbProfile=await loadProfileFromDB(user.id);
   var profile=dbProfile||getProfile();
@@ -1469,6 +1775,8 @@ async function showDashboard(user){
   renderCart();
   loadAddresses();
   loadOrders();
+  loadMsgs();
+  subscribeRealtime();
   loadUserBadge();
 }
 
@@ -1503,7 +1811,10 @@ sb.auth.onAuthStateChange(function(event,session){
       document.body.style.overflow='hidden';
       return;
     }
-    if((event==='SIGNED_IN'||event==='TOKEN_REFRESHED')&&session)showDashboard(session.user);
+    if((event==='SIGNED_IN'||event==='TOKEN_REFRESHED'||event==='USER_UPDATED')&&session){
+      /* Supabase émet SIGNED_IN à chaque retour sur l'onglet et TOKEN_REFRESHED toutes les heures : on ne reconstruit le tableau de bord que pour un NOUVEL utilisateur */
+      if(!_currentUser||_currentUser.id!==session.user.id)showDashboard(session.user);else _currentUser=session.user;
+    }
     if(event==='SIGNED_OUT'){document.getElementById('viewDashboard').classList.remove('active');document.getElementById('viewAuth').classList.add('active')}
   }catch(e){console.error('Auth state change WYK :',e)}
 });
@@ -1712,7 +2023,7 @@ W.mount=function(active){var cur=active||'';
  '<div id="wyk-toast" class="toast" role="status"></div>'+
 '<nav class="bnav glass"><a href="/" class="'+(cur==='home'?'on':'')+'">'+I('home')+'Accueil</a><a href="/categories" class="'+(cur==='cats'?'on':'')+'">'+I('grid')+'Catégories</a><button id="bn-fav">'+I('heart')+'Favoris<span class="bd" data-bd="fav"></span></button><button id="bn-cart">'+I('cart')+'Panier<span class="bd" data-bd="cart"></span></button><a href="/compte" class="'+(cur==='acc'?'on':'')+'">'+I('user')+'Compte</a></nav>'+
  '<div class="fabs"><button class="fab up" id="totop" aria-label="Haut de page">'+I('arrowup')+'</button><a class="fab wa" href="https://wa.me/'+WA+'" target="_blank" rel="noopener" aria-label="WhatsApp">'+I('wa')+'</a></div>';
- var SSL='<span class="ssl-card"><span class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5L15.5 10"/></svg></span><span class="sc-tx"><b>Connexion sécurisée</b><small>Certificat SSL surveillé</small></span><a class="ssl-badge" href="https://sslcanary.com/en/tools/ssl-checker?host=wykht.com" target="_blank" rel="noopener"><img src="https://sslcanary.com/badge/wykht.com.svg" alt="SSL monitored by SSLCanary" height="28" loading="lazy" decoding="async"></a></span>';
+ var SSL='<span class="ssl-card"><span class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span><span class="sc-tx"><b>Connexion sécurisée</b><small>SSL · wykht.com</small></span><a class="ssl-badge" href="https://sslcanary.com/en/tools/ssl-checker?host=wykht.com" target="_blank" rel="noopener" aria-label="Vérifier le certificat SSL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a></span>';
  var foot='<footer class="ft2"><div class="wrap"><div class="ft2-row"><div class="ft2-b">'+brand('ft')+'<p>Produits, alimentation, abonnements et services — au même endroit.</p></div>'+
  '<nav class="ft2-n" aria-label="Pied de page"><a href="/categories">Catégories</a><a href="/#promos">Promos</a><a href="/apropos">À propos</a><a href="/jeux">Jeux</a><a href="/compte">Mon compte</a><a href="/conditions-utilisation">Conditions d\'utilisation</a><a href="/confidentiality">Confidentialité</a></nav>'+
  '<div class="ft2-s"><a href="https://www.instagram.com/wykht.co/" target="_blank" rel="noopener" aria-label="Instagram @wykht.co">'+I('insta')+'<span>Instagram</span></a><a href="https://whatsapp.com/channel/0029Vb96LBDEgGfJ4l6LIS2R" target="_blank" rel="noopener" aria-label="Chaîne WhatsApp">'+I('chat')+'<span>Chaîne</span></a><a href="mailto:contact@wykht.com" aria-label="E-mail">'+I('mail')+'<span>E-mail</span></a></div></div>'+
@@ -1770,14 +2081,10 @@ function renderCart(){var c=W.getCart(),b=$('#cart-b'),f=$('#cart-f'),n=c.reduce
  f.style.display='';
  var oo=opts(),t=c.reduce(function(s,i){return s+i.price*i.qty},0);
  b.innerHTML=c.map(function(i){return'<div class="ci2">'+(i.img?'<img src="'+esc(i.img)+'" alt="">':'<div class="ph">'+I('bag')+'</div>')+'<div class="ci2-b"><b>'+esc(i.name)+'</b><div class="ci2-c">'+(i.size?'<span class="chp">'+esc(i.size)+'</span>':'')+(i.color?'<span class="chp"><i style="background:'+esc(i.color)+'"></i></span>':'')+(i.pk?'<span class="chp pk">'+I('package')+esc(i.pk.label)+'</span>':'')+'</div><div class="ci2-p">'+fmt(i.price)+(i.pk?' / '+esc(String(i.pk.label).toLowerCase())+' · '+(i.qty*i.pk.n)+' unités':' / unité')+'</div><div class="ci2-r"><div class="qty"><button data-q="'+esc(i.key)+'" data-d="-1" aria-label="Moins">'+I('minus')+'</button><span>'+i.qty+'</span><button data-q="'+esc(i.key)+'" data-d="1" aria-label="Plus">'+I('plus')+'</button></div><button class="ci2-del" data-del="'+esc(i.key)+'" aria-label="Retirer">'+I('trash')+'</button></div></div><div class="ci2-t">'+fmt(i.price*i.qty)+'</div></div>'}).join('')+
- '<div class="co-card"><div class="co-h"><span>'+I('truck')+'</span>Livraison ou retrait</div><div class="seg"><button data-mode="livraison" class="'+(oo.mode==='livraison'?'on':'')+'">'+I('truck')+'Livraison</button><button data-mode="retrait" class="'+(oo.mode==='retrait'?'on':'')+'">'+I('store')+'Retrait</button></div>'+
- '<label class="inp">'+I('pin')+'<input id="co-zone" placeholder="'+(oo.mode==='retrait'?'Nom pour le retrait':'Votre zone / adresse de livraison')+'" value="'+esc(oo.zone||'')+'"></label>'+
- '<label class="inp ta">'+I('note')+'<textarea id="co-note" rows="1" placeholder="Note pour la commande (optionnel)">'+esc(oo.note||'')+'</textarea></label></div>';
- f.innerHTML='<div class="sum"><div><span>Sous-total · '+plural(n,'article')+'</span><b>'+fmt(t)+'</b></div><div><span>Livraison</span><b class="mut">Selon votre zone</b></div></div><div class="tot"><span>Total</span><span>'+fmt(t)+'</span></div><button class="co-btn" id="co">'+I('wa')+'<span>Commander</span></button><div class="df2"><button class="lnk" data-close>Continuer mes achats</button><button class="lnk" id="clr">Vider le panier</button></div>';
- $('#co-zone').oninput=function(){saveOpts({zone:this.value})};$('#co-note').oninput=function(){saveOpts({note:this.value})};
- $$('[data-mode]',b).forEach(function(x){x.onclick=function(){saveOpts({mode:x.getAttribute('data-mode')});var y=b.scrollTop;renderCart();b.scrollTop=y}});
+ '<div class="co-note" style="display:flex;gap:10px;align-items:flex-start;margin:12px 0 4px;padding:12px 14px;border-radius:14px;background:var(--s2);font-size:12px;line-height:1.5;color:var(--mut)"><span style="flex:none;color:var(--red);display:inline-flex;width:16px;height:16px">'+I('truck')+'</span><span>Zone de livraison, adresse précise, paiement MonCash / NatCash et preuve : à l\'étape suivante.</span></div>';
+ f.innerHTML='<div class="sum"><div><span>Sous-total · '+plural(n,'article')+'</span><b>'+fmt(t)+'</b></div><div><span>Livraison</span><b class="mut">Selon votre zone</b></div></div><div class="tot"><span>Total</span><span>'+fmt(t)+'</span></div><button class="co-btn" id="co" style="background:#e8192c;color:#fff;box-shadow:0 10px 24px rgba(232,25,44,.3)">'+I('shield')+'<span>Passer la commande</span></button><div class="df2"><button class="lnk" data-close>Continuer mes achats</button><button class="lnk" id="clr">Vider le panier</button></div>';
  $$('[data-close]',f).forEach(function(x){x.addEventListener('click',closeAll)});
- $('#co').onclick=function(){var o=opts(),l=c.map(function(i){return'• '+i.name+(i.size?' ('+i.size+')':'')+(i.color?' ['+i.color+']':'')+(i.pk?' · '+i.pk.label:'')+' x'+i.qty+(i.pk?' (= '+(i.qty*i.pk.n)+' unités)':'')+' — '+fmt(i.price*i.qty)}).join('\n');window.open('https://wa.me/'+WA+'?text='+encodeURIComponent('Bonjour WYK, je voudrais commander :\n\n'+l+'\n\n*Total : '+fmt(t)+'*\n\n'+(o.mode==='retrait'?'Retrait':'Livraison')+(o.zone?' — '+o.zone:'')+(o.note?'\nNote : '+o.note:'')+'\n\nMerci !'),'_blank')};
+ $('#co').onclick=function(){location.href='/commande'};
  $('#clr').onclick=function(){wr('wyk_cart',[]);badges();renderCart()}}
 var delegQ=function(e){var q=e.target.closest('[data-q],[data-del]');if(!q)return;var c=W.getCart(),key=q.getAttribute('data-q')||q.getAttribute('data-del'),it=c.find(function(x){return x.key===key});if(!it)return;
  if(q.hasAttribute('data-del'))c=c.filter(function(x){return x!==it});else{it.qty+=+q.getAttribute('data-d');if(it.qty<=0)c=c.filter(function(x){return x!==it})}wr('wyk_cart',c);badges();var y=$('#cart-b').scrollTop;renderCart();$('#cart-b').scrollTop=y};

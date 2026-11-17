@@ -18,20 +18,20 @@
 .nf-b{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}.nf-b a{padding:13px 22px;border-radius:30px;font-weight:700;font-size:14px;text-decoration:none;color:var(--ink);box-shadow:5px 5px 12px var(--lo),-5px -5px 12px var(--hi);transition:.25s}.nf-b a:hover{box-shadow:inset 3px 3px 8px var(--lo),inset -3px -3px 8px var(--hi)}.nf-b a.p{background:linear-gradient(135deg,#e8192c,#ff4b5c);color:#fff;box-shadow:7px 7px 16px rgba(232,25,44,.32),-4px -4px 10px var(--hi)}
 </style>
 <style id="ssl-badge-css">
-/* SSLCanary — carte de confiance premium, suit le thème clair/sombre */
-.ssl-card{position:relative;display:inline-flex;align-items:center;gap:11px;padding:7px 8px 7px 10px;border-radius:18px;background:var(--surface,rgba(128,128,128,.06));border:1px solid var(--line,var(--bdr,rgba(128,128,128,.22)));box-shadow:0 8px 22px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.35);transition:border-color .25s,transform .25s,box-shadow .25s}
-.ssl-card:hover{transform:translateY(-1px);border-color:rgba(232,25,44,.45);box-shadow:0 12px 28px rgba(0,0,0,.1),inset 0 1px 0 rgba(255,255,255,.35)}
-.ssl-card .sc-ico{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;color:var(--red,#e8192c);background:var(--red-s,rgba(232,25,44,.1))}
-.ssl-card .sc-ico svg{width:16px;height:16px}
-.ssl-card .sc-tx{display:flex;flex-direction:column;line-height:1.2;min-width:0}
-.ssl-card .sc-tx b{font-size:12px;font-weight:700;letter-spacing:-.01em;color:var(--ink,var(--text,inherit))}
-.ssl-card .sc-tx small{font-size:10.5px;color:var(--mut,var(--t3,rgba(128,128,128,.9)));margin-top:2px}
-.ssl-badge{display:inline-flex;align-items:center;line-height:0;padding:4px 9px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.08);box-shadow:0 1px 3px rgba(0,0,0,.08);text-decoration:none}
-.ssl-badge img{display:block;height:28px;width:auto;max-width:100%}
-.ssl-card .ssl-badge{margin-left:4px}
+/* Badge SSL — pastille minimaliste, adaptative, suit le thème clair/sombre */
+.ssl-card{position:relative;display:inline-flex;align-items:center;gap:9px;padding:4px 5px;border-radius:999px;background:var(--surface,rgba(128,128,128,.06));border:1px solid var(--line,var(--bdr,rgba(128,128,128,.22)));line-height:1;max-width:100%;transition:border-color .2s,box-shadow .2s,transform .2s}
+.ssl-card:hover{border-color:rgba(22,163,74,.55);box-shadow:0 6px 18px rgba(22,163,74,.12);transform:translateY(-1px)}
+.ssl-card .sc-ico{width:24px;height:24px;border-radius:50%;flex:none;display:grid;place-items:center;color:#16a34a;background:rgba(22,163,74,.12)}
+.ssl-card .sc-ico svg{width:14px;height:14px}
+.ssl-card .sc-tx{display:flex;flex-direction:column;gap:3px;min-width:0}
+.ssl-card .sc-tx b{font-size:11.5px;font-weight:700;letter-spacing:-.005em;color:var(--ink,var(--text,inherit));white-space:nowrap}
+.ssl-card .sc-tx small{font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mut,var(--t3,rgba(128,128,128,.9)));white-space:nowrap}
+.ssl-card .ssl-badge{width:24px;height:24px;border-radius:50%;flex:none;display:grid;place-items:center;color:var(--mut,var(--t3,rgba(128,128,128,.9)));text-decoration:none}
+.ssl-card .ssl-badge svg{width:12px;height:12px}
 .ssl-card .ssl-badge::after{content:"";position:absolute;inset:0;border-radius:inherit}
-.ssl-strip{display:flex;justify-content:center;padding:14px 16px 18px}
-@media(max-width:620px){.ssl-card{width:100%;max-width:380px;justify-content:space-between}.ssl-card .ssl-badge{margin-left:auto}}
+.ssl-card:hover .ssl-badge{color:#16a34a}
+.ssl-strip{display:flex;justify-content:center;padding:12px 16px 16px}
+@media(max-width:380px){.ssl-card .sc-tx small{display:none}}
 </style>
 </head>
 <body>
@@ -223,7 +223,7 @@ W.mount=function(active){var cur=active||'';
  '<div id="wyk-toast" class="toast" role="status"></div>'+
 '<nav class="bnav glass"><a href="/" class="'+(cur==='home'?'on':'')+'">'+I('home')+'Accueil</a><a href="/categories" class="'+(cur==='cats'?'on':'')+'">'+I('grid')+'Catégories</a><button id="bn-fav">'+I('heart')+'Favoris<span class="bd" data-bd="fav"></span></button><button id="bn-cart">'+I('cart')+'Panier<span class="bd" data-bd="cart"></span></button><a href="/compte" class="'+(cur==='acc'?'on':'')+'">'+I('user')+'Compte</a></nav>'+
  '<div class="fabs"><button class="fab up" id="totop" aria-label="Haut de page">'+I('arrowup')+'</button><a class="fab wa" href="https://wa.me/'+WA+'" target="_blank" rel="noopener" aria-label="WhatsApp">'+I('wa')+'</a></div>';
- var SSL='<span class="ssl-card"><span class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5L15.5 10"/></svg></span><span class="sc-tx"><b>Connexion sécurisée</b><small>Certificat SSL surveillé</small></span><a class="ssl-badge" href="https://sslcanary.com/en/tools/ssl-checker?host=wykht.com" target="_blank" rel="noopener"><img src="https://sslcanary.com/badge/wykht.com.svg" alt="SSL monitored by SSLCanary" height="28" loading="lazy" decoding="async"></a></span>';
+ var SSL='<span class="ssl-card"><span class="sc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span><span class="sc-tx"><b>Connexion sécurisée</b><small>SSL · wykht.com</small></span><a class="ssl-badge" href="https://sslcanary.com/en/tools/ssl-checker?host=wykht.com" target="_blank" rel="noopener" aria-label="Vérifier le certificat SSL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a></span>';
  var foot='<footer class="ft2"><div class="wrap"><div class="ft2-row"><div class="ft2-b">'+brand('ft')+'<p>Produits, alimentation, abonnements et services — au même endroit.</p></div>'+
  '<nav class="ft2-n" aria-label="Pied de page"><a href="/categories">Catégories</a><a href="/#promos">Promos</a><a href="/apropos">À propos</a><a href="/jeux">Jeux</a><a href="/compte">Mon compte</a><a href="/conditions-utilisation">Conditions d\'utilisation</a><a href="/confidentiality">Confidentialité</a></nav>'+
  '<div class="ft2-s"><a href="https://www.instagram.com/wykht.co/" target="_blank" rel="noopener" aria-label="Instagram @wykht.co">'+I('insta')+'<span>Instagram</span></a><a href="https://whatsapp.com/channel/0029Vb96LBDEgGfJ4l6LIS2R" target="_blank" rel="noopener" aria-label="Chaîne WhatsApp">'+I('chat')+'<span>Chaîne</span></a><a href="mailto:contact@wykht.com" aria-label="E-mail">'+I('mail')+'<span>E-mail</span></a></div></div>'+
@@ -281,14 +281,10 @@ function renderCart(){var c=W.getCart(),b=$('#cart-b'),f=$('#cart-f'),n=c.reduce
  f.style.display='';
  var oo=opts(),t=c.reduce(function(s,i){return s+i.price*i.qty},0);
  b.innerHTML=c.map(function(i){return'<div class="ci2">'+(i.img?'<img src="'+esc(i.img)+'" alt="">':'<div class="ph">'+I('bag')+'</div>')+'<div class="ci2-b"><b>'+esc(i.name)+'</b><div class="ci2-c">'+(i.size?'<span class="chp">'+esc(i.size)+'</span>':'')+(i.color?'<span class="chp"><i style="background:'+esc(i.color)+'"></i></span>':'')+(i.pk?'<span class="chp pk">'+I('package')+esc(i.pk.label)+'</span>':'')+'</div><div class="ci2-p">'+fmt(i.price)+(i.pk?' / '+esc(String(i.pk.label).toLowerCase())+' · '+(i.qty*i.pk.n)+' unités':' / unité')+'</div><div class="ci2-r"><div class="qty"><button data-q="'+esc(i.key)+'" data-d="-1" aria-label="Moins">'+I('minus')+'</button><span>'+i.qty+'</span><button data-q="'+esc(i.key)+'" data-d="1" aria-label="Plus">'+I('plus')+'</button></div><button class="ci2-del" data-del="'+esc(i.key)+'" aria-label="Retirer">'+I('trash')+'</button></div></div><div class="ci2-t">'+fmt(i.price*i.qty)+'</div></div>'}).join('')+
- '<div class="co-card"><div class="co-h"><span>'+I('truck')+'</span>Livraison ou retrait</div><div class="seg"><button data-mode="livraison" class="'+(oo.mode==='livraison'?'on':'')+'">'+I('truck')+'Livraison</button><button data-mode="retrait" class="'+(oo.mode==='retrait'?'on':'')+'">'+I('store')+'Retrait</button></div>'+
- '<label class="inp">'+I('pin')+'<input id="co-zone" placeholder="'+(oo.mode==='retrait'?'Nom pour le retrait':'Votre zone / adresse de livraison')+'" value="'+esc(oo.zone||'')+'"></label>'+
- '<label class="inp ta">'+I('note')+'<textarea id="co-note" rows="1" placeholder="Note pour la commande (optionnel)">'+esc(oo.note||'')+'</textarea></label></div>';
- f.innerHTML='<div class="sum"><div><span>Sous-total · '+plural(n,'article')+'</span><b>'+fmt(t)+'</b></div><div><span>Livraison</span><b class="mut">Selon votre zone</b></div></div><div class="tot"><span>Total</span><span>'+fmt(t)+'</span></div><button class="co-btn" id="co">'+I('wa')+'<span>Commander</span></button><div class="df2"><button class="lnk" data-close>Continuer mes achats</button><button class="lnk" id="clr">Vider le panier</button></div>';
- $('#co-zone').oninput=function(){saveOpts({zone:this.value})};$('#co-note').oninput=function(){saveOpts({note:this.value})};
- $$('[data-mode]',b).forEach(function(x){x.onclick=function(){saveOpts({mode:x.getAttribute('data-mode')});var y=b.scrollTop;renderCart();b.scrollTop=y}});
+ '<div class="co-note" style="display:flex;gap:10px;align-items:flex-start;margin:12px 0 4px;padding:12px 14px;border-radius:14px;background:var(--s2);font-size:12px;line-height:1.5;color:var(--mut)"><span style="flex:none;color:var(--red);display:inline-flex;width:16px;height:16px">'+I('truck')+'</span><span>Zone de livraison, adresse précise, paiement MonCash / NatCash et preuve : à l\'étape suivante.</span></div>';
+ f.innerHTML='<div class="sum"><div><span>Sous-total · '+plural(n,'article')+'</span><b>'+fmt(t)+'</b></div><div><span>Livraison</span><b class="mut">Selon votre zone</b></div></div><div class="tot"><span>Total</span><span>'+fmt(t)+'</span></div><button class="co-btn" id="co" style="background:#e8192c;color:#fff;box-shadow:0 10px 24px rgba(232,25,44,.3)">'+I('shield')+'<span>Passer la commande</span></button><div class="df2"><button class="lnk" data-close>Continuer mes achats</button><button class="lnk" id="clr">Vider le panier</button></div>';
  $$('[data-close]',f).forEach(function(x){x.addEventListener('click',closeAll)});
- $('#co').onclick=function(){var o=opts(),l=c.map(function(i){return'• '+i.name+(i.size?' ('+i.size+')':'')+(i.color?' ['+i.color+']':'')+(i.pk?' · '+i.pk.label:'')+' x'+i.qty+(i.pk?' (= '+(i.qty*i.pk.n)+' unités)':'')+' — '+fmt(i.price*i.qty)}).join('\n');window.open('https://wa.me/'+WA+'?text='+encodeURIComponent('Bonjour WYK, je voudrais commander :\n\n'+l+'\n\n*Total : '+fmt(t)+'*\n\n'+(o.mode==='retrait'?'Retrait':'Livraison')+(o.zone?' — '+o.zone:'')+(o.note?'\nNote : '+o.note:'')+'\n\nMerci !'),'_blank')};
+ $('#co').onclick=function(){location.href='/commande'};
  $('#clr').onclick=function(){wr('wyk_cart',[]);badges();renderCart()}}
 var delegQ=function(e){var q=e.target.closest('[data-q],[data-del]');if(!q)return;var c=W.getCart(),key=q.getAttribute('data-q')||q.getAttribute('data-del'),it=c.find(function(x){return x.key===key});if(!it)return;
  if(q.hasAttribute('data-del'))c=c.filter(function(x){return x!==it});else{it.qty+=+q.getAttribute('data-d');if(it.qty<=0)c=c.filter(function(x){return x!==it})}wr('wyk_cart',c);badges();var y=$('#cart-b').scrollTop;renderCart();$('#cart-b').scrollTop=y};

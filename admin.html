@@ -360,6 +360,49 @@ select.form-input{cursor:pointer}
   .tabs-wrap{padding:0 28px}
   header{padding:0 28px}
 }
+
+.xp-badge{background:var(--red);color:#fff;font-size:.58rem;font-weight:800;border-radius:20px;padding:1px 6px;margin-left:2px}
+.xp-help{font-size:.76rem;color:var(--t3);line-height:1.6;margin:0 0 14px}
+.xp-bar{display:flex;gap:8px;margin-bottom:10px}
+.xp-in{width:100%;background:var(--s2);border:1.5px solid var(--bdr);border-radius:11px;padding:11px 13px;font-size:.84rem;color:var(--text);outline:none;font-family:inherit}
+.xp-in:focus{border-color:var(--red);background:var(--surface)}
+.xp-btn{background:var(--red);color:#fff;border-radius:11px;padding:11px 16px;font-size:.8rem;font-weight:700;white-space:nowrap}
+.xp-btn.ghost{background:var(--s2);color:var(--text);border:1.5px solid var(--bdr2)}.xp-btn.big{width:100%;padding:14px;margin-top:4px}.xp-btn.sm{padding:7px 12px;font-size:.72rem;border-radius:9px}.xp-btn.ok{background:#16a34a}.xp-btn.no{background:#ef4444}
+.xp-chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:8px;scrollbar-width:none}
+.xp-chips button{padding:7px 13px;border-radius:20px;border:1.5px solid var(--bdr2);font-size:.72rem;font-weight:700;color:var(--t2);white-space:nowrap;background:var(--surface)}
+.xp-chips button.on{background:var(--red);border-color:var(--red);color:#fff}
+.xp-list{display:grid;gap:10px}
+.xp-card,.xp-o{background:var(--surface);border:1px solid var(--bdr);border-radius:16px;padding:14px;margin-bottom:12px}
+.xp-card h3{font:800 .86rem 'Syne',sans-serif;margin:0 0 12px;display:flex;align-items:center;gap:8px}.xp-card h4{font:800 .76rem 'Syne',sans-serif;margin:16px 0 8px}
+.xp-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.xp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:12px}
+.xp-card label,.xp-o label{display:block;font-size:.7rem;font-weight:700;color:var(--t2)}.xp-card label .xp-in{margin-top:5px;font-weight:500}
+.xp-sw{display:flex!important;align-items:center;gap:10px;margin-bottom:10px;cursor:pointer;font-size:.78rem!important}
+.xp-sw input{display:none}.xp-sw span{width:38px;height:22px;border-radius:20px;background:var(--s3);position:relative;transition:.2s;flex:none}
+.xp-sw span::after{content:"";position:absolute;left:3px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.xp-sw input:checked+span{background:#16a34a}.xp-sw input:checked+span::after{transform:translateX(16px)}
+.xp-z{display:grid;grid-template-columns:1.4fr .7fr .8fr auto;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--bdr);border-radius:14px;padding:10px}
+.xp-z.off{opacity:.55}.xp-z .acts{display:flex;gap:6px}
+@media(max-width:640px){.xp-z{grid-template-columns:1fr 1fr}.xp-z .acts{grid-column:1/-1}}
+.xp-x{display:grid;grid-template-columns:1.4fr .8fr auto auto;gap:8px;align-items:center}
+.xp-oh{display:flex;gap:10px;align-items:center;cursor:pointer;width:100%;text-align:left}
+.xp-oh b{font-size:.84rem;color:var(--text)}.xp-oh small{display:block;font-size:.68rem;color:var(--t3)}
+.xp-oh .tot{margin-left:auto;font-weight:800;font-size:.86rem;white-space:nowrap}
+.xp-st{display:inline-block;font-size:.58rem;font-weight:800;border-radius:20px;padding:2px 8px;margin:3px 4px 0 0}
+.xp-st.a{background:rgba(217,119,6,.14);color:#d97706}.xp-st.b{background:rgba(37,99,235,.14);color:#2563eb}.xp-st.c{background:rgba(22,163,74,.14);color:#16a34a}.xp-st.d{background:rgba(239,68,68,.14);color:#ef4444}.xp-st.e{background:rgba(8,145,178,.14);color:#0891b2}
+.xp-ob{display:none;border-top:1px solid var(--bdr);margin-top:12px;padding-top:12px}.xp-o.open .xp-ob{display:block}
+.xp-it{display:flex;gap:10px;align-items:center;padding:7px 0;border-bottom:1px dashed var(--bdr);font-size:.76rem}
+.xp-it img{width:44px;height:44px;border-radius:9px;object-fit:contain;background:#fff;border:1px solid var(--bdr)}.xp-it small{color:var(--t3);display:block}.xp-it .p{margin-left:auto;font-weight:800;white-space:nowrap}
+.xp-kv{display:grid;gap:6px;font-size:.76rem;margin:10px 0}.xp-kv div{display:flex;gap:8px}.xp-kv span{flex:none;width:96px;color:var(--t3);font-weight:600}.xp-kv b{font-weight:600;word-break:break-word}
+.xp-proof{border:1.5px solid var(--bdr2);border-radius:14px;padding:12px;margin:10px 0}
+.xp-proof img{max-width:100%;max-height:340px;border-radius:10px;display:block;margin-top:8px;cursor:zoom-in}
+.xp-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+.xp-acts select{background:var(--s2);border:1.5px solid var(--bdr2);border-radius:9px;padding:7px 10px;font-size:.74rem;color:var(--text)}
+.xp-th{background:var(--surface);border:1px solid var(--bdr);border-radius:16px;padding:12px}
+.xp-th .box{max-height:240px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--s2);border-radius:12px;margin:8px 0}
+.xp-m{max-width:84%;padding:7px 11px;border-radius:13px;font-size:.76rem;line-height:1.4;white-space:pre-wrap;word-break:break-word}
+.xp-m.client{align-self:flex-start;background:var(--surface);border:1px solid var(--bdr)}.xp-m.equipe{align-self:flex-end;background:var(--red);color:#fff}.xp-m small{display:block;font-size:.56rem;opacity:.65;margin-top:2px}
+.xp-seg{display:flex;background:var(--s2);border-radius:11px;padding:3px}.xp-seg button{padding:7px 13px;border-radius:9px;font-size:.74rem;font-weight:700;color:var(--t3)}.xp-seg button.on{background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.1)}
 </style>
 <style id="wyk-nm">
 /* ===== WYK dashboard : néomorphisme doux + verre ===== */
@@ -520,6 +563,15 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
   <div class="tab" onclick="switchTab('jeux',this)">
     <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path stroke-linecap="round" d="M12 12h.01M17 12h.01M7 9v6M4 12h6"/></svg>Jeux
   </div>
+  <div class="tab" onclick="switchTab('orders',this)">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7L12 3 4 7m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>Commandes<b id="xpBadge" class="xp-badge" style="display:none">0</b>
+  </div>
+  <div class="tab" onclick="switchTab('zones',this)">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7.5" cy="18" r="2"/><circle cx="17.5" cy="18" r="2"/></svg>Livraison
+  </div>
+  <div class="tab" onclick="switchTab('paycfg',this)">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7a2 2 0 012-2h13v4M3 7v11a2 2 0 002 2h15V9H5a2 2 0 01-2-2z"/><circle cx="16.5" cy="14.5" r="1.2"/></svg>Paiement
+  </div>
 </div>
 
 <!-- ═══════ DASHBOARD ═══════ -->
@@ -614,6 +666,77 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
       <svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Ajouter
     </button>
   </div>
+</div>
+
+<!-- ═══════ COMMANDES ═══════ -->
+<div class="panel" id="panel-orders">
+  <div class="sec-hd"><h2>Commandes <em>en ligne</em></h2><div class="xp-seg"><button type="button" class="on" id="xpModeO" onclick="xpMode('o')">Commandes</button><button type="button" id="xpModeM" onclick="xpMode('m')">Messages<b id="xpMsgBadge" class="xp-badge" style="display:none">0</b></button></div></div>
+  <div id="xpOrders">
+    <div class="xp-bar"><input class="xp-in" id="xpSearch" placeholder="Rechercher : référence, nom, téléphone…" oninput="xpRender()"><button type="button" class="xp-btn ghost" onclick="xpLoadOrders()">Actualiser</button></div>
+    <div class="xp-chips" id="xpChips"></div>
+    <div id="xpList" class="xp-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+  </div>
+  <div id="xpMessages" style="display:none"><div id="xpThreads" class="xp-list"></div></div>
+</div>
+
+<!-- ═══════ LIVRAISON ═══════ -->
+<div class="panel" id="panel-zones">
+  <div class="sec-hd"><h2>Zones de <em>livraison</em></h2></div>
+  <p class="xp-help">Les clients choisissent une de ces zones au moment de commander. Le prix s'ajoute automatiquement au total. Désactivez une zone pour la masquer sans la supprimer.</p>
+  <div id="xpZones" class="xp-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+  <div class="xp-card">
+    <h3>Ajouter une zone</h3>
+    <div class="xp-grid">
+      <label>Nom de la zone<input class="xp-in" id="znName" placeholder="Ex : Pétion-Ville"></label>
+      <label>Frais (HTG)<input class="xp-in" id="znFee" type="number" min="0" placeholder="250"></label>
+      <label>Délai<input class="xp-in" id="znEta" placeholder="Ex : 24 h"></label>
+      <label>Note (facultatif)<input class="xp-in" id="znNote" placeholder="Ex : livraison avant 17 h"></label>
+    </div>
+    <button type="button" class="xp-btn" onclick="xpAddZone()">Ajouter la zone</button>
+  </div>
+  <div class="xp-card">
+    <h3>Retrait &amp; règles de commande</h3>
+    <label class="xp-sw"><input type="checkbox" id="ckPickup"><span></span>Autoriser le retrait en boutique</label>
+    <div class="xp-grid">
+      <label>Adresse de retrait<input class="xp-in" id="ckAddr" placeholder="Carrefour, rue …"></label>
+      <label>Commande minimum (HTG, 0 = aucune)<input class="xp-in" id="ckMin" type="number" min="0" placeholder="0"></label>
+    </div>
+    <label>Aide dans le champ « Note »<input class="xp-in" id="ckHint" placeholder="Ex : étage, appeler avant d'arriver…"></label>
+    <button type="button" class="xp-btn" onclick="xpSaveCheckout()">Enregistrer</button>
+  </div>
+</div>
+
+<!-- ═══════ PAIEMENT ═══════ -->
+<div class="panel" id="panel-paycfg">
+  <div class="sec-hd"><h2>Paiement &amp; <em>preuves</em></h2></div>
+  <p class="xp-help">Ces informations s'affichent sur la page de commande. Un mode sans numéro apparaît « Bientôt disponible » : vous pouvez donc ajouter NatCash plus tard.</p>
+  <div class="xp-card">
+    <h3><i class="xp-dot" style="background:#d9232d"></i>MonCash</h3>
+    <label class="xp-sw"><input type="checkbox" id="pcMcOn"><span></span>Activé</label>
+    <div class="xp-grid"><label>Nom du bénéficiaire<input class="xp-in" id="pcMcName" placeholder="Nom sur le compte"></label><label>Numéro<input class="xp-in" id="pcMcNum" inputmode="tel" placeholder="XXXX XXXX"></label></div>
+  </div>
+  <div class="xp-card">
+    <h3><i class="xp-dot" style="background:#e8710a"></i>NatCash</h3>
+    <label class="xp-sw"><input type="checkbox" id="pcNcOn"><span></span>Activé</label>
+    <div class="xp-grid"><label>Nom du bénéficiaire<input class="xp-in" id="pcNcName" placeholder="Nom sur le compte"></label><label>Numéro<input class="xp-in" id="pcNcNum" inputmode="tel" placeholder="XXXX XXXX"></label></div>
+  </div>
+  <div class="xp-card">
+    <h3><i class="xp-dot" style="background:#25d366"></i>WhatsApp</h3>
+    <label class="xp-sw"><input type="checkbox" id="pcWa"><span></span>Proposer « Paiement assisté sur WhatsApp »</label>
+  </div>
+  <div class="xp-card">
+    <h3>Preuve de paiement</h3>
+    <p class="xp-help" style="margin-top:0">Cochez les informations obligatoires que le client doit fournir. Le client doit être connecté pour envoyer une preuve.</p>
+    <label class="xp-sw"><input type="checkbox" id="pfName"><span></span>Nom du payeur obligatoire</label>
+    <label class="xp-sw"><input type="checkbox" id="pfPhone"><span></span>Téléphone utilisé pour payer obligatoire</label>
+    <label class="xp-sw"><input type="checkbox" id="pfRef"><span></span>ID de transaction obligatoire</label>
+    <label class="xp-sw"><input type="checkbox" id="pfShot"><span></span>Capture d'écran obligatoire</label>
+    <label>Message affiché au client<input class="xp-in" id="pfNotice" placeholder="Votre paiement sera vérifié manuellement…"></label>
+    <h4>Champs supplémentaires</h4>
+    <div id="pfExtra" class="xp-list"></div>
+    <button type="button" class="xp-btn ghost" onclick="xpAddExtra()">+ Ajouter un champ</button>
+  </div>
+  <button type="button" class="xp-btn big" onclick="xpSavePay()">Enregistrer les paramètres de paiement</button>
 </div>
 
 <!-- ═══════ PAGE ACCUEIL ═══════ -->
@@ -1650,6 +1773,7 @@ async function checkExistingSession(){
   if(session&&session.user&&session.user.id===ADMIN_UID){showAdminPanel();}
 }
 function showAdminPanel(){
+  setTimeout(function(){try{xpLoadOrders()}catch(e){}},1500);
   document.getElementById('authGate').style.display='none';
   document.getElementById('adminMain').style.display='block';
   loadAll();
@@ -1679,7 +1803,168 @@ function switchTab(name,el){
   if(name==='reviews')loadReviews();
   if(name==='personnel')loadPersonnel();
   if(name==='jeux')loadJeuxTab();
+  if(name==='orders')xpLoadOrders();
+  if(name==='zones')xpLoadZones();
+  if(name==='paycfg')xpLoadPay();
 }
+
+/* ══════════════════════════════════════════
+   COMMANDES / LIVRAISON / PAIEMENT (admin)
+══════════════════════════════════════════ */
+var XP={orders:[],proofs:{},msgs:[],open:{},filter:'all',draft:{},zones:[],pay:null,ck:null};
+function xe(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function xm(n){return Number(n||0).toLocaleString('fr')+' HTG'}
+function xd(t){return new Date(t).toLocaleString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}
+function xpMode(m){document.getElementById('xpOrders').style.display=m==='o'?'':'none';document.getElementById('xpMessages').style.display=m==='m'?'':'none';document.getElementById('xpModeO').classList.toggle('on',m==='o');document.getElementById('xpModeM').classList.toggle('on',m==='m');if(m==='m')xpRenderThreads()}
+function xpErr(e){showToast('Erreur : '+((e&&e.message)||e),true)}
+
+/* ── commandes ── */
+function xpPayState(o){return o.status==='annulee'?'annulee':o.pay_status==='refuse'?'refuse':o.pay_status==='verifie'?'verifie':'verifier'}
+var XP_FILTERS=[['all','Toutes'],['verifier','À vérifier'],['prep','En préparation'],['route','En route'],['done','Livrées'],['annulee','Annulées']];
+function xpMatch(o,f){var ps=xpPayState(o);
+  if(f==='all')return true;if(f==='verifier')return ps==='verifier'||ps==='refuse';
+  if(f==='prep')return ps==='verifie'&&(o.delivery_status||'preparation')==='preparation';
+  if(f==='route')return o.status!=='annulee'&&o.delivery_status==='en_route';
+  if(f==='done')return o.status!=='annulee'&&(o.delivery_status==='livree'||o.status==='livree');
+  if(f==='annulee')return o.status==='annulee';return true}
+async function xpLoadOrders(){
+  var r=await db.from('orders').select('*').order('created_at',{ascending:false}).limit(300);
+  if(r.error){document.getElementById('xpList').innerHTML='<div class="loading-box">Impossible de charger : '+xe(r.error.message)+'<br><small>Avez-vous exécuté WYK-COMMANDES-SETUP.sql dans Supabase ?</small></div>';return}
+  XP.orders=r.data||[];
+  var ids=XP.orders.map(function(o){return o.id}),px={};
+  if(ids.length){var q=await db.from('payment_proofs').select('*').in('order_id',ids).order('created_at',{ascending:true});(q.data||[]).forEach(function(p){px[p.order_id]=p})}
+  XP.proofs=px;
+  var m=await db.from('order_messages').select('*').order('created_at',{ascending:true}).limit(1000);XP.msgs=m.data||[];
+  xpRender();xpBadges();
+}
+function xpBadges(){
+  var nv=XP.orders.filter(function(o){return xpPayState(o)==='verifier'&&o.pay_method!=='whatsapp'&&XP.proofs[o.id]}).length;
+  var b=document.getElementById('xpBadge');b.textContent=nv;b.style.display=nv?'inline-block':'none';
+  var um=XP.msgs.filter(function(m){return m.sender==='client'&&!m.read}).length,mb=document.getElementById('xpMsgBadge');mb.textContent=um;mb.style.display=um?'inline-block':'none';
+}
+function xpRender(){
+  var q=(document.getElementById('xpSearch').value||'').toLowerCase().trim();
+  document.getElementById('xpChips').innerHTML=XP_FILTERS.map(function(f){var n=XP.orders.filter(function(o){return xpMatch(o,f[0])}).length;return '<button type="button" class="'+(XP.filter===f[0]?'on':'')+'" onclick="XP.filter=\''+f[0]+'\';xpRender()">'+f[1]+' ('+n+')</button>'}).join('');
+  var L=XP.orders.filter(function(o){return xpMatch(o,XP.filter)&&(!q||[o.order_ref,o.customer_name,o.phone,o.zone].join(' ').toLowerCase().indexOf(q)>-1)});
+  var el=document.getElementById('xpList');
+  if(!L.length){el.innerHTML='<div class="loading-box">Aucune commande.</div>';return}
+  el.innerHTML=L.map(xpCard).join('');
+}
+function xpChips(o){
+  var ps=xpPayState(o),h='';
+  h+=ps==='annulee'?'<span class="xp-st d">Annulée</span>':ps==='refuse'?'<span class="xp-st d">Paiement refusé</span>':ps==='verifie'?'<span class="xp-st c">Paiement vérifié</span>':'<span class="xp-st a">Paiement à vérifier</span>';
+  if(o.status!=='annulee'){var ds=o.delivery_status||'preparation';h+=ds==='livree'?'<span class="xp-st c">Livrée</span>':ds==='en_route'?'<span class="xp-st e">En route</span>':'<span class="xp-st b">Préparation</span>'}
+  h+='<span class="xp-st b">'+({moncash:'MonCash',natcash:'NatCash',whatsapp:'WhatsApp'}[o.pay_method]||'—')+'</span>';
+  return h}
+function xpCard(o){
+  var items=Array.isArray(o.items)?o.items:[],pr=XP.proofs[o.id],open=!!XP.open[o.id];
+  var h='<article class="xp-o'+(open?' open':'')+'" data-id="'+o.id+'"><button type="button" class="xp-oh" onclick="xpToggle(\''+o.id+'\')"><div><b>'+xe(o.order_ref||o.id.slice(0,8))+' · '+xe(o.customer_name||'Client')+'</b><small>'+xd(o.created_at)+' · '+xe(o.phone||'')+' · '+xe(o.zone||'')+'</small><div>'+xpChips(o)+'</div></div><span class="tot">'+xm(o.total)+'</span></button><div class="xp-ob">';
+  h+=items.map(function(i){var f=[];if(i.size)f.push('Taille '+i.size);if(i.color)f.push(i.color_name||i.color);if(i.pack)f.push(i.pack+(i.pack_units?' ('+i.pack_units+' u.)':''));return '<div class="xp-it">'+(i.img?'<img src="'+xe(i.img)+'" alt="">':'')+'<div><b>'+xe(i.name)+'</b><small>'+xe(f.join(' · '))+'</small><small>'+(i.qty||1)+' × '+xm(i.price)+'</small></div><div class="p">'+xm((i.price||0)*(i.qty||1))+'</div></div>'}).join('');
+  var kv=[['Mode',o.delivery_mode==='retrait'?'Retrait en boutique':'Livraison · '+(o.zone||'')],['Adresse',o.address],['Repère',o.landmark],['Réceptionne',o.receiver],['Téléphone',o.phone],['Note',o.notes],['Frais livraison',Number(o.delivery_fee)?xm(o.delivery_fee):'Gratuit'],['Canal',o.channel]];
+  h+='<div class="xp-kv">'+kv.filter(function(x){return x[1]}).map(function(x){return '<div><span>'+x[0]+'</span><b>'+xe(x[1])+'</b></div>'}).join('')+(o.geo?'<div><span>Position</span><b><a href="'+xe(o.geo)+'" target="_blank" rel="noopener" style="color:var(--red)">Ouvrir dans Maps</a></b></div>':'')+'</div>';
+  if(pr){
+    var ex=pr.extra&&typeof pr.extra==='object'?Object.keys(pr.extra):[];
+    h+='<div class="xp-proof"><b style="font-size:.78rem">Preuve '+xe(pr.method)+' · '+xd(pr.created_at)+'</b><div class="xp-kv"><div><span>Payeur</span><b>'+xe(pr.payer_name||'—')+'</b></div><div><span>Téléphone</span><b>'+xe(pr.phone||'—')+'</b></div><div><span>ID transaction</span><b>'+xe(pr.tx_ref||'—')+'</b></div>'+ex.map(function(k){return '<div><span>'+xe(k)+'</span><b>'+xe(pr.extra[k])+'</b></div>'}).join('')+(pr.admin_note?'<div><span>Note admin</span><b>'+xe(pr.admin_note)+'</b></div>':'')+'</div>'+(pr.screenshot_url?'<button type="button" class="xp-btn ghost sm" onclick="xpShot(\''+o.id+'\',this)">Voir la capture</button><div id="shot-'+o.id+'"></div>':'')+'</div>';
+  }else if(o.pay_method==='moncash'||o.pay_method==='natcash')h+='<div class="xp-proof" style="color:var(--t3);font-size:.76rem">Aucune preuve envoyée pour le moment.</div>';
+  h+='<div class="xp-acts">';
+  if(o.status!=='annulee'){
+    if(o.pay_status!=='verifie')h+='<button type="button" class="xp-btn sm ok" onclick="xpValidate(\''+o.id+'\')">Valider le paiement</button>';
+    if(o.pay_status!=='refuse'&&o.pay_status!=='verifie'&&pr)h+='<button type="button" class="xp-btn sm no" onclick="xpRefuse(\''+o.id+'\')">Refuser</button>';
+    h+='<select onchange="xpDelivery(\''+o.id+'\',this.value)"><option value="">Statut de livraison…</option><option value="preparation"'+((o.delivery_status||'preparation')==='preparation'?' selected':'')+'>En préparation</option><option value="en_route"'+(o.delivery_status==='en_route'?' selected':'')+'>En route</option><option value="livree"'+(o.delivery_status==='livree'?' selected':'')+'>Livrée</option></select>';
+    h+='<button type="button" class="xp-btn sm ghost" onclick="xpCancel(\''+o.id+'\')">Annuler</button>';
+  }else h+='<button type="button" class="xp-btn sm ghost" onclick="xpReopen(\''+o.id+'\')">Réactiver</button>';
+  if(o.user_id)h+='<button type="button" class="xp-btn sm ghost" onclick="xpOpenThread(\''+o.user_id+'\')">Écrire au client</button>';
+  h+='</div></div></article>';return h}
+function xpToggle(id){XP.open[id]=!XP.open[id];var c=document.querySelector('.xp-o[data-id="'+id+'"]');if(c)c.classList.toggle('open',!!XP.open[id])}
+async function xpShot(id,btn){var pr=XP.proofs[id];if(!pr||!pr.screenshot_url)return;btn.disabled=true;
+  var r=await db.storage.from('proofs').createSignedUrl(pr.screenshot_url,600);btn.disabled=false;if(r.error){xpErr(r.error);return}
+  var box=document.getElementById('shot-'+id),pdf=/\.pdf$/i.test(pr.screenshot_url);
+  box.innerHTML=pdf?'<a class="xp-btn sm" style="display:inline-block;margin-top:8px" href="'+xe(r.data.signedUrl)+'" target="_blank" rel="noopener">Ouvrir le PDF</a>':'<img src="'+xe(r.data.signedUrl)+'" alt="Capture de paiement" onclick="window.open(this.src,\'_blank\')">'}
+async function xpUpd(id,patch,proofPatch){
+  patch.updated_at=new Date().toISOString();
+  var r=await db.from('orders').update(patch).eq('id',id);if(r.error){xpErr(r.error);return false}
+  if(proofPatch&&XP.proofs[id]){var q=await db.from('payment_proofs').update(proofPatch).eq('id',XP.proofs[id].id);if(q.error){xpErr(q.error);return false}Object.assign(XP.proofs[id],proofPatch)}
+  var o=XP.orders.filter(function(x){return x.id===id})[0];Object.assign(o,patch);xpRender();xpBadges();return true}
+async function xpValidate(id){if(await xpUpd(id,{pay_status:'verifie',status:'confirmee'},{status:'verifie',admin_note:null}))showToast('Paiement validé')}
+async function xpRefuse(id){var n=prompt('Motif du refus (visible par le client) :','Montant ou ID de transaction incorrect');if(n===null)return;if(await xpUpd(id,{pay_status:'refuse'},{status:'refuse',admin_note:n}))showToast('Paiement refusé')}
+async function xpDelivery(id,v){if(!v)return;var p={delivery_status:v};if(v==='livree')p.status='livree';if(await xpUpd(id,p))showToast('Livraison : '+({preparation:'en préparation',en_route:'en route',livree:'livrée'})[v])}
+async function xpCancel(id){if(!confirm('Annuler cette commande ?'))return;if(await xpUpd(id,{status:'annulee'}))showToast('Commande annulée')}
+async function xpReopen(id){if(await xpUpd(id,{status:'en_attente'}))showToast('Commande réactivée')}
+
+/* ── messages clients ── */
+function xpThreads(){var by={};XP.msgs.forEach(function(m){(by[m.user_id]=by[m.user_id]||[]).push(m)});return Object.keys(by).map(function(u){return{uid:u,msgs:by[u],last:by[u][by[u].length-1],unread:by[u].filter(function(m){return m.sender==='client'&&!m.read}).length}}).sort(function(a,b){return new Date(b.last.created_at)-new Date(a.last.created_at)})}
+function xpWho(uid){var o=XP.orders.filter(function(x){return x.user_id===uid})[0];return o?((o.customer_name||'Client')+' · '+(o.phone||'')):('Client '+uid.slice(0,6))}
+function xpRenderThreads(){
+  var el=document.getElementById('xpThreads'),T=xpThreads();
+  if(!T.length){el.innerHTML='<div class="loading-box">Aucun message client.</div>';return}
+  el.innerHTML=T.map(function(t){
+    var h='<div class="xp-th" data-u="'+t.uid+'"><b style="font-size:.82rem">'+xe(xpWho(t.uid))+(t.unread?' <span class="xp-badge">'+t.unread+' nouveau'+(t.unread>1?'x':'')+'</span>':'')+'</b><div class="box">';
+    h+=t.msgs.slice(-40).map(function(m){var o=m.order_id?XP.orders.filter(function(x){return x.id===m.order_id})[0]:null;return '<div class="xp-m '+m.sender+'">'+(o?'<small>'+xe(o.order_ref||'')+'</small>':'')+xe(m.body)+'<small>'+xd(m.created_at)+'</small></div>'}).join('');
+    h+='</div><div class="xp-bar" style="margin:0"><input class="xp-in" id="rp-'+t.uid+'" placeholder="Répondre au client…" value="'+xe(XP.draft[t.uid]||'')+'" oninput="XP.draft[\''+t.uid+'\']=this.value" onkeydown="if(event.key===\'Enter\')xpReply(\''+t.uid+'\')"><button type="button" class="xp-btn" onclick="xpReply(\''+t.uid+'\')">Envoyer</button></div></div>';return h}).join('');
+  el.querySelectorAll('.box').forEach(function(b){b.scrollTop=b.scrollHeight});
+  T.forEach(function(t){if(t.unread)xpMarkRead(t.uid)});
+}
+async function xpMarkRead(uid){
+  var r=await db.from('order_messages').update({read:true}).eq('user_id',uid).eq('sender','client').eq('read',false);
+  if(!r.error){XP.msgs.forEach(function(m){if(m.user_id===uid&&m.sender==='client')m.read=true});xpBadges()}}
+async function xpReply(uid){
+  var i=document.getElementById('rp-'+uid),b=(i.value||'').trim();if(!b)return;
+  var r=await db.from('order_messages').insert({user_id:uid,sender:'equipe',body:b}).select().single();if(r.error){xpErr(r.error);return}
+  XP.msgs.push(r.data);XP.draft[uid]='';xpRenderThreads();showToast('Message envoyé')}
+function xpOpenThread(uid){
+  if(!XP.msgs.some(function(m){return m.user_id===uid})){var b=prompt('Premier message pour ce client :');if(!b)return;db.from('order_messages').insert({user_id:uid,sender:'equipe',body:b}).select().single().then(function(r){if(r.error)return xpErr(r.error);XP.msgs.push(r.data);xpMode('m');xpRenderThreads()});return}
+  xpMode('m');setTimeout(function(){var t=document.querySelector('.xp-th[data-u="'+uid+'"]');if(t){t.scrollIntoView({behavior:'smooth',block:'center'});var i=document.getElementById('rp-'+uid);if(i)i.focus()}},80)}
+
+/* ── zones ── */
+async function xpLoadZones(){
+  var r=await db.from('delivery_zones').select('*').order('sort_order');
+  if(r.error){document.getElementById('xpZones').innerHTML='<div class="loading-box">Erreur : '+xe(r.error.message)+'<br><small>Exécutez WYK-COMMANDES-SETUP.sql dans Supabase.</small></div>';return}
+  XP.zones=r.data||[];xpRenderZones();
+  var c=await db.from('site_settings').select('value').eq('key','checkout').maybeSingle();XP.ck=(c.data&&c.data.value)||{};
+  document.getElementById('ckPickup').checked=XP.ck.pickup_enabled!==false;document.getElementById('ckAddr').value=XP.ck.pickup_address||'';document.getElementById('ckMin').value=XP.ck.min_order||0;document.getElementById('ckHint').value=XP.ck.notes_hint||'';
+}
+function xpRenderZones(){
+  var el=document.getElementById('xpZones');
+  if(!XP.zones.length){el.innerHTML='<div class="loading-box">Aucune zone. Ajoutez-en une ci-dessous.</div>';return}
+  el.innerHTML=XP.zones.map(function(z,i){return '<div class="xp-z'+(z.is_active?'':' off')+'" data-id="'+z.id+'"><input class="xp-in" data-f="name" value="'+xe(z.name)+'" placeholder="Zone"><input class="xp-in" data-f="fee" type="number" min="0" value="'+(Number(z.fee)||0)+'" placeholder="Frais"><input class="xp-in" data-f="eta" value="'+xe(z.eta||'')+'" placeholder="Délai"><label class="xp-sw" style="margin:0"><input type="checkbox" data-f="is_active"'+(z.is_active?' checked':'')+'><span></span></label><input class="xp-in" data-f="note" value="'+xe(z.note||'')+'" placeholder="Note" style="grid-column:1/-1"><div class="acts" style="grid-column:1/-1"><button type="button" class="xp-btn sm" onclick="xpSaveZone(\''+z.id+'\')">Enregistrer</button><button type="button" class="xp-btn sm ghost" onclick="xpMoveZone('+i+',-1)">↑</button><button type="button" class="xp-btn sm ghost" onclick="xpMoveZone('+i+',1)">↓</button><button type="button" class="xp-btn sm no" onclick="xpDelZone(\''+z.id+'\')">Supprimer</button></div></div>'}).join('')}
+async function xpAddZone(){
+  var n=document.getElementById('znName').value.trim();if(!n)return showToast('Nom de zone requis',true);
+  var r=await db.from('delivery_zones').insert({name:n,fee:Number(document.getElementById('znFee').value)||0,eta:document.getElementById('znEta').value.trim()||null,note:document.getElementById('znNote').value.trim()||null,sort_order:XP.zones.length+1,is_active:true});
+  if(r.error)return xpErr(r.error);['znName','znFee','znEta','znNote'].forEach(function(i){document.getElementById(i).value=''});showToast('Zone ajoutée');xpLoadZones()}
+async function xpSaveZone(id){
+  var row=document.querySelector('.xp-z[data-id="'+id+'"]'),p={};row.querySelectorAll('[data-f]').forEach(function(i){var f=i.getAttribute('data-f');p[f]=i.type==='checkbox'?i.checked:f==='fee'?(Number(i.value)||0):(i.value.trim()||null)});
+  if(!p.name)return showToast('Nom requis',true);
+  var r=await db.from('delivery_zones').update(p).eq('id',id);if(r.error)return xpErr(r.error);showToast('Zone enregistrée');xpLoadZones()}
+async function xpDelZone(id){if(!confirm('Supprimer cette zone ?'))return;var r=await db.from('delivery_zones').delete().eq('id',id);if(r.error)return xpErr(r.error);showToast('Zone supprimée');xpLoadZones()}
+async function xpMoveZone(i,d){var j=i+d;if(j<0||j>=XP.zones.length)return;var a=XP.zones[i],b=XP.zones[j];
+  var r1=await db.from('delivery_zones').update({sort_order:j+1}).eq('id',a.id),r2=await db.from('delivery_zones').update({sort_order:i+1}).eq('id',b.id);if(r1.error||r2.error)return xpErr(r1.error||r2.error);xpLoadZones()}
+async function xpSaveCheckout(){
+  var v={pickup_enabled:document.getElementById('ckPickup').checked,pickup_address:document.getElementById('ckAddr').value.trim(),min_order:Number(document.getElementById('ckMin').value)||0,notes_hint:document.getElementById('ckHint').value.trim()};
+  var r=await db.from('site_settings').upsert({key:'checkout',value:v,updated_at:new Date().toISOString()});if(r.error)return xpErr(r.error);showToast('Règles enregistrées')}
+
+/* ── paiement ── */
+var XP_EXTRA=[];
+async function xpLoadPay(){
+  var r=await db.from('site_settings').select('value').eq('key','payment').maybeSingle();
+  if(r.error){showToast('Exécutez WYK-COMMANDES-SETUP.sql dans Supabase',true);return}
+  var p=XP.pay=(r.data&&r.data.value)||{},mc=p.moncash||{},nc=p.natcash||{},pf=p.proof||{},g=function(i){return document.getElementById(i)};
+  g('pcMcOn').checked=mc.enabled!==false;g('pcMcName').value=mc.name||'';g('pcMcNum').value=mc.number||'';
+  g('pcNcOn').checked=nc.enabled!==false;g('pcNcName').value=nc.name||'';g('pcNcNum').value=nc.number||'';
+  g('pcWa').checked=p.whatsapp_enabled!==false;
+  g('pfName').checked=pf.require_name!==false;g('pfPhone').checked=pf.require_phone!==false;g('pfRef').checked=pf.require_ref!==false;g('pfShot').checked=pf.require_screenshot!==false;
+  g('pfNotice').value=pf.notice||'';XP_EXTRA=Array.isArray(pf.extra)?pf.extra.map(function(x){return{label:x.label||'',required:!!x.required,placeholder:x.placeholder||''}}):[];xpRenderExtra()}
+function xpSyncExtra(){document.querySelectorAll('#pfExtra .xp-x').forEach(function(r,i){if(!XP_EXTRA[i])return;XP_EXTRA[i].label=r.querySelector('[data-f=label]').value;XP_EXTRA[i].placeholder=r.querySelector('[data-f=placeholder]').value;XP_EXTRA[i].required=r.querySelector('[data-f=required]').checked})}
+function xpRenderExtra(){
+  var el=document.getElementById('pfExtra');
+  el.innerHTML=XP_EXTRA.length?XP_EXTRA.map(function(x,i){return '<div class="xp-x"><input class="xp-in" data-f="label" value="'+xe(x.label)+'" placeholder="Intitulé (ex : Dernier chiffre du reçu)"><input class="xp-in" data-f="placeholder" value="'+xe(x.placeholder)+'" placeholder="Exemple de réponse"><label class="xp-sw" style="margin:0"><input type="checkbox" data-f="required"'+(x.required?' checked':'')+'><span></span></label><button type="button" class="xp-btn sm no" onclick="xpDelExtra('+i+')">×</button></div>'}).join(''):'<div class="xp-help" style="margin:0">Aucun champ supplémentaire.</div>'}
+function xpAddExtra(){xpSyncExtra();XP_EXTRA.push({label:'',required:false,placeholder:''});xpRenderExtra()}
+function xpDelExtra(i){xpSyncExtra();XP_EXTRA.splice(i,1);xpRenderExtra()}
+async function xpSavePay(){
+  xpSyncExtra();var g=function(i){return document.getElementById(i)};
+  var v={moncash:{enabled:g('pcMcOn').checked,name:g('pcMcName').value.trim(),number:g('pcMcNum').value.trim()},natcash:{enabled:g('pcNcOn').checked,name:g('pcNcName').value.trim(),number:g('pcNcNum').value.trim()},whatsapp_enabled:g('pcWa').checked,
+    proof:{require_name:g('pfName').checked,require_phone:g('pfPhone').checked,require_ref:g('pfRef').checked,require_screenshot:g('pfShot').checked,notice:g('pfNotice').value.trim(),extra:XP_EXTRA.filter(function(x){return x.label.trim()}).map(function(x){return{label:x.label.trim(),required:x.required,placeholder:x.placeholder.trim()}})}};
+  var r=await db.from('site_settings').upsert({key:'payment',value:v,updated_at:new Date().toISOString()});if(r.error)return xpErr(r.error);showToast('Paramètres de paiement enregistrés')}
+
 
 // ══════════════════════════════════════════
 // LOAD ALL (dashboard stats)
