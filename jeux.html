@@ -673,7 +673,7 @@ body::before{background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(232,25,44
 .adm-bar{display:block}
 .adm-tt{display:flex;align-items:center;gap:6px;font-size:.6rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 4px 8px}
 .adm-tt svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none}
-.adm-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:12px;border-radius:24px;background:var(--nm-bg);box-shadow:inset 5px 5px 11px var(--nm-lo),inset -5px -5px 11px var(--nm-hi)}
+.adm-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(54px,1fr));gap:10px;padding:12px;border-radius:24px;background:var(--nm-bg);box-shadow:inset 5px 5px 11px var(--nm-lo),inset -5px -5px 11px var(--nm-hi)}
 .adm-ic{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px 8px;border-radius:18px;background:var(--nm-bg);color:var(--text);box-shadow:5px 5px 11px var(--nm-lo),-4px -4px 9px var(--nm-hi);transition:transform .15s,box-shadow .2s;min-width:0;text-decoration:none}
 .adm-ic:active{transform:scale(.96);box-shadow:inset 3px 3px 7px var(--nm-lo),inset -3px -3px 7px var(--nm-hi)}
 .adm-ic svg{width:20px;height:20px;stroke:currentColor;stroke-width:2;fill:none}
@@ -700,6 +700,31 @@ body::before{background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(232,25,44
 .adm-m-btns .nm-btn{flex:1}
 .adm-m-btns .nm-btn.danger{background:linear-gradient(145deg,#ef4444,#b91c1c);color:#fff}
 @media(max-width:420px){.adm-row{gap:7px;padding:9px}.adm-lb{font-size:.54rem}.nm-hero-card{padding:22px 18px}}
+
+/* v2.13 — édition + cartes grisées */
+.g-card.is-off{filter:grayscale(1);opacity:.55}
+.g-card.is-off .g-ico{filter:grayscale(1)}
+.g-off-msg{font-size:.72rem;font-weight:700;color:#ef4444;line-height:1.5}
+.g-off-msg[hidden]{display:none}
+.nm-btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:inset 3px 3px 7px var(--nm-lo),inset -3px -3px 7px var(--nm-hi);background:var(--nm-bg);color:var(--t3)}
+.nm-stats{grid-template-columns:repeat(auto-fit,minmax(90px,1fr))}
+.blocks:empty{display:none}.blocks{margin-top:16px}
+.ed-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:76px;z-index:85;display:flex;align-items:center;gap:8px;padding:9px 10px 9px 16px;border-radius:100px;background:var(--nm-bg);box-shadow:8px 8px 18px var(--nm-lo),-6px -6px 14px var(--nm-hi),0 0 0 1px var(--gold-m);max-width:calc(100vw - 20px)}
+.ed-bar[hidden]{display:none}
+.ed-tt{font-size:.7rem;font-weight:800;color:var(--gold);white-space:nowrap;margin-right:2px}
+body.editing .toast{bottom:150px}
+body.editing .adm-ic#adm-edit{box-shadow:inset 3px 3px 7px var(--nm-lo),inset -3px -3px 7px var(--nm-hi)}
+.ed-f{outline:1.5px dashed rgba(245,200,66,.55);outline-offset:3px;border-radius:6px;cursor:text;min-width:2ch;display:inline-block;max-width:100%}
+p.ed-f,h3.ed-f,div.ed-f,summary.ed-f{display:block}
+.ed-f:focus{outline:2px solid var(--gold);background:rgba(245,200,66,.07)}
+.ed-f:empty::before{content:'Écris ici…';color:var(--t3)}
+.ed-item{position:relative}
+.ed-item .ed-del{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;border:0;font-size:.7rem;font-weight:800;color:#fff;background:#ef4444;box-shadow:0 2px 8px rgba(0,0,0,.35);z-index:2;cursor:pointer}
+.ed-item.faq-i{padding:14px 40px 14px 16px}
+.ed-item .faq-q{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:8px}
+.ed-item.faq-i p{padding:0;font-size:.78rem}
+.ed-add{display:block;margin:12px auto 0;padding:10px 18px;border:0;border-radius:100px;font-weight:800;font-size:.72rem;color:var(--gold);background:var(--nm-bg);box-shadow:5px 5px 11px var(--nm-lo),-4px -4px 9px var(--nm-hi);cursor:pointer}
+.ed-add:active{box-shadow:inset 3px 3px 7px var(--nm-lo),inset -3px -3px 7px var(--nm-hi)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 <style id="ssl-badge-css">
@@ -782,6 +807,7 @@ body::before{background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(232,25,44
     <button type="button" class="adm-ic" id="adm-g-code" onclick="admToggleGame('code')" aria-label="Activer ou désactiver Dino Run" title="Dino Run"><span class="adm-em">🦖</span><span class="adm-lb">Dino</span><span class="adm-st">…</span></button>
     <button type="button" class="adm-ic" id="adm-page" onclick="admOpenPage()" aria-label="Activer ou désactiver toute la page Jeux" title="Toute la page"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 3v9M6.4 6.6a8 8 0 1011.2 0"/></svg><span class="adm-lb">Page</span><span class="adm-st">…</span></button>
     <button type="button" class="adm-ic danger" onclick="admOpenReset()" aria-label="Réinitialiser le classement" title="Réinitialiser le classement"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M20 20v-5h-5M5.6 15a8 8 0 0013.6 2M18.4 9A8 8 0 005 7"/></svg><span class="adm-lb">Classement</span><span class="adm-st">Reset</span></button>
+    <button type="button" class="adm-ic" id="adm-edit" onclick="edToggle()" aria-label="Modifier les textes de la page" title="Modifier les textes"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="adm-lb">Textes</span><span class="adm-st">Texte</span></button>
     <a class="adm-ic" href="/admin" aria-label="Réglages avancés des jeux" title="Réglages (difficulté, essais, récompenses)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg><span class="adm-lb">Réglages</span><span class="adm-st">Admin</span></a>
   </div>
 </div>
@@ -791,14 +817,14 @@ body::before{background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(232,25,44
 <!-- HERO -->
 <section class="nm-hero" aria-labelledby="jeux-h1">
   <div class="nm-card nm-hero-card">
-    <span class="nm-eyebrow"><i></i>Jeux · Concours · Codes promo</span>
-    <h1 id="jeux-h1">Jeux et concours <em>WYK Haïti</em></h1>
-    <p class="nm-lead">Joue gratuitement aux jeux de <strong>WYK HT</strong> (WYKHT), la boutique en ligne de Carrefour, grimpe au classement des joueurs et gagne de vrais <strong>codes promo</strong> pour tes prochains achats.</p>
+    <span class="nm-eyebrow"><i></i><span data-k="eb">Jeux · Concours · Codes promo</span></span>
+    <h1 id="jeux-h1"><span data-k="h1a">Jeux et concours</span> <em data-k="h1b">WYK Haïti</em></h1>
+    <p class="nm-lead" data-k="lead">Joue gratuitement aux jeux de WYK HT (WYKHT), la boutique en ligne de Carrefour, grimpe au classement des joueurs et gagne de vrais codes promo pour tes prochains achats.</p>
     <div class="nm-cta">
       <a class="nm-btn pri" href="#jeux-liste"><svg viewBox="0 0 24 24"><polygon fill="currentColor" stroke="none" points="6 3 20 12 6 21 6 3"/></svg>Jouer maintenant</a>
       <button type="button" class="nm-btn" onclick="goTab('classement')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4zM17 5h3v2a3 3 0 01-3 3M7 5H4v2a3 3 0 003 3"/></svg>Classement</button>
     </div>
-    <ul class="nm-stats" aria-label="En bref">
+    <ul class="nm-stats" id="nmStats" aria-label="En bref">
       <li><b>2</b><span>jeux</span></li>
       <li><b>0 HTG</b><span>pour jouer</span></li>
       <li><b>Codes</b><span>promo à gagner</span></li>
@@ -821,9 +847,9 @@ body::before{background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(232,25,44
 </div>
 
 <!-- COMMENT ÇA MARCHE (étapes) -->
-<section class="nm-steps" aria-labelledby="h-steps">
-  <h2 id="h-steps" class="nm-h2">Comment ça marche</h2>
-  <ol class="nm-steps-list">
+<section class="nm-steps" id="stepsSec" aria-labelledby="h-steps">
+  <h2 id="h-steps" class="nm-h2" data-k="t_steps">Comment ça marche</h2>
+  <ol class="nm-steps-list" id="stepsList">
     <li class="nm-card nm-step"><span class="nm-num">1</span><div><h3>Connecte-toi</h3><p>Un compte WYK gratuit suffit pour jouer.</p></div></li>
     <li class="nm-card nm-step"><span class="nm-num">2</span><div><h3>Joue</h3><p>Plusieurs essais par jour, qui reviennent chaque jour.</p></div></li>
     <li class="nm-card nm-step"><span class="nm-num">3</span><div><h3>Gagne un code</h3><p>Une victoire peut te donner un code promo WYK.</p></div></li>
@@ -845,12 +871,13 @@ body::before{background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(232,25,44
       <a href="/compte" class="btn-auth-gate"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>Se connecter</a>
     </div>
     <div id="gamesGrid">
-      <h2 class="section-lbl" id="h-jeux">Choisis ton jeu</h2>
+      <h2 class="section-lbl" id="h-jeux" data-k="t_games">Choisis ton jeu</h2>
       <div class="games-grid">
         <article class="g-card" id="gcard-guess">
           <div class="g-top"><div class="g-ico" aria-hidden="true">🎯</div><span class="gc-diff-pill gc-diff-normal" id="gcd-guess">Normal</span></div>
           <h3 class="g-name">Devine le Nombre</h3>
           <p class="g-desc" id="gcdesc-guess">Trouve le nombre mystère en un minimum d'essais.</p>
+          <p class="g-off-msg" id="goff-guess" hidden></p>
           <ul class="g-facts"><li>Un nombre secret à trouver</li><li>Indices chaud / froid ou plus haut / plus bas</li><li>Nombre d'essais limité par partie</li></ul>
           <div class="gc-quota" id="gcq-guess"></div>
           <div class="g-foot"><span class="g-state" id="gst-guess"><i></i>Disponible</span><button type="button" class="nm-btn pri sm" id="gbtn-guess" onclick="openGame('guess')"><svg viewBox="0 0 24 24"><polygon fill="currentColor" stroke="none" points="6 3 20 12 6 21 6 3"/></svg>Jouer</button></div>
@@ -859,6 +886,7 @@ body::before{background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(232,25,44
           <div class="g-top"><div class="g-ico" aria-hidden="true">🦖</div><span class="gc-diff-pill gc-diff-normal" id="gcd-code">Normal</span></div>
           <h3 class="g-name">Dino Run</h3>
           <p class="g-desc" id="gcdesc-code">Cours, saute et évite les obstacles le plus longtemps possible.</p>
+          <p class="g-off-msg" id="goff-code" hidden></p>
           <ul class="g-facts"><li>Cactus et oiseaux à éviter</li><li>Saute ou baisse-toi au bon moment</li><li>La vitesse augmente avec ton score</li></ul>
           <div class="gc-quota" id="gcq-code"></div>
           <div class="g-foot"><span class="g-state" id="gst-code"><i></i>Disponible</span><button type="button" class="nm-btn pri sm" id="gbtn-code" onclick="openGame('code')"><svg viewBox="0 0 24 24"><polygon fill="currentColor" stroke="none" points="6 3 20 12 6 21 6 3"/></svg>Jouer</button></div>
@@ -877,19 +905,20 @@ body::before{background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(232,25,44
 </div>
 
 <!-- CONTENU INDEXABLE (toujours visible, lisible par Google) -->
-<section class="seo-sec" aria-labelledby="h-regles">
-  <h2 class="nm-h2" id="h-regles">Les jeux WYK Haïti en détail</h2>
-  <div class="seo-grid">
+<section class="seo-sec" id="cardsSec" aria-labelledby="h-regles">
+  <h2 class="nm-h2" id="h-regles" data-k="t_cards">Les jeux WYK Haïti en détail</h2>
+  <div class="seo-grid" id="cardsGrid">
     <article class="nm-card seo-card"><h3>🎯 Devine le Nombre</h3><p>Un nombre mystère est tiré au hasard dans une fourchette (1 à 100 par défaut). Tu as un nombre d'essais limité pour le trouver. En mode normal, un indicateur chaud / froid te guide ; en mode difficile, seul « plus haut » ou « plus bas » est indiqué ; en mode ultra, la fourchette s'élargit si tu te trompes.</p></article>
     <article class="nm-card seo-card"><h3>🦖 Dino Run</h3><p>Un jeu de course inspiré du dinosaure hors-ligne de Chrome : saute par-dessus les cactus, baisse-toi sous les oiseaux et tiens le plus longtemps possible. La vitesse augmente au fil de la partie, et atteindre le score cible (environ 1 000 points) compte comme une victoire.</p></article>
     <article class="nm-card seo-card"><h3>🎁 Récompenses</h3><p>Quand tu gagnes, un code promo WYK peut s'afficher. Copie-le puis envoie-le sur WhatsApp à l'équipe WYK pour l'utiliser sur ta commande. Le nombre de récompenses est limité : il est indiqué sur chaque jeu.</p></article>
     <article class="nm-card seo-card"><h3>🏆 Classement</h3><p>Le classement des joueurs WYK compte tes victoires et tes parties jouées. Les comptes certifiés affichent un badge, que tu peux demander sur WhatsApp.</p></article>
   </div>
+  <div class="seo-grid blocks" id="blocksBox"></div>
 </section>
 
-<section class="seo-sec" aria-labelledby="h-faq">
-  <h2 class="nm-h2" id="h-faq">Questions fréquentes</h2>
-  <div class="faq">
+<section class="seo-sec" id="faqSec" aria-labelledby="h-faq">
+  <h2 class="nm-h2" id="h-faq" data-k="t_faq">Questions fréquentes</h2>
+  <div class="faq" id="faqList">
     <details class="nm-in faq-i"><summary>Comment jouer aux jeux WYK ?</summary><p>Crée un compte WYK gratuit ou connecte-toi, choisis Devine le Nombre ou Dino Run, puis lance une partie.</p></details>
     <details class="nm-in faq-i"><summary>Combien de parties puis-je jouer par jour ?</summary><p>Le nombre d'essais quotidiens est affiché sur ton profil et sur chaque jeu. Il se réinitialise chaque jour à minuit (heure UTC), avec un compte à rebours visible.</p></details>
     <details class="nm-in faq-i"><summary>Comment gagner un code promo WYK ?</summary><p>Remporte une partie : si une récompense est encore disponible, ton code s'affiche. Copie-le puis envoie-le à WYK sur WhatsApp pour l'utiliser sur ta commande. Une récompense par jeu et par joueur.</p></details>
@@ -901,6 +930,7 @@ body::before{background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(232,25,44
 </section>
 </main>
 
+<div class="ed-bar" id="edBar" hidden><span class="ed-tt">✏️ Mode édition</span><button type="button" class="nm-btn sm" onclick="edDefault()">Origine</button><button type="button" class="nm-btn sm" onclick="edCancel()">Annuler</button><button type="button" class="nm-btn pri sm" onclick="edSave()">Enregistrer</button></div>
 <!-- Modal admin (confirmations) -->
 <div class="modal-ov" id="modal-adm"><div class="modal-sheet adm-sheet" role="dialog" aria-modal="true" aria-labelledby="admTitle">
   <div class="modal-handle"></div>
@@ -2374,15 +2404,27 @@ function applySiteCfg(){
       el.innerHTML='<strong>🚧 Jeux fermés</strong><br>'+escH(siteOffMsg())+(_isAdmin?'<br><em style="color:var(--t3)">Les joueurs ne peuvent pas lancer de partie. Toi, en tant qu\'admin, tu peux encore tester.</em>':'');
     } else el.hidden=true;
   }
-  var closed=!_siteCfg.enabled&&!_isAdmin;
-  GAME_IDS.forEach(function(g){var b=document.getElementById('gbtn-'+g);if(b)b.disabled=closed;});
+  refreshGameBtns();
   renderAdminBar();
 }
 /* état visuel d'une carte de jeu (actif / désactivé) */
-function setCardActive(g,on){
-  var c=document.getElementById('gcard-'+g),s=document.getElementById('gst-'+g);
+var _gActive={};
+function refreshGameBtns(){
+  var closed=typeof _siteCfg!=='undefined'&&!_siteCfg.enabled&&!_isAdmin;
+  GAME_IDS.forEach(function(g){
+    var b=document.getElementById('gbtn-'+g);if(!b)return;
+    var on=_gActive[g]!==false;
+    b.disabled=!on||closed;
+    b.innerHTML=on?'<svg viewBox="0 0 24 24"><polygon fill="currentColor" stroke="none" points="6 3 20 12 6 21 6 3"/></svg>Jouer':'Indisponible';
+  });
+}
+function setCardActive(g,on,msg){
+  _gActive[g]=on;
+  var c=document.getElementById('gcard-'+g),s=document.getElementById('gst-'+g),m=document.getElementById('goff-'+g);
   if(c)c.classList.toggle('is-off',!on);
   if(s)s.innerHTML='<i></i>'+(on?'Disponible':'Indisponible');
+  if(m){if(!on&&msg){m.textContent=msg;m.hidden=false}else{m.textContent='';m.hidden=true}}
+  refreshGameBtns();
 }
 async function initAdminBar(){
   var bar=document.getElementById('admBar');if(bar)bar.hidden=false;
@@ -2391,7 +2433,7 @@ async function initAdminBar(){
     if(!r.error&&r.data){r.data.forEach(function(g){_gameSettings[g.game_id]=g});_admReady=true;}
     else if(r.error)showToast('Réglages admin indisponibles : '+r.error.message,false);
   }catch(e){}
-  GAME_IDS.forEach(function(g){var s=_gameSettings[g];if(s)setCardActive(g,s.active!==false)});
+  GAME_IDS.forEach(function(g){var s=_gameSettings[g];if(s)setCardActive(g,s.active!==false,s.disabled_message)});
   renderAdminBar();
 }
 function renderAdminBar(){
@@ -2413,7 +2455,7 @@ async function admToggleGame(g){
   if(btn)btn.disabled=false;
   if(r.error){showToast('Erreur : '+r.error.message,false);return}
   _gameSettings[g]=Object.assign({},s,{active:next});
-  setCardActive(g,next);renderAdminBar();
+  setCardActive(g,next,s.disabled_message);renderAdminBar();
   showToast((g==='guess'?'Devine le Nombre':'Dino Run')+(next?' activé ✓':' désactivé'));
 }
 /* modale générique */
@@ -2462,6 +2504,133 @@ function admOpenReset(){
 }
 loadSiteCfg();
 </script>
+<script>
+/* ═══ v2.13 — Contenu de la page Jeux modifiable par l'admin ═══ */
+var DEF={
+ hero:{eb:'Jeux · Concours · Codes promo',h1a:'Jeux et concours',h1b:'WYK Haïti',lead:'Joue gratuitement aux jeux de WYK HT (WYKHT), la boutique en ligne de Carrefour, grimpe au classement des joueurs et gagne de vrais codes promo pour tes prochains achats.'},
+ titles:{games:'Choisis ton jeu',steps:'Comment ça marche',cards:'Les jeux WYK Haïti en détail',faq:'Questions fréquentes'},
+ stats:[{b:'2',s:'jeux'},{b:'0 HTG',s:'pour jouer'},{b:'Codes',s:'promo à gagner'}],
+ steps:[{t:'Connecte-toi',p:'Un compte WYK gratuit suffit pour jouer.'},{t:'Joue',p:'Plusieurs essais par jour, qui reviennent chaque jour.'},{t:'Gagne un code',p:'Une victoire peut te donner un code promo WYK.'}],
+ cards:[
+  {t:'🎯 Devine le Nombre',p:"Un nombre mystère est tiré au hasard dans une fourchette (1 à 100 par défaut). Tu as un nombre d'essais limité pour le trouver. En mode normal, un indicateur chaud / froid te guide ; en mode difficile, seul « plus haut » ou « plus bas » est indiqué ; en mode ultra, la fourchette s'élargit si tu te trompes."},
+  {t:'🦖 Dino Run',p:"Un jeu de course inspiré du dinosaure hors-ligne de Chrome : saute par-dessus les cactus, baisse-toi sous les oiseaux et tiens le plus longtemps possible. La vitesse augmente au fil de la partie, et atteindre le score cible (environ 1 000 points) compte comme une victoire."},
+  {t:'🎁 Récompenses',p:"Quand tu gagnes, un code promo WYK peut s'afficher. Copie-le puis envoie-le sur WhatsApp à l'équipe WYK pour l'utiliser sur ta commande. Le nombre de récompenses est limité : il est indiqué sur chaque jeu."},
+  {t:'🏆 Classement',p:"Le classement des joueurs WYK compte tes victoires et tes parties jouées. Les comptes certifiés affichent un badge, que tu peux demander sur WhatsApp."}],
+ blocks:[],
+ faq:[
+  {q:'Comment jouer aux jeux WYK ?',a:'Crée un compte WYK gratuit ou connecte-toi, choisis Devine le Nombre ou Dino Run, puis lance une partie.'},
+  {q:'Combien de parties puis-je jouer par jour ?',a:"Le nombre d'essais quotidiens est affiché sur ton profil et sur chaque jeu. Il se réinitialise chaque jour à minuit (heure UTC), avec un compte à rebours visible."},
+  {q:'Comment gagner un code promo WYK ?',a:"Remporte une partie : si une récompense est encore disponible, ton code s'affiche. Copie-le puis envoie-le à WYK sur WhatsApp pour l'utiliser sur ta commande. Une récompense par jeu et par joueur."},
+  {q:'Les jeux sont-ils gratuits ?',a:"Oui, jouer ne coûte rien. Il suffit d'avoir un compte WYK."},
+  {q:'Comment obtenir un badge de certification ?',a:'Connecte-toi puis utilise le bouton « Demander mon badge » de ton profil joueur : il ouvre une conversation WhatsApp avec l\'équipe WYK.'},
+  {q:"Qu'est-ce que WYK, WYK HT ou WYKHT ?",a:"WYK (aussi écrit WYK HT, WYKHT ou WYK Haïti) est une boutique en ligne haïtienne basée à Carrefour : technologie, mode, chaussures, cosmétique, fleurs, alimentation et services. Prix en gourdes (HTG), commande confirmée sur WhatsApp."}]
+};
+var LISTS=[['nmStats','stats',['b','s'],'stat','stats'],['stepsList','steps',['t','p'],'step','stepsSec'],['cardsGrid','cards',['t','p'],'card','cardsSec'],['blocksBox','blocks',['t','p'],'block','cardsSec'],['faqList','faq',['q','a'],'faq','faqSec']];
+var NEWITEM={stat:{b:'Nouveau',s:'texte'},step:{t:'Nouvelle étape',p:'Texte à modifier.'},card:{t:'Nouveau titre',p:'Texte à modifier.'},block:{t:'Nouveau bloc',p:'Écris ici ton texte.'},faq:{q:'Nouvelle question ?',a:'Ta réponse.'}};
+var _content=null,_editing=false,_backup=null;
+function clip(v,n){return String(v==null?'':v).slice(0,n)}
+function cleanContent(c){
+  var o=JSON.parse(JSON.stringify(DEF));c=c||{};
+  ['hero','titles'].forEach(function(g){if(c[g]&&typeof c[g]==='object')Object.keys(o[g]).forEach(function(k){if(typeof c[g][k]==='string')o[g][k]=clip(c[g][k],700)})});
+  LISTS.forEach(function(L){var arr=c[L[1]];if(Array.isArray(arr))o[L[1]]=arr.slice(0,12).map(function(it){var x={};L[2].forEach(function(f){x[f]=clip(it&&it[f],700)});return x})});
+  return o;
+}
+function mk(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+function fld(tag,f,txt,ed,cls){var e=mk(tag,cls||null,txt);e.setAttribute('data-f',f);if(ed)makeEd(e);return e}
+function makeEd(e){e.setAttribute('contenteditable','true');e.setAttribute('spellcheck','true');e.classList.add('ed-f')}
+function buildItem(type,d,i,ed){
+  var it;
+  if(type==='stat'){it=mk('li');it.appendChild(fld('b','b',d.b,ed));it.appendChild(fld('span','s',d.s,ed))}
+  else if(type==='step'){it=mk('li','nm-card nm-step');it.appendChild(mk('span','nm-num',String(i+1)));var w=mk('div');w.appendChild(fld('h3','t',d.t,ed));w.appendChild(fld('p','p',d.p,ed));it.appendChild(w)}
+  else if(type==='card'||type==='block'){it=mk('article','nm-card seo-card'+(type==='block'?' block':''));it.appendChild(fld('h3','t',d.t,ed));it.appendChild(fld('p','p',d.p,ed))}
+  else{
+    if(ed){it=mk('div','nm-in faq-i');it.appendChild(fld('div','q',d.q,ed,'faq-q'));it.appendChild(fld('p','a',d.a,ed))}
+    else{it=mk('details','nm-in faq-i');it.appendChild(fld('summary','q',d.q,false));it.appendChild(fld('p','a',d.a,false))}
+  }
+  it.setAttribute('data-item','1');
+  if(ed){it.classList.add('ed-item');var b=mk('button','ed-del','✕');b.type='button';b.setAttribute('aria-label','Supprimer ce bloc');b.onclick=function(){it.remove()};it.appendChild(b)}
+  return it;
+}
+function renderAll(m,ed){
+  document.querySelectorAll('[data-k]').forEach(function(n){
+    var k=n.getAttribute('data-k'),v=k.indexOf('t_')===0?m.titles[k.slice(2)]:m.hero[k];
+    if(v!=null)n.textContent=v;
+    if(ed)makeEd(n);else{n.removeAttribute('contenteditable');n.classList.remove('ed-f')}
+  });
+  document.querySelectorAll('.ed-add').forEach(function(b){b.remove()});
+  var secCount={};
+  LISTS.forEach(function(L){
+    var box=document.getElementById(L[0]);if(!box)return;
+    box.innerHTML='';
+    m[L[1]].forEach(function(d,i){box.appendChild(buildItem(L[3],d,i,ed))});
+    secCount[L[4]]=(secCount[L[4]]||0)+m[L[1]].length;
+    if(ed){var a=mk('button','ed-add','+ Ajouter');a.type='button';a.setAttribute('data-for',L[1]);a.onclick=function(){edAdd(L[1])};box.insertAdjacentElement('afterend',a)}
+  });
+  Object.keys(secCount).forEach(function(id){var s=document.getElementById(id);if(s)s.style.display=(secCount[id]||ed)?'':'none'});
+  var st=document.getElementById('nmStats');if(st)st.style.display=(m.stats.length||ed)?'':'none';
+}
+function collect(){
+  var m=JSON.parse(JSON.stringify(DEF));
+  document.querySelectorAll('[data-k]').forEach(function(n){var k=n.getAttribute('data-k'),v=n.textContent.trim();if(k.indexOf('t_')===0)m.titles[k.slice(2)]=v;else m.hero[k]=v});
+  LISTS.forEach(function(L){
+    var box=document.getElementById(L[0]);
+    m[L[1]]=[].slice.call(box.children).filter(function(x){return x.hasAttribute('data-item')}).map(function(it){
+      var o={};L[2].forEach(function(f){var n=it.querySelector('[data-f="'+f+'"]');o[f]=n?n.textContent.trim():''});return o;
+    }).filter(function(o){return L[2].some(function(f){return o[f]})});
+  });
+  return cleanContent(m);
+}
+function edAdd(list){var m=collect(),L=LISTS.filter(function(x){return x[1]===list})[0];if(m[list].length>=12){showToast('12 éléments maximum',false);return}m[list].push(Object.assign({},NEWITEM[L[3]]));renderAll(m,true)}
+function updateLd(m){
+  document.querySelectorAll('script[type="application/ld+json"]').forEach(function(s){try{var d=JSON.parse(s.textContent);if(d['@graph']){d['@graph'].forEach(function(n){if(n['@type']==='FAQPage')n.mainEntity=m.faq.map(function(f){return {'@type':'Question',name:f.q,acceptedAnswer:{'@type':'Answer',text:f.a}}})});s.textContent=JSON.stringify(d)}}catch(e){}});
+}
+async function loadContent(){
+  try{
+    var r=await db.from('site_pages').select('content').eq('slug','jeux-contenu').maybeSingle();
+    if(r&&r.data&&r.data.content){_content=cleanContent(JSON.parse(r.data.content));renderAll(_content,false);updateLd(_content)}
+  }catch(e){}
+}
+function setEditUi(on){
+  _editing=on;document.body.classList.toggle('editing',on);
+  var bar=document.getElementById('edBar');if(bar)bar.hidden=!on;
+  var b=document.getElementById('adm-edit');if(b){b.classList.toggle('on',on);b.querySelector('.adm-st').textContent=on?'En cours':'Texte'}
+}
+function edToggle(){
+  if(!_isAdmin)return;
+  if(_editing){showToast('Utilise Enregistrer ou Annuler en bas de l\'écran.',false);return}
+  _backup=_content||cleanContent({});
+  setEditUi(true);renderAll(_backup,true);
+  showToast('Mode édition : touche un texte pour le modifier');
+}
+function edCancel(){setEditUi(false);renderAll(_backup||cleanContent({}),false)}
+async function edSave(){
+  var m=collect();
+  var r=await db.from('site_pages').upsert({slug:'jeux-contenu',title:'Contenu page Jeux',content:JSON.stringify(m),updated_at:new Date().toISOString()},{onConflict:'slug'});
+  if(r.error){showToast('Erreur : '+r.error.message,false);return}
+  _content=m;setEditUi(false);renderAll(m,false);updateLd(m);showToast('Textes enregistrés ✓');
+}
+function edDefault(){
+  admOpen({ico:'↩️',title:"Rétablir les textes d'origine ?",text:'Tes modifications de textes seront supprimées. Cette action est définitive.',ok:'Rétablir',danger:true,onOk:async function(){
+    var r=await db.from('site_pages').delete().eq('slug','jeux-contenu');
+    if(r.error){showToast('Erreur : '+r.error.message,false);return}
+    _content=null;admClose();setEditUi(false);var d=cleanContent({});renderAll(d,false);updateLd(d);showToast("Textes d'origine rétablis ✓");
+  }});
+}
+document.addEventListener('keydown',function(e){if(_editing&&e.key==='Enter'&&e.target.closest&&e.target.closest('.ed-f'))e.preventDefault()});
+document.addEventListener('paste',function(e){var t=e.target.closest&&e.target.closest('.ed-f');if(!_editing||!t)return;e.preventDefault();var x=(e.clipboardData||window.clipboardData).getData('text').replace(/\s+/g,' ');document.execCommand('insertText',false,x)});
+document.addEventListener('click',function(e){if(_editing&&e.target.closest&&e.target.closest('details summary'))e.preventDefault()});
+loadContent();
+/* ═══ Statut public des jeux (visible aussi pour les visiteurs non connectés) ═══ */
+async function loadPublicStatus(){
+  var rows=null;
+  try{var r=await db.rpc('game_public_status');if(!r.error&&Array.isArray(r.data))rows=r.data}catch(e){}
+  if(!rows){try{var q=await db.from('game_settings').select('game_id,active,disabled_message');if(!q.error&&Array.isArray(q.data))rows=q.data}catch(e){}}
+  if(!rows)return;
+  rows.forEach(function(g){if(GAME_IDS.indexOf(g.game_id)>-1)setCardActive(g.game_id,g.active!==false,g.disabled_message)});
+}
+loadPublicStatus();
+</script>
+
 <script>WYK.mount('games')</script><!--/WYKSHELL-->
 </body>
                                                                                                         </html>
