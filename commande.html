@@ -684,6 +684,7 @@ function themeIcon(){var d=document.documentElement.getAttribute('data-theme')==
   if(S.user){
     var md=S.user.user_metadata||{};
     if(!$('name').value)$('name').value=md.full_name||md.name||'';
+    if(!$('phone').value&&md.phone)$('phone').value=digits(md.phone).slice(-8);
     try{var pr=await db.from('profiles').select('name,phone,zone').eq('id',S.user.id).maybeSingle();var d=pr&&pr.data;
       if(d){if(!$('name').value&&d.name)$('name').value=d.name;if(!$('phone').value&&d.phone)$('phone').value=digits(d.phone).slice(-8);if(!$('addr').value&&d.zone&&S.mode==='livraison')$('addr').value=d.zone}}catch(e){}
   }

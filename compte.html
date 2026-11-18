@@ -542,6 +542,7 @@ input,select,textarea,.finput{background:var(--bg)!important;border:none!importa
 /* ═══ WYK — connexion / inscription (panneau coulissant) ═══ */
 @media(min-width:640px){body:has(#viewAuth.active){max-width:none!important}}
 #viewAuth.view{width:100%}
+#viewAuth,#viewAuth *{box-sizing:border-box}
 #viewAuth .au-wrap{min-height:calc(100vh - 120px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(14px,3vw,36px) 14px}
 #viewAuth .au{position:relative;width:min(980px,100%);height:640px;background:var(--surface);border:1px solid var(--bdr);border-radius:30px;box-shadow:var(--sh3);overflow:hidden}
 #viewAuth .au-f{position:absolute;top:0;width:50%;height:100%;display:flex;align-items:center;justify-content:center;padding:26px 38px;overflow-y:auto;transition:transform .75s cubic-bezier(.65,0,.25,1),opacity .45s ease;scrollbar-width:none}
@@ -616,26 +617,44 @@ input,select,textarea,.finput{background:var(--bg)!important;border:none!importa
 #viewAuth .au-feat li{display:flex;align-items:center;gap:11px;font-size:12.5px;font-weight:600;opacity:.92}
 #viewAuth .au-feat i{width:30px;height:30px;border-radius:10px;background:rgba(255,255,255,.12);backdrop-filter:blur(6px);display:grid;place-items:center}
 #viewAuth .au-feat i svg{width:16px;height:16px;stroke:#fff;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
+/* ── tablette ── */
+@media(max-width:1000px) and (min-width:861px){#viewAuth .au-f{padding:24px 26px}#viewAuth .au-pt h3{font-size:28px}#viewAuth .au-pan-in{padding:30px 30px}#viewAuth .au-pt{left:30px;right:30px}}
+/* onglets Se connecter / S'inscrire : visibles seulement sur mobile */
+#viewAuth .au-tabs{display:none}
 @media(max-width:860px){
- #viewAuth .au{height:auto;border-radius:24px}
- #viewAuth .au-pan{position:relative;width:100%;height:auto;border-radius:0 0 40px 40px;transform:none!important}
- #viewAuth .au.reg .au-pan{border-radius:0 0 40px 40px}
- #viewAuth .au-pan-in{padding:20px 24px 24px}
- #viewAuth .au-plogo{height:40px}
- #viewAuth .au-pt{position:static;display:none}
- #viewAuth .au-pt h3{font-size:24px}
- #viewAuth .au-pt.pl{display:block;margin-top:10px}
- #viewAuth .au.reg .au-pt.pl{display:none}#viewAuth .au.reg .au-pt.pr{display:block;margin-top:10px}
- #viewAuth .au-pt p{margin:8px 0 0;font-size:13px}
- #viewAuth .au-ghost,#viewAuth .au-feat,#viewAuth .au-mos{display:none}
- #viewAuth .au-f{position:relative;width:100%;height:auto;padding:22px 22px 26px;transform:none!important;left:0!important}
- #viewAuth .au-login,#viewAuth .au-reg{order:2}
- #viewAuth .au{display:flex;flex-direction:column}
- #viewAuth .au-pan{order:1}
- #viewAuth .au-reg,#viewAuth .au.reg .au-login{display:none}
- #viewAuth .au.reg .au-reg{display:flex}
+ #viewAuth .au-wrap{justify-content:flex-start;padding:10px 12px 100px;min-height:0}
+ #viewAuth .au{display:grid;grid-template-columns:minmax(0,1fr);height:auto;border-radius:26px;overflow:hidden;touch-action:pan-y}
+ #viewAuth .au-tabs{display:grid;grid-template-columns:1fr 1fr;position:relative;grid-row:1;grid-column:1;margin:12px 12px 0;padding:4px;border-radius:16px;background:var(--s2);z-index:5}
+ #viewAuth .au-tabs i{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:12px;background:linear-gradient(120deg,#e8192c,#ff4b5c);box-shadow:0 6px 16px rgba(232,25,44,.3);transition:transform .45s cubic-bezier(.65,0,.25,1)}
+ #viewAuth .au.reg .au-tabs i{transform:translateX(100%)}
+ #viewAuth .au-tabs button{position:relative;z-index:1;padding:11px 8px;font-weight:700;font-size:14px;color:var(--t2);transition:color .3s}
+ #viewAuth .au-tabs button.on{color:#fff}
+ #viewAuth .au-pan{grid-row:2;grid-column:1;position:relative;width:auto;height:auto;margin:12px 12px 0;border-radius:22px!important;transform:none!important}
+ #viewAuth .au.reg .au-pan{border-radius:22px!important}
+ #viewAuth .au-pan-in{padding:16px 18px;min-height:0;display:block}
+ #viewAuth .au-plogo{height:32px;position:absolute;right:16px;top:14px}
+ #viewAuth .au-pt{position:absolute;left:18px;right:70px;top:16px;display:block;transition:opacity .45s,transform .55s cubic-bezier(.65,0,.25,1)}
+ #viewAuth .au-pt.pl,#viewAuth .au-pt.pr{margin:0}
+ #viewAuth .au-pt h3{font-size:19px;line-height:1.15}
+ #viewAuth .au-pt p,#viewAuth .au-ghost,#viewAuth .au-feat,#viewAuth .au-mos{display:none}
+ #viewAuth .au-pan-in{height:74px}
+ #viewAuth .au-pt.pl{opacity:1;transform:none}
+ #viewAuth .au-pt.pr{opacity:0;transform:translateX(24px)}
+ #viewAuth .au.reg .au-pt.pl{opacity:0;transform:translateX(-24px);display:block}
+ #viewAuth .au.reg .au-pt.pr{opacity:1;transform:none;display:block}
+ /* les deux formulaires partagent la même cellule et glissent */
+ #viewAuth .au-f{position:relative!important;grid-row:3;grid-column:1;width:100%;height:auto;left:0!important;padding:20px 20px 26px;overflow:visible;display:flex;
+   transition:transform .55s cubic-bezier(.65,0,.25,1),opacity .4s ease,visibility 0s linear .55s}
+ #viewAuth .au-login{opacity:1;visibility:visible;transform:none;pointer-events:auto}
+ #viewAuth .au-reg{opacity:0;visibility:hidden;transform:translateX(60px);pointer-events:none}
+ #viewAuth .au.reg .au-login{opacity:0;visibility:hidden;transform:translateX(-60px);pointer-events:none;display:flex}
+ #viewAuth .au.reg .au-reg{opacity:1;visibility:visible;transform:none;pointer-events:auto;display:flex;transition:transform .55s cubic-bezier(.65,0,.25,1),opacity .4s ease,visibility 0s}
+ #viewAuth .au:not(.reg) .au-login{transition:transform .55s cubic-bezier(.65,0,.25,1),opacity .4s ease,visibility 0s}
+ #viewAuth .au-brand{display:none}
+ #viewAuth h2{font-size:24px}
  #viewAuth .au-sw{display:block}
 }
+@media(prefers-reduced-motion:reduce){#viewAuth *{transition-duration:.01ms!important}}
 
 /* ═══ WYK compte — listes, commandes, support (v2) ═══ */
 .mini-item.enter{animation:miniEnter .35s cubic-bezier(.22,1,.36,1) both}
@@ -701,6 +720,33 @@ input,select,textarea,.finput{background:var(--bg)!important;border:none!importa
 .faq{padding:0 14px}.faq summary{padding:13px 0;font-size:.8rem;font-weight:700;cursor:pointer;color:var(--text)}.faq p{margin:0 0 13px;font-size:.76rem;color:var(--t2);line-height:1.55}
 .sup-wa{display:flex;align-items:center;justify-content:center;gap:9px;padding:13px;border-radius:16px;background:#25d366;color:#04230f;font-weight:800;font-size:.82rem;text-decoration:none}.sup-wa svg{width:18px;height:18px}
 @media(prefers-reduced-motion:reduce){.mini-item.enter{animation:none}}
+.chat-box{contain:content;scroll-behavior:auto}
+.msg.enter{animation:miniEnter .25s ease both}
+.msg.pending{opacity:.6}
+.msg-t{display:block;white-space:pre-wrap;word-break:break-word}
+.mcard{display:flex;gap:10px;align-items:center;padding:8px;margin-bottom:7px;border-radius:12px;background:rgba(0,0,0,.06);color:var(--text)}
+.msg.client .mcard{background:rgba(255,255,255,.18);color:#fff}
+.mcard-th{display:flex;flex:none}.mcard-th span{width:34px;height:34px;border-radius:9px;background:#fff;border:2px solid rgba(255,255,255,.7);margin-left:-9px;overflow:hidden;display:grid;place-items:center}.mcard-th span:first-child{margin-left:0}.mcard-th img{width:100%;height:100%;object-fit:contain}
+.mcard-b{min-width:0;display:flex;flex-direction:column;gap:1px}.mcard-b b{font-size:.74rem}.mcard-b>span{font-size:.66rem;opacity:.8}.mcard .ord-st{align-self:flex-start;margin-top:3px}
+.msg-ac{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px;font-size:.66rem}
+.msg-ac button{font-size:.64rem;font-weight:700;padding:3px 9px;border-radius:20px;background:rgba(255,255,255,.25);color:inherit}
+.msg-ac button.g{background:transparent;border:1px solid currentColor;opacity:.8}
+.msg-ed{width:100%;resize:none;border:1.5px solid rgba(255,255,255,.5)!important;border-radius:10px!important;padding:7px 9px!important;background:rgba(255,255,255,.15)!important;color:inherit;font:500 .8rem 'DM Sans',sans-serif}
+.chat-quick{display:none;flex-wrap:wrap;gap:6px;padding:8px 14px 0;background:var(--s2)}
+.chat-quick button{font-size:.68rem;font-weight:700;padding:6px 11px;border-radius:20px;border:1.5px solid var(--bdr2);background:var(--surface);color:var(--t2)}
+</style>
+<style id="wyk-card-v3">
+/* Cartes produit v3 : bouton + sur l'image (n'écrase plus les formats « Trio / Douzaine… »), format en pastille propre */
+.card .im .addw{position:absolute;right:10px;bottom:10px;left:auto;top:auto;z-index:3}
+.card .im .addw .add{position:static;width:40px;height:40px;border-radius:14px;background:rgba(255,255,255,.94);color:#101010;box-shadow:0 8px 20px rgba(0,0,0,.2);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.7);transition:transform .2s,background .2s,color .2s}
+.card .im .addw .add:hover{background:var(--red);color:#fff;transform:translateY(-2px) scale(1.05);rotate:0deg}
+.card .im .addw .add.in{width:auto;min-width:40px;padding:0 12px;background:var(--red);color:#fff;border-color:transparent}
+[data-theme="dark"] .card .im .addw .add:not(.in){background:rgba(28,28,26,.92);color:#fff;border-color:rgba(255,255,255,.12)}
+.grid.list .card .bo{padding:18px 20px!important}
+.card .bo .pr{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px}
+.card .pkc{margin-top:2px}
+.card .pkc span{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:5px 10px;border-radius:20px;background:var(--red-s,rgba(232,25,44,.09));color:var(--red,#e8192c);font-size:11.5px;font-weight:700;line-height:1.25;letter-spacing:0}
+.card .pkc svg{width:13px;height:13px;flex:none}
 </style>
 </head>
 <body>
@@ -765,6 +811,7 @@ input,select,textarea,.finput{background:var(--bg)!important;border:none!importa
 <main id="viewAuth" class="view active" style="padding-bottom:40px">
 <div class="au-wrap">
  <div class="au" id="au">
+  <div class="au-tabs" role="tablist"><i></i><button type="button" class="on" data-t="login" role="tab" aria-selected="true" onclick="switchTab('login')">Se connecter</button><button type="button" data-t="register" role="tab" aria-selected="false" onclick="switchTab('register')">S'inscrire</button></div>
   <!-- CONNEXION -->
   <section class="au-f au-login" id="formLogin" aria-label="Connexion">
    <div class="au-in-box">
@@ -937,6 +984,7 @@ input,select,textarea,.finput{background:var(--bg)!important;border:none!importa
       <div class="chat">
         <div class="chat-h"><div class="chat-av"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg></div><div><b>Équipe WYK</b><span>Réponse dans votre compte, en général sous quelques heures</span></div></div>
         <div class="chat-ctx" id="chatCtx" style="display:none"></div>
+        <div class="chat-quick" id="chatQuick"><button type="button">Où en est ma commande ?</button><button type="button">Je veux modifier mon adresse</button><button type="button">Problème avec mon paiement</button></div>
         <div class="chat-box" id="chatBox"><div class="chat-empty">Aucun message. Posez votre question ci-dessous.</div></div>
         <div class="chat-in"><textarea id="chatIn" rows="1" maxlength="1000" placeholder="Écrivez votre message…"></textarea><button type="button" id="chatSend" onclick="sendMsg()" aria-label="Envoyer"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></div>
       </div>
@@ -1166,7 +1214,21 @@ function objectFitFallback(imgEl,mode){
 
 /* ── TABS ── */
 var _nextDest=(function(){try{var q=new URLSearchParams(location.search).get('next');if(q==='commande')sessionStorage.setItem('wyk_next','commande');return sessionStorage.getItem('wyk_next')}catch(e){return null}})();
-function switchTab(tab){document.getElementById('au').classList.toggle('reg',tab!=='login');var a=document.querySelector('#viewAuth .au-f'+(tab==='login'?'.au-login':'.au-reg')+' input');if(a&&window.innerWidth>860)setTimeout(function(){a.focus({preventScroll:true})},700)}
+function switchTab(tab){
+  var au=document.getElementById('au'),reg=tab!=='login';au.classList.toggle('reg',reg);
+  [].forEach.call(au.querySelectorAll('.au-tabs button'),function(b){var on=(b.getAttribute('data-t')==='register')===reg;b.classList.toggle('on',on);b.setAttribute('aria-selected',on)});
+  if(window.innerWidth>860){var a=au.querySelector('.au-f'+(reg?'.au-reg':'.au-login')+' input');if(a)setTimeout(function(){a.focus({preventScroll:true})},700)}
+  else{var f=au.querySelector('.au-f'+(reg?'.au-reg':'.au-login'));if(f)f.scrollTop=0}
+}
+(function(){
+  var au=document.getElementById('au');if(!au)return;
+  var x0=null,y0=null;
+  au.addEventListener('touchstart',function(e){var t=e.touches[0];x0=t.clientX;y0=t.clientY},{passive:true});
+  au.addEventListener('touchend',function(e){
+    if(x0===null||window.innerWidth>860)return;var t=e.changedTouches[0],dx=t.clientX-x0,dy=t.clientY-y0;x0=null;
+    if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*1.6&&!/INPUT|TEXTAREA/.test((e.target||{}).tagName||''))switchTab(dx<0?'register':'login');
+  },{passive:true});
+})();
 if(location.hash==='#inscription')switchTab('register');
 
 /* ── PW ── */
@@ -1190,7 +1252,11 @@ function saveFavs(a){localStorage.setItem('wyk_favs',JSON.stringify(a))}
 function getCart(){try{return JSON.parse(localStorage.getItem('wyk_cart')||'[]')}catch(e){return[]}}
 function saveCart(a){localStorage.setItem('wyk_cart',JSON.stringify(a))}
 function safeParse(key,fallback){try{var v=localStorage.getItem(key);return v?JSON.parse(v):fallback}catch(e){return fallback}}
-function getProfile(){return safeParse('wyk-profile',{})}
+function getProfile(){
+  var p=safeParse('wyk-profile',{}),m=(typeof _currentUser!=='undefined'&&_currentUser&&_currentUser.user_metadata)||{};
+  if(!p.phone&&m.phone)p.phone=m.phone;if(!p.zone&&m.zone)p.zone=m.zone;if(!p.name&&m.full_name)p.name=m.full_name;
+  return p;
+}
 
 /* ══════════════════════════════════
    RENDU FAVORIS
@@ -1348,17 +1414,28 @@ async function loadProfileFromDB(userId){
   try{
     var {data,error}=await sb.from('profiles').select('*').eq('id',userId).maybeSingle();
     if(error)throw error;
-    if(data){localStorage.setItem('wyk-profile',JSON.stringify(data));return data}
+    if(data){var mg=safeParse('wyk-profile',{});Object.keys(data).forEach(function(k){if(data[k]!==null&&data[k]!=='')mg[k]=data[k]});localStorage.setItem('wyk-profile',JSON.stringify(mg));return getProfile()}
     return null;
   }catch(e){console.error('loadProfileFromDB',e);return getProfile()}
 }
 
 async function upsertProfile(fields){
   if(!_currentUser)return false;
-  var payload=Object.assign({id:_currentUser.id,updated_at:new Date().toISOString()},fields);
-  var {error}=await sb.from('profiles').upsert(payload);
-  if(error){showToast('Erreur sauvegarde : '+error.message);return false}
-  var merged=Object.assign(getProfile(),fields);
+  var payload=Object.assign({id:_currentUser.id,updated_at:new Date().toISOString()},fields),dropped={},lastErr=null,saved=false;
+  /* si une colonne n'existe pas encore dans la table profiles, on la retire et on la garde dans le compte (user_metadata) */
+  for(var t=0;t<5&&!saved;t++){
+    var r=await sb.from('profiles').upsert(payload);
+    if(!r.error){saved=true;break}
+    lastErr=r.error;
+    var m=/['"]?([a-z_]+)['"]?\s+column|column\s+['"]?(?:profiles\.)?([a-z_]+)['"]?/i.exec(r.error.message||''),col=m&&(m[1]||m[2]);
+    if(col&&col in payload&&col!=='id'){dropped[col]=payload[col];delete payload[col];continue}
+    break;
+  }
+  var meta={};['phone','zone'].forEach(function(k){if(k in fields)meta[k]=fields[k]});if(fields.name)meta.full_name=fields.name;
+  var metaOk=false;
+  if(Object.keys(meta).length){try{var u=await sb.auth.updateUser({data:meta});metaOk=!u.error;if(u.data&&u.data.user)_currentUser=u.data.user}catch(e){}}
+  if(!saved&&!metaOk){showToast('Impossible d\'enregistrer : '+(lastErr&&lastErr.message||'erreur'));return false}
+  var merged=Object.assign(safeParse('wyk-profile',{}),fields);
   localStorage.setItem('wyk-profile',JSON.stringify(merged));
   return true;
 }
@@ -1549,7 +1626,7 @@ function subscribeRealtime(){
   try{
     sb.channel('wyk-ord-'+_rtUid).on('postgres_changes',{event:'*',schema:'public',table:'orders',filter:'user_id=eq.'+_rtUid},deb(loadOrders))
       .on('postgres_changes',{event:'*',schema:'public',table:'payment_proofs',filter:'user_id=eq.'+_rtUid},deb(loadOrders))
-      .on('postgres_changes',{event:'INSERT',schema:'public',table:'order_messages',filter:'user_id=eq.'+_rtUid},function(p){var m=p.new;if(!m||_msgs.some(function(x){return x.id===m.id}))return;_msgs.push(m);renderMsgs();if(m.sender==='equipe'){showToast('Nouveau message de l\'équipe WYK');setUnread()}}).subscribe();
+      .on('postgres_changes',{event:'*',schema:'public',table:'order_messages',filter:'user_id=eq.'+_rtUid},onMsgEvent).subscribe();
   }catch(e){console.warn('realtime',e)}
 }
 document.getElementById('ordersList').addEventListener('click',function(e){
@@ -1594,54 +1671,120 @@ async function submitProof(){
 }
 document.getElementById('proofModal').addEventListener('click',function(e){if(e.target===this)closeProofModal()});
 
-/* ── support client (messagerie) ── */
+/* ── support client (messagerie) : rendu à clé, modification / suppression pendant 5 min ── */
+var MSG_WIN=5*60*1000,_msgTimers={},_sending=false;
+function msgAge(m){return Date.now()-new Date(m.created_at).getTime()}
+function msgEditable(m){return m.sender==='client'&&!m._pending&&msgAge(m)<MSG_WIN}
 function setUnread(){
   _unread=_msgs.filter(function(m){return m.sender==='equipe'&&!m.read}).length;
   var d=document.getElementById('supDot');d.textContent=_unread;d.style.display=_unread?'inline-block':'none';
 }
+function ordCardHtml(o){
+  var items=Array.isArray(o.items)?o.items:[];
+  var th=items.slice(0,3).map(function(i){return '<span>'+(i.img?'<img src="'+escHtml(i.img)+'" alt="" loading="lazy">':'')+'</span>'}).join('');
+  var nb=items.reduce(function(s,i){return s+(Number(i.qty)||1)},0);
+  return '<div class="mcard"><div class="mcard-th">'+th+'</div><div class="mcard-b"><b>'+escHtml(o.order_ref||'Commande')+'</b><span>'+nb+' article'+(nb>1?'s':'')+' · '+fmtPrice(o.total)+'</span>'+ordChip(o)+'</div></div>';
+}
+function msgSig(m){
+  var o=m.order_id?_orders.filter(function(x){return x.id===m.order_id})[0]:null;
+  return [m.body,m.edited_at||'',m.order_id||'',o?ordStage(o)+(o.pay_status||''):'',msgEditable(m)?1:0,m._pending?1:0,m._edit?1:0,m._conf?1:0,m._err?1:0].join('\u0001');
+}
+function buildMsg(m){
+  var d=document.createElement('div');d.className='msg '+m.sender+(m._pending?' pending':'');d.setAttribute('data-id',m.id);
+  var o=m.order_id?_orders.filter(function(x){return x.id===m.order_id})[0]:null,h='';
+  if(m.sender==='equipe')h+='<em>Équipe WYK</em>';
+  if(o)h+=ordCardHtml(o);
+  if(m._edit){
+    h+='<textarea class="msg-ed" rows="2" maxlength="1000">'+escHtml(m.body)+'</textarea><div class="msg-ac"><button type="button" data-act="save">Enregistrer</button><button type="button" data-act="cancel" class="g">Annuler</button></div>';
+  }else{
+    h+='<span class="msg-t">'+escHtml(m.body)+'</span><small>'+new Date(m.created_at).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})+(m.edited_at?' · modifié':'')+(m._pending?' · envoi…':'')+'</small>';
+    if(msgEditable(m)){
+      h+=m._conf?'<div class="msg-ac"><span>Supprimer ce message ?</span><button type="button" data-act="yes">Supprimer</button><button type="button" data-act="no" class="g">Annuler</button></div>'
+        :'<div class="msg-ac"><button type="button" data-act="edit" class="g">Modifier</button><button type="button" data-act="del" class="g">Supprimer</button></div>';
+    }
+  }
+  d.innerHTML=h;return d;
+}
 function renderMsgs(){
   var box=document.getElementById('chatBox');
-  if(!_msgs.length){if(!box.querySelector('.chat-empty'))box.innerHTML='<div class="chat-empty">Aucun message. Posez votre question ci-dessous.</div>';return}
-  var e=box.querySelector('.chat-empty');if(e)box.removeChild(e);
-  var stick=box.scrollHeight-box.scrollTop-box.clientHeight<60,have={};
-  [].forEach.call(box.children,function(c){have[c.getAttribute('data-id')]=1});
+  if(!_msgs.length){if(!box._emp){box._emp=1;box.innerHTML='<div class="chat-empty">Aucun message. Posez votre question ci-dessous.</div>'}return}
+  box._emp=0;
+  var stick=box.scrollHeight-box.scrollTop-box.clientHeight<80,first=!box.querySelector('.msg');
+  var ed=box.querySelector('.msg-ed'),edVal=ed?ed.value:null;
+  syncList(box,_msgs,function(m){return m.id},msgSig,buildMsg);
+  if(ed){var n=box.querySelector('.msg-ed');if(n&&edVal!==null)n.value=edVal}
+  if(stick||first)box.scrollTop=box.scrollHeight;
   _msgs.forEach(function(m){
-    if(have[m.id])return;
-    var d=document.createElement('div');d.className='msg '+m.sender;d.setAttribute('data-id',m.id);
-    var ord=m.order_id?_orders.filter(function(o){return o.id===m.order_id})[0]:null;
-    d.innerHTML=(m.sender==='equipe'?'<em>Équipe WYK</em>':'')+(ord&&ord.order_ref?'<em>'+escHtml(ord.order_ref)+'</em>':'')+escHtml(m.body)+'<small>'+new Date(m.created_at).toLocaleString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})+'</small>';
-    box.appendChild(d)});
-  if(stick||!have[_msgs[0].id])box.scrollTop=box.scrollHeight;
+    if(m.sender!=='client'||m._pending||_msgTimers[m.id])return;
+    var left=MSG_WIN-msgAge(m);if(left<=0)return;
+    _msgTimers[m.id]=setTimeout(function(){delete _msgTimers[m.id];var x=_msgs.filter(function(k){return k.id===m.id})[0];if(x){x._edit=false;x._conf=false;renderMsgs()}},left+300);
+  });
 }
 async function loadMsgs(){
   if(!_currentUser)return;
   var r=await sb.from('order_messages').select('*').eq('user_id',_currentUser.id).order('created_at',{ascending:true}).limit(200);
-  if(r.error)return;_msgs=r.data||[];renderMsgs();setUnread();
+  if(r.error)return;
+  var pend=_msgs.filter(function(m){return m._pending});
+  _msgs=(r.data||[]).concat(pend);renderMsgs();setUnread();
 }
 async function markRead(){
   if(!_unread||!_currentUser)return;
-  try{await sb.from('order_messages').update({read:true}).eq('user_id',_currentUser.id).eq('sender','equipe').eq('read',false)}catch(e){}
+  var r=await sb.rpc('wyk_mark_read');
+  if(r&&r.error){try{await sb.from('order_messages').update({read:true}).eq('user_id',_currentUser.id).eq('sender','equipe').eq('read',false)}catch(e){}}
   _msgs.forEach(function(m){if(m.sender==='equipe')m.read=true});setUnread();
 }
+function onMsgEvent(p){
+  var m=p.new,ev=p.eventType;
+  if(ev==='DELETE'){var id=p.old&&p.old.id;_msgs=_msgs.filter(function(x){return x.id!==id});renderMsgs();setUnread();return}
+  if(!m)return;
+  var i=-1;_msgs.forEach(function(x,k){if(x.id===m.id)i=k});
+  if(i>-1){Object.assign(_msgs[i],m)}
+  else{_msgs.push(m);if(m.sender==='equipe'){showToast('Nouveau message de l\'équipe WYK')}}
+  renderMsgs();setUnread();
+}
 function askSupport(orderId){
-  _chatOrder=orderId||null;var o=_orders.filter(function(x){return x.id===orderId})[0],c=document.getElementById('chatCtx');
-  if(o){c.style.display='flex';c.innerHTML='<span>À propos de '+escHtml(o.order_ref||'la commande')+'</span><button type="button" onclick="askSupport(null)" aria-label="Retirer">×</button>'}else c.style.display='none';
-  if(orderId){document.getElementById('supportSection').scrollIntoView({behavior:'smooth',block:'start'});setTimeout(function(){document.getElementById('chatIn').focus({preventScroll:true})},500)}
+  _chatOrder=orderId||null;var o=_orders.filter(function(x){return x.id===orderId})[0],c=document.getElementById('chatCtx'),q=document.getElementById('chatQuick');
+  if(o){c.style.display='flex';c.innerHTML='<span>À propos de '+escHtml(o.order_ref||'la commande')+'</span><button type="button" onclick="askSupport(null)" aria-label="Retirer">×</button>';q.style.display='flex'}
+  else{c.style.display='none';q.style.display='none'}
+  if(orderId){document.getElementById('supportSection').scrollIntoView({behavior:'smooth',block:'start'})}
 }
 async function sendMsg(){
-  var ta=document.getElementById('chatIn'),body=ta.value.trim();if(!body||!_currentUser)return;
-  var btn=document.getElementById('chatSend');btn.disabled=true;
-  var r=await sb.from('order_messages').insert({user_id:_currentUser.id,order_id:_chatOrder,sender:'client',body:body}).select().single();
-  btn.disabled=false;
-  if(r.error){showToast('Message non envoyé : '+r.error.message);return}
-  ta.value='';ta.style.height='';
-  if(!_msgs.some(function(m){return m.id===r.data.id})){_msgs.push(r.data);renderMsgs()}
+  var ta=document.getElementById('chatIn'),body=ta.value.trim();if(!body||!_currentUser||_sending)return;
+  _sending=true;
+  var tmp={id:'tmp'+Date.now(),user_id:_currentUser.id,order_id:_chatOrder,sender:'client',body:body,created_at:new Date().toISOString(),_pending:true};
+  _msgs.push(tmp);ta.value='';ta.style.height='';renderMsgs();
+  var r=await sb.from('order_messages').insert({user_id:_currentUser.id,order_id:tmp.order_id,sender:'client',body:body}).select().single();
+  _sending=false;
+  if(r.error){_msgs=_msgs.filter(function(x){return x!==tmp});renderMsgs();ta.value=body;showToast('Message non envoyé : '+r.error.message);return}
+  var dup=_msgs.some(function(x){return x.id===r.data.id});
+  if(dup)_msgs=_msgs.filter(function(x){return x!==tmp});
+  else{Object.assign(tmp,r.data);delete tmp._pending}
+  renderMsgs();
+}
+async function msgAction(id,act,box){
+  var m=_msgs.filter(function(x){return String(x.id)===id})[0];if(!m)return;
+  if(act==='edit'){m._edit=true;m._conf=false;renderMsgs();var t=box.querySelector('.msg[data-id="'+id+'"] .msg-ed');if(t){t.focus();t.setSelectionRange(t.value.length,t.value.length)}return}
+  if(act==='cancel'){m._edit=false;renderMsgs();return}
+  if(act==='del'){m._conf=true;renderMsgs();return}
+  if(act==='no'){m._conf=false;renderMsgs();return}
+  if(act==='save'){
+    var t2=box.querySelector('.msg[data-id="'+id+'"] .msg-ed'),v=t2?t2.value.trim():'';if(!v)return showToast('Le message ne peut pas être vide');
+    if(!msgEditable(m)){m._edit=false;renderMsgs();return showToast('Le délai de 5 minutes est dépassé')}
+    var r=await sb.from('order_messages').update({body:v,edited_at:new Date().toISOString()}).eq('id',m.id).select();
+    if(r.error||!r.data||!r.data.length){m._edit=false;renderMsgs();return showToast('Modification impossible (délai de 5 minutes dépassé)')}
+    Object.assign(m,r.data[0]);m._edit=false;renderMsgs();return}
+  if(act==='yes'){
+    var d=await sb.from('order_messages').delete().eq('id',m.id).select();
+    if(d.error||!d.data||!d.data.length){m._conf=false;renderMsgs();return showToast('Suppression impossible (délai de 5 minutes dépassé)')}
+    _msgs=_msgs.filter(function(x){return x!==m});renderMsgs();showToast('Message supprimé')}
 }
 (function(){
-  var ta=document.getElementById('chatIn');
+  var ta=document.getElementById('chatIn'),box=document.getElementById('chatBox');
   ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg()}});
   ta.addEventListener('input',function(){ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,110)+'px'});
-  if('IntersectionObserver' in window){new IntersectionObserver(function(en){if(en[0].isIntersecting)markRead()},{threshold:.4}).observe(document.getElementById('chatBox'))}
+  box.addEventListener('click',function(e){var b=e.target.closest('[data-act]');if(!b)return;var m=b.closest('.msg');if(m)msgAction(m.getAttribute('data-id'),b.getAttribute('data-act'),box)});
+  document.getElementById('chatQuick').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;ta.value=b.textContent;ta.focus();ta.dispatchEvent(new Event('input'))});
+  if('IntersectionObserver' in window){new IntersectionObserver(function(en){if(en[0].isIntersecting)markRead()},{threshold:.4}).observe(box)}
 })();
 
 /* ── panneau de connexion : mosaïque de vrais produits ── */
@@ -1969,10 +2112,10 @@ W.sk={raw:function(n){var h='';for(var i=0;i<n;i++)h+='<div class="skc"><div cla
  vit:function(n){var h='';for(var i=0;i<n;i++)h+='<div class="gc sk-gc"><div class="sk" style="position:absolute;inset:0;border-radius:inherit"></div></div>';return h}};
 W.catUrl=function(c){return'/categorie?c='+encodeURIComponent(c._slug||c.slug||c.id)};
 /* ---- carte produit ---- */
-W.card=function(p){var off=p.old_price&&p.old_price>p.price&&!(p._pk&&p._pk.only)?Math.round((1-p.price/p.old_price)*100):0,b=p.badge,bt=b==='new'?'Nouveau':b==='promo'?'Promo':b==='pop'||b==='popular'?'Populaire':b?esc(b):(off?'-'+off+'%':''),bc=b==='new'?'new':(b==='promo'||(!b&&off))?'promo':b?'pop':'';
+W.card=function(p){var off=p.old_price&&p.old_price>p.price&&!(p._pk&&p._pk.only)?Math.round((1-p.price/p.old_price)*100):0,b=p.badge,bt=b==='new'?'Nouveau':b==='promo'?'Promo':b==='pop'||b==='popular'?'Populaire':b?esc(b):(off?'-'+off+'%':(p._recent?'Récent':'')),bc=b==='new'?'new':(b==='promo'||(!b&&off))?'promo':b?'pop':(p._recent?'new':'');
  return'<article class="card" data-p="'+p.id+'"><div class="im">'+(p._imgs[0]?'<img src="'+esc(p._imgs[0])+'" alt="'+esc(p.name)+'" loading="lazy">':'<div class="ph">'+I('bag')+'</div>')+(bt?'<span class="bdg '+bc+'">'+bt+'</span>':'')+
- '<button class="wish'+(W.isFav(p.id)?' on':'')+'" data-id="'+p.id+'" aria-label="Favori">'+I('heart')+'</button></div>'+
- '<div class="bo"><span class="ct">'+esc(p.cat?p.cat.name:'WYK')+'</span><h3><a class="pl" href="/produit/'+encodeURIComponent(p.id)+'" style="color:inherit;text-decoration:none">'+esc(p.name)+'</a></h3><div class="pr"><b>'+fmt(W.dp(p))+'</b>'+(off?'<s>'+fmt(p.old_price)+'</s><em>-'+off+'%</em>':'')+'</div>'+W.pkChip(p)+'</div><div class="addw">'+addArea(p)+'</div></article>'};
+ '<button class="wish'+(W.isFav(p.id)?' on':'')+'" data-id="'+p.id+'" aria-label="Favori">'+I('heart')+'</button><div class="addw">'+addArea(p)+'</div></div>'+
+ '<div class="bo"><span class="ct">'+esc(p.cat?p.cat.name:'WYK')+'</span><h3><a class="pl" href="/produit/'+encodeURIComponent(p.id)+'" style="color:inherit;text-decoration:none">'+esc(p.name)+'</a></h3><div class="pr"><b>'+fmt(W.dp(p))+'</b>'+(off?'<s>'+fmt(p.old_price)+'</s><em>-'+off+'%</em>':'')+'</div>'+W.pkChip(p)+'</div></article>'};
 W.rail=function(list){return'<div class="rail-w"><button class="rn l" data-rn="-1" aria-label="Précédent">'+I('chevl')+'</button><div class="rail">'+list.map(W.card).join('')+'</div><button class="rn r" data-rn="1" aria-label="Suivant">'+I('chevr')+'</button></div>'};
 /* délégation : clics cartes / favoris / ajout / flèches des rails */
 var deleg=function(e){var t=e.target;

@@ -641,6 +641,19 @@ h1,h2,h3,h4{font-family:var(--fd);letter-spacing:-.02em;line-height:1.05}
 .seo-intro a{color:inherit;opacity:.8;text-decoration:none}
 .seo-intro a:hover{color:var(--red,#e8192c);opacity:1}
 </style>
+<style id="wyk-card-v3">
+/* Cartes produit v3 : bouton + sur l'image (n'écrase plus les formats « Trio / Douzaine… »), format en pastille propre */
+.card .im .addw{position:absolute;right:10px;bottom:10px;left:auto;top:auto;z-index:3}
+.card .im .addw .add{position:static;width:40px;height:40px;border-radius:14px;background:rgba(255,255,255,.94);color:#101010;box-shadow:0 8px 20px rgba(0,0,0,.2);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.7);transition:transform .2s,background .2s,color .2s}
+.card .im .addw .add:hover{background:var(--red);color:#fff;transform:translateY(-2px) scale(1.05);rotate:0deg}
+.card .im .addw .add.in{width:auto;min-width:40px;padding:0 12px;background:var(--red);color:#fff;border-color:transparent}
+[data-theme="dark"] .card .im .addw .add:not(.in){background:rgba(28,28,26,.92);color:#fff;border-color:rgba(255,255,255,.12)}
+.grid.list .card .bo{padding:18px 20px!important}
+.card .bo .pr{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px}
+.card .pkc{margin-top:2px}
+.card .pkc span{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:5px 10px;border-radius:20px;background:var(--red-s,rgba(232,25,44,.09));color:var(--red,#e8192c);font-size:11.5px;font-weight:700;line-height:1.25;letter-spacing:0}
+.card .pkc svg{width:13px;height:13px;flex:none}
+</style>
 </head>
 <body>
 <div id="wyk-top"></div>
@@ -830,10 +843,10 @@ W.sk={raw:function(n){var h='';for(var i=0;i<n;i++)h+='<div class="skc"><div cla
  vit:function(n){var h='';for(var i=0;i<n;i++)h+='<div class="gc sk-gc"><div class="sk" style="position:absolute;inset:0;border-radius:inherit"></div></div>';return h}};
 W.catUrl=function(c){return'/categorie?c='+encodeURIComponent(c._slug||c.slug||c.id)};
 /* ---- carte produit ---- */
-W.card=function(p){var off=p.old_price&&p.old_price>p.price&&!(p._pk&&p._pk.only)?Math.round((1-p.price/p.old_price)*100):0,b=p.badge,bt=b==='new'?'Nouveau':b==='promo'?'Promo':b==='pop'||b==='popular'?'Populaire':b?esc(b):(off?'-'+off+'%':''),bc=b==='new'?'new':(b==='promo'||(!b&&off))?'promo':b?'pop':'';
+W.card=function(p){var off=p.old_price&&p.old_price>p.price&&!(p._pk&&p._pk.only)?Math.round((1-p.price/p.old_price)*100):0,b=p.badge,bt=b==='new'?'Nouveau':b==='promo'?'Promo':b==='pop'||b==='popular'?'Populaire':b?esc(b):(off?'-'+off+'%':(p._recent?'Récent':'')),bc=b==='new'?'new':(b==='promo'||(!b&&off))?'promo':b?'pop':(p._recent?'new':'');
  return'<article class="card" data-p="'+p.id+'"><div class="im">'+(p._imgs[0]?'<img src="'+esc(p._imgs[0])+'" alt="'+esc(p.name)+'" loading="lazy">':'<div class="ph">'+I('bag')+'</div>')+(bt?'<span class="bdg '+bc+'">'+bt+'</span>':'')+
- '<button class="wish'+(W.isFav(p.id)?' on':'')+'" data-id="'+p.id+'" aria-label="Favori">'+I('heart')+'</button></div>'+
- '<div class="bo"><span class="ct">'+esc(p.cat?p.cat.name:'WYK')+'</span><h3><a class="pl" href="/produit/'+encodeURIComponent(p.id)+'" style="color:inherit;text-decoration:none">'+esc(p.name)+'</a></h3><div class="pr"><b>'+fmt(W.dp(p))+'</b>'+(off?'<s>'+fmt(p.old_price)+'</s><em>-'+off+'%</em>':'')+'</div>'+W.pkChip(p)+'</div><div class="addw">'+addArea(p)+'</div></article>'};
+ '<button class="wish'+(W.isFav(p.id)?' on':'')+'" data-id="'+p.id+'" aria-label="Favori">'+I('heart')+'</button><div class="addw">'+addArea(p)+'</div></div>'+
+ '<div class="bo"><span class="ct">'+esc(p.cat?p.cat.name:'WYK')+'</span><h3><a class="pl" href="/produit/'+encodeURIComponent(p.id)+'" style="color:inherit;text-decoration:none">'+esc(p.name)+'</a></h3><div class="pr"><b>'+fmt(W.dp(p))+'</b>'+(off?'<s>'+fmt(p.old_price)+'</s><em>-'+off+'%</em>':'')+'</div>'+W.pkChip(p)+'</div></article>'};
 W.rail=function(list){return'<div class="rail-w"><button class="rn l" data-rn="-1" aria-label="Précédent">'+I('chevl')+'</button><div class="rail">'+list.map(W.card).join('')+'</div><button class="rn r" data-rn="1" aria-label="Suivant">'+I('chevr')+'</button></div>'};
 /* délégation : clics cartes / favoris / ajout / flèches des rails */
 var deleg=function(e){var t=e.target;
@@ -1122,18 +1135,33 @@ function marquee(d){
   var one=C.map(function(c){return'<a class="cmq-i" href="'+W.catUrl(c)+'" style="'+W.catStyle(c)+'"><i>'+(c.image_url?'<img class="ph" src="'+esc(c.image_url)+'" alt="" loading="lazy" draggable="false">':W.catIcon(c))+'</i><span>'+esc(c.name)+'</span></a>'}).join('');
   var reps=Math.max(1,Math.ceil(12/C.length)),seq=new Array(reps+1).join(one),dup=seq.replace(/<a class="cmq-i"/g,'<a aria-hidden="true" tabindex="-1" class="cmq-i"');
   var tr=$('#cmq-track');tr.innerHTML=seq+dup;tr.style.setProperty('--cmq-d',Math.max(36,C.length*reps*4.5)+'s');$('#cmq').style.display=''}
+/* ── ordre d'affichage : mélange + jamais plus de N produits de suite de la même catégorie ── */
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function spread(a,max){max=max||2;var out=[],rest=a.slice();
+  while(rest.length){var n=out.length,idx=-1;
+    for(var i=0;i<rest.length;i++){var c=rest[i].category_id;
+      if(!(n>=max&&out.slice(-max).every(function(x){return x.category_id===c}))){idx=i;break}}
+    if(idx<0)idx=0;out.push(rest.splice(idx,1)[0])}
+  return out}
+/* nouveautés : le produit le plus récent de CHAQUE catégorie (jamais deux de la même catégorie côte à côte) */
+function recentPerCat(P){var seen={},out=[];
+  P.forEach(function(p){if(!seen[p.category_id]){seen[p.category_id]=1;p._recent=true;out.push(p)}});
+  if(out.length<8){var ids={};out.forEach(function(p){ids[p.id]=1});out=out.concat(P.filter(function(p){return!ids[p.id]}).slice(0,8-out.length))}
+  return spread(out,1).slice(0,12)}
 var shown=0,STEP=12,list=[],ALL=[],fcat='',fsort='new';
 function more(){var g=$('#all');g.insertAdjacentHTML('beforeend',list.slice(shown,shown+STEP).map(W.card).join(''));shown+=STEP;$('#more').style.display=shown<list.length?'':'none'}
 function refill(){list=ALL.filter(function(p){return!fcat||p.category_id===fcat}).slice();
+  var plain=!fcat&&fsort==='new';
   if(fsort==='asc')list.sort(function(a,b){return a.price-b.price});if(fsort==='desc')list.sort(function(a,b){return b.price-a.price});if(fsort==='promo')list.sort(function(a,b){return(b.old_price>b.price)-(a.old_price>a.price)});
+  if(plain)list=spread(shuf(list),2);
   shown=0;$('#all').innerHTML='';if(!list.length){$('#all').innerHTML='<div class="empty" style="grid-column:1/-1"><b>Aucun produit</b>Rien dans cette catégorie pour le moment.</div>';$('#more').style.display='none';return}more()}
 W.load().then(function(d){
   hero(d);marquee(d);
   var P=d.prods;
   if(P.length){
-    var nw=P.slice(0,10);$('#new-sec').style.display='';$('#new').innerHTML=W.rail(nw);
+    var nw=recentPerCat(P);$('#new-sec').style.display='';$('#new').innerHTML=W.rail(nw);
     var pr=P.filter(function(p){return(p.old_price&&p.old_price>p.price)||p.badge==='promo'});
-    if(pr.length){$('#promos').style.display='';$('#promo-rail').innerHTML=W.rail(pr)}else $('#promos').remove();
+    if(pr.length){pr=spread(shuf(pr),2);$('#promos').style.display='';$('#promo-rail').innerHTML=W.rail(pr)}else $('#promos').remove();
     var html='';d.cats.filter(function(c){return c._n>0}).slice(0,5).forEach(function(c){html+=sec(c.name,'Rayon',P.filter(function(p){return p.category_id===c.id}).slice(0,10),W.catUrl(c))});
     $('#cat-sections').innerHTML=html;
     ALL=P;$('#all-sec').style.display='';$('#more').onclick=more;

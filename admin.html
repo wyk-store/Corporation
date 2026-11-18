@@ -403,6 +403,24 @@ select.form-input{cursor:pointer}
 .xp-m{max-width:84%;padding:7px 11px;border-radius:13px;font-size:.76rem;line-height:1.4;white-space:pre-wrap;word-break:break-word}
 .xp-m.client{align-self:flex-start;background:var(--surface);border:1px solid var(--bdr)}.xp-m.equipe{align-self:flex-end;background:var(--red);color:#fff}.xp-m small{display:block;font-size:.56rem;opacity:.65;margin-top:2px}
 .xp-seg{display:flex;background:var(--s2);border-radius:11px;padding:3px}.xp-seg button{padding:7px 13px;border-radius:9px;font-size:.74rem;font-weight:700;color:var(--t3)}.xp-seg button.on{background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.xp-thh{display:flex;gap:10px;align-items:center}.xp-thh>div{flex:1;min-width:0}.xp-thh b{font-size:.86rem;display:block}.xp-thh small{font-size:.68rem;color:var(--t3)}
+.xp-m em{display:block;font-style:normal;font-size:.6rem;font-weight:800;opacity:.75;margin-bottom:2px}
+.xp-ma{display:none;gap:6px;margin-top:4px}.xp-m:hover .xp-ma,.xp-m:focus-within .xp-ma{display:flex}
+.xp-ma button{font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(0,0,0,.08);color:inherit}.xp-m.equipe .xp-ma button{background:rgba(255,255,255,.25)}
+@media(hover:none){.xp-ma{display:flex}}
+.xp-mc{display:flex;gap:8px;align-items:center;padding:7px;border-radius:10px;background:rgba(0,0,0,.05);margin:3px 0 6px;color:var(--text)}.xp-m.equipe .xp-mc{background:rgba(255,255,255,.2);color:#fff}
+.xp-mc .th{display:flex}.xp-mc .th span{width:32px;height:32px;border-radius:8px;background:#fff;margin-left:-8px;overflow:hidden;display:grid;place-items:center;border:2px solid #fff}.xp-mc .th span:first-child{margin-left:0}.xp-mc img{width:100%;height:100%;object-fit:contain}
+.xp-mc b{font-size:.72rem;display:block}.xp-mc small{font-size:.62rem;opacity:.8;display:block;margin:0}
+.xp-ctx{font-size:.7rem;font-weight:700;color:var(--red);background:var(--red-s);padding:6px 10px;border-radius:9px;margin-bottom:8px;display:flex;justify-content:space-between}.xp-ctx button{color:inherit}
+
+.pc-box{border:1.5px dashed var(--bdr2);border-radius:14px;margin:-2px 0 14px;background:var(--s2)}
+.pc-box summary{cursor:pointer;list-style:none;padding:11px 14px;display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:.78rem;font-weight:700;color:var(--text)}
+.pc-box summary::-webkit-details-marker{display:none}.pc-box summary em{font-style:normal;color:var(--t3);font-weight:600}
+.pc-box summary small{color:#16a34a;font-weight:800;font-size:.72rem}
+.pc-in{padding:0 14px 14px}.pc-help{font-size:.72rem;color:var(--t3);line-height:1.5;margin:0 0 10px}
+.pc-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.pc-chips button{padding:6px 12px;border-radius:20px;border:1.5px solid var(--bdr2);background:var(--surface);font-size:.72rem;font-weight:700;color:var(--t2)}.pc-chips button:hover{border-color:var(--red);color:var(--red)}
+.pc-sw{display:flex;align-items:center;gap:9px;font-size:.72rem;color:var(--t2);cursor:pointer;margin-bottom:10px}.pc-sw input{display:none}.pc-sw span{width:34px;height:20px;border-radius:20px;background:var(--s3);position:relative;transition:.2s;flex:none}.pc-sw span::after{content:"";position:absolute;left:3px;top:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.2s}.pc-sw input:checked+span{background:#16a34a}.pc-sw input:checked+span::after{transform:translateX(14px)}
+.pc-res{background:var(--surface);border-radius:11px;padding:11px 13px;font-size:.76rem;color:var(--t2);line-height:1.6}.pc-res b{color:var(--text)}.pc-res .big{font:800 1.05rem 'Syne',sans-serif;color:#16a34a}
 </style>
 <style id="wyk-nm">
 /* ===== WYK dashboard : néomorphisme doux + verre ===== */
@@ -1110,6 +1128,19 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
           <input class="form-input" type="number" id="prod-old-price" placeholder="4200">
         </div>
       </div>
+      <details class="pc-box" id="pc-box">
+        <summary><span>Calculateur de prix <em>(usage interne)</em></span><small id="pc-sum"></small></summary>
+        <div class="pc-in">
+          <p class="pc-help">Entrez le prix pris chez le fournisseur et le pourcentage qui est pour vous : le prix de vente se calcule et se remplit tout seul.</p>
+          <div class="form-row">
+            <div class="form-group"><label class="form-lbl">Prix d'origine (HTG)</label><input class="form-input" type="number" id="prod-cost" placeholder="2000" oninput="pcCalc()"></div>
+            <div class="form-group"><label class="form-lbl">Votre part (%)</label><input class="form-input" type="number" id="prod-margin" placeholder="30" min="0" step="1" oninput="pcCalc()"></div>
+          </div>
+          <div class="pc-chips"><button type="button" onclick="pcSet(15)">15 %</button><button type="button" onclick="pcSet(20)">20 %</button><button type="button" onclick="pcSet(25)">25 %</button><button type="button" onclick="pcSet(30)">30 %</button><button type="button" onclick="pcSet(40)">40 %</button><button type="button" onclick="pcSet(50)">50 %</button></div>
+          <label class="pc-sw"><input type="checkbox" id="pc-round" checked onchange="pcCalc()"><span></span>Arrondir au multiple de 5 HTG supérieur</label>
+          <div class="pc-res" id="pc-res">Renseignez le prix d'origine et le pourcentage.</div>
+        </div>
+      </details>
       <div class="form-row">
         <div class="form-group">
           <label class="form-lbl">Catégorie</label>
@@ -1835,7 +1866,8 @@ async function xpLoadOrders(){
   if(ids.length){var q=await db.from('payment_proofs').select('*').in('order_id',ids).order('created_at',{ascending:true});(q.data||[]).forEach(function(p){px[p.order_id]=p})}
   XP.proofs=px;
   var m=await db.from('order_messages').select('*').order('created_at',{ascending:true}).limit(1000);XP.msgs=m.data||[];
-  xpRender();xpBadges();
+  await xpLoadNames();
+  xpRender();xpBadges();xpRealtime();
 }
 function xpBadges(){
   var nv=XP.orders.filter(function(o){return xpPayState(o)==='verifier'&&o.pay_method!=='whatsapp'&&XP.proofs[o.id]}).length;
@@ -1873,7 +1905,7 @@ function xpCard(o){
     h+='<select onchange="xpDelivery(\''+o.id+'\',this.value)"><option value="">Statut de livraison…</option><option value="preparation"'+((o.delivery_status||'preparation')==='preparation'?' selected':'')+'>En préparation</option><option value="en_route"'+(o.delivery_status==='en_route'?' selected':'')+'>En route</option><option value="livree"'+(o.delivery_status==='livree'?' selected':'')+'>Livrée</option></select>';
     h+='<button type="button" class="xp-btn sm ghost" onclick="xpCancel(\''+o.id+'\')">Annuler</button>';
   }else h+='<button type="button" class="xp-btn sm ghost" onclick="xpReopen(\''+o.id+'\')">Réactiver</button>';
-  if(o.user_id)h+='<button type="button" class="xp-btn sm ghost" onclick="xpOpenThread(\''+o.user_id+'\')">Écrire au client</button>';
+  if(o.user_id)h+='<button type="button" class="xp-btn sm ghost" onclick="xpOpenThread(\''+o.user_id+'\',\''+o.id+'\')">Écrire au client</button>';
   h+='</div></div></article>';return h}
 function xpToggle(id){XP.open[id]=!XP.open[id];var c=document.querySelector('.xp-o[data-id="'+id+'"]');if(c)c.classList.toggle('open',!!XP.open[id])}
 async function xpShot(id,btn){var pr=XP.proofs[id];if(!pr||!pr.screenshot_url)return;btn.disabled=true;
@@ -1892,16 +1924,37 @@ async function xpCancel(id){if(!confirm('Annuler cette commande ?'))return;if(aw
 async function xpReopen(id){if(await xpUpd(id,{status:'en_attente'}))showToast('Commande réactivée')}
 
 /* ── messages clients ── */
+XP.names={};XP.ctx={};XP.rt=false;
+async function xpLoadNames(){
+  var ids={};XP.msgs.forEach(function(m){ids[m.user_id]=1});XP.orders.forEach(function(o){if(o.user_id)ids[o.user_id]=1});
+  ids=Object.keys(ids);if(!ids.length)return;
+  var r=await db.from('profiles').select('id,name,phone').in('id',ids);
+  (r.data||[]).forEach(function(p){XP.names[p.id]=p});
+}
 function xpThreads(){var by={};XP.msgs.forEach(function(m){(by[m.user_id]=by[m.user_id]||[]).push(m)});return Object.keys(by).map(function(u){return{uid:u,msgs:by[u],last:by[u][by[u].length-1],unread:by[u].filter(function(m){return m.sender==='client'&&!m.read}).length}}).sort(function(a,b){return new Date(b.last.created_at)-new Date(a.last.created_at)})}
-function xpWho(uid){var o=XP.orders.filter(function(x){return x.user_id===uid})[0];return o?((o.customer_name||'Client')+' · '+(o.phone||'')):('Client '+uid.slice(0,6))}
+function xpWho(uid){
+  var p=XP.names[uid]||{},o=XP.orders.filter(function(x){return x.user_id===uid})[0]||{};
+  return{name:p.name||o.customer_name||('Client '+uid.slice(0,6)),phone:p.phone||o.phone||''};
+}
+function xpOrdCard(o){
+  var items=Array.isArray(o.items)?o.items:[],nb=items.reduce(function(s,i){return s+(Number(i.qty)||1)},0);
+  return '<div class="xp-mc"><div class="th">'+items.slice(0,3).map(function(i){return '<span>'+(i.img?'<img src="'+xe(i.img)+'" alt="">':'')+'</span>'}).join('')+'</div><div><b>'+xe(o.order_ref||'Commande')+'</b><small>'+nb+' article'+(nb>1?'s':'')+' · '+xm(o.total)+'</small><div>'+xpChips(o)+'</div></div></div>';
+}
+function xpBubble(m,who){
+  if(m._tmp)return '<div class="xp-m equipe" style="opacity:.6"><em>Nouvelle conversation</em>Écrivez le premier message ci-dessous.</div>';
+  var o=m.order_id?XP.orders.filter(function(x){return x.id===m.order_id})[0]:null;
+  return '<div class="xp-m '+m.sender+'" data-mid="'+m.id+'"><em>'+(m.sender==='client'?xe(who.name):'Vous (équipe)')+'</em>'+(o?xpOrdCard(o):'')+xe(m.body)+'<small>'+xd(m.created_at)+(m.edited_at?' · modifié':'')+'</small><span class="xp-ma"><button type="button" onclick="xpEditMsg(\''+m.id+'\')">Modifier</button><button type="button" onclick="xpDelMsg(\''+m.id+'\')">Supprimer</button></span></div>';
+}
 function xpRenderThreads(){
   var el=document.getElementById('xpThreads'),T=xpThreads();
   if(!T.length){el.innerHTML='<div class="loading-box">Aucun message client.</div>';return}
+  var keep={};el.querySelectorAll('.box').forEach(function(b){keep[b.parentNode.getAttribute('data-u')]=b.scrollHeight-b.scrollTop-b.clientHeight<60});
   el.innerHTML=T.map(function(t){
-    var h='<div class="xp-th" data-u="'+t.uid+'"><b style="font-size:.82rem">'+xe(xpWho(t.uid))+(t.unread?' <span class="xp-badge">'+t.unread+' nouveau'+(t.unread>1?'x':'')+'</span>':'')+'</b><div class="box">';
-    h+=t.msgs.slice(-40).map(function(m){var o=m.order_id?XP.orders.filter(function(x){return x.id===m.order_id})[0]:null;return '<div class="xp-m '+m.sender+'">'+(o?'<small>'+xe(o.order_ref||'')+'</small>':'')+xe(m.body)+'<small>'+xd(m.created_at)+'</small></div>'}).join('');
-    h+='</div><div class="xp-bar" style="margin:0"><input class="xp-in" id="rp-'+t.uid+'" placeholder="Répondre au client…" value="'+xe(XP.draft[t.uid]||'')+'" oninput="XP.draft[\''+t.uid+'\']=this.value" onkeydown="if(event.key===\'Enter\')xpReply(\''+t.uid+'\')"><button type="button" class="xp-btn" onclick="xpReply(\''+t.uid+'\')">Envoyer</button></div></div>';return h}).join('');
-  el.querySelectorAll('.box').forEach(function(b){b.scrollTop=b.scrollHeight});
+    var w=xpWho(t.uid),cx=XP.ctx[t.uid],co=cx?XP.orders.filter(function(x){return x.id===cx})[0]:null;
+    var h='<div class="xp-th" data-u="'+t.uid+'"><div class="xp-thh"><div><b>'+xe(w.name)+'</b><small>'+xe(w.phone)+' · '+t.msgs.length+' message'+(t.msgs.length>1?'s':'')+'</small></div>'+(t.unread?'<span class="xp-badge">'+t.unread+' nouveau'+(t.unread>1?'x':'')+'</span>':'')+'<button type="button" class="xp-btn sm no" onclick="xpResetThread(\''+t.uid+'\')">Réinitialiser</button></div><div class="box">';
+    h+=t.msgs.slice(-60).map(function(m){return xpBubble(m,w)}).join('');
+    h+='</div>'+(co?'<div class="xp-ctx">Rattaché à '+xe(co.order_ref||'la commande')+' <button type="button" onclick="XP.ctx[\''+t.uid+'\']=null;xpRenderThreads()">×</button></div>':'')+'<div class="xp-bar" style="margin:0"><input class="xp-in" id="rp-'+t.uid+'" placeholder="Répondre à '+xe(w.name)+'…" value="'+xe(XP.draft[t.uid]||'')+'" oninput="XP.draft[\''+t.uid+'\']=this.value" onkeydown="if(event.key===\'Enter\')xpReply(\''+t.uid+'\')"><button type="button" class="xp-btn" onclick="xpReply(\''+t.uid+'\')">Envoyer</button></div></div>';return h}).join('');
+  el.querySelectorAll('.xp-th').forEach(function(th){var b=th.querySelector('.box'),u=th.getAttribute('data-u');if(keep[u]!==false)b.scrollTop=b.scrollHeight});
   T.forEach(function(t){if(t.unread)xpMarkRead(t.uid)});
 }
 async function xpMarkRead(uid){
@@ -1909,11 +1962,33 @@ async function xpMarkRead(uid){
   if(!r.error){XP.msgs.forEach(function(m){if(m.user_id===uid&&m.sender==='client')m.read=true});xpBadges()}}
 async function xpReply(uid){
   var i=document.getElementById('rp-'+uid),b=(i.value||'').trim();if(!b)return;
-  var r=await db.from('order_messages').insert({user_id:uid,sender:'equipe',body:b}).select().single();if(r.error){xpErr(r.error);return}
-  XP.msgs.push(r.data);XP.draft[uid]='';xpRenderThreads();showToast('Message envoyé')}
-function xpOpenThread(uid){
-  if(!XP.msgs.some(function(m){return m.user_id===uid})){var b=prompt('Premier message pour ce client :');if(!b)return;db.from('order_messages').insert({user_id:uid,sender:'equipe',body:b}).select().single().then(function(r){if(r.error)return xpErr(r.error);XP.msgs.push(r.data);xpMode('m');xpRenderThreads()});return}
+  var r=await db.from('order_messages').insert({user_id:uid,order_id:XP.ctx[uid]||null,sender:'equipe',body:b}).select().single();if(r.error){xpErr(r.error);return}
+  XP.msgs.push(r.data);XP.draft[uid]='';XP.ctx[uid]=null;xpRenderThreads();showToast('Message envoyé')}
+async function xpEditMsg(id){
+  var m=XP.msgs.filter(function(x){return x.id===id})[0];if(!m)return;
+  var v=prompt('Modifier le message :',m.body);if(v===null)return;v=v.trim();if(!v)return showToast('Message vide',true);
+  var r=await db.from('order_messages').update({body:v,edited_at:new Date().toISOString()}).eq('id',id).select();
+  if(r.error)return xpErr(r.error);Object.assign(m,(r.data&&r.data[0])||{body:v});xpRenderThreads();showToast('Message modifié')}
+async function xpDelMsg(id){
+  if(!confirm('Supprimer ce message ?'))return;
+  var r=await db.from('order_messages').delete().eq('id',id);if(r.error)return xpErr(r.error);
+  XP.msgs=XP.msgs.filter(function(x){return x.id!==id});xpRenderThreads();xpBadges();showToast('Message supprimé')}
+async function xpResetThread(uid){
+  var w=xpWho(uid);if(!confirm('Réinitialiser la conversation avec '+w.name+' ? Tous ses messages seront supprimés définitivement.'))return;
+  var r=await db.from('order_messages').delete().eq('user_id',uid);if(r.error)return xpErr(r.error);
+  XP.msgs=XP.msgs.filter(function(x){return x.user_id!==uid});xpRenderThreads();xpBadges();showToast('Conversation réinitialisée')}
+function xpOpenThread(uid,orderId){
+  XP.ctx[uid]=orderId||null;
+  if(!XP.msgs.some(function(m){return m.user_id===uid})){
+    /* nouvelle conversation : on affiche une zone de réponse vide */
+    XP.msgs.push({id:'new-'+uid,user_id:uid,sender:'equipe',body:'(Nouvelle conversation)',created_at:new Date().toISOString(),_tmp:1});
+  }
   xpMode('m');setTimeout(function(){var t=document.querySelector('.xp-th[data-u="'+uid+'"]');if(t){t.scrollIntoView({behavior:'smooth',block:'center'});var i=document.getElementById('rp-'+uid);if(i)i.focus()}},80)}
+function xpRealtime(){
+  if(XP.rt)return;XP.rt=true;var t;
+  var go=function(){clearTimeout(t);t=setTimeout(async function(){await xpLoadOrders();if(document.getElementById('xpMessages').style.display!=='none')xpRenderThreads()},500)};
+  try{db.channel('wyk-admin-live').on('postgres_changes',{event:'*',schema:'public',table:'order_messages'},go).on('postgres_changes',{event:'*',schema:'public',table:'orders'},go).on('postgres_changes',{event:'*',schema:'public',table:'payment_proofs'},go).subscribe()}catch(e){}
+}
 
 /* ── zones ── */
 async function xpLoadZones(){
@@ -2119,11 +2194,12 @@ function readPackForm(price){
   if(!price&&pp)price=String(Math.round(pp/n));
   if(!price)return{ok:false,price:price,msg:'Indique le prix à l\'unité ou le prix du lot'};
   return{ok:true,price:price,f:{pack_size:n,pack_style:document.getElementById('prod-pack-style').value||'pack',pack_price:pp,pack_only:only}}}
-function packSummary(p){var n=parseInt(p.pack_size,10);if(!(n>=2))return'';var lab=packLabelAdm(n,p.pack_style||'pack'),lot=Number(p.pack_price)||(Number(p.price)||0)*n;
-  return' · <span style="color:#e8192c;font-weight:700">'+lab+(lot?' : '+Number(lot).toLocaleString('fr')+' HTG':'')+(p.pack_only?' (lot seul)':'')+'</span>'}
+function packSummary(p){var cost=p.cost_price?' · <span style="color:var(--t3)">Origine '+Number(p.cost_price).toLocaleString('fr')+(p.margin_pct!=null?' (+'+p.margin_pct+'%)':'')+'</span>':'';var n=parseInt(p.pack_size,10);if(!(n>=2))return cost;var lab=packLabelAdm(n,p.pack_style||'pack'),lot=Number(p.pack_price)||(Number(p.price)||0)*n;
+  return cost+' · <span style="color:#e8192c;font-weight:700">'+lab+(lot?' : '+Number(lot).toLocaleString('fr')+' HTG':'')+(p.pack_only?' (lot seul)':'')+'</span>'}
 function resetProductForm(){
   document.getElementById('prod-id').value='';document.getElementById('prod-name').value='';document.getElementById('prod-desc').value='';
   document.getElementById('prod-price').value='';document.getElementById('prod-old-price').value='';document.getElementById('prod-stock').value='';
+  document.getElementById('prod-cost').value='';document.getElementById('prod-margin').value='';document.getElementById('pc-sum').textContent='';document.getElementById('pc-res').textContent="Renseignez le prix d'origine et le pourcentage.";document.getElementById('pc-box').open=false;
   document.getElementById('prod-badge').value='';document.getElementById('prod-active').checked=true;
   document.getElementById('prod-img-previews').innerHTML='';
   selectedImages=[];existingImages=[];sizesData=[];colorsData=[];renderTags('sizes');renderColorDots();setPackForm(null);
@@ -2135,6 +2211,7 @@ async function editProduct(id){
   document.getElementById('prod-id').value=p.id;document.getElementById('prod-name').value=p.name||'';
   document.getElementById('prod-desc').value=p.description||'';document.getElementById('prod-price').value=p.price||'';
   document.getElementById('prod-old-price').value=p.old_price||'';document.getElementById('prod-stock').value=p.stock||'';
+  document.getElementById('prod-cost').value=p.cost_price||'';document.getElementById('prod-margin').value=p.margin_pct!=null?p.margin_pct:'';if(p.cost_price){document.getElementById('pc-sum').textContent='Origine '+Number(p.cost_price).toLocaleString('fr')+' HTG'}
   document.getElementById('prod-badge').value=p.badge||'';document.getElementById('prod-active').checked=p.active!==false;
   document.getElementById('prod-category').value=p.category_id||'';
   sizesData=p.sizes||[];colorsData=p.colors||[];renderTags('sizes');renderColorDots();setPackForm(p);
@@ -2142,6 +2219,18 @@ async function editProduct(id){
   existingImages=imgs.map(function(i){return{url:i.url}});
   imgs.forEach(function(img,i){addImgPreview(img.url,i,'existing')});
   openModal('productModal');
+}
+
+/* ── calculateur de prix : prix d'origine + % pour nous → prix de vente automatique ── */
+function pcSet(v){document.getElementById('prod-margin').value=v;pcCalc()}
+function pcCalc(){
+  var c=Number(document.getElementById('prod-cost').value),m=document.getElementById('prod-margin').value,res=document.getElementById('pc-res'),sum=document.getElementById('pc-sum');
+  if(!(c>0)||m===''||!(Number(m)>=0)){res.textContent="Renseignez le prix d'origine et le pourcentage.";sum.textContent='';return}
+  m=Number(m);var raw=c*(1+m/100),pr=document.getElementById('pc-round').checked?Math.ceil(raw/5)*5:Math.round(raw),gain=pr-c,real=c>0?(gain/c*100):0;
+  var inp=document.getElementById('prod-price');inp.value=pr;
+  if(typeof updPackPreview==='function')try{updPackPreview()}catch(e){}
+  res.innerHTML="Prix de vente : <span class='big'>"+pr.toLocaleString('fr')+" HTG</span> (rempli automatiquement)<br>Votre gain : <b>"+gain.toLocaleString('fr')+" HTG</b> par unité · "+real.toFixed(1).replace('.0','')+" % du prix d'origine";
+  sum.textContent='→ '+pr.toLocaleString('fr')+' HTG';
 }
 async function saveProduct(){
   var btn=document.getElementById('prod-submit');
@@ -2151,9 +2240,19 @@ async function saveProduct(){
   if(!_pf.ok){showToast(_pf.msg,true);return}
   btn.classList.add('loading');btn.innerHTML='<div class="spinner" style="width:16px;height:16px;border-width:2px;border-color:rgba(255,255,255,.3);border-top-color:#fff"></div>Enregistrement…';
   var payload={name,description:document.getElementById('prod-desc').value||null,price:Number(price),old_price:document.getElementById('prod-old-price').value?Number(document.getElementById('prod-old-price').value):null,stock:Number(document.getElementById('prod-stock').value)||0,badge:document.getElementById('prod-badge').value||null,active:document.getElementById('prod-active').checked,category_id:document.getElementById('prod-category').value||null,sizes:sizesData.length?sizesData:null,colors:colorsData.length?colorsData:null};Object.assign(payload,_pf.f);
+  var _cost=document.getElementById('prod-cost').value,_mg=document.getElementById('prod-margin').value,_hasCost=_cost!==''||_mg!=='';
+  payload.cost_price=_cost!==''?Number(_cost):null;payload.margin_pct=_mg!==''?Number(_mg):null;
   var existingId=document.getElementById('prod-id').value;var productId=existingId;var error;
-  if(existingId){var res=await db.from('products').update(payload).eq('id',existingId);error=res.error;}
-  else{var res=await db.from('products').insert([payload]).select();error=res.error;if(!error&&res.data)productId=res.data[0].id;}
+  async function _write(pl){
+    if(existingId){var r1=await db.from('products').update(pl).eq('id',existingId);return{error:r1.error}}
+    var r2=await db.from('products').insert([pl]).select();return{error:r2.error,data:r2.data}}
+  var res=await _write(payload);error=res.error;
+  if(error&&/cost_price|margin_pct/.test(error.message||'')){
+    /* colonnes pas encore créées : on enregistre quand même le produit, sans le prix d'origine */
+    delete payload.cost_price;delete payload.margin_pct;res=await _write(payload);error=res.error;
+    if(!error&&_hasCost)showToast("Produit enregistré, mais le prix d'origine n'est pas mémorisé : exécutez le SQL (WYK-COMMANDES-SETUP.sql)",true);
+  }
+  if(!error&&!existingId&&res.data)productId=res.data[0].id;
   if(error){showToast('Erreur: '+error.message+(/pack_/.test(error.message||'')?' — exécute d\'abord le SQL de la vente par lot (voir LISEZ-MOI)':''),true);btn.classList.remove('loading');btn.innerHTML='<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Enregistrer le produit';return}
   if(selectedImages.filter(Boolean).length&&productId){
     var urls=await uploadImages(productId);
