@@ -19,16 +19,10 @@
     <loc>https://wykht.com/jeux</loc>
   </url>
   <url>
-    <loc>https://wykht.com/compte</loc>
-  </url>
-  <url>
     <loc>https://wykht.com/categorie?c=chaussure</loc>
   </url>
   <url>
     <loc>https://wykht.com/categorie?c=cosmetique</loc>
-  </url>
-  <url>
-    <loc>https://wykht.com/categorie?c=couple</loc>
   </url>
   <url>
     <loc>https://wykht.com/categorie?c=femme</loc>
@@ -46,6 +40,9 @@
     <loc>https://wykht.com/categorie?c=technologie</loc>
   </url>
   <url>
+    <loc>https://wykht.com/produit/01547c26-6de7-4015-83cc-8ef7c476184c</loc>
+  </url>
+  <url>
     <loc>https://wykht.com/produit/0bb3551e-ce98-4729-ba43-a3cf421a2e05</loc>
   </url>
   <url>
@@ -58,22 +55,31 @@
     <loc>https://wykht.com/produit/10063736-8368-4b6c-82c8-69e5a1d00d86</loc>
   </url>
   <url>
-    <loc>https://wykht.com/produit/11b14c08-d944-4df2-832a-97de11e805d5</loc>
+    <loc>https://wykht.com/produit/11c14f37-0a1f-4778-8ad8-1824977734fa</loc>
   </url>
   <url>
-    <loc>https://wykht.com/produit/11c14f37-0a1f-4778-8ad8-1824977734fa</loc>
+    <loc>https://wykht.com/produit/11d69aef-54e2-40df-bdd7-8f05ced458d1</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/12b6824d-a757-4d91-b3ef-bee194694860</loc>
   </url>
   <url>
+    <loc>https://wykht.com/produit/13895141-e22c-464e-b0c0-4f65f0339e10</loc>
+  </url>
+  <url>
     <loc>https://wykht.com/produit/13aa241c-63f0-478b-aaf7-0e25d90696b7</loc>
   </url>
   <url>
-    <loc>https://wykht.com/produit/14af760e-c380-4d48-aa20-b3f7f939cb4e</loc>
+    <loc>https://wykht.com/produit/15f8a8ee-a878-422c-bbc1-e9fab5bed039</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/1a569fd1-a493-40da-8c8f-7bfc16435490</loc>
+  </url>
+  <url>
+    <loc>https://wykht.com/produit/1ac4461c-2547-4183-a10e-4648fc6f3059</loc>
+  </url>
+  <url>
+    <loc>https://wykht.com/produit/1b0b11d5-4aea-49cd-8939-bd268e538fcd</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/1f32ef2f-b356-472e-9840-309f0bfdb028</loc>
@@ -83,9 +89,6 @@
   </url>
   <url>
     <loc>https://wykht.com/produit/1fff0867-8319-4154-8ecb-b1f3f582863b</loc>
-  </url>
-  <url>
-    <loc>https://wykht.com/produit/21a5ed53-95ee-43cb-bba4-88324a39ae18</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/21abe40c-5430-45ad-b82a-ffb25e218f07</loc>
@@ -100,6 +103,9 @@
     <loc>https://wykht.com/produit/292ea82a-a48b-4752-bace-1dda4e25301d</loc>
   </url>
   <url>
+    <loc>https://wykht.com/produit/2bb8ffef-e117-4deb-aab7-b88dc5697428</loc>
+  </url>
+  <url>
     <loc>https://wykht.com/produit/30bf2681-7c71-433c-93e6-d4e16a00a020</loc>
   </url>
   <url>
@@ -112,6 +118,9 @@
     <loc>https://wykht.com/produit/3b12f4ef-868d-49a5-8299-98bc44a7dec5</loc>
   </url>
   <url>
+    <loc>https://wykht.com/produit/42d266d5-8db7-43e6-8bb1-18f12ef92d36</loc>
+  </url>
+  <url>
     <loc>https://wykht.com/produit/45389753-6871-484b-abb8-34e45f969fbc</loc>
   </url>
   <url>
@@ -121,13 +130,16 @@
     <loc>https://wykht.com/produit/48d0b630-2b76-47b6-a5ab-eaa555fddb74</loc>
   </url>
   <url>
+    <loc>https://wykht.com/produit/4ba71367-415e-4b8d-b957-ffe75ff0890e</loc>
+  </url>
+  <url>
     <loc>https://wykht.com/produit/5b3cfca3-698d-444a-bac1-e068776476d5</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/628c7681-35c8-45b0-be17-c699e821fe2d</loc>
   </url>
   <url>
-    <loc>https://wykht.com/produit/639299c0-aca3-470a-a923-a38eb3497d68</loc>
+    <loc>https://wykht.com/produit/63f4c32a-7fd4-4aac-8eaa-58c66ddd3514</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/6585933e-6356-4e01-a22f-463ca1e1b847</loc>
@@ -142,13 +154,16 @@
     <loc>https://wykht.com/produit/668f8b05-5814-4f4b-b2a5-e1a4f9fb8d34</loc>
   </url>
   <url>
-    <loc>https://wykht.com/produit/6bff60ca-4631-42f6-92b8-333c9e5ad8d1</loc>
+    <loc>https://wykht.com/produit/6a4ebca7-6bb1-447f-b9a6-2d9ae379cf01</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/6d88dddb-adce-414c-8e44-59b80b97ac17</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/6d9662b3-01c5-47a3-80ab-081988db1f39</loc>
+  </url>
+  <url>
+    <loc>https://wykht.com/produit/6e52ff5c-a012-4e82-bcaa-13b703aa5f9c</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/6f29e580-cc0c-44cb-b72f-65e2159be1d1</loc>
@@ -160,13 +175,16 @@
     <loc>https://wykht.com/produit/7c5c017b-3ef6-4ba7-bc33-b75ded47bcbb</loc>
   </url>
   <url>
+    <loc>https://wykht.com/produit/7ffbbef6-04be-4495-ac89-b62efd79eca6</loc>
+  </url>
+  <url>
     <loc>https://wykht.com/produit/81214b9a-e7a7-416d-9047-3e89318aaadb</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/840d04fb-0755-4c7a-aea9-2d5e331c5fc4</loc>
   </url>
   <url>
-    <loc>https://wykht.com/produit/84e1621b-b8cc-4968-9616-828636b316a6</loc>
+    <loc>https://wykht.com/produit/8454ebd7-6d09-4d5f-84e7-4d48cb418b2e</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/8890839c-1752-40ee-96fc-c522ad71bdd3</loc>
@@ -175,13 +193,10 @@
     <loc>https://wykht.com/produit/892cbb9c-c6e9-4092-ab3e-126c9c66a7eb</loc>
   </url>
   <url>
-    <loc>https://wykht.com/produit/89d0f574-ac29-4a66-b6b3-56d9df086933</loc>
-  </url>
-  <url>
     <loc>https://wykht.com/produit/8a305db8-6e71-4255-b67d-495008b03007</loc>
   </url>
   <url>
-    <loc>https://wykht.com/produit/8ae1c05d-db75-45a1-aef8-adce1beb2687</loc>
+    <loc>https://wykht.com/produit/8a8ec024-7040-40c0-9561-80c24e5788be</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/91ed7f93-897a-4e3b-a30f-ef3da2eb099f</loc>
@@ -193,7 +208,13 @@
     <loc>https://wykht.com/produit/94710944-73df-4fbb-9593-5be9f8669867</loc>
   </url>
   <url>
+    <loc>https://wykht.com/produit/98dd634f-abd8-406f-8b83-a68a23f6f469</loc>
+  </url>
+  <url>
     <loc>https://wykht.com/produit/9bd37c43-f626-4f03-af37-cee730fc0760</loc>
+  </url>
+  <url>
+    <loc>https://wykht.com/produit/9cc3a2c7-9608-456b-aa11-d5560452da64</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/9da558a5-c475-4b52-a8b3-8d1712f84772</loc>
@@ -202,19 +223,16 @@
     <loc>https://wykht.com/produit/a56c3fc4-9c2e-496f-8c3c-d8520c23e352</loc>
   </url>
   <url>
-    <loc>https://wykht.com/produit/b0f88a48-8080-4aa1-bda0-acb713bf34fc</loc>
-  </url>
-  <url>
     <loc>https://wykht.com/produit/b5eb8bbe-7248-409a-b288-b9f8d6ce4fc5</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/b7781445-9ce2-49ca-bb00-04bb4055198b</loc>
   </url>
   <url>
-    <loc>https://wykht.com/produit/b8a95f61-383c-4aa9-b892-23da0309c9f0</loc>
+    <loc>https://wykht.com/produit/b82f6216-f824-4165-a280-6b3059631099</loc>
   </url>
   <url>
-    <loc>https://wykht.com/produit/ba0c10f0-2490-40dc-ba4a-2b583820cd9e</loc>
+    <loc>https://wykht.com/produit/b8a95f61-383c-4aa9-b892-23da0309c9f0</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/bc621378-3961-4e0b-af75-f57b34aff4b5</loc>
@@ -238,7 +256,13 @@
     <loc>https://wykht.com/produit/c3bd487e-71d7-4eaa-8151-e8a12f3c6bdb</loc>
   </url>
   <url>
-    <loc>https://wykht.com/produit/cb614e23-749a-46cd-9002-a2146d571319</loc>
+    <loc>https://wykht.com/produit/c74b9826-f746-4f10-93fd-123037bd415d</loc>
+  </url>
+  <url>
+    <loc>https://wykht.com/produit/c780c2e3-1226-46af-8c1c-f2ebc5f79994</loc>
+  </url>
+  <url>
+    <loc>https://wykht.com/produit/c7d17fb1-5de3-4a48-95ac-341250161a9d</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/cc8fd801-699a-4a61-bb59-5efa7e7d7388</loc>
@@ -250,16 +274,10 @@
     <loc>https://wykht.com/produit/d1284a05-7b62-45ef-b2d3-686734331d70</loc>
   </url>
   <url>
-    <loc>https://wykht.com/produit/d49e4403-ed9b-4940-8c68-2c729a700a6d</loc>
+    <loc>https://wykht.com/produit/d4ca9c28-35b3-4a92-b0a3-9e34c736ecef</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/d62b4a0e-d84d-4baf-81ee-fd8cff8609c9</loc>
-  </url>
-  <url>
-    <loc>https://wykht.com/produit/de9b5d46-6ec4-45bf-86f8-272a721e6d38</loc>
-  </url>
-  <url>
-    <loc>https://wykht.com/produit/e099bc44-7957-492b-9d1d-30eaa5ba651f</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/e2066671-6542-44f0-abdf-86a1cefa0781</loc>
@@ -268,19 +286,16 @@
     <loc>https://wykht.com/produit/e3fb0109-8a9d-4760-a137-84c42d4d2693</loc>
   </url>
   <url>
+    <loc>https://wykht.com/produit/e8456d00-5b12-497a-a3f4-b6cb86885e9c</loc>
+  </url>
+  <url>
+    <loc>https://wykht.com/produit/eb6a7a38-a5bd-496c-ac25-2d80adf890b4</loc>
+  </url>
+  <url>
     <loc>https://wykht.com/produit/f18ddeb7-38c3-4d0c-9601-b46ced6c057a</loc>
   </url>
   <url>
-    <loc>https://wykht.com/produit/f2423373-24ff-4ec8-8fee-775b42fe6bfa</loc>
-  </url>
-  <url>
     <loc>https://wykht.com/produit/f4c80b12-4ed6-4b72-88d7-d03c65563706</loc>
-  </url>
-  <url>
-    <loc>https://wykht.com/produit/f510c74d-e194-4814-a2b5-b58cb5d16959</loc>
-  </url>
-  <url>
-    <loc>https://wykht.com/produit/f63555bd-f3ee-46f4-a9a5-4d7fca3285dd</loc>
   </url>
   <url>
     <loc>https://wykht.com/produit/fa390ad7-39ac-423f-8322-de563238743a</loc>
