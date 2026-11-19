@@ -74,7 +74,7 @@ svg.i.f{fill:currentColor;stroke:none}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:30px;background:var(--surface);border:1px solid var(--line);color:var(--t2)}
 .chip i{width:12px;height:12px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
-.chip.warn{background:var(--warn-s);border-color:transparent;color:var(--warn)}
+.chip.sku{background:var(--red-s);border-color:transparent;color:var(--red);letter-spacing:.02em}.chip.warn{background:var(--warn-s);border-color:transparent;color:var(--warn)}
 .it-f{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:10px}
 .qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:30px;background:var(--surface)}
 .qty button{width:32px;height:32px;display:grid;place-items:center;border-radius:50%}
@@ -102,7 +102,7 @@ svg.i.f{fill:currentColor;stroke:none}
 .inp input,.inp textarea,.inp select{flex:1;min-width:0;background:none;border:0;outline:0;padding:13px 0;font-size:15px}
 .inp textarea{resize:vertical;min-height:84px;padding:12px 0;line-height:1.45}
 .inp select{appearance:none;-webkit-appearance:none;cursor:pointer}
-.inp .pre{font-weight:600;color:var(--t2);padding-right:10px;border-right:1px solid var(--line);font-size:14px}
+.inp input.cc{flex:none;width:58px;padding:13px 8px 13px 0;border-right:1px solid var(--line);font-weight:700;font-size:14px;color:var(--t2)}.inp .pre{font-weight:600;color:var(--t2);padding-right:10px;border-right:1px solid var(--line);font-size:14px}
 .inp.ta{align-items:flex-start}.inp.ta svg{margin-top:14px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .hint{font-size:12px;color:var(--mut);margin-top:6px;display:flex;gap:6px;align-items:flex-start}
@@ -312,7 +312,7 @@ svg.i.f{fill:currentColor;stroke:none}
           <div class="fg"><label id="l-name">Nom de la personne qui réceptionne <span class="req">*</span></label>
             <div class="inp"><svg class="i"><use href="#i-user"/></svg><input id="name" placeholder="Prénom et nom" autocomplete="name"></div></div>
           <div class="fg"><label>Téléphone <span class="req">*</span></label>
-            <div class="inp"><span class="pre">+509</span><input id="phone" inputmode="tel" placeholder="XXXX XXXX" autocomplete="tel-national"></div></div>
+            <div class="inp"><input id="cc" class="cc" value="+509" maxlength="5" inputmode="tel" list="ccl" aria-label="Indicatif du pays" autocomplete="off"><datalist id="ccl"><option value="+509">Haïti</option><option value="+1">États-Unis / Canada</option><option value="+1809">Rép. dominicaine</option><option value="+33">France</option><option value="+593">Équateur</option><option value="+56">Chili</option><option value="+55">Brésil</option></datalist><input id="phone" inputmode="tel" placeholder="XXXX XXXX" autocomplete="tel-national"></div></div>
         </div>
         <div class="fg" id="g-slot"><label>Créneau souhaité</label>
           <div class="inp"><svg class="i"><use href="#i-clock"/></svg>
@@ -381,6 +381,7 @@ svg.i.f{fill:currentColor;stroke:none}
     <p style="color:var(--mut);margin:0" id="d-p">Merci ! Nous revenons vers vous très vite.</p>
     <div class="ref" id="d-ref"></div>
     <div class="tl" id="d-tl"></div>
+    <div id="d-cardbox" style="display:none;margin:4px 0 16px"><img id="d-card" alt="Récapitulatif de la commande" style="width:100%;border-radius:18px;box-shadow:var(--sh2);display:block"><p style="color:var(--mut);font-size:12.5px;margin:10px 0 10px">Image de votre commande : joignez-la au message WhatsApp pour que nous voyions tous les produits.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><button type="button" class="btn wa" id="d-share" style="box-shadow:none"><svg class="i"><use href="#i-wa"/></svg>Envoyer l'image</button><button type="button" class="btn ghost" id="d-dl"><svg class="i"><use href="#i-upload" style="transform:rotate(180deg);transform-origin:center"/></svg>Télécharger</button></div></div>
     <a class="btn" id="d-acc" href="/compte#commandes" style="display:none">Suivre ma commande</a>
     <a class="btn wa" id="d-wa" target="_blank" rel="noopener" style="margin-top:10px"><svg class="i"><use href="#i-wa"/></svg>Écrire sur WhatsApp</a>
     <a class="btn ghost" href="/" style="margin-top:10px">Continuer mes achats</a>
@@ -424,7 +425,7 @@ function buildLines(prods){
     if(p){var imgs=(p.product_images||[]).slice().sort(function(a,b){return a.position-b.position}).map(function(i){return i.url}).filter(Boolean);
       if(imgs[0])img=imgs[0];cat=p.categories&&p.categories.name?clean(p.categories.name):'';
       var pk=c.pk?packPrice(p):null;price=pk&&c.pk?pk.price:(p.pack_only&&packPrice(p)?packPrice(p).price:Number(p.price)||price)}
-    return{key:c.key,id:c.id,name:clean(c.name||(p&&p.name)||'Produit'),price:price,qty:Math.max(1,c.qty|0),img:img,size:c.size||null,color:c.color||null,pk:c.pk||null,cat:cat,gone:gone}
+    return{key:c.key,id:c.id,name:clean(c.name||(p&&p.name)||'Produit'),price:price,qty:Math.max(1,c.qty|0),img:img,size:c.size||null,color:c.color||null,pk:c.pk||null,cat:cat,gone:gone,sku:(p&&p.sku)||c.sku||null}
   });
 }
 function avail(){return S.lines.filter(function(l){return!l.gone})}
@@ -440,6 +441,7 @@ function renderItems(){
   if(!L.length){el.innerHTML='<div class="empty"><div class="ei">'+ic('bag')+'</div><b>Votre panier est vide</b><p>Ajoutez des produits pour passer commande.</p><a class="btn" style="width:auto;display:inline-flex;padding:12px 22px" href="/categories">Découvrir la boutique</a></div>';return}
   el.innerHTML=L.map(function(l){
     var chips='';
+    if(l.sku)chips+='<span class="chip sku">Réf. <b>'+esc(l.sku)+'</b></span>';
     if(l.size)chips+='<span class="chip">Taille <b>'+esc(l.size)+'</b></span>';
     if(l.color)chips+='<span class="chip"><i style="background:'+esc(l.color)+'"></i>'+esc(colorName(l.color))+'</span>';
     if(l.pk)chips+='<span class="chip">'+ic('box')+esc(l.pk.label)+' · '+(l.qty*l.pk.n)+' unités</span>';
@@ -520,7 +522,7 @@ function renderHow(){
 }
 
 /* ── formulaire : sauvegarde locale + validation ── */
-var FIELDS=['addr','landmark','name','phone','slot','note'];
+var FIELDS=['addr','landmark','name','cc','phone','slot','note'];
 function saveForm(){var o={mode:S.mode,zone:S.zoneId,method:S.method,geo:S.geo};FIELDS.forEach(function(k){o[k]=$(k).value});try{localStorage.setItem(FORM_KEY,JSON.stringify(o))}catch(e){}}
 function loadForm(){try{var o=JSON.parse(localStorage.getItem(FORM_KEY)||'{}');FIELDS.forEach(function(k){if(o[k]!=null)$(k).value=o[k]});if(o.mode)S.mode=o.mode;if(o.zone)S.zoneId=o.zone;if(o.geo)S.geo=o.geo;if(o.method)S.method=o.method}catch(e){}}
 function setMode(m){S.mode=m;[].forEach.call($('mode').children,function(b){b.classList.toggle('on',b.getAttribute('data-m')===m)});
@@ -533,16 +535,19 @@ function clearErr(){$('err').classList.remove('on');['addr','name','phone','pn',
 function deliveryOk(quiet){
   if(S.mode==='livraison'){if(S.zones.length&&!S.zoneId)return quiet?false:bad('Choisissez votre zone de livraison.');if($('addr').value.trim().length<5)return quiet?false:bad('Indiquez votre adresse (quartier et rue).','addr')}
   if($('name').value.trim().length<2)return quiet?false:bad(S.mode==='retrait'?'Indiquez le nom pour le retrait.':'Indiquez le nom de la personne qui réceptionne.','name');
-  if(digits($('phone').value).length<8)return quiet?false:bad('Entrez un numéro de téléphone valide (8 chiffres).','phone');
+  if(!phoneOk())return quiet?false:bad(ccNow()==='+509'?'Entrez un numéro de téléphone valide (8 chiffres).':'Entrez un numéro de téléphone valide.','phone');
   return true}
 function check(){clearErr();if(!avail().length)return bad('Votre panier est vide.');var mo=Number((S.cfg.checkout||{}).min_order)||0;if(mo&&subtotal()<mo)return bad('Commande minimum : '+fmt(mo)+'.');return deliveryOk(false)}
-function fullPhone(){var d=digits($('phone').value);return '+509 '+(d.length===8?d.slice(0,4)+' '+d.slice(4):d)}
+function ccNow(){var c=($('cc').value||'+509').replace(/[^\d+]/g,'');if(c.charAt(0)!=='+')c='+'+c.replace(/\+/g,'');return c.length>1?c:'+509'}
+function phoneOk(){var d=digits($('phone').value);return ccNow()==='+509'?d.length===8:d.length>=6}
+function fullPhone(){var d=digits($('phone').value),c=ccNow();return c+' '+(c==='+509'&&d.length===8?d.slice(0,4)+' '+d.slice(4):d)}
+function setPhone(v){v=String(v||'').trim();if(!v)return;var m=/^\+(509|1809|1|33|593|56|55|\d{1,3})\s*(.*)$/.exec(v);if(m){$('cc').value='+'+m[1];$('phone').value=digits(m[2])}else $('phone').value=digits(v).slice(-8)}
 function fullNotes(){var s=$('slot').value;return((S.mode==='livraison'&&s?'Créneau souhaité : '+s+'\n':'')+$('note').value.trim()).trim()}
 
 /* ── message WhatsApp complet ── */
 function lineText(l,i){
   var fm=[];if(l.size)fm.push('Taille '+l.size);if(l.color)fm.push('Couleur '+colorName(l.color));if(l.pk)fm.push(l.pk.label+' (= '+(l.qty*l.pk.n)+' unités)');
-  return (i+1)+'. *'+l.name+'*'+(l.cat?'  _'+l.cat+'_':'')+'\n'+(fm.length?'    Format : '+fm.join(' · ')+'\n':'')+'    '+l.qty+' × '+fmt(l.price)+' = *'+fmt(l.price*l.qty)+'*'}
+  return (i+1)+'. *'+l.name+'*'+(l.cat?'  _'+l.cat+'_':'')+'\n'+(l.sku?'    Réf. : *'+l.sku+'*\n':'')+(fm.length?'    Format : '+fm.join(' · ')+'\n':'')+'    '+l.qty+' × '+fmt(l.price)+' = *'+fmt(l.price*l.qty)+'*\n    Voir : '+SITE+'/produit/'+encodeURIComponent(l.id)}
 function waMessage(ref,paidNote){
   var z=zone(),f=feeNow()||0,A=avail(),L=[];
   L.push('*NOUVELLE COMMANDE — WYK*');if(ref)L.push('Réf. : *'+ref+'*');
@@ -565,7 +570,7 @@ async function makeOrder(method,channel,ref){
   var z=zone(),f=feeNow()||0,A=avail();
   var row={user_id:S.user.id,order_ref:ref,customer_name:$('name').value.trim(),phone:fullPhone(),delivery_mode:S.mode,zone:S.mode==='retrait'?'Retrait en boutique':(z?z.name:null),delivery_fee:f,
     address:S.mode==='livraison'?$('addr').value.trim():null,landmark:$('landmark').value.trim()||null,receiver:$('name').value.trim(),notes:fullNotes()||null,geo:S.geo||null,
-    items:A.map(function(l){return{id:l.id,name:l.name,qty:l.qty,price:l.price,size:l.size,color:l.color,color_name:l.color?colorName(l.color):null,pack:l.pk?l.pk.label:null,pack_units:l.pk?l.qty*l.pk.n:null,img:l.img,category:l.cat||null}}),
+    items:A.map(function(l){return{id:l.id,sku:l.sku||null,name:l.name,qty:l.qty,price:l.price,size:l.size,color:l.color,color_name:l.color?colorName(l.color):null,pack:l.pk?l.pk.label:null,pack_units:l.pk?l.qty*l.pk.n:null,img:l.img,category:l.cat||null}}),
     total:totalNow(),pay_method:method,pay_status:'en_attente',delivery_status:'preparation',channel:channel,status:'en_attente'};
   var r=await db.from('orders').insert(row).select().single();if(r.error)throw r.error;
   /* mémorise le téléphone dans le profil + points de fidélité (1 point / 100 HTG, comme avant) */
@@ -574,12 +579,80 @@ async function makeOrder(method,channel,ref){
     await db.from('profiles').upsert(up)}catch(e){}
   return r.data}
 
-function finish(opts){
+/* ── image « récapitulatif de commande » (produits superposés) pour WhatsApp ── */
+var SITE='https://wykht.com';
+function loadImg(u){return new Promise(function(res){if(!u)return res(null);var im=new Image();im.crossOrigin='anonymous';var t=setTimeout(function(){res(null)},7000);im.onload=function(){clearTimeout(t);res(im)};im.onerror=function(){clearTimeout(t);res(null)};im.src=u})}
+function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+function fit(c,t,max){t=String(t);if(c.measureText(t).width<=max)return t;while(t.length>1&&c.measureText(t+'…').width>max)t=t.slice(0,-1);return t+'…'}
+function drawContain(c,im,x,y,w,h,r){c.save();rr(c,x,y,w,h,r);c.clip();c.fillStyle='#fff';c.fillRect(x,y,w,h);
+  if(im){var k=Math.min((w-24)/im.width,(h-24)/im.height),iw=im.width*k,ih=im.height*k;c.drawImage(im,x+(w-iw)/2,y+(h-ih)/2,iw,ih)}
+  else{c.fillStyle='#e9e8e3';c.fillRect(x,y,w,h);c.fillStyle='#b9b8b0';c.font='700 44px sans-serif';c.textAlign='center';c.fillText('WYK',x+w/2,y+h/2+14);c.textAlign='left'}
+  c.restore()}
+async function makeCard(o,noImg){
+  var L=o.lines,W=1080,rowH=104,maxRows=8,shown=L.slice(0,maxRows),extra=L.length-shown.length;
+  var imgs=await Promise.all(L.map(function(l){return noImg?null:loadImg(l.img)}));
+  var heroN=Math.min(5,L.length),H=150+470+shown.length*rowH+(extra>0?50:0)+330+(o.addr?120:0)+90;
+  var cv=document.createElement('canvas');cv.width=W;cv.height=H;var c=cv.getContext('2d');
+  var F=function(w,s){return w+' '+s+'px "Bricolage Grotesque","Inter",system-ui,sans-serif'};
+  var g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#fbfaf7');g.addColorStop(1,'#efede7');c.fillStyle=g;c.fillRect(0,0,W,H);
+  /* en-tête */
+  c.fillStyle='#e8192c';c.fillRect(0,0,W,12);
+  c.fillStyle='#101010';c.font=F(800,54);c.fillText('WYK',60,92);
+  c.fillStyle='#e8192c';c.fillRect(60,106,54,5);
+  c.fillStyle='#6b6a64';c.font=F(600,26);c.textAlign='right';c.fillText(o.ref?('Commande '+o.ref):'Commande',W-60,76);c.font=F(500,22);c.fillText(o.date,W-60,108);c.textAlign='left';
+  /* produits superposés */
+  var sz=heroN>3?270:310,step=heroN>1?Math.min(sz*.62,(W-120-sz)/(heroN-1)):0,total=sz+step*(heroN-1),x0=(W-total)/2,y0=170;
+  for(var i=heroN-1;i>=0;i--){
+    var rot=(i-(heroN-1)/2)*.07,cx=x0+step*i+sz/2,cy=y0+sz/2+Math.abs(i-(heroN-1)/2)*10+10;
+    c.save();c.translate(cx,cy);c.rotate(rot);c.shadowColor='rgba(0,0,0,.28)';c.shadowBlur=36;c.shadowOffsetY=16;
+    rr(c,-sz/2-10,-sz/2-10,sz+20,sz+20,40);c.fillStyle='#fff';c.fill();c.shadowColor='transparent';
+    drawContain(c,imgs[i],-sz/2,-sz/2,sz,sz,32);
+    var q=L[i].qty;if(q>1){c.beginPath();c.arc(sz/2-14,-sz/2+14,34,0,7);c.fillStyle='#e8192c';c.fill();c.fillStyle='#fff';c.font=F(800,28);c.textAlign='center';c.fillText('×'+q,sz/2-14,-sz/2+24);c.textAlign='left'}
+    c.restore();
+  }
+  if(L.length>heroN){c.fillStyle='#101010';c.beginPath();c.arc(W-100,y0+sz-10,44,0,7);c.fill();c.fillStyle='#fff';c.font=F(800,30);c.textAlign='center';c.fillText('+'+(L.length-heroN),W-100,y0+sz);c.textAlign='left'}
+  /* liste */
+  var y=y0+sz+120;
+  c.fillStyle='#101010';c.font=F(800,32);c.fillText('Articles ('+L.reduce(function(s,l){return s+l.qty},0)+')',60,y);y+=24;
+  shown.forEach(function(l,i){
+    c.fillStyle='#fff';rr(c,50,y,W-100,rowH-10,24);c.fill();
+    drawContain(c,imgs[i],64,y+9,70,70,14);
+    c.fillStyle='#101010';c.font=F(700,27);c.fillText(fit(c,l.name,560),152,y+36);
+    var fm=[];if(l.sku)fm.push(l.sku);if(l.size)fm.push('Taille '+l.size);if(l.color)fm.push(l.colorName||'');if(l.pk)fm.push(l.pk.label+' ('+(l.qty*l.pk.n)+' u.)');
+    c.fillStyle='#6b6a64';c.font=F(500,21);c.fillText(fit(c,fm.filter(Boolean).join(' · '),560),152,y+66);
+    c.textAlign='right';c.fillStyle='#101010';c.font=F(800,28);c.fillText(fmt(l.price*l.qty),W-76,y+38);
+    c.fillStyle='#6b6a64';c.font=F(500,21);c.fillText(l.qty+' × '+fmt(l.price),W-76,y+66);c.textAlign='left';
+    y+=rowH;
+  });
+  if(extra>0){c.fillStyle='#6b6a64';c.font=F(600,24);c.fillText('+ '+extra+' autre'+(extra>1?'s':'')+' article'+(extra>1?'s':''),60,y+22);y+=50}
+  /* totaux */
+  y+=16;c.fillStyle='#101010';rr(c,50,y,W-100,250,30);c.fill();
+  c.fillStyle='rgba(255,255,255,.7)';c.font=F(500,25);c.fillText('Sous-total',90,y+60);c.fillText(o.zone,90,y+110);
+  c.textAlign='right';c.fillText(fmt(o.sub),W-90,y+60);c.fillText(o.fee,W-90,y+110);c.textAlign='left';
+  c.fillStyle='rgba(255,255,255,.18)';c.fillRect(90,y+138,W-180,2);
+  c.fillStyle='#fff';c.font=F(700,30);c.fillText('TOTAL',90,y+205);c.fillStyle='#ff4b5c';c.font=F(800,56);c.textAlign='right';c.fillText(fmt(o.total),W-90,y+208);c.textAlign='left';
+  y+=290;
+  if(o.addr){c.fillStyle='#fff';rr(c,50,y,W-100,100,24);c.fill();c.fillStyle='#e8192c';c.font=F(800,20);c.fillText(o.mode.toUpperCase(),84,y+36);c.fillStyle='#101010';c.font=F(600,24);c.fillText(fit(c,o.addr,W-190),84,y+72);y+=120}
+  c.fillStyle='#8a8982';c.font=F(600,22);c.textAlign='center';c.fillText('wykht.com  ·  Merci pour votre confiance',W/2,H-36);c.textAlign='left';
+  return new Promise(function(res){try{cv.toBlob(function(b){res({blob:b,url:b?URL.createObjectURL(b):cv.toDataURL('image/jpeg',.9)})},'image/png')}catch(e){res(null)}})
+}
+async function safeCard(o){var r=await makeCard(o,false);if(!r)r=await makeCard(o,true);return r}
+
+async function finish(opts){
+  var snap=cardData(opts);
   S.done=true;wr('wyk_cart',[]);try{localStorage.removeItem(FORM_KEY)}catch(e){}
   $('main').style.display='none';$('mbar').style.display='none';$('done').classList.add('on');
   $('d-h').textContent=opts.title;$('d-p').textContent=opts.text;$('d-ref').textContent=opts.ref||'';$('d-ref').style.display=opts.ref?'':'none';
   var steps=opts.steps||[];$('d-tl').innerHTML=steps.map(function(s,i){return '<div class="'+(i===0?'on':'')+'"><i>'+(i===0?ic('check'):i+1)+'</i><span><b>'+esc(s[0])+'</b><small>'+esc(s[1])+'</small></span></div>'}).join('');
-  $('d-acc').style.display=opts.account?'':'none';$('d-wa').href=waLink(opts.wa||'Bonjour WYK, j\'ai une question sur ma commande.');scrollTo(0,0)}
+  $('d-acc').style.display=opts.account?'':'none';$('d-wa').href=waLink(opts.wa||'Bonjour WYK, j\'ai une question sur ma commande.');scrollTo(0,0);
+  try{var cd=await safeCard(snap);if(cd){$('d-card').src=cd.url;$('d-cardbox').style.display='block';var fname='commande-'+(opts.ref||'WYK')+'.png';
+    $('d-dl').onclick=function(){var a=document.createElement('a');a.href=cd.url;a.download=fname;document.body.appendChild(a);a.click();a.remove()};
+    $('d-share').onclick=async function(){try{if(cd.blob&&navigator.canShare){var f=new File([cd.blob],fname,{type:'image/png'});if(navigator.canShare({files:[f]})){await navigator.share({files:[f],text:'Commande WYK '+(opts.ref||''),title:'Commande WYK'});return}}}catch(e){if(e&&e.name==='AbortError')return}
+      $('d-dl').click();toast('Image téléchargée : joignez-la dans WhatsApp')}}}catch(e){console.warn('card',e)}}
+function cardData(opts){var z=zone(),f=feeNow()||0,A=avail();
+  return{ref:opts.ref||'',date:new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'}),sub:subtotal(),total:totalNow(),zone:S.mode==='retrait'?'Retrait en boutique':'Livraison'+(z?' · '+z.name:''),fee:S.mode==='retrait'||!f?'Gratuit':fmt(f),
+    mode:S.mode==='retrait'?'Retrait en boutique':'Livraison',addr:S.mode==='retrait'?($('name').value.trim()+' · '+fullPhone()):($('addr').value.trim()+(z?' — '+z.name:'')+' · '+fullPhone()),
+    lines:A.map(function(l){return{name:l.name,price:l.price,qty:l.qty,img:l.img,sku:l.sku,size:l.size,color:l.color,colorName:l.color?colorName(l.color):'',pk:l.pk}})}}
 
 async function sendWhatsApp(){
   if(!check())return;
@@ -660,14 +733,14 @@ function themeIcon(){var d=document.documentElement.getAttribute('data-theme')==
 (async function init(){
   S.cart=rd('wyk_cart').filter(function(c){return c&&c.id});
   loadForm();setMode(S.mode);bind();
-  S.lines=S.cart.map(function(c){return{key:c.key,id:c.id,name:clean(c.name),price:Number(c.price)||0,qty:Math.max(1,c.qty|0),img:c.img||null,size:c.size||null,color:c.color||null,pk:c.pk||null,cat:'',gone:false}});
+  S.lines=S.cart.map(function(c){return{key:c.key,id:c.id,name:clean(c.name),price:Number(c.price)||0,qty:Math.max(1,c.qty|0),img:c.img||null,size:c.size||null,color:c.color||null,pk:c.pk||null,cat:'',gone:false,sku:c.sku||null}});
   renderItems();renderSummary();
   if(S.geo){$('geo-ok').classList.add('on')}
   if(!db){renderZones();renderMethods();return}
   var T=function(p){return Promise.race([p,new Promise(function(r){setTimeout(function(){r({data:null})},8000)})]).catch(function(){return{data:null}})};
   var ids=S.cart.map(function(c){return c.id});
   var rs=await Promise.all([
-    ids.length?T(db.from('products').select('id,name,price,active,pack_size,pack_style,pack_price,pack_only,product_images(url,position),categories(name)').in('id',ids)):{data:[]},
+    ids.length?T(db.from('products').select('id,sku,name,price,active,pack_size,pack_style,pack_price,pack_only,product_images(url,position),categories(name)').in('id',ids)):{data:[]},
     T(db.from('delivery_zones').select('*').eq('is_active',true).order('sort_order')),
     T(db.from('site_settings').select('key,value')),
     T(db.auth.getSession())]);
@@ -684,9 +757,9 @@ function themeIcon(){var d=document.documentElement.getAttribute('data-theme')==
   if(S.user){
     var md=S.user.user_metadata||{};
     if(!$('name').value)$('name').value=md.full_name||md.name||'';
-    if(!$('phone').value&&md.phone)$('phone').value=digits(md.phone).slice(-8);
+    if(!$('phone').value&&md.phone)setPhone(md.phone);
     try{var pr=await db.from('profiles').select('name,phone,zone').eq('id',S.user.id).maybeSingle();var d=pr&&pr.data;
-      if(d){if(!$('name').value&&d.name)$('name').value=d.name;if(!$('phone').value&&d.phone)$('phone').value=digits(d.phone).slice(-8);if(!$('addr').value&&d.zone&&S.mode==='livraison')$('addr').value=d.zone}}catch(e){}
+      if(d){if(!$('name').value&&d.name)$('name').value=d.name;if(!$('phone').value&&d.phone)setPhone(d.phone);if(!$('addr').value&&d.zone&&S.mode==='livraison')$('addr').value=d.zone}}catch(e){}
   }
   var cur=['moncash','natcash','whatsapp'];if(S.method&&cur.indexOf(S.method)<0)S.method='';
   renderItems();renderZones();renderMethods();renderHow();renderSummary();
