@@ -224,6 +224,20 @@ svg.i.f{fill:currentColor;stroke:none}
   .secure span{display:none}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* sélecteur d'indicatif */
+.ccp{position:relative;flex:none;align-self:stretch;display:flex}
+.ccp-b{display:flex;align-items:center;gap:7px;padding:0 12px 0 2px;margin-right:12px;min-height:44px;font:700 15.5px 'DM Sans','Inter',system-ui,sans-serif;color:inherit;white-space:nowrap;border-right:1px solid rgba(128,128,128,.3);letter-spacing:.01em}
+.ccp-b svg{opacity:.55;transition:transform .2s}.ccp.open .ccp-b svg{transform:rotate(180deg)}
+.ccp-f{font-size:20px;line-height:1;font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif}
+.ccp-m{position:fixed;z-index:200;display:none;flex-direction:column;background:var(--surface,#fff);color:var(--text,var(--ink,#101010));border:1px solid var(--bdr,var(--line,rgba(128,128,128,.25)));border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.28);overflow:hidden}
+.ccp.open .ccp-m{display:flex}
+.ccp-s{width:100%;border:0!important;border-bottom:1px solid var(--bdr,var(--line,rgba(128,128,128,.25)))!important;padding:13px 15px!important;font-size:16px!important;outline:0!important;background:transparent!important;color:inherit;box-shadow:none!important;border-radius:0!important}
+.ccp-l{list-style:none;margin:0;padding:6px;overflow-y:auto;flex:1;overscroll-behavior:contain}
+.ccp-l li{display:flex;gap:11px;align-items:center;padding:10px 11px;border-radius:11px;cursor:pointer;font-size:14.5px}
+.ccp-l li:hover,.ccp-l li.on{background:rgba(232,25,44,.09)}
+.ccp-l li b{margin-left:auto;font-weight:700;font-size:14.5px;letter-spacing:.01em}
+.ccp-l li.none{color:rgba(128,128,128,.9);justify-content:center;cursor:default}
+.inp .ccp-b{color:var(--t2)}
 </style>
 </head>
 <body>
@@ -312,7 +326,7 @@ svg.i.f{fill:currentColor;stroke:none}
           <div class="fg"><label id="l-name">Nom de la personne qui réceptionne <span class="req">*</span></label>
             <div class="inp"><svg class="i"><use href="#i-user"/></svg><input id="name" placeholder="Prénom et nom" autocomplete="name"></div></div>
           <div class="fg"><label>Téléphone <span class="req">*</span></label>
-            <div class="inp"><input id="cc" class="cc" value="+509" maxlength="5" inputmode="tel" list="ccl" aria-label="Indicatif du pays" autocomplete="off"><datalist id="ccl"><option value="+509">Haïti</option><option value="+1">États-Unis / Canada</option><option value="+1809">Rép. dominicaine</option><option value="+33">France</option><option value="+593">Équateur</option><option value="+56">Chili</option><option value="+55">Brésil</option></datalist><input id="phone" inputmode="tel" placeholder="XXXX XXXX" autocomplete="tel-national"></div></div>
+            <div class="inp"><div class="ccp" id="ccBox"></div><input type="hidden" id="cc" value="+509"><input id="phone" inputmode="tel" placeholder="XXXX XXXX" autocomplete="tel-national"></div></div>
         </div>
         <div class="fg" id="g-slot"><label>Créneau souhaité</label>
           <div class="inp"><svg class="i"><use href="#i-clock"/></svg>
@@ -359,6 +373,7 @@ svg.i.f{fill:currentColor;stroke:none}
         <div class="sl tot"><span>Total à payer</span><b id="total">0 HTG</b></div>
         <button class="btn" id="go" style="margin-top:16px"><svg class="i" id="go-i"><use href="#i-wa"/></svg><span id="go-t">Commander sur WhatsApp</span></button>
         <button class="btn wa" id="go-wa" style="display:none"><svg class="i"><use href="#i-wa"/></svg>Plutôt sur WhatsApp</button>
+        <button class="btn ghost" id="go-site" style="display:none"><svg class="i"><use href="#i-shield"/></svg><span>Envoyer mon panier sur le site</span></button>
         <div class="trust">
           <div><svg class="i"><use href="#i-shield"/></svg>Paiement vérifié manuellement par notre équipe</div>
           <div><svg class="i"><use href="#i-truck"/></svg>Suivi de livraison dans votre compte</div>
@@ -401,6 +416,33 @@ var $=function(id){return document.getElementById(id)},esc=function(s){return St
 var fmt=function(n){return Number(n||0).toLocaleString('fr')+' HTG'};
 var clean=function(t){return String(t==null?'':t).replace(/[\u{1F000}-\u{1FAFF}\u{2190}-\u{21FF}\u{2300}-\u{23FF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/gu,'').replace(/[ \t]{2,}/g,' ').trim()};
 var ic=function(n,c){return '<svg class="i '+(c||'')+'"><use href="#i-'+n+'"/></svg>'};
+
+/* ── sélecteur d'indicatif pays (liste complète, recherche, chiffres bien visibles) ── */
+var CC_LIST=[['HT','Haïti','+509'],['US','États-Unis','+1'],['CA','Canada','+1'],['DO','République dominicaine','+1809'],['FR','France','+33'],
+['DZ','Algérie','+213'],['DE','Allemagne','+49'],['SA','Arabie saoudite','+966'],['AR','Argentine','+54'],['AU','Australie','+61'],['BS','Bahamas','+1242'],['BE','Belgique','+32'],['BJ','Bénin','+229'],['BR','Brésil','+55'],['BF','Burkina Faso','+226'],['CM','Cameroun','+237'],['CL','Chili','+56'],['CN','Chine','+86'],['CO','Colombie','+57'],['CG','Congo','+242'],['CD','RD Congo','+243'],['KR','Corée du Sud','+82'],['CR','Costa Rica','+506'],['CI','Côte d\'Ivoire','+225'],['CU','Cuba','+53'],['AE','Émirats arabes unis','+971'],['EC','Équateur','+593'],['ES','Espagne','+34'],['GA','Gabon','+241'],['GH','Ghana','+233'],['GP','Guadeloupe','+590'],['GF','Guyane française','+594'],['GN','Guinée','+224'],['IN','Inde','+91'],['IT','Italie','+39'],['JM','Jamaïque','+1876'],['JP','Japon','+81'],['LB','Liban','+961'],['LU','Luxembourg','+352'],['MG','Madagascar','+261'],['ML','Mali','+223'],['MA','Maroc','+212'],['MQ','Martinique','+596'],['MU','Maurice','+230'],['MX','Mexique','+52'],['NG','Nigéria','+234'],['PA','Panama','+507'],['NL','Pays-Bas','+31'],['PE','Pérou','+51'],['PR','Porto Rico','+1787'],['PT','Portugal','+351'],['RE','La Réunion','+262'],['GB','Royaume-Uni','+44'],['RU','Russie','+7'],['SN','Sénégal','+221'],['CH','Suisse','+41'],['TG','Togo','+228'],['TN','Tunisie','+216'],['TC','Turks-et-Caïcos','+1649'],['TR','Turquie','+90'],['VE','Venezuela','+58'],['ZA','Afrique du Sud','+27'],['EG','Égypte','+20']];
+function ccFlag(iso){return String.fromCodePoint.apply(null,iso.split('').map(function(c){return 127397+c.charCodeAt(0)}))}
+function ccFind(code){for(var i=0;i<CC_LIST.length;i++)if(CC_LIST[i][2]===code)return CC_LIST[i];return null}
+function ccSet(id,code){
+  var h=document.getElementById(id);if(!h)return;var c=ccFind(code)||[null,null,code||'+509'];h.value=c[2];
+  var w=h._ccp;if(w){w.querySelector('.ccp-f').textContent=c[0]?ccFlag(c[0]):'🌐';w.querySelector('.ccp-c').textContent=c[2]}
+}
+function ccInit(box,id){
+  var h=document.getElementById(id);if(!h||!box||box._ok)return;box._ok=1;h._ccp=box;
+  box.innerHTML='<button type="button" class="ccp-b" aria-haspopup="listbox" aria-label="Choisir l\'indicatif du pays"><span class="ccp-f"></span><span class="ccp-c"></span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="ccp-m" role="listbox"><input class="ccp-s" type="text" placeholder="Rechercher un pays ou un indicatif" autocomplete="off"><ul class="ccp-l"></ul></div>';
+  var b=box.querySelector('.ccp-b'),m=box.querySelector('.ccp-m'),s=box.querySelector('.ccp-s'),l=box.querySelector('.ccp-l');
+  function norm(t){return String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function draw(q){q=norm(q||'').replace(/^\+/,'');l.innerHTML=CC_LIST.filter(function(c){return!q||norm(c[1]).indexOf(q)>-1||c[2].replace('+','').indexOf(q)===0||c[0].toLowerCase()===q}).map(function(c){return'<li data-c="'+c[2]+'" data-i="'+c[0]+'"'+(c[2]===h.value?' class="on"':'')+'><span class="ccp-f">'+ccFlag(c[0])+'</span><span>'+c[1]+'</span><b>'+c[2]+'</b></li>'}).join('')||'<li class="none">Aucun résultat</li>'}
+  function place(){var r=b.getBoundingClientRect(),w=Math.min(330,window.innerWidth-20),left=Math.max(10,Math.min(r.left-10,window.innerWidth-w-10)),room=window.innerHeight-r.bottom-16,up=room<260&&r.top>room;
+    m.style.width=w+'px';m.style.left=left+'px';m.style.maxHeight=Math.max(220,Math.min(340,(up?r.top:room)-10))+'px';if(up){m.style.top='auto';m.style.bottom=(window.innerHeight-r.top+8)+'px'}else{m.style.bottom='auto';m.style.top=(r.bottom+8)+'px'}}
+  function open(){box.classList.add('open');draw('');s.value='';place();box._t=Date.now();var o=l.querySelector('.on');if(o)l.scrollTop=Math.max(0,o.offsetTop-l.clientHeight/2+o.offsetHeight/2);if(window.innerWidth>700)s.focus()}
+  function close(){box.classList.remove('open')}
+  b.addEventListener('click',function(e){e.preventDefault();box.classList.contains('open')?close():open()});
+  s.addEventListener('input',function(){draw(s.value)});
+  l.addEventListener('click',function(e){var li=e.target.closest('li[data-c]');if(!li)return;ccSet(id,li.getAttribute('data-c'));h.dispatchEvent(new Event('input',{bubbles:true}));h.dispatchEvent(new Event('change',{bubbles:true}));close()});
+  document.addEventListener('click',function(e){if(!box.contains(e.target))close()});
+  function re(){if(box.classList.contains('open'))place()}window.addEventListener('resize',re);window.addEventListener('scroll',function(e){if(!m.contains(e.target))re()},true);
+  ccSet(id,h.value||'+509');
+}
 
 /* ── état ── */
 var S={cart:[],lines:[],zones:[],cfg:{payment:{},checkout:{}},user:null,mode:'livraison',zoneId:'',method:'',file:null,geo:'',busy:false,done:false};
@@ -468,7 +510,7 @@ function renderSummary(){
   var txt=!pm?'Commander sur WhatsApp':login?'Se connecter pour envoyer la preuve':'Envoyer ma commande et ma preuve';
   $('go-t').textContent=txt;$('m-go-t').textContent=login?'Se connecter':pm?'Envoyer':'Commander';
   $('go-i').firstElementChild.setAttribute('href',pm&&!login?'#i-shield':login?'#i-lock':'#i-wa');
-  $('go-wa').style.display=pm?'':'none';
+  $('go-wa').style.display=pm?'':'none';$('go-site').style.display=(S.user&&!pm)?'':'none';
   $('s3').className='st'+(S.method?' ok':'');
   var okD=deliveryOk(true);$('s2').className='st'+(okD?' ok':' on');if(!okD&&!S.method)$('s3').className='st';
   var disabled=!A.length;$('go').disabled=disabled;$('m-go').disabled=disabled;
@@ -524,7 +566,7 @@ function renderHow(){
 /* ── formulaire : sauvegarde locale + validation ── */
 var FIELDS=['addr','landmark','name','cc','phone','slot','note'];
 function saveForm(){var o={mode:S.mode,zone:S.zoneId,method:S.method,geo:S.geo};FIELDS.forEach(function(k){o[k]=$(k).value});try{localStorage.setItem(FORM_KEY,JSON.stringify(o))}catch(e){}}
-function loadForm(){try{var o=JSON.parse(localStorage.getItem(FORM_KEY)||'{}');FIELDS.forEach(function(k){if(o[k]!=null)$(k).value=o[k]});if(o.mode)S.mode=o.mode;if(o.zone)S.zoneId=o.zone;if(o.geo)S.geo=o.geo;if(o.method)S.method=o.method}catch(e){}}
+function loadForm(){try{var o=JSON.parse(localStorage.getItem(FORM_KEY)||'{}');FIELDS.forEach(function(k){if(o[k]!=null)$(k).value=o[k]});if(o.cc)ccSet('cc',o.cc);if(o.mode)S.mode=o.mode;if(o.zone)S.zoneId=o.zone;if(o.geo)S.geo=o.geo;if(o.method)S.method=o.method}catch(e){}}
 function setMode(m){S.mode=m;[].forEach.call($('mode').children,function(b){b.classList.toggle('on',b.getAttribute('data-m')===m)});
   $('b-liv').style.display=m==='livraison'?'':'none';$('b-ret').style.display=m==='retrait'?'':'none';
   $('l-name').innerHTML=(m==='retrait'?'Nom pour le retrait':'Nom de la personne qui réceptionne')+' <span class="req">*</span>';
@@ -541,16 +583,17 @@ function check(){clearErr();if(!avail().length)return bad('Votre panier est vide
 function ccNow(){var c=($('cc').value||'+509').replace(/[^\d+]/g,'');if(c.charAt(0)!=='+')c='+'+c.replace(/\+/g,'');return c.length>1?c:'+509'}
 function phoneOk(){var d=digits($('phone').value);return ccNow()==='+509'?d.length===8:d.length>=6}
 function fullPhone(){var d=digits($('phone').value),c=ccNow();return c+' '+(c==='+509'&&d.length===8?d.slice(0,4)+' '+d.slice(4):d)}
-function setPhone(v){v=String(v||'').trim();if(!v)return;var m=/^\+(509|1809|1|33|593|56|55|\d{1,3})\s*(.*)$/.exec(v);if(m){$('cc').value='+'+m[1];$('phone').value=digits(m[2])}else $('phone').value=digits(v).slice(-8)}
+function setPhone(v){v=String(v||'').trim();if(!v)return;var m=/^\+(509|1809|1876|1242|1787|1649|1|\d{3}|\d{2})\s*(.*)$/.exec(v);if(m){ccSet('cc','+'+m[1]);$('phone').value=digits(m[2])}else $('phone').value=digits(v).slice(-8)}
 function fullNotes(){var s=$('slot').value;return((S.mode==='livraison'&&s?'Créneau souhaité : '+s+'\n':'')+$('note').value.trim()).trim()}
 
 /* ── message WhatsApp complet ── */
 function lineText(l,i){
   var fm=[];if(l.size)fm.push('Taille '+l.size);if(l.color)fm.push('Couleur '+colorName(l.color));if(l.pk)fm.push(l.pk.label+' (= '+(l.qty*l.pk.n)+' unités)');
   return (i+1)+'. *'+l.name+'*'+(l.cat?'  _'+l.cat+'_':'')+'\n'+(l.sku?'    Réf. : *'+l.sku+'*\n':'')+(fm.length?'    Format : '+fm.join(' · ')+'\n':'')+'    '+l.qty+' × '+fmt(l.price)+' = *'+fmt(l.price*l.qty)+'*\n    Voir : '+SITE+'/produit/'+encodeURIComponent(l.id)}
-function waMessage(ref,paidNote){
+function waMessage(ref,paidNote,share){
   var z=zone(),f=feeNow()||0,A=avail(),L=[];
   L.push('*NOUVELLE COMMANDE — WYK*');if(ref)L.push('Réf. : *'+ref+'*');
+  if(share){if(share.imgUrl)L.push('Aperçu du panier : '+share.imgUrl);L.push('Panier en ligne : '+share.pageUrl)}
   L.push('','*ARTICLES ('+A.reduce(function(s,l){return s+l.qty},0)+')*');
   A.forEach(function(l,i){L.push(lineText(l,i))});
   L.push('','Sous-total : '+fmt(subtotal()));
@@ -566,13 +609,16 @@ function waLink(t){return 'https://wa.me/'+WA+'?text='+encodeURIComponent(t)}
 function newRef(){var d=new Date(),p=function(n){return String(n).padStart(2,'0')};var a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r='';for(var i=0;i<4;i++)r+=a[Math.floor(Math.random()*a.length)];return 'WYK-'+String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+'-'+r}
 
 /* ── création de commande (connecté uniquement) ── */
-async function makeOrder(method,channel,ref){
+async function makeOrder(method,channel,ref,cartCode){
   var z=zone(),f=feeNow()||0,A=avail();
   var row={user_id:S.user.id,order_ref:ref,customer_name:$('name').value.trim(),phone:fullPhone(),delivery_mode:S.mode,zone:S.mode==='retrait'?'Retrait en boutique':(z?z.name:null),delivery_fee:f,
     address:S.mode==='livraison'?$('addr').value.trim():null,landmark:$('landmark').value.trim()||null,receiver:$('name').value.trim(),notes:fullNotes()||null,geo:S.geo||null,
     items:A.map(function(l){return{id:l.id,sku:l.sku||null,name:l.name,qty:l.qty,price:l.price,size:l.size,color:l.color,color_name:l.color?colorName(l.color):null,pack:l.pk?l.pk.label:null,pack_units:l.pk?l.qty*l.pk.n:null,img:l.img,category:l.cat||null}}),
     total:totalNow(),pay_method:method,pay_status:'en_attente',delivery_status:'preparation',channel:channel,status:'en_attente'};
-  var r=await db.from('orders').insert(row).select().single();if(r.error)throw r.error;
+  if(cartCode)row.cart_code=cartCode;
+  var r=await db.from('orders').insert(row).select().single();
+  if(r.error&&/cart_code/.test(r.error.message||'')){delete row.cart_code;r=await db.from('orders').insert(row).select().single()}
+  if(r.error)throw r.error;
   /* mémorise le téléphone dans le profil + points de fidélité (1 point / 100 HTG, comme avant) */
   try{var pr=await db.from('profiles').select('points,phone,name').eq('id',S.user.id).maybeSingle();var d=pr&&pr.data||{};
     var up={id:S.user.id,points:(Number(d.points)||0)+Math.floor(row.total/100),updated_at:new Date().toISOString()};if(!d.phone)up.phone=fullPhone();if(!d.name)up.name=row.customer_name;
@@ -638,6 +684,58 @@ async function makeCard(o,noImg){
 }
 async function safeCard(o){var r=await makeCard(o,false);if(!r)r=await makeCard(o,true);return r}
 
+/* ── image d'aperçu du lien (1200×630, grand format rectangle) ── */
+async function makeOgCard(o,noImg){
+  var L=o.lines,W=1200,H=630,imgs=await Promise.all(L.slice(0,4).map(function(l){return noImg?null:loadImg(l.img)})),logo=noImg?null:await loadImg('/assets/brand/wyk-logo-secondaire-transparent.png');
+  var cv=document.createElement('canvas');cv.width=W;cv.height=H;var c=cv.getContext('2d');
+  var F=function(w,s){return w+' '+s+'px "Bricolage Grotesque","Inter",system-ui,sans-serif'};
+  var g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,'#fbfaf7');g.addColorStop(1,'#ecebe5');c.fillStyle=g;c.fillRect(0,0,W,H);
+  /* bande rouge + forme décorative */
+  c.fillStyle='#e8192c';c.fillRect(0,0,W,14);
+  c.save();c.fillStyle='rgba(232,25,44,.07)';c.beginPath();c.moveTo(560,H);c.lineTo(760,0);c.lineTo(1040,0);c.lineTo(840,H);c.closePath();c.fill();c.restore();
+  /* produits superposés (à gauche) */
+  var n=Math.min(4,L.length),sz=n>2?250:290,step=n>1?Math.min(sz*.5,(520-sz)/(n-1)+20):0,x0=60+(520-(sz+step*(n-1)))/2,y0=150;
+  for(var i=n-1;i>=0;i--){
+    var rot=(i-(n-1)/2)*.09,cx=x0+step*i+sz/2,cy=y0+sz/2+(i%2?34:0);
+    c.save();c.translate(cx,cy);c.rotate(rot);c.shadowColor='rgba(0,0,0,.3)';c.shadowBlur=34;c.shadowOffsetY=14;
+    rr(c,-sz/2-9,-sz/2-9,sz+18,sz+18,36);c.fillStyle='#fff';c.fill();c.shadowColor='transparent';
+    drawContain(c,imgs[i],-sz/2,-sz/2,sz,sz,28);
+    var q=L[i].qty;if(q>1){c.beginPath();c.arc(sz/2-12,-sz/2+12,30,0,7);c.fillStyle='#e8192c';c.fill();c.fillStyle='#fff';c.font=F(800,25);c.textAlign='center';c.fillText('×'+q,sz/2-12,-sz/2+21);c.textAlign='left'}
+    c.restore();
+  }
+  if(L.length>n){c.fillStyle='#101010';c.beginPath();c.arc(560,y0+sz+30,38,0,7);c.fill();c.fillStyle='#fff';c.font=F(800,26);c.textAlign='center';c.fillText('+'+(L.length-n),560,y0+sz+39);c.textAlign='left'}
+  /* texte (à droite) */
+  var tx=640;
+  if(logo){var lh=64,lw=logo.width*lh/logo.height;c.drawImage(logo,tx,52,lw,lh)}else{c.fillStyle='#101010';c.font=F(800,52);c.fillText('WYK',tx,100)}
+  c.fillStyle='#6b6a64';c.font=F(600,24);c.fillText('PANIER PARTAGÉ',tx,170);
+  c.fillStyle='#101010';c.font=F(800,58);
+  var nm='Panier de '+o.owner,lines=[nm];
+  if(c.measureText(nm).width>520){var w=nm.split(' '),a='',b='';w.forEach(function(x){if(c.measureText((a+' '+x).trim()).width<520&&!b)a=(a+' '+x).trim();else b=(b+' '+x).trim()});lines=[a,fit(c,b,520)]}
+  lines.forEach(function(t,i){c.fillText(t,tx,238+i*66)});
+  var yy=238+lines.length*66+8,cnt=L.reduce(function(s,l){return s+l.qty},0);
+  c.fillStyle='#6b6a64';c.font=F(600,28);c.fillText(cnt+' article'+(cnt>1?'s':'')+'  ·  '+o.date,tx,yy+14);
+  c.fillStyle='#e8192c';c.font=F(800,64);c.fillText(fmt(o.total),tx,yy+104);
+  c.fillStyle='#101010';rr(c,tx,yy+140,330,64,32);c.fill();c.fillStyle='#fff';c.font=F(700,26);c.textAlign='center';c.fillText('Voir le panier  →',tx+165,yy+181);c.textAlign='left';
+  c.fillStyle='#8a8982';c.font=F(600,22);c.fillText('wykht.com',tx,H-40);
+  return new Promise(function(res){try{cv.toBlob(function(b){res(b)},'image/jpeg',.88)}catch(e){res(null)}})
+}
+function randCode(n){var a='abcdefghjkmnpqrstuvwxyz23456789',o='';try{var r=new Uint8Array(n);crypto.getRandomValues(r);for(var i=0;i<n;i++)o+=a[r[i]%a.length]}catch(e){for(var j=0;j<n;j++)o+=a[Math.floor(Math.random()*a.length)]}return o}
+/* crée le lien de panier : image d'aperçu + ligne en base. Retourne {code,pageUrl,imgUrl} ou null (jamais bloquant) */
+async function prepareShare(ref){
+  try{
+    var snap=cardData({ref:ref||''}),code=randCode(8),L=snap.lines;
+    if(!L.length||!db)return null;
+    var blob=await makeOgCard({lines:L,owner:($('name').value.trim()||'Client WYK'),total:snap.total,date:snap.date});
+    var path=null;
+    if(blob){var up=await db.storage.from('cart-cards').upload(code+'.jpg',blob,{contentType:'image/jpeg'});if(!up.error)path=code+'.jpg'}
+    var row={code:code,owner_name:$('name').value.trim()||null,mode:S.mode,zone:snap.zone,fee:feeNow()||0,total:snap.total,order_ref:ref||null,image_path:path,
+      items:avail().map(function(l){return{id:l.id,sku:l.sku||null,name:l.name,qty:l.qty,price:l.price,size:l.size,color:l.color,color_name:l.color?colorName(l.color):null,pack:l.pk?l.pk.label:null,pack_n:l.pk?l.pk.n:null,img:l.img,category:l.cat||null}})};
+    var r=await db.from('shared_carts').insert(row);if(r.error)throw r.error;
+    return{code:code,pageUrl:SITE+'/panier?c='+code,imgUrl:path?(SUPA_URL+'/storage/v1/object/public/cart-cards/'+path):null};
+  }catch(e){console.warn('share cart',e);return null}
+}
+function withTimeout(p,ms){return Promise.race([p,new Promise(function(r){setTimeout(function(){r(null)},ms)})])}
+
 async function finish(opts){
   var snap=cardData(opts);
   S.done=true;wr('wyk_cart',[]);try{localStorage.removeItem(FORM_KEY)}catch(e){}
@@ -660,12 +758,31 @@ async function sendWhatsApp(){
   var ref=newRef(),msg,order=null;
   /* ouvre WhatsApp tout de suite (les navigateurs bloquent les fenêtres ouvertes après un await) */
   var w=window.open('about:blank','_blank');
-  if(S.user){try{order=await makeOrder('whatsapp','whatsapp',ref)}catch(e){console.warn('order',e);toast('Commande envoyée sur WhatsApp (suivi en ligne indisponible)')}}
-  msg=waMessage(order?ref:'',null);
+  try{if(w)w.document.write('<meta name="viewport" content="width=device-width,initial-scale=1"><body style="font:16px system-ui;display:grid;place-items:center;height:90vh;color:#555">Préparation de votre panier…</body>')}catch(e){}
+  $('go-t').textContent='Préparation du panier…';$('m-go-t').textContent='…';
+  var share=await withTimeout(prepareShare(ref),14000);
+  if(S.user){try{order=await makeOrder('whatsapp','whatsapp',ref,share&&share.code)}catch(e){console.warn('order',e);toast('Commande envoyée sur WhatsApp (suivi en ligne indisponible)')}}
+  msg=waMessage(order||share?ref:'',null,share);
   var url=waLink(msg);if(w&&!w.closed)w.location.href=url;else location.href=url;
   S.busy=false;
-  finish({title:'Commande transmise',text:'Votre commande a été préparée sur WhatsApp. Envoyez le message pour la valider : un conseiller vous répond.',ref:order?ref:'',account:!!order,wa:'Bonjour WYK, je viens d\'envoyer ma commande'+(order?' '+ref:'')+'.',
+  finish({title:'Commande transmise',text:'Votre commande a été préparée sur WhatsApp. Envoyez le message pour la valider : un conseiller vous répond.',ref:order||share?ref:'',account:!!order,wa:'Bonjour WYK, je viens d\'envoyer ma commande'+(order||share?' '+ref:'')+'.'+(share?' Panier : '+share.pageUrl:''),
     steps:[['Commande préparée','Message WhatsApp avec tout le détail'],['Confirmation','Un conseiller confirme les articles et le paiement'],['Livraison','Vous êtes livré à l\'adresse indiquée']]})}
+
+/* connecté : envoyer le panier directement sur le site (sans passer par WhatsApp) */
+async function sendSite(){
+  if(!S.user){location.href='/compte?next=commande';return}
+  if(!check())return;if(S.busy)return;S.busy=true;
+  $('go-site').disabled=true;$('go-site').querySelector('span').textContent='Envoi en cours…';
+  var ref=newRef(),share=await withTimeout(prepareShare(ref),14000);
+  try{
+    await makeOrder(S.method==='whatsapp'?'whatsapp':'whatsapp','site',ref,share&&share.code);
+    S.busy=false;
+    finish({title:'Commande enregistrée',text:'Votre panier est bien arrivé chez nous. Un conseiller vous contacte pour confirmer et organiser le paiement.',ref:ref,account:true,wa:waMessage(ref,null,share),
+      steps:[['Commande reçue','Votre commande est enregistrée sur le site'],['Confirmation','Un conseiller vous contacte'],['Livraison','Suivi dans Mon compte']]});
+  }catch(e){
+    console.error(e);var m=(e&&e.message)||String(e);
+    bad(/column|relation|does not exist|schema/i.test(m)?'La boutique n\'est pas encore prête pour les commandes en ligne. Utilisez WhatsApp en attendant.':'Échec de l\'envoi : '+m);
+    S.busy=false;$('go-site').disabled=false;$('go-site').querySelector('span').textContent='Envoyer mon panier sur le site'}}
 
 async function sendProof(){
   if(!S.user){location.href='/compte?next=commande';return}
@@ -676,13 +793,14 @@ async function sendProof(){
   if(pc.shot&&!f)return bad('Joignez la capture d\'écran du paiement.');
   S.busy=true;$('go').disabled=true;$('m-go').disabled=true;$('go-t').textContent='Envoi en cours…';
   var ref=newRef();
+  var share=await withTimeout(prepareShare(ref),14000);
   try{
-    var o=await makeOrder(S.method,'site',ref);
+    var o=await makeOrder(S.method,'site',ref,share&&share.code);
     var path=null;
     if(f){var file=await shrink(f),ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'');path=S.user.id+'/'+o.id+'-'+Date.now()+'.'+ext;
       var up=await db.storage.from('proofs').upload(path,file,{contentType:file.type||undefined});if(up.error)throw up.error}
     var r=await db.from('payment_proofs').insert({order_id:o.id,user_id:S.user.id,method:S.method,payer_name:n||null,phone:p||null,tx_ref:t||null,extra:extra,screenshot_url:path});if(r.error)throw r.error;
-    var A=waMessage(ref,PM[S.method].n+' — preuve envoyée sur le site'+(t?' (réf. '+t+')':''));
+    var A=waMessage(ref,PM[S.method].n+' — preuve envoyée sur le site'+(t?' (réf. '+t+')':''),share);
     finish({title:'Commande et preuve envoyées',text:'Nous vérifions votre paiement. Vous serez informé dans votre compte.',ref:ref,account:true,wa:A,
       steps:[['Commande reçue','Votre commande est enregistrée'],['Vérification du paiement','Notre équipe contrôle votre preuve'],['Préparation','Votre commande est préparée'],['Livraison','Suivi en direct dans Mon compte']]});
   }catch(e){
@@ -726,13 +844,13 @@ function bind(){
     var im=v.querySelector('img');if(im)im.onclick=function(){$('zi').src=v._u;$('zoom').classList.add('on')};
     $('pv-x').onclick=function(){$('ps').value='';S.file=null;v.className='pv'}});
   $('zoom').onclick=function(){this.classList.remove('on')};
-  $('go').onclick=primary;$('m-go').onclick=primary;$('go-wa').onclick=sendWhatsApp}
+  $('go').onclick=primary;$('m-go').onclick=primary;$('go-wa').onclick=sendWhatsApp;$('go-site').onclick=sendSite}
 function themeIcon(){var d=document.documentElement.getAttribute('data-theme')==='dark';$('theme').innerHTML=ic(d?'sun':'moon')}
 
 /* ── démarrage ── */
 (async function init(){
   S.cart=rd('wyk_cart').filter(function(c){return c&&c.id});
-  loadForm();setMode(S.mode);bind();
+  ccInit($('ccBox'),'cc');loadForm();setMode(S.mode);bind();
   S.lines=S.cart.map(function(c){return{key:c.key,id:c.id,name:clean(c.name),price:Number(c.price)||0,qty:Math.max(1,c.qty|0),img:c.img||null,size:c.size||null,color:c.color||null,pk:c.pk||null,cat:'',gone:false,sku:c.sku||null}});
   renderItems();renderSummary();
   if(S.geo){$('geo-ok').classList.add('on')}
