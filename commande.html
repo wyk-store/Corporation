@@ -617,7 +617,7 @@ function waMessage(ref,paidNote,share){
   var z=zone(),f=feeNow()||0,A=avail(),L=[],nb=A.reduce(function(s,l){return s+l.qty},0),K=function(k,v){return sc(k)+' : '+v};
   L.push(bd('Nouvelle commande')+' · '+bd('WYK'));
   if(ref)L.push(K('réf','`'+ref+'`'));
-  if(share){L.push(K('lien',share.pageUrl));L.push(K('brand',share.imgUrl))}
+  if(share)L.push(K('lien',share.pageUrl));
   L.push('','*'+bd(S.mode==='retrait'?'Retrait en boutique':'Livraison')+'*');
   L.push(K('client',$('name').value.trim()));L.push(K('tél',fullPhone()));
   if(S.user&&S.user.email)L.push(K('compte',S.user.email));
