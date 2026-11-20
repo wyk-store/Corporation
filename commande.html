@@ -591,20 +591,32 @@ function lineText(l,i){
   var fm=[];if(l.size)fm.push('Taille '+l.size);if(l.color)fm.push('Couleur '+colorName(l.color));if(l.pk)fm.push(l.pk.label+' (= '+(l.qty*l.pk.n)+' unités)');
   return (i+1)+'. *'+l.name+'*'+(l.cat?'  _'+l.cat+'_':'')+'\n'+(l.sku?'    Réf. : *'+l.sku+'*\n':'')+(fm.length?'    Format : '+fm.join(' · ')+'\n':'')+'    '+l.qty+' × '+fmt(l.price)+' = *'+fmt(l.price*l.qty)+'*\n    Voir : '+SITE+'/produit/'+encodeURIComponent(l.id)}
 function waMessage(ref,paidNote,share){
-  var z=zone(),f=feeNow()||0,A=avail(),L=[];
+  var z=zone(),f=feeNow()||0,A=avail(),L=[],nb=A.reduce(function(s,l){return s+l.qty},0),nm=$('name').value.trim();
+  /* 1. en-tête + liens du panier */
   L.push('*NOUVELLE COMMANDE — WYK*');if(ref)L.push('Réf. : *'+ref+'*');
-  if(share){if(share.imgUrl)L.push('Aperçu du panier : '+share.imgUrl);L.push('Panier en ligne : '+share.pageUrl)}
-  L.push('','*ARTICLES ('+A.reduce(function(s,l){return s+l.qty},0)+')*');
+  if(share){if(share.imgUrl)L.push('Aperçu du panier : '+share.imgUrl);L.push('Lien du panier : '+share.pageUrl)}
+  /* 2. client + livraison (champs pré-remplis ou saisis) */
+  L.push('',S.mode==='retrait'?'*RETRAIT EN BOUTIQUE*':'*LIVRAISON*');
+  L.push('Client : '+nm);L.push('Téléphone : '+fullPhone());
+  if(S.user&&S.user.email)L.push('Compte : '+S.user.email);
+  if(S.mode==='livraison'){
+    if(z)L.push('Zone : '+z.name+(z.eta?' ('+z.eta+')':''));
+    L.push('Adresse : '+$('addr').value.trim());
+    if($('landmark').value.trim())L.push('Repère : '+$('landmark').value.trim());
+    if(S.geo)L.push('Position : '+S.geo);
+    if($('slot').value)L.push('Créneau : '+$('slot').value);
+  }
+  if($('note').value.trim())L.push('Note : '+$('note').value.trim());
+  /* 3. panier détaillé */
+  L.push('','*PANIER ('+nb+' article'+(nb>1?'s':'')+')*');
   A.forEach(function(l,i){L.push(lineText(l,i))});
   L.push('','Sous-total : '+fmt(subtotal()));
   L.push(S.mode==='retrait'?'Retrait en boutique : gratuit':'Livraison'+(z?' ('+z.name+')':'')+' : '+(z?(f?fmt(f):'gratuite'):'à confirmer'));
-  L.push('*TOTAL : '+fmt(totalNow())+'*','');
-  L.push(S.mode==='retrait'?'*RETRAIT EN BOUTIQUE*':'*LIVRAISON*');
-  if(S.mode==='livraison'){if(z)L.push('Zone : '+z.name+(z.eta?' ('+z.eta+')':''));L.push('Adresse : '+$('addr').value.trim());if($('landmark').value.trim())L.push('Repère : '+$('landmark').value.trim());if(S.geo)L.push('Position : '+S.geo);if($('slot').value)L.push('Créneau : '+$('slot').value)}
-  L.push((S.mode==='retrait'?'Nom : ':'Réceptionne : ')+$('name').value.trim());L.push('Téléphone : '+fullPhone());
-  if($('note').value.trim())L.push('','*NOTE*',$('note').value.trim());
+  L.push('*TOTAL : '+fmt(totalNow())+'*');
+  /* 4. paiement */
   L.push('','*PAIEMENT*',paidNote||(S.method==='moncash'||S.method==='natcash'?PM[S.method].n+' — à confirmer':'À confirmer avec un conseiller'));
   L.push('','Merci !');return L.join('\n')}
+
 function waLink(t){return 'https://wa.me/'+WA+'?text='+encodeURIComponent(t)}
 function newRef(){var d=new Date(),p=function(n){return String(n).padStart(2,'0')};var a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r='';for(var i=0;i<4;i++)r+=a[Math.floor(Math.random()*a.length)];return 'WYK-'+String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+'-'+r}
 
@@ -721,7 +733,7 @@ async function makeOgCard(o,noImg){
 }
 function randCode(n){var a='abcdefghjkmnpqrstuvwxyz23456789',o='';try{var r=new Uint8Array(n);crypto.getRandomValues(r);for(var i=0;i<n;i++)o+=a[r[i]%a.length]}catch(e){for(var j=0;j<n;j++)o+=a[Math.floor(Math.random()*a.length)]}return o}
 /* crée le lien de panier : image d'aperçu + ligne en base. Retourne {code,pageUrl,imgUrl} ou null (jamais bloquant) */
-async function prepareShare(ref){
+async function prepareShare(ref,channel){
   try{
     var snap=cardData({ref:ref||''}),code=randCode(8),L=snap.lines;
     if(!L.length||!db)return null;
@@ -730,7 +742,10 @@ async function prepareShare(ref){
     if(blob){var up=await db.storage.from('cart-cards').upload(code+'.jpg',blob,{contentType:'image/jpeg'});if(!up.error)path=code+'.jpg'}
     var row={code:code,owner_name:$('name').value.trim()||null,mode:S.mode,zone:snap.zone,fee:feeNow()||0,total:snap.total,order_ref:ref||null,image_path:path,
       items:avail().map(function(l){return{id:l.id,sku:l.sku||null,name:l.name,qty:l.qty,price:l.price,size:l.size,color:l.color,color_name:l.color?colorName(l.color):null,pack:l.pk?l.pk.label:null,pack_n:l.pk?l.pk.n:null,img:l.img,category:l.cat||null}})};
-    var r=await db.from('shared_carts').insert(row);if(r.error)throw r.error;
+    var extra={phone:fullPhone(),address:S.mode==='livraison'?$('addr').value.trim():null,landmark:$('landmark').value.trim()||null,notes:fullNotes()||null,geo:S.geo||null,channel:channel||'whatsapp'};
+    var r=await db.from('shared_carts').insert(Object.assign({},row,extra));
+    if(r.error&&/column|schema/i.test(r.error.message||''))r=await db.from('shared_carts').insert(row);   /* SQL partie 5 pas encore passé */
+    if(r.error)throw r.error;
     return{code:code,pageUrl:SITE+'/panier?c='+code,imgUrl:path?(SUPA_URL+'/storage/v1/object/public/cart-cards/'+path):null};
   }catch(e){console.warn('share cart',e);return null}
 }
@@ -760,7 +775,7 @@ async function sendWhatsApp(){
   var w=window.open('about:blank','_blank');
   try{if(w)w.document.write('<meta name="viewport" content="width=device-width,initial-scale=1"><body style="font:16px system-ui;display:grid;place-items:center;height:90vh;color:#555">Préparation de votre panier…</body>')}catch(e){}
   $('go-t').textContent='Préparation du panier…';$('m-go-t').textContent='…';
-  var share=await withTimeout(prepareShare(ref),14000);
+  var share=await withTimeout(prepareShare(ref,'whatsapp'),14000);
   if(S.user){try{order=await makeOrder('whatsapp','whatsapp',ref,share&&share.code)}catch(e){console.warn('order',e);toast('Commande envoyée sur WhatsApp (suivi en ligne indisponible)')}}
   msg=waMessage(order||share?ref:'',null,share);
   var url=waLink(msg);if(w&&!w.closed)w.location.href=url;else location.href=url;
@@ -773,7 +788,7 @@ async function sendSite(){
   if(!S.user){location.href='/compte?next=commande';return}
   if(!check())return;if(S.busy)return;S.busy=true;
   $('go-site').disabled=true;$('go-site').querySelector('span').textContent='Envoi en cours…';
-  var ref=newRef(),share=await withTimeout(prepareShare(ref),14000);
+  var ref=newRef(),share=await withTimeout(prepareShare(ref,'site'),14000);
   try{
     await makeOrder(S.method==='whatsapp'?'whatsapp':'whatsapp','site',ref,share&&share.code);
     S.busy=false;
@@ -793,7 +808,7 @@ async function sendProof(){
   if(pc.shot&&!f)return bad('Joignez la capture d\'écran du paiement.');
   S.busy=true;$('go').disabled=true;$('m-go').disabled=true;$('go-t').textContent='Envoi en cours…';
   var ref=newRef();
-  var share=await withTimeout(prepareShare(ref),14000);
+  var share=await withTimeout(prepareShare(ref,'site'),14000);
   try{
     var o=await makeOrder(S.method,'site',ref,share&&share.code);
     var path=null;

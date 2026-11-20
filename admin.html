@@ -705,13 +705,18 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
 
 <!-- ═══════ COMMANDES ═══════ -->
 <div class="panel" id="panel-orders">
-  <div class="sec-hd"><h2>Commandes <em>en ligne</em></h2><div class="xp-seg"><button type="button" class="on" id="xpModeO" onclick="xpMode('o')">Commandes</button><button type="button" id="xpModeM" onclick="xpMode('m')">Messages<b id="xpMsgBadge" class="xp-badge" style="display:none">0</b></button></div></div>
+  <div class="sec-hd"><h2>Commandes <em>en ligne</em></h2><div class="xp-seg"><button type="button" class="on" id="xpModeO" onclick="xpMode('o')">Commandes</button><button type="button" id="xpModeM" onclick="xpMode('m')">Messages<b id="xpMsgBadge" class="xp-badge" style="display:none">0</b></button><button type="button" id="xpModeC" onclick="xpMode('c')">Paniers</button></div></div>
   <div id="xpOrders">
     <div class="xp-bar"><input class="xp-in" id="xpSearch" placeholder="Rechercher : référence, nom, téléphone…" oninput="xpRender()"><button type="button" class="xp-btn ghost" onclick="xpLoadOrders()">Actualiser</button></div>
     <div class="xp-chips" id="xpChips"></div>
     <div id="xpList" class="xp-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
   </div>
   <div id="xpMessages" style="display:none"><div id="xpThreads" class="xp-list"></div></div>
+  <div id="xpCartsBox" style="display:none">
+    <p class="xp-help">Historique de tous les paniers envoyés (avec ou sans compte) au moment de cliquer sur Commander. Utile pour relancer un client ou voir ce qui plaît.</p>
+    <div class="xp-bar"><input class="xp-in" id="xpCartSearch" placeholder="Rechercher : nom, téléphone, référence…" oninput="xpRenderCarts()"><button type="button" class="xp-btn ghost" onclick="xpLoadCarts()">Actualiser</button></div>
+    <div id="xpCarts" class="xp-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+  </div>
 </div>
 
 <!-- ═══════ LIVRAISON ═══════ -->
@@ -1846,7 +1851,25 @@ var XP={orders:[],proofs:{},msgs:[],open:{},filter:'all',draft:{},zones:[],pay:n
 function xe(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function xm(n){return Number(n||0).toLocaleString('fr')+' HTG'}
 function xd(t){return new Date(t).toLocaleString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}
-function xpMode(m){document.getElementById('xpOrders').style.display=m==='o'?'':'none';document.getElementById('xpMessages').style.display=m==='m'?'':'none';document.getElementById('xpModeO').classList.toggle('on',m==='o');document.getElementById('xpModeM').classList.toggle('on',m==='m');if(m==='m')xpRenderThreads()}
+function xpMode(m){var g=function(i){return document.getElementById(i)};g('xpOrders').style.display=m==='o'?'':'none';g('xpMessages').style.display=m==='m'?'':'none';g('xpCartsBox').style.display=m==='c'?'':'none';g('xpModeO').classList.toggle('on',m==='o');g('xpModeM').classList.toggle('on',m==='m');g('xpModeC').classList.toggle('on',m==='c');if(m==='m')xpRenderThreads();if(m==='c')xpLoadCarts()}
+/* ── historique des paniers ── */
+XP.carts=[];
+async function xpLoadCarts(){
+  var r=await db.from('shared_carts').select('*').order('created_at',{ascending:false}).limit(300);
+  if(r.error){document.getElementById('xpCarts').innerHTML='<div class="loading-box">Impossible de charger : '+xe(r.error.message)+'<br><small>Exécutez WYK-SQL-partie4.sql puis WYK-SQL-partie5.sql.</small></div>';return}
+  XP.carts=r.data||[];xpRenderCarts()}
+function xpRenderCarts(){
+  var q=(document.getElementById('xpCartSearch').value||'').toLowerCase().trim(),el=document.getElementById('xpCarts');
+  var L=XP.carts.filter(function(c){return !q||[c.owner_name,c.phone,c.order_ref,c.code,c.zone].join(' ').toLowerCase().indexOf(q)>-1});
+  if(!L.length){el.innerHTML='<div class="loading-box">Aucun panier.</div>';return}
+  el.innerHTML=L.map(function(c){
+    var it=Array.isArray(c.items)?c.items:[],nb=it.reduce(function(s,i){return s+(Number(i.qty)||1)},0);
+    return '<article class="xp-o" data-code="'+xe(c.code)+'"><div class="xp-oh" style="cursor:default"><div class="xp-mc" style="margin:0;background:none;padding:0"><div class="th">'+it.slice(0,3).map(function(i){return '<span>'+(i.img?'<img src="'+xe(i.img)+'" alt="">':'')+'</span>'}).join('')+'</div></div><div><b>'+xe(c.owner_name||'Visiteur')+(c.phone?' · '+xe(c.phone):'')+'</b><small>'+xd(c.created_at)+' · '+nb+' article'+(nb>1?'s':'')+' · '+xe(c.zone||'')+'</small><div><span class="xp-st '+(c.user_id?'c':'a')+'">'+(c.user_id?'Connecté':'Visiteur')+'</span>'+(c.order_ref?'<span class="xp-st b">'+xe(c.order_ref)+'</span>':'')+(c.channel?'<span class="xp-st e">'+xe(c.channel)+'</span>':'')+'</div></div><span class="tot">'+xm(c.total)+'</span></div>'+
+      '<div class="xp-acts" style="margin-top:8px"><a class="xp-btn sm ghost" href="/panier?c='+xe(c.code)+'" target="_blank" rel="noopener">Voir le panier</a><button type="button" class="xp-btn sm ghost" onclick="xpToggleCart(this)">Détails</button><button type="button" class="xp-btn sm no" onclick="xpDelCart(\''+xe(c.code)+'\')">Supprimer</button></div>'+
+      '<div class="xp-ob">'+it.map(function(i){var f=[];if(i.sku)f.push(i.sku);if(i.size)f.push('Taille '+i.size);if(i.color)f.push(i.color_name||i.color);if(i.pack)f.push(i.pack);return '<div class="xp-it">'+(i.img?'<img src="'+xe(i.img)+'" alt="">':'')+'<div><b>'+xe(i.name)+'</b><small>'+xe(f.join(' · '))+'</small><small>'+(i.qty||1)+' × '+xm(i.price)+'</small></div><div class="p">'+xm((i.price||0)*(i.qty||1))+'</div></div>'}).join('')+
+      '<div class="xp-kv">'+[['Adresse',c.address],['Repère',c.landmark],['Note',c.notes]].filter(function(x){return x[1]}).map(function(x){return '<div><span>'+x[0]+'</span><b>'+xe(x[1])+'</b></div>'}).join('')+(c.geo?'<div><span>Position</span><b><a href="'+xe(c.geo)+'" target="_blank" rel="noopener" style="color:var(--red)">Ouvrir dans Maps</a></b></div>':'')+'</div></div></article>'}).join('')}
+function xpToggleCart(btn){btn.closest('.xp-o').classList.toggle('open')}
+async function xpDelCart(code){if(!confirm('Supprimer ce panier de l\'historique ?'))return;var r=await db.from('shared_carts').delete().eq('code',code);if(r.error)return xpErr(r.error);XP.carts=XP.carts.filter(function(c){return c.code!==code});xpRenderCarts();showToast('Panier supprimé')}
 function xpErr(e){showToast('Erreur : '+((e&&e.message)||e),true)}
 
 /* ── commandes ── */
