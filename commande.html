@@ -208,7 +208,7 @@ svg.i.f{fill:currentColor;stroke:none}
 @keyframes sk{to{background-position:-200% 0}}
 
 @media(max-width:900px){
-  .wrap{grid-template-columns:1fr}
+  .wrap{grid-template-columns:minmax(0,1fr)}
   .sum{position:static}
   .sum .btn,.sum .trust{display:none}
   .mbar{display:flex}
@@ -238,6 +238,19 @@ svg.i.f{fill:currentColor;stroke:none}
 .ccp-l li b{margin-left:auto;font-weight:700;font-size:14.5px;letter-spacing:.01em}
 .ccp-l li.none{color:rgba(128,128,128,.9);justify-content:center;cursor:default}
 .inp .ccp-b{color:var(--t2)}
+/* ── plein écran réel sur mobile : on retire les marges latérales inutiles ── */
+html,body{overflow-x:clip;width:100%}
+@media(max-width:900px){.wrap{max-width:none}}
+@media(max-width:640px){
+  .top-in{padding:0 10px;gap:8px}
+  .steps{padding:12px 10px 2px}
+  .wrap{padding:8px 6px 0;gap:10px}
+  .card{padding:14px 12px;border-radius:16px;margin-bottom:10px}
+  .it{padding:10px;gap:12px}
+  .done{padding:0 6px;margin:12px auto}
+  .mbar{padding-left:12px;padding-right:12px}
+}
+@media(min-width:1280px){.wrap,.steps,.top-in{max-width:1240px}}
 </style>
 </head>
 <body>
@@ -590,33 +603,39 @@ function fullNotes(){var s=$('slot').value;return((S.mode==='livraison'&&s?'Cré
 function lineText(l,i){
   var fm=[];if(l.size)fm.push('Taille '+l.size);if(l.color)fm.push('Couleur '+colorName(l.color));if(l.pk)fm.push(l.pk.label+' (= '+(l.qty*l.pk.n)+' unités)');
   return (i+1)+'. *'+l.name+'*'+(l.cat?'  _'+l.cat+'_':'')+'\n'+(l.sku?'    Réf. : *'+l.sku+'*\n':'')+(fm.length?'    Format : '+fm.join(' · ')+'\n':'')+'    '+l.qty+' × '+fmt(l.price)+' = *'+fmt(l.price*l.qty)+'*\n    Voir : '+SITE+'/produit/'+encodeURIComponent(l.id)}
+/* mise en forme du message (gras mathématique + petites capitales) */
+var SC={a:'ᴀ',b:'ʙ',c:'ᴄ',d:'ᴅ',e:'ᴇ',f:'ғ',g:'ɢ',h:'ʜ',i:'ɪ',j:'ᴊ',k:'ᴋ',l:'ʟ',m:'ᴍ',n:'ɴ',o:'ᴏ',p:'ᴘ',q:'ǫ',r:'ʀ',s:'s',t:'ᴛ',u:'ᴜ',v:'ᴠ',w:'ᴡ',x:'x',y:'ʏ',z:'ᴢ'};
+function sc(t){return String(t).toLowerCase().normalize('NFD').replace(/[a-z]/g,function(c){return SC[c]})}
+function bd(t){return String(t).toUpperCase().normalize('NFD').replace(/[A-Z0-9]/g,function(c){var n=c.charCodeAt(0);return n>=65?String.fromCodePoint(0x1D5D4+n-65):String.fromCodePoint(0x1D7EC+n-48)})}
+function itemText(l,i){
+  var fm=[];if(l.size)fm.push('Taille '+l.size);if(l.color)fm.push(colorName(l.color));if(l.pk)fm.push(l.pk.label+' (= '+(l.qty*l.pk.n)+' u.)');
+  return String(i+1).padStart(2,'0')+'. *'+l.name+'*'+(l.cat?' — _'+l.cat+'_':'')+'\n'
+    +(fm.length?'    '+sc('format')+' : '+fm.join(' · ')+'\n':'')
+    +'    '+(l.sku?'`'+l.sku+'` · ':'')+l.qty+' × '+fmt(l.price)+' = *'+fmt(l.price*l.qty)+'*\n'
+    +'    '+SITE+'/produit/'+encodeURIComponent(l.id)}
 function waMessage(ref,paidNote,share){
-  var z=zone(),f=feeNow()||0,A=avail(),L=[],nb=A.reduce(function(s,l){return s+l.qty},0),nm=$('name').value.trim();
-  /* 1. en-tête + liens du panier */
-  L.push('*NOUVELLE COMMANDE — WYK*');if(ref)L.push('Réf. : *'+ref+'*');
-  if(share){if(share.imgUrl)L.push('Aperçu du panier : '+share.imgUrl);L.push('Lien du panier : '+share.pageUrl)}
-  /* 2. client + livraison (champs pré-remplis ou saisis) */
-  L.push('',S.mode==='retrait'?'*RETRAIT EN BOUTIQUE*':'*LIVRAISON*');
-  L.push('Client : '+nm);L.push('Téléphone : '+fullPhone());
-  if(S.user&&S.user.email)L.push('Compte : '+S.user.email);
+  var z=zone(),f=feeNow()||0,A=avail(),L=[],nb=A.reduce(function(s,l){return s+l.qty},0),K=function(k,v){return sc(k)+' : '+v};
+  L.push(bd('Nouvelle commande')+' · '+bd('WYK'));
+  if(ref)L.push(K('réf','`'+ref+'`'));
+  if(share){L.push(K('lien',share.pageUrl));L.push(K('brand',share.imgUrl))}
+  L.push('','*'+bd(S.mode==='retrait'?'Retrait en boutique':'Livraison')+'*');
+  L.push(K('client',$('name').value.trim()));L.push(K('tél',fullPhone()));
+  if(S.user&&S.user.email)L.push(K('compte',S.user.email));
   if(S.mode==='livraison'){
-    if(z)L.push('Zone : '+z.name+(z.eta?' ('+z.eta+')':''));
-    L.push('Adresse : '+$('addr').value.trim());
-    if($('landmark').value.trim())L.push('Repère : '+$('landmark').value.trim());
-    if(S.geo)L.push('Position : '+S.geo);
-    if($('slot').value)L.push('Créneau : '+$('slot').value);
+    if(z)L.push(K('zone',z.name+(z.eta?' ('+z.eta+')':'')));
+    L.push(K('adresse',$('addr').value.trim()));
+    if($('landmark').value.trim())L.push(K('repère',$('landmark').value.trim()));
+    if(S.geo)L.push(K('position',S.geo));
+    if($('slot').value)L.push(K('créneau',$('slot').value));
   }
-  if($('note').value.trim())L.push('Note : '+$('note').value.trim());
-  /* 3. panier détaillé */
-  L.push('','*PANIER ('+nb+' article'+(nb>1?'s':'')+')*');
-  A.forEach(function(l,i){L.push(lineText(l,i))});
-  L.push('','Sous-total : '+fmt(subtotal()));
-  L.push(S.mode==='retrait'?'Retrait en boutique : gratuit':'Livraison'+(z?' ('+z.name+')':'')+' : '+(z?(f?fmt(f):'gratuite'):'à confirmer'));
-  L.push('*TOTAL : '+fmt(totalNow())+'*');
-  /* 4. paiement */
-  L.push('','*PAIEMENT*',paidNote||(S.method==='moncash'||S.method==='natcash'?PM[S.method].n+' — à confirmer':'À confirmer avec un conseiller'));
-  L.push('','Merci !');return L.join('\n')}
-
+  if($('note').value.trim())L.push(K('note',$('note').value.trim()));
+  L.push('','*'+bd('Panier')+' ('+nb+' '+sc('article'+(nb>1?'s':''))+')*');
+  A.forEach(function(l,i){L.push(itemText(l,i),'')});
+  L.push(K('sous-total',fmt(subtotal())));
+  L.push(S.mode==='retrait'?K('retrait','Gratuit'):sc('livraison')+(z?' ('+z.name+')':'')+' : '+(z?(f?fmt(f):'Gratuite'):'à confirmer'));
+  L.push('*'+bd('Total')+' : '+fmt(totalNow())+'*');
+  L.push('','*'+bd('Paiement')+'*',paidNote||(S.method==='moncash'||S.method==='natcash'?PM[S.method].n+' — à confirmer':'À confirmer avec un conseiller'));
+  return L.join('\n')}
 function waLink(t){return 'https://wa.me/'+WA+'?text='+encodeURIComponent(t)}
 function newRef(){var d=new Date(),p=function(n){return String(n).padStart(2,'0')};var a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r='';for(var i=0;i<4;i++)r+=a[Math.floor(Math.random()*a.length)];return 'WYK-'+String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+'-'+r}
 
@@ -696,58 +715,20 @@ async function makeCard(o,noImg){
 }
 async function safeCard(o){var r=await makeCard(o,false);if(!r)r=await makeCard(o,true);return r}
 
-/* ── image d'aperçu du lien (1200×630, grand format rectangle) ── */
-async function makeOgCard(o,noImg){
-  var L=o.lines,W=1200,H=630,imgs=await Promise.all(L.slice(0,4).map(function(l){return noImg?null:loadImg(l.img)})),logo=noImg?null:await loadImg('/assets/brand/wyk-logo-secondaire-transparent.png');
-  var cv=document.createElement('canvas');cv.width=W;cv.height=H;var c=cv.getContext('2d');
-  var F=function(w,s){return w+' '+s+'px "Bricolage Grotesque","Inter",system-ui,sans-serif'};
-  var g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,'#fbfaf7');g.addColorStop(1,'#ecebe5');c.fillStyle=g;c.fillRect(0,0,W,H);
-  /* bande rouge + forme décorative */
-  c.fillStyle='#e8192c';c.fillRect(0,0,W,14);
-  c.save();c.fillStyle='rgba(232,25,44,.07)';c.beginPath();c.moveTo(560,H);c.lineTo(760,0);c.lineTo(1040,0);c.lineTo(840,H);c.closePath();c.fill();c.restore();
-  /* produits superposés (à gauche) */
-  var n=Math.min(4,L.length),sz=n>2?250:290,step=n>1?Math.min(sz*.5,(520-sz)/(n-1)+20):0,x0=60+(520-(sz+step*(n-1)))/2,y0=150;
-  for(var i=n-1;i>=0;i--){
-    var rot=(i-(n-1)/2)*.09,cx=x0+step*i+sz/2,cy=y0+sz/2+(i%2?34:0);
-    c.save();c.translate(cx,cy);c.rotate(rot);c.shadowColor='rgba(0,0,0,.3)';c.shadowBlur=34;c.shadowOffsetY=14;
-    rr(c,-sz/2-9,-sz/2-9,sz+18,sz+18,36);c.fillStyle='#fff';c.fill();c.shadowColor='transparent';
-    drawContain(c,imgs[i],-sz/2,-sz/2,sz,sz,28);
-    var q=L[i].qty;if(q>1){c.beginPath();c.arc(sz/2-12,-sz/2+12,30,0,7);c.fillStyle='#e8192c';c.fill();c.fillStyle='#fff';c.font=F(800,25);c.textAlign='center';c.fillText('×'+q,sz/2-12,-sz/2+21);c.textAlign='left'}
-    c.restore();
-  }
-  if(L.length>n){c.fillStyle='#101010';c.beginPath();c.arc(560,y0+sz+30,38,0,7);c.fill();c.fillStyle='#fff';c.font=F(800,26);c.textAlign='center';c.fillText('+'+(L.length-n),560,y0+sz+39);c.textAlign='left'}
-  /* texte (à droite) */
-  var tx=640;
-  if(logo){var lh=64,lw=logo.width*lh/logo.height;c.drawImage(logo,tx,52,lw,lh)}else{c.fillStyle='#101010';c.font=F(800,52);c.fillText('WYK',tx,100)}
-  c.fillStyle='#6b6a64';c.font=F(600,24);c.fillText('PANIER PARTAGÉ',tx,170);
-  c.fillStyle='#101010';c.font=F(800,58);
-  var nm='Panier de '+o.owner,lines=[nm];
-  if(c.measureText(nm).width>520){var w=nm.split(' '),a='',b='';w.forEach(function(x){if(c.measureText((a+' '+x).trim()).width<520&&!b)a=(a+' '+x).trim();else b=(b+' '+x).trim()});lines=[a,fit(c,b,520)]}
-  lines.forEach(function(t,i){c.fillText(t,tx,238+i*66)});
-  var yy=238+lines.length*66+8,cnt=L.reduce(function(s,l){return s+l.qty},0);
-  c.fillStyle='#6b6a64';c.font=F(600,28);c.fillText(cnt+' article'+(cnt>1?'s':'')+'  ·  '+o.date,tx,yy+14);
-  c.fillStyle='#e8192c';c.font=F(800,64);c.fillText(fmt(o.total),tx,yy+104);
-  c.fillStyle='#101010';rr(c,tx,yy+140,330,64,32);c.fill();c.fillStyle='#fff';c.font=F(700,26);c.textAlign='center';c.fillText('Voir le panier  →',tx+165,yy+181);c.textAlign='left';
-  c.fillStyle='#8a8982';c.font=F(600,22);c.fillText('wykht.com',tx,H-40);
-  return new Promise(function(res){try{cv.toBlob(function(b){res(b)},'image/jpeg',.88)}catch(e){res(null)}})
-}
 function randCode(n){var a='abcdefghjkmnpqrstuvwxyz23456789',o='';try{var r=new Uint8Array(n);crypto.getRandomValues(r);for(var i=0;i<n;i++)o+=a[r[i]%a.length]}catch(e){for(var j=0;j<n;j++)o+=a[Math.floor(Math.random()*a.length)]}return o}
-/* crée le lien de panier : image d'aperçu + ligne en base. Retourne {code,pageUrl,imgUrl} ou null (jamais bloquant) */
-async function prepareShare(ref,channel){
+/* lien de panier : le code est généré tout de suite (aucune attente) ; l'enregistrement en base se fait en arrière-plan */
+var COVER=SITE+'/couverture-panier.png';
+function newShare(){var c=randCode(8);return{code:c,pageUrl:SITE+'/panier?c='+c,imgUrl:COVER}}
+async function saveShare(share,ref,channel){
   try{
-    var snap=cardData({ref:ref||''}),code=randCode(8),L=snap.lines;
-    if(!L.length||!db)return null;
-    var blob=await makeOgCard({lines:L,owner:($('name').value.trim()||'Client WYK'),total:snap.total,date:snap.date});
-    var path=null;
-    if(blob){var up=await db.storage.from('cart-cards').upload(code+'.jpg',blob,{contentType:'image/jpeg'});if(!up.error)path=code+'.jpg'}
-    var row={code:code,owner_name:$('name').value.trim()||null,mode:S.mode,zone:snap.zone,fee:feeNow()||0,total:snap.total,order_ref:ref||null,image_path:path,
+    var snap=cardData({ref:ref||''});if(!snap.lines.length||!db)return false;
+    var row={code:share.code,owner_name:$('name').value.trim()||null,mode:S.mode,zone:snap.zone,fee:feeNow()||0,total:snap.total,order_ref:ref||null,image_path:null,
       items:avail().map(function(l){return{id:l.id,sku:l.sku||null,name:l.name,qty:l.qty,price:l.price,size:l.size,color:l.color,color_name:l.color?colorName(l.color):null,pack:l.pk?l.pk.label:null,pack_n:l.pk?l.pk.n:null,img:l.img,category:l.cat||null}})};
     var extra={phone:fullPhone(),address:S.mode==='livraison'?$('addr').value.trim():null,landmark:$('landmark').value.trim()||null,notes:fullNotes()||null,geo:S.geo||null,channel:channel||'whatsapp'};
     var r=await db.from('shared_carts').insert(Object.assign({},row,extra));
     if(r.error&&/column|schema/i.test(r.error.message||''))r=await db.from('shared_carts').insert(row);   /* SQL partie 5 pas encore passé */
-    if(r.error)throw r.error;
-    return{code:code,pageUrl:SITE+'/panier?c='+code,imgUrl:path?(SUPA_URL+'/storage/v1/object/public/cart-cards/'+path):null};
-  }catch(e){console.warn('share cart',e);return null}
+    if(r.error)throw r.error;return true;
+  }catch(e){console.warn('share cart',e);return false}
 }
 function withTimeout(p,ms){return Promise.race([p,new Promise(function(r){setTimeout(function(){r(null)},ms)})])}
 
@@ -770,17 +751,14 @@ function cardData(opts){var z=zone(),f=feeNow()||0,A=avail();
 async function sendWhatsApp(){
   if(!check())return;
   if(S.busy)return;S.busy=true;
-  var ref=newRef(),msg,order=null;
-  /* ouvre WhatsApp tout de suite (les navigateurs bloquent les fenêtres ouvertes après un await) */
-  var w=window.open('about:blank','_blank');
-  try{if(w)w.document.write('<meta name="viewport" content="width=device-width,initial-scale=1"><body style="font:16px system-ui;display:grid;place-items:center;height:90vh;color:#555">Préparation de votre panier…</body>')}catch(e){}
-  $('go-t').textContent='Préparation du panier…';$('m-go-t').textContent='…';
-  var share=await withTimeout(prepareShare(ref,'whatsapp'),14000);
-  if(S.user){try{order=await makeOrder('whatsapp','whatsapp',ref,share&&share.code)}catch(e){console.warn('order',e);toast('Commande envoyée sur WhatsApp (suivi en ligne indisponible)')}}
-  msg=waMessage(order||share?ref:'',null,share);
-  var url=waLink(msg);if(w&&!w.closed)w.location.href=url;else location.href=url;
+  /* TOUT est prêt de façon synchrone : WhatsApp s'ouvre dans le même geste (clic) → l'application s'ouvre directement, sans page intermédiaire */
+  var ref=newRef(),share=newShare(),url=waLink(waMessage(ref,null,share)),acct=!!S.user;
+  var w=null;try{w=window.open(url,'_blank')}catch(e){}
+  /* enregistrements en arrière-plan (la page reste ouverte derrière WhatsApp) */
+  var pCart=saveShare(share,ref,'whatsapp'),pOrder=S.user?makeOrder('whatsapp','whatsapp',ref,share.code).catch(function(e){console.warn('order',e);toast('Suivi en ligne indisponible pour cette commande');return null}):Promise.resolve(null);
+  if(!w){await withTimeout(Promise.all([pCart,pOrder]),4000);location.href=url}   /* fenêtre bloquée : on redirige après l'enregistrement */
   S.busy=false;
-  finish({title:'Commande transmise',text:'Votre commande a été préparée sur WhatsApp. Envoyez le message pour la valider : un conseiller vous répond.',ref:order||share?ref:'',account:!!order,wa:'Bonjour WYK, je viens d\'envoyer ma commande'+(order||share?' '+ref:'')+'.'+(share?' Panier : '+share.pageUrl:''),
+  finish({title:'Commande transmise',text:'Votre commande est prête dans WhatsApp. Envoyez le message pour la valider : un conseiller vous répond.',ref:ref,account:acct,wa:'Bonjour WYK, je viens d\'envoyer ma commande '+ref+'.\nLien : '+share.pageUrl,
     steps:[['Commande préparée','Message WhatsApp avec tout le détail'],['Confirmation','Un conseiller confirme les articles et le paiement'],['Livraison','Vous êtes livré à l\'adresse indiquée']]})}
 
 /* connecté : envoyer le panier directement sur le site (sans passer par WhatsApp) */
@@ -788,7 +766,7 @@ async function sendSite(){
   if(!S.user){location.href='/compte?next=commande';return}
   if(!check())return;if(S.busy)return;S.busy=true;
   $('go-site').disabled=true;$('go-site').querySelector('span').textContent='Envoi en cours…';
-  var ref=newRef(),share=await withTimeout(prepareShare(ref,'site'),14000);
+  var ref=newRef(),share=newShare();await withTimeout(saveShare(share,ref,'site'),6000);
   try{
     await makeOrder(S.method==='whatsapp'?'whatsapp':'whatsapp','site',ref,share&&share.code);
     S.busy=false;
@@ -808,9 +786,9 @@ async function sendProof(){
   if(pc.shot&&!f)return bad('Joignez la capture d\'écran du paiement.');
   S.busy=true;$('go').disabled=true;$('m-go').disabled=true;$('go-t').textContent='Envoi en cours…';
   var ref=newRef();
-  var share=await withTimeout(prepareShare(ref,'site'),14000);
+  var share=newShare();await withTimeout(saveShare(share,ref,'site'),6000);
   try{
-    var o=await makeOrder(S.method,'site',ref,share&&share.code);
+    var o=await makeOrder(S.method,'site',ref,share.code);
     var path=null;
     if(f){var file=await shrink(f),ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'');path=S.user.id+'/'+o.id+'-'+Date.now()+'.'+ext;
       var up=await db.storage.from('proofs').upload(path,file,{contentType:file.type||undefined});if(up.error)throw up.error}
