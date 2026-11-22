@@ -437,6 +437,28 @@ select.form-input{cursor:pointer}
 .pg>summary b{background:var(--red-s,rgba(232,25,44,.1));color:var(--red);border-radius:20px;padding:1px 8px;font-size:.62rem}
 .sku-t{display:inline-block;margin-left:7px;padding:1px 8px;border-radius:20px;background:var(--s2);color:var(--t3);font:700 .6rem 'DM Sans',sans-serif;letter-spacing:.05em;vertical-align:middle}
 .prod-tools{display:flex;gap:8px;margin-bottom:10px}.prod-tools input{flex:1}
+
+.icon-grid{grid-template-columns:repeat(auto-fill,minmax(92px,1fr))!important;gap:10px!important;max-height:min(420px,52vh)!important;padding:4px 2px!important}
+.icon-cell{border-radius:16px!important;padding:12px 6px 9px!important;gap:7px!important;min-height:106px;background:var(--surface)!important;border:1.5px solid var(--bdr)!important;box-shadow:none!important;transition:transform .15s,border-color .15s,background .15s!important}
+.icon-cell:hover{transform:translateY(-2px);border-color:var(--red)!important}
+.icon-cell img{width:54px!important;height:54px!important}
+.icon-cell span{font-size:.68rem!important;font-weight:600;color:var(--t2)!important;white-space:normal!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;min-height:1.7em}
+.icon-cell.selected{background:var(--red-s)!important;border-color:var(--red)!important;box-shadow:0 0 0 2px var(--red)!important}
+.icon-lib-tabs{flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}.icon-lib-tabs::-webkit-scrollbar{display:none}
+.icon-lib-tab{white-space:nowrap;padding:7px 13px!important;font-size:.76rem!important}
+.icon-bar{display:flex;gap:8px;align-items:center;margin-bottom:10px}.icon-bar .form-input{flex:1}.icon-bar small{color:var(--t3);font-size:.7rem;white-space:nowrap}
+.icon-none{grid-column:1/-1;text-align:center;color:var(--t3);font-size:.8rem;padding:28px 0}
+.icon-selected-preview img{width:56px!important;height:56px!important}
+#catModal .modal-sheet{max-width:680px}
+
+.h-link{display:inline-flex;align-items:center;padding:9px 14px;border-radius:12px;background:var(--red);color:#fff;font-weight:700;font-size:.72rem;text-decoration:none;white-space:nowrap;margin-right:8px;box-shadow:0 6px 16px rgba(232,25,44,.3)}
+.fe-prods{max-height:340px;overflow-y:auto;display:grid;gap:6px;overscroll-behavior:contain}
+.fe-p{display:flex;gap:10px;align-items:center;padding:8px;border-radius:13px;border:1.5px solid var(--bdr);background:var(--surface);cursor:pointer;text-align:left;width:100%}
+.fe-p img{width:44px;height:44px;border-radius:10px;object-fit:cover;background:var(--s2);flex:none}.fe-p b{font-size:.78rem;display:block}.fe-p small{font-size:.66rem;color:var(--t3)}
+.fe-p .ck{margin-left:auto;width:22px;height:22px;border-radius:7px;border:2px solid var(--bdr2);display:grid;place-items:center;flex:none}.fe-p.on{border-color:var(--red);background:var(--red-s)}.fe-p.on .ck{background:var(--red);border-color:var(--red)}.fe-p.on .ck::after{content:"✓";color:#fff;font-size:.8rem;font-weight:800}
+.fe-i{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--bdr);border-radius:16px;padding:12px}.fe-i .em{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:1.5rem;flex:none}
+.fe-i b{font-size:.86rem;display:block}.fe-i small{font-size:.68rem;color:var(--t3);display:block}.fe-i .acts{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:560px){.h-link{padding:8px 10px;margin-right:4px}.fe-i{flex-wrap:wrap}.fe-i .acts{margin-left:0;width:100%;justify-content:flex-start}}
 </style>
 <style id="wyk-nm">
 /* ===== WYK dashboard : néomorphisme doux + verre ===== */
@@ -554,6 +576,7 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
     <span class="h-badge">ADMIN</span>
   </div>
   <div class="h-right">
+    <a class="h-link" href="/restolakay?edit=1" target="_blank" rel="noopener" title="Ouvrir Resto Lakay en mode éditeur">Resto Lakay</a>
     <button class="theme-btn" onclick="toggleTheme()">
       <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
       <svg class="icon-moon" viewBox="0 0 24 24"><path stroke-linecap="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
@@ -602,6 +625,9 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
   </div>
   <div class="tab" onclick="switchTab('zones',this)">
     <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7.5" cy="18" r="2"/><circle cx="17.5" cy="18" r="2"/></svg>Livraison
+  </div>
+  <div class="tab" onclick="switchTab('fetes',this)">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>Fêtes
   </div>
   <div class="tab" onclick="switchTab('paycfg',this)">
     <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7a2 2 0 012-2h13v4M3 7v11a2 2 0 002 2h15V9H5a2 2 0 01-2-2z"/><circle cx="16.5" cy="14.5" r="1.2"/></svg>Paiement
@@ -743,6 +769,44 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
     </div>
     <label>Aide dans le champ « Note »<input class="xp-in" id="ckHint" placeholder="Ex : étage, appeler avant d'arriver…"></label>
     <button type="button" class="xp-btn" onclick="xpSaveCheckout()">Enregistrer</button>
+  </div>
+</div>
+
+<!-- ═══════ FÊTES ═══════ -->
+<div class="panel" id="panel-fetes">
+  <div class="sec-hd"><h2>Périodes de <em>fête</em></h2><button type="button" class="xp-btn" onclick="feNew()">+ Nouvelle fête</button></div>
+  <p class="xp-help">Chaque période de fête (Saint-Valentin, Noël, Pâques…) a sa <b>page créée automatiquement</b> à l'adresse <b>wykht.com/nom-de-la-fête</b>. Choisissez les produits, un titre et une description : la page, ses zones d'images et sa mise en page sont prêtes. Connecté en admin, ouvrez la page puis « Mode éditeur » pour modifier les sections.</p>
+  <div class="xp-card" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:200px"><b style="font-size:.9rem">Resto Lakay</b><div style="font-size:.72rem;color:var(--t3)">wykht.com/restolakay — plats, boissons, desserts, spécialités</div></div><a class="xp-btn ghost" href="/restolakay" target="_blank" rel="noopener">Voir la page</a><a class="xp-btn" href="/restolakay?edit=1" target="_blank" rel="noopener">Mode éditeur</a></div>
+  <div id="feList" class="xp-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+</div>
+
+<!-- ═══════ MODALE FÊTE ═══════ -->
+<div class="modal-ov" id="feModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-head"><div class="modal-title" id="feModalTitle">Nouvelle période de fête</div><button class="modal-cls" onclick="closeModal('feModal')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="modal-body">
+      <input type="hidden" id="fe-orig">
+      <section class="pm-sec"><h4><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h10"/></svg>Informations</h4>
+        <div class="form-row"><div class="form-group"><label class="form-lbl">Titre *</label><input class="form-input" type="text" id="fe-title" placeholder="Ex : Saint-Valentin" oninput="feTitleInput()"></div>
+        <div class="form-group"><label class="form-lbl">Emoji</label><input class="form-input" type="text" id="fe-emoji" placeholder="💝" maxlength="4"></div></div>
+        <div class="form-group"><label class="form-lbl">Adresse de la page</label><div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;opacity:.65;white-space:nowrap">wykht.com/</span><input class="form-input" type="text" id="fe-slug" placeholder="saint-valentin" oninput="feSlugTouched=true;this.value=feSlugify(this.value)"></div><div class="form-hint" id="fe-slug-hint">Créée automatiquement avec le titre. Lettres, chiffres et tirets.</div></div>
+        <div class="form-group"><label class="form-lbl">Sous-titre (accroche)</label><input class="form-input" type="text" id="fe-sub" placeholder="Offrez de belles attentions"></div>
+        <div class="form-group" style="margin-bottom:0"><label class="form-lbl">Description</label><textarea class="form-input" id="fe-desc" placeholder="Présentez la fête en quelques phrases…" style="min-height:90px"></textarea></div>
+      </section>
+      <section class="pm-sec"><h4><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3a9 9 0 100 18 9 9 0 000-18zM12 8v4l3 2"/></svg>Style &amp; dates</h4>
+        <div class="form-row"><div class="form-group"><label class="form-lbl">Couleur de la fête</label><input class="form-input" type="color" id="fe-accent" value="#e11d48" style="height:46px;padding:4px"></div>
+        <div class="form-group"><label class="form-lbl">Image d'en-tête</label><input class="form-input" type="text" id="fe-img" placeholder="https://… (ou téléverser)"><input type="file" id="fe-file" accept="image/*" style="margin-top:6px;font-size:.72rem"></div></div>
+        <div class="form-row"><div class="form-group"><label class="form-lbl">Début (facultatif)</label><input class="form-input" type="date" id="fe-start"></div><div class="form-group"><label class="form-lbl">Fin (facultatif)</label><input class="form-input" type="date" id="fe-end"></div></div>
+        <div class="form-hint">Après la date de fin, la fête disparaît automatiquement de l'accueil et de la page catégories.</div>
+      </section>
+      <section class="pm-sec"><h4><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8l-9-5-9 5 9 5zM3 8v8l9 5 9-5V8"/></svg>Produits de la fête <b id="fe-count" style="color:var(--red)"></b></h4>
+        <input class="form-input" type="search" id="fe-search" placeholder="Rechercher un produit…" oninput="feRenderProds()" style="margin-bottom:8px">
+        <div id="fe-prods" class="fe-prods"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+      </section>
+      <div class="pm-save"><div class="toggle-row" style="margin-bottom:10px"><span class="toggle-lbl">Page active (visible sur le site)</span><label class="toggle"><input type="checkbox" id="fe-active" checked><div class="toggle-track"></div></label></div>
+      <button class="btn-submit" id="fe-submit" onclick="feSave()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Enregistrer la fête</button></div>
+    </div>
   </div>
 </div>
 
@@ -1139,7 +1203,7 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
           <div class="form-group"><label class="form-lbl">Référence (SKU)</label><div class="sku-wrap"><input class="form-input" type="text" id="prod-sku" placeholder="Auto : WYK-FE01" maxlength="24" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'');this.dataset.auto='0'"><button type="button" class="sku-gen" onclick="skuAuto(true)" title="Générer automatiquement"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v6h6M20 20v-6h-6M20 9A8 8 0 006 6.3M4 15a8 8 0 0014 2.7"/></svg></button></div></div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label class="form-lbl">Catégorie</label><select class="form-input" id="prod-category" onchange="skuAuto(false)"><option value="">Aucune catégorie</option></select></div>
+          <div class="form-group"><label class="form-lbl">Catégorie</label><select class="form-input" id="prod-category" onchange="skuAuto(false);restoToggle()"><option value="">Aucune catégorie</option></select></div>
           <div class="form-group"><label class="form-lbl">Badge</label><select class="form-input" id="prod-badge"><option value="">Aucun</option><option value="new">NOUVEAU</option><option value="promo">PROMO</option><option value="pop">POPULAIRE ⭐</option></select></div>
         </div>
         <div class="form-group" style="margin-bottom:0"><label class="form-lbl">Description</label><textarea class="form-input" id="prod-desc" placeholder="Description du produit…" style="min-height:64px"></textarea></div>
@@ -1223,6 +1287,15 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
         <input type="color" id="color-picker" style="display:none" onchange="confirmColor(this.value)">
       </div>
       </section>
+      <section class="pm-sec" id="pm-resto" style="display:none">
+        <h4><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3v7a3 3 0 003 3v8M6 3v6M9 3v7a3 3 0 01-3 3M17 3c-2 0-3 2-3 5s1 5 3 5v8"/></svg>Détails restauration <small style="font-weight:600;letter-spacing:0;text-transform:none">(affichés sur la fiche du plat)</small></h4>
+        <div class="form-row"><div class="form-group"><label class="form-lbl">Type</label><select class="form-input" id="rx-kind"><option value="plat">Plat</option><option value="boisson">Boisson</option><option value="dessert">Dessert</option><option value="sucrerie">Sucrerie</option><option value="fete">Spécial fêtes</option></select></div>
+        <div class="form-group"><label class="form-lbl">Niveau de piment</label><select class="form-input" id="rx-spice"><option value="0">Aucun</option><option value="1">Doux</option><option value="2">Relevé</option><option value="3">Très épicé</option></select></div></div>
+        <div class="form-group"><label class="form-lbl">Ingrédients <small>(séparés par des virgules)</small></label><textarea class="form-input" id="rx-ing" placeholder="Porc, ail, thym, citron, piment…" style="min-height:64px"></textarea></div>
+        <div class="form-group"><label class="form-lbl">Saveurs <small>(séparées par des virgules)</small></label><input class="form-input" type="text" id="rx-fla" placeholder="Savoureux, Relevé, Citronné"></div>
+        <div class="form-row"><div class="form-group"><label class="form-lbl">Préparation</label><input class="form-input" type="text" id="rx-time" placeholder="20 min"></div><div class="form-group"><label class="form-lbl">Portion</label><input class="form-input" type="text" id="rx-por" placeholder="1 personne / 33 cl"></div></div>
+        <div class="form-group" style="margin-bottom:0"><label class="form-lbl">Allergènes</label><input class="form-input" type="text" id="rx-all" placeholder="Gluten, œufs, arachides…"></div>
+      </section>
       <section class="pm-sec">
         <h4><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.6-4.6a2 2 0 012.8 0L16 16m-2-2l1.6-1.6a2 2 0 012.8 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>Images</h4>
       <div class="form-group">
@@ -1262,6 +1335,8 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
         <label class="form-lbl">Description</label>
         <input class="form-input" type="text" id="cat-desc" placeholder="Courte description…">
       </div>
+      <div class="toggle-row" style="margin-bottom:6px"><span class="toggle-lbl">Catégorie restauration (page Resto Lakay)</span><label class="toggle"><input type="checkbox" id="cat-resto"><div class="toggle-track"></div></label></div>
+      <div class="form-hint" style="margin-bottom:14px">Activé : ses produits ne s'affichent plus sur l'accueil, seule l'icône mène à <b>wykht.com/restolakay</b>.</div>
       <div class="form-group">
         <label class="form-lbl">Adresse de la page</label>
         <div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;opacity:.65;white-space:nowrap">wykht.com/categorie?c=</span><input class="form-input" type="text" id="cat-slug" placeholder="auto, ex: mode" oninput="slugTouched=true;this.value=catSlugify(this.value);updateSlugPrev()" style="flex:1"></div>
@@ -1294,7 +1369,7 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
 
       <!-- ICON SECTION -->
       <div class="form-group">
-        <label class="form-lbl">Icône PNG (bibliothèque ou URL)</label>
+        <label class="form-lbl">Icône de la catégorie (bibliothèque ou lien)</label>
         <div style="display:flex;gap:8px;margin-bottom:10px">
           <button id="iconTabLib" class="icon-lib-tab on" onclick="switchIconTab('lib')">📚 Bibliothèque</button>
           <button id="iconTabUrl" class="icon-lib-tab" onclick="switchIconTab('url')">🔗 Coller un lien</button>
@@ -1302,6 +1377,7 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
 
         <!-- Library -->
         <div id="iconLibPanel">
+          <div class="icon-bar"><input class="form-input" type="search" id="iconSearch" placeholder="Rechercher une icône : robe, pizza, téléphone…" oninput="iconSearch(this.value)"><small id="iconCount"></small></div>
           <div class="icon-lib-tabs" id="iconCatTabs"></div>
           <div class="icon-grid" id="iconGrid"></div>
         </div>
@@ -1630,97 +1706,47 @@ const db=createClient(SUPA_URL,SUPA_KEY);
 // ══════════════════════════════════════════
 // ICON LIBRARY DATA
 // ══════════════════════════════════════════
-const ICON_CATEGORIES = {
-  'Mode': [
-    {name:'Homme',url:'https://cdn-icons-png.flaticon.com/128/2922/2922561.png'},
-    {name:'Femme',url:'https://cdn-icons-png.flaticon.com/128/2922/2922510.png'},
-    {name:'Enfant',url:'https://cdn-icons-png.flaticon.com/128/2922/2922688.png'},
-    {name:'Bébé',url:'https://cdn-icons-png.flaticon.com/128/3069/3069172.png'},
-    {name:'Vêtements',url:'https://cdn-icons-png.flaticon.com/128/2331/2331970.png'},
-    {name:'Chaussures',url:'https://cdn-icons-png.flaticon.com/128/2589/2589054.png'},
-    {name:'Maillot',url:'https://cdn-icons-png.flaticon.com/128/706/706164.png'},
-    {name:'Pantalon',url:'https://cdn-icons-png.flaticon.com/128/3345/3345394.png'},
-    {name:'Short',url:'https://cdn-icons-png.flaticon.com/128/6397/6397041.png'},
-    {name:'Pull',url:'https://cdn-icons-png.flaticon.com/128/2331/2331978.png'},
-    {name:'Sous-vêt. H',url:'https://cdn-icons-png.flaticon.com/128/4221/4221433.png'},
-    {name:'Sous-vêt. F',url:'https://cdn-icons-png.flaticon.com/128/4221/4221425.png'},
-    {name:'Chaussettes',url:'https://cdn-icons-png.flaticon.com/128/2589/2589150.png'},
-    {name:'Montre',url:'https://cdn-icons-png.flaticon.com/128/2972/2972531.png'},
-    {name:'Accessoires',url:'https://cdn-icons-png.flaticon.com/128/1294/1294923.png'},
-  ],
-  'Tech': [
-    {name:'Téléphones',url:'https://cdn-icons-png.flaticon.com/128/186/186240.png'},
-    {name:'iPhone',url:'https://cdn-icons-png.flaticon.com/128/0/747.png'},
-    {name:'Ventilateur',url:'https://cdn-icons-png.flaticon.com/128/1585/1585388.png'},
-    {name:'Réparation',url:'https://cdn-icons-png.flaticon.com/128/2092/2092693.png'},
-    {name:'Ordinateur',url:'https://cdn-icons-png.flaticon.com/128/689/689396.png'},
-    {name:'TV',url:'https://cdn-icons-png.flaticon.com/128/1384/1384053.png'},
-  ],
-  'Maison': [
-    {name:'Lit',url:'https://cdn-icons-png.flaticon.com/128/3094/3094837.png'},
-    {name:'Canapé',url:'https://cdn-icons-png.flaticon.com/128/3094/3094853.png'},
-    {name:'Cuisine',url:'https://cdn-icons-png.flaticon.com/128/3094/3094812.png'},
-    {name:'Déco',url:'https://cdn-icons-png.flaticon.com/128/3094/3094840.png'},
-  ],
-  'Loisirs': [
-    {name:'Jouets',url:'https://cdn-icons-png.flaticon.com/128/3669/3669596.png'},
-    {name:'Livre',url:'https://cdn-icons-png.flaticon.com/128/2702/2702154.png'},
-    {name:'Fitness',url:'https://cdn-icons-png.flaticon.com/128/2964/2964514.png'},
-    {name:'Jeux',url:'https://cdn-icons-png.flaticon.com/128/686/686589.png'},
-  ],
-  'Food': [
-    {name:'Repas',url:'https://cdn-icons-png.flaticon.com/128/1046/1046784.png'},
-    {name:'Fast-food',url:'https://cdn-icons-png.flaticon.com/128/3075/3075977.png'},
-    {name:'Plat',url:'https://cdn-icons-png.flaticon.com/128/857/857681.png'},
-    {name:'Boisson',url:'https://cdn-icons-png.flaticon.com/128/2935/2935292.png'},
-    {name:'Bouteille',url:'https://cdn-icons-png.flaticon.com/128/2935/2935308.png'},
-    {name:'Burger',url:'https://cdn-icons-png.flaticon.com/128/3075/3075977.png'},
-    {name:'Pizza',url:'https://cdn-icons-png.flaticon.com/128/1404/1404945.png'},
-  ],
-  'Services': [
-    {name:'Services',url:'https://cdn-icons-png.flaticon.com/128/2920/2920261.png'},
-    {name:'Répar. domicile',url:'https://cdn-icons-png.flaticon.com/128/1170/1170678.png'},
-    {name:'Livraison',url:'https://cdn-icons-png.flaticon.com/128/2830/2830284.png'},
-    {name:'Beauté',url:'https://cdn-icons-png.flaticon.com/128/2553/2553651.png'},
-  ],
-};
+const ICON_CATEGORIES = {"Mode": [{"name": "T-shirt", "url": "https://wykht.com/assets/icons/cats/t-shirt.svg"}, {"name": "Vêtements", "url": "https://wykht.com/assets/icons/cats/cintre.svg"}, {"name": "Baskets", "url": "https://wykht.com/assets/icons/cats/baskets.svg"}, {"name": "Chaussures à talons", "url": "https://wykht.com/assets/icons/cats/talons.svg"}, {"name": "Sac à main", "url": "https://wykht.com/assets/icons/cats/sac.svg"}, {"name": "Montre", "url": "https://wykht.com/assets/icons/cats/montre.svg"}, {"name": "Lunettes", "url": "https://wykht.com/assets/icons/cats/lunettes.svg"}, {"name": "Collier", "url": "https://wykht.com/assets/icons/cats/collier.svg"}, {"name": "Bijoux", "url": "https://wykht.com/assets/icons/cats/bague.svg"}, {"name": "Chapeau", "url": "https://wykht.com/assets/icons/cats/chapeau.svg"}, {"name": "Costume", "url": "https://wykht.com/assets/icons/cats/cravate.svg"}, {"name": "Valise de voyage", "url": "https://wykht.com/assets/icons/cats/valise.svg"}, {"name": "Lunettes de soleil", "url": "https://wykht.com/assets/icons/cats/lunettes-soleil.svg"}, {"name": "Hauts / Chemises", "url": "https://wykht.com/assets/icons/cats/haut.svg"}], "Tech": [{"name": "Téléphone", "url": "https://wykht.com/assets/icons/cats/smartphone.svg"}, {"name": "Ordinateur portable", "url": "https://wykht.com/assets/icons/cats/ordinateur.svg"}, {"name": "Casque audio", "url": "https://wykht.com/assets/icons/cats/casque.svg"}, {"name": "Télévision", "url": "https://wykht.com/assets/icons/cats/tv.svg"}, {"name": "Appareil photo", "url": "https://wykht.com/assets/icons/cats/photo.svg"}, {"name": "Jeux vidéo", "url": "https://wykht.com/assets/icons/cats/manette.svg"}, {"name": "Enceinte", "url": "https://wykht.com/assets/icons/cats/enceinte.svg"}, {"name": "Tablette", "url": "https://wykht.com/assets/icons/cats/tablette.svg"}, {"name": "Clavier", "url": "https://wykht.com/assets/icons/cats/clavier.svg"}, {"name": "Souris", "url": "https://wykht.com/assets/icons/cats/souris.svg"}, {"name": "Chargeur", "url": "https://wykht.com/assets/icons/cats/chargeur.svg"}, {"name": "Imprimante", "url": "https://wykht.com/assets/icons/cats/imprimante.svg"}, {"name": "Routeur wifi", "url": "https://wykht.com/assets/icons/cats/wifi.svg"}, {"name": "Montre connectée", "url": "https://wykht.com/assets/icons/cats/smartwatch.svg"}, {"name": "Clé USB", "url": "https://wykht.com/assets/icons/cats/usb.svg"}, {"name": "Éclairage LED", "url": "https://wykht.com/assets/icons/cats/ampoule-led.svg"}], "Maison": [{"name": "Canapé", "url": "https://wykht.com/assets/icons/cats/canape.svg"}, {"name": "Lit", "url": "https://wykht.com/assets/icons/cats/lit.svg"}, {"name": "Lampe", "url": "https://wykht.com/assets/icons/cats/lampe.svg"}, {"name": "Cuisine", "url": "https://wykht.com/assets/icons/cats/casserole.svg"}, {"name": "Vaisselle", "url": "https://wykht.com/assets/icons/cats/couverts.svg"}, {"name": "Électroménager", "url": "https://wykht.com/assets/icons/cats/frigo.svg"}, {"name": "Lave-linge", "url": "https://wykht.com/assets/icons/cats/lave-linge.svg"}, {"name": "Ménage", "url": "https://wykht.com/assets/icons/cats/aspirateur.svg"}, {"name": "Plantes", "url": "https://wykht.com/assets/icons/cats/plante.svg"}, {"name": "Décoration", "url": "https://wykht.com/assets/icons/cats/cadre.svg"}, {"name": "Clés", "url": "https://wykht.com/assets/icons/cats/cle.svg"}, {"name": "Portes", "url": "https://wykht.com/assets/icons/cats/porte.svg"}, {"name": "Salle de bain", "url": "https://wykht.com/assets/icons/cats/douche.svg"}, {"name": "Ventilateur", "url": "https://wykht.com/assets/icons/cats/ventilateur.svg"}, {"name": "Bricolage", "url": "https://wykht.com/assets/icons/cats/outils-maison.svg"}], "Beauté": [{"name": "Maquillage", "url": "https://wykht.com/assets/icons/cats/rouge-a-levres.svg"}, {"name": "Soins du visage", "url": "https://wykht.com/assets/icons/cats/visage.svg"}, {"name": "Coiffure", "url": "https://wykht.com/assets/icons/cats/seche-cheveux.svg"}, {"name": "Coiffeur", "url": "https://wykht.com/assets/icons/cats/ciseaux.svg"}, {"name": "Parfum", "url": "https://wykht.com/assets/icons/cats/spray.svg"}, {"name": "Cosmétiques", "url": "https://wykht.com/assets/icons/cats/flacon.svg"}, {"name": "Palette maquillage", "url": "https://wykht.com/assets/icons/cats/palette.svg"}, {"name": "Savon", "url": "https://wykht.com/assets/icons/cats/savon.svg"}, {"name": "Miroir", "url": "https://wykht.com/assets/icons/cats/miroir.svg"}], "Sport": [{"name": "Musculation", "url": "https://wykht.com/assets/icons/cats/haltere.svg"}, {"name": "Football", "url": "https://wykht.com/assets/icons/cats/football.svg"}, {"name": "Basketball", "url": "https://wykht.com/assets/icons/cats/basket.svg"}, {"name": "Vélo", "url": "https://wykht.com/assets/icons/cats/velo.svg"}, {"name": "Course à pied", "url": "https://wykht.com/assets/icons/cats/course.svg"}, {"name": "Natation", "url": "https://wykht.com/assets/icons/cats/natation.svg"}, {"name": "Tennis", "url": "https://wykht.com/assets/icons/cats/tennis.svg"}, {"name": "Fitness / Yoga", "url": "https://wykht.com/assets/icons/cats/yoga.svg"}, {"name": "Boxe", "url": "https://wykht.com/assets/icons/cats/boxe.svg"}, {"name": "Compétition", "url": "https://wykht.com/assets/icons/cats/trophee.svg"}], "Enfants": [{"name": "Bébé", "url": "https://wykht.com/assets/icons/cats/poussette.svg"}, {"name": "Peluches", "url": "https://wykht.com/assets/icons/cats/peluche.svg"}, {"name": "Jouets", "url": "https://wykht.com/assets/icons/cats/briques.svg"}, {"name": "Puzzle", "url": "https://wykht.com/assets/icons/cats/puzzle.svg"}, {"name": "Biberon", "url": "https://wykht.com/assets/icons/cats/biberon.svg"}, {"name": "École", "url": "https://wykht.com/assets/icons/cats/ecole.svg"}, {"name": "Livres", "url": "https://wykht.com/assets/icons/cats/livre.svg"}], "Auto": [{"name": "Voiture", "url": "https://wykht.com/assets/icons/cats/voiture.svg"}, {"name": "Moto", "url": "https://wykht.com/assets/icons/cats/moto.svg"}, {"name": "Mécanique", "url": "https://wykht.com/assets/icons/cats/cle-molette.svg"}, {"name": "Pneus", "url": "https://wykht.com/assets/icons/cats/pneu.svg"}, {"name": "Carburant", "url": "https://wykht.com/assets/icons/cats/carburant.svg"}, {"name": "Batterie", "url": "https://wykht.com/assets/icons/cats/batterie.svg"}, {"name": "Camion", "url": "https://wykht.com/assets/icons/cats/camion.svg"}, {"name": "Équipement moto", "url": "https://wykht.com/assets/icons/cats/casque-moto.svg"}], "Food": [{"name": "Pizza", "url": "https://wykht.com/assets/icons/cats/pizza.svg"}, {"name": "Burger", "url": "https://wykht.com/assets/icons/cats/burger.svg"}, {"name": "Pâtes", "url": "https://wykht.com/assets/icons/cats/pates.svg"}, {"name": "Café", "url": "https://wykht.com/assets/icons/cats/cafe.svg"}, {"name": "Cocktail", "url": "https://wykht.com/assets/icons/cats/cocktail.svg"}, {"name": "Gâteau", "url": "https://wykht.com/assets/icons/cats/gateau.svg"}, {"name": "Glace", "url": "https://wykht.com/assets/icons/cats/glace.svg"}, {"name": "Poisson", "url": "https://wykht.com/assets/icons/cats/poisson.svg"}, {"name": "Poulet", "url": "https://wykht.com/assets/icons/cats/poulet.svg"}, {"name": "Fruits", "url": "https://wykht.com/assets/icons/cats/fruits.svg"}, {"name": "Boulangerie", "url": "https://wykht.com/assets/icons/cats/pain.svg"}, {"name": "Vin", "url": "https://wykht.com/assets/icons/cats/vin.svg"}, {"name": "Bière", "url": "https://wykht.com/assets/icons/cats/biere.svg"}, {"name": "Eau", "url": "https://wykht.com/assets/icons/cats/eau.svg"}, {"name": "Boissons", "url": "https://wykht.com/assets/icons/cats/soda.svg"}, {"name": "Légumes", "url": "https://wykht.com/assets/icons/cats/legumes.svg"}, {"name": "Viande", "url": "https://wykht.com/assets/icons/cats/viande.svg"}, {"name": "Œufs", "url": "https://wykht.com/assets/icons/cats/oeuf.svg"}, {"name": "Produits laitiers", "url": "https://wykht.com/assets/icons/cats/fromage.svg"}, {"name": "Supermarché", "url": "https://wykht.com/assets/icons/cats/supermarche.svg"}], "Resto": [{"name": "Chef cuisinier", "url": "https://wykht.com/assets/icons/cats/chef.svg"}, {"name": "Plat du jour", "url": "https://wykht.com/assets/icons/cats/plat.svg"}, {"name": "Restaurant", "url": "https://wykht.com/assets/icons/cats/couvert-boisson.svg"}, {"name": "À emporter", "url": "https://wykht.com/assets/icons/cats/a-emporter.svg"}, {"name": "Hot-dog", "url": "https://wykht.com/assets/icons/cats/hot-dog.svg"}, {"name": "Viennoiserie", "url": "https://wykht.com/assets/icons/cats/croissant.svg"}, {"name": "Plat de fête", "url": "https://wykht.com/assets/icons/cats/dinde.svg"}, {"name": "Grillades", "url": "https://wykht.com/assets/icons/cats/grill.svg"}, {"name": "Soupe", "url": "https://wykht.com/assets/icons/cats/soupe.svg"}, {"name": "Bol / Salade", "url": "https://wykht.com/assets/icons/cats/bol.svg"}, {"name": "Pâtisserie", "url": "https://wykht.com/assets/icons/cats/dessert.svg"}, {"name": "Biscuits", "url": "https://wykht.com/assets/icons/cats/cookie.svg"}, {"name": "Épicé", "url": "https://wykht.com/assets/icons/cats/piment.svg"}, {"name": "Jus frais", "url": "https://wykht.com/assets/icons/cats/citron.svg"}, {"name": "Ananas", "url": "https://wykht.com/assets/icons/cats/ananas.svg"}, {"name": "Pastèque", "url": "https://wykht.com/assets/icons/cats/pasteque.svg"}, {"name": "Maïs", "url": "https://wykht.com/assets/icons/cats/mais.svg"}, {"name": "Livraison repas", "url": "https://wykht.com/assets/icons/cats/livraison-repas.svg"}], "Services": [{"name": "Livraison", "url": "https://wykht.com/assets/icons/cats/livraison.svg"}, {"name": "Réparation", "url": "https://wykht.com/assets/icons/cats/outils.svg"}, {"name": "Couture", "url": "https://wykht.com/assets/icons/cats/coupe.svg"}, {"name": "Business", "url": "https://wykht.com/assets/icons/cats/mallette.svg"}, {"name": "Construction", "url": "https://wykht.com/assets/icons/cats/marteau.svg"}, {"name": "Réservation", "url": "https://wykht.com/assets/icons/cats/calendrier.svg"}, {"name": "Santé", "url": "https://wykht.com/assets/icons/cats/sante.svg"}, {"name": "Assistance", "url": "https://wykht.com/assets/icons/cats/telephone.svg"}, {"name": "Bien-être", "url": "https://wykht.com/assets/icons/cats/coeur-sante.svg"}, {"name": "Nettoyage", "url": "https://wykht.com/assets/icons/cats/nettoyage.svg"}, {"name": "Finance", "url": "https://wykht.com/assets/icons/cats/banque.svg"}, {"name": "Voyage", "url": "https://wykht.com/assets/icons/cats/avion.svg"}, {"name": "Photographe", "url": "https://wykht.com/assets/icons/cats/photographie.svg"}], "Fêtes": [{"name": "Cadeaux", "url": "https://wykht.com/assets/icons/cats/cadeau.svg"}, {"name": "Fête", "url": "https://wykht.com/assets/icons/cats/confettis.svg"}, {"name": "Noël", "url": "https://wykht.com/assets/icons/cats/sapin.svg"}, {"name": "Saint-Valentin", "url": "https://wykht.com/assets/icons/cats/coeur.svg"}, {"name": "Bonbons", "url": "https://wykht.com/assets/icons/cats/bonbon.svg"}, {"name": "Anniversaire", "url": "https://wykht.com/assets/icons/cats/ballon.svg"}, {"name": "Étoile", "url": "https://wykht.com/assets/icons/cats/etoile.svg"}, {"name": "Bonhomme de neige", "url": "https://wykht.com/assets/icons/cats/bonhomme-neige.svg"}, {"name": "Sucre d'orge", "url": "https://wykht.com/assets/icons/cats/sucre-orge.svg"}, {"name": "Cloche de Noël", "url": "https://wykht.com/assets/icons/cats/cloche.svg"}, {"name": "Amour / Couples", "url": "https://wykht.com/assets/icons/cats/couples.svg"}, {"name": "Hiver", "url": "https://wykht.com/assets/icons/cats/neige.svg"}, {"name": "Fleurs", "url": "https://wykht.com/assets/icons/cats/roses.svg"}, {"name": "Ambiance", "url": "https://wykht.com/assets/icons/cats/lanterne.svg"}, {"name": "Reine / Roi", "url": "https://wykht.com/assets/icons/cats/couronne.svg"}, {"name": "Musique / DJ", "url": "https://wykht.com/assets/icons/cats/musique.svg"}, {"name": "Célébration", "url": "https://wykht.com/assets/icons/cats/champagne.svg"}, {"name": "Halloween", "url": "https://wykht.com/assets/icons/cats/citrouille.svg"}, {"name": "Pâques", "url": "https://wykht.com/assets/icons/cats/oeuf-paques.svg"}], "Divers": [{"name": "Promos", "url": "https://wykht.com/assets/icons/cats/etiquette.svg"}, {"name": "Soldes", "url": "https://wykht.com/assets/icons/cats/solde.svg"}, {"name": "Boutique", "url": "https://wykht.com/assets/icons/cats/panier.svg"}, {"name": "Magasin", "url": "https://wykht.com/assets/icons/cats/magasin.svg"}, {"name": "Réductions", "url": "https://wykht.com/assets/icons/cats/pourcent.svg"}, {"name": "Nouveautés", "url": "https://wykht.com/assets/icons/cats/nouveau.svg"}, {"name": "Tendances", "url": "https://wykht.com/assets/icons/cats/feu.svg"}, {"name": "Premium", "url": "https://wykht.com/assets/icons/cats/diamant.svg"}, {"name": "Offres flash", "url": "https://wykht.com/assets/icons/cats/eclair.svg"}, {"name": "International", "url": "https://wykht.com/assets/icons/cats/globe.svg"}, {"name": "Culture", "url": "https://wykht.com/assets/icons/cats/livre-ouvert.svg"}, {"name": "Animaux", "url": "https://wykht.com/assets/icons/cats/animaux.svg"}, {"name": "Jardin", "url": "https://wykht.com/assets/icons/cats/jardin.svg"}, {"name": "Professionnel", "url": "https://wykht.com/assets/icons/cats/outils-pro.svg"}]};
 
 let selectedIconUrl = '';
-let currentIconCat = 'Mode';
-
+let currentIconCat = 'Tous';
+let iconQuery = '';
+function allIcons(){ var o=[]; Object.keys(ICON_CATEGORIES).forEach(function(g){ ICON_CATEGORIES[g].forEach(function(i){ o.push({name:i.name,url:i.url,g:g}) }) }); return o; }
 function buildIconLibrary() {
   const tabsEl = document.getElementById('iconCatTabs');
-  const gridEl = document.getElementById('iconGrid');
-  if(!tabsEl || !gridEl) return;
+  if(!tabsEl) return;
   tabsEl.innerHTML = '';
-  Object.keys(ICON_CATEGORIES).forEach(cat => {
+  ['Tous'].concat(Object.keys(ICON_CATEGORIES)).forEach(cat => {
     const btn = document.createElement('button');
+    btn.type='button';
     btn.className = 'icon-lib-tab' + (cat === currentIconCat ? ' on' : '');
     btn.textContent = cat;
-    btn.onclick = () => { currentIconCat = cat; buildIconGrid(); buildIconCatTabs(); };
+    btn.onclick = () => { currentIconCat = cat; buildIconCatTabs(); };
     tabsEl.appendChild(btn);
   });
   buildIconGrid();
 }
-
 function buildIconCatTabs() {
   const tabsEl = document.getElementById('iconCatTabs');
   if(!tabsEl) return;
-  tabsEl.querySelectorAll('.icon-lib-tab').forEach(b => {
-    b.classList.toggle('on', b.textContent === currentIconCat);
-  });
+  tabsEl.querySelectorAll('.icon-lib-tab').forEach(b => { b.classList.toggle('on', b.textContent === currentIconCat); });
   buildIconGrid();
 }
-
+function iconSearch(v){ iconQuery = String(v||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim(); buildIconGrid(); }
 function buildIconGrid() {
   const gridEl = document.getElementById('iconGrid');
   if(!gridEl) return;
-  const icons = ICON_CATEGORIES[currentIconCat] || [];
+  let icons = (currentIconCat === 'Tous' || iconQuery) ? allIcons() : (ICON_CATEGORIES[currentIconCat] || []);
+  if(iconQuery) icons = icons.filter(i => (i.name+' '+(i.g||'')).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').indexOf(iconQuery) > -1);
+  document.getElementById('iconCount') && (document.getElementById('iconCount').textContent = icons.length + ' icône' + (icons.length>1?'s':''));
   gridEl.innerHTML = '';
+  if(!icons.length){ gridEl.innerHTML = '<div class="icon-none">Aucune icône pour « '+iconQuery+' »</div>'; return; }
   icons.forEach(icon => {
-    const cell = document.createElement('div');
+    const cell = document.createElement('button');
+    cell.type='button';
     cell.className = 'icon-cell' + (selectedIconUrl === icon.url ? ' selected' : '');
-    cell.innerHTML = '<img src="'+icon.url+'" alt="'+icon.name+'" loading="lazy"><span>'+icon.name+'</span>';
+    cell.title = icon.name;
+    cell.innerHTML = '<img src="'+icon.url+'" alt="'+icon.name+'" loading="lazy" decoding="async"><span>'+icon.name+'</span>';
     cell.onclick = () => selectIcon(icon.url, icon.name);
     gridEl.appendChild(cell);
   });
@@ -1842,6 +1868,7 @@ function switchTab(name,el){
   if(name==='orders')xpLoadOrders();
   if(name==='zones')xpLoadZones();
   if(name==='paycfg')xpLoadPay();
+  if(name==='fetes')feLoad();
 }
 
 /* ══════════════════════════════════════════
@@ -2237,7 +2264,7 @@ function packSummary(p){var cost=p.cost_price?' · <span style="color:var(--t3)"
 function resetProductForm(){
   document.getElementById('prod-id').value='';document.getElementById('prod-name').value='';document.getElementById('prod-desc').value='';
   document.getElementById('prod-price').value='';document.getElementById('prod-old-price').value='';document.getElementById('prod-stock').value='';
-  document.getElementById('prod-cost').value='';document.getElementById('prod-margin').value='';document.getElementById('pc-sum').textContent='';var _sk=document.getElementById('prod-sku');_sk.value='';_sk.dataset.auto='1';document.getElementById('pc-res').textContent="Renseignez le prix d'origine et le pourcentage.";document.getElementById('pc-box').open=false;
+  document.getElementById('prod-cost').value='';document.getElementById('prod-margin').value='';document.getElementById('pc-sum').textContent='';var _sk=document.getElementById('prod-sku');_sk.value='';_sk.dataset.auto='1';restoClear();restoToggle();document.getElementById('pc-res').textContent="Renseignez le prix d'origine et le pourcentage.";document.getElementById('pc-box').open=false;
   document.getElementById('prod-badge').value='';document.getElementById('prod-active').checked=true;
   document.getElementById('prod-img-previews').innerHTML='';
   selectedImages=[];existingImages=[];sizesData=[];colorsData=[];renderTags('sizes');renderColorDots();setPackForm(null);
@@ -2252,7 +2279,7 @@ async function editProduct(id){
   document.getElementById('prod-cost').value=p.cost_price||'';document.getElementById('prod-margin').value=p.margin_pct!=null?p.margin_pct:'';if(p.cost_price){document.getElementById('pc-sum').textContent='Origine '+Number(p.cost_price).toLocaleString('fr')+' HTG'}
   document.getElementById('prod-badge').value=p.badge||'';document.getElementById('prod-active').checked=p.active!==false;
   document.getElementById('prod-category').value=p.category_id||'';
-  var _sk2=document.getElementById('prod-sku');_sk2.value=p.sku||'';_sk2.dataset.auto='0';if(!p.sku&&window._hasSku!==false)skuAuto(true);
+  var _sk2=document.getElementById('prod-sku');_sk2.value=p.sku||'';_sk2.dataset.auto='0';if(!p.sku&&window._hasSku!==false)skuAuto(true);restoToggle();restoLoad(p.id);
   sizesData=p.sizes||[];colorsData=p.colors||[];renderTags('sizes');renderColorDots();setPackForm(p);
   var imgs=(p.product_images||[]).sort(function(a,b){return a.position-b.position});
   existingImages=imgs.map(function(i){return{url:i.url}});
@@ -2302,6 +2329,77 @@ async function backfillSkus(){
   }
   showToast('Références attribuées ✓');loadProducts();
 }
+
+/* ═════════ PÉRIODES DE FÊTE ═════════ */
+var FE={list:[],prods:[],sel:{}},feSlugTouched=false;
+var FE_RESERVED=/^(categories|categorie|compte|apropos|jeux|confidentiality|conditions-utilisation|commande|panier|admin|manager|employe|restolakay|fete|index|assets|og|tools|produit)$/;
+function feSlugify(t){return String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')}
+async function feLoad(){
+  var el=document.getElementById('feList');
+  var r=await db.from('fete_pages').select('*').order('position');
+  if(r.error){el.innerHTML='<div class="loading-box">Impossible de charger : '+xe(r.error.message)+'<br><small>Exécutez WYK-SQL-partie6.sql dans Supabase.</small></div>';return}
+  FE.list=r.data||[];
+  if(!FE.list.length){el.innerHTML='<div class="loading-box">Aucune période de fête. Cliquez sur « + Nouvelle fête ».</div>';return}
+  var now=new Date();
+  el.innerHTML=FE.list.map(function(f){
+    var ended=f.ends_on&&new Date(f.ends_on+'T23:59:59')<now,n=(f.product_ids||[]).length;
+    return '<div class="fe-i"><div class="em" style="background:'+xe(f.accent||'#e8192c')+'22">'+xe(f.emoji||'🎁')+'</div><div><b>'+xe(f.title)+'</b><small>wykht.com/'+xe(f.slug)+' · '+n+' produit'+(n>1?'s':'')+(f.ends_on?' · jusqu\'au '+xe(f.ends_on):'')+'</small><span class="xp-st '+(f.is_active&&!ended?'c':'d')+'">'+(ended?'Terminée':f.is_active?'Active':'Masquée')+'</span></div><div class="acts"><a class="xp-btn sm ghost" href="/fete?s='+xe(f.slug)+'" target="_blank" rel="noopener">Voir</a><a class="xp-btn sm" href="/fete?s='+xe(f.slug)+'&edit=1" target="_blank" rel="noopener">Mode éditeur</a><button type="button" class="xp-btn sm ghost" onclick="feEdit(\''+xe(f.slug)+'\')">Modifier</button><button type="button" class="xp-btn sm no" onclick="feDel(\''+xe(f.slug)+'\')">Supprimer</button></div></div>'}).join('')}
+async function feEnsureProds(){
+  if(FE.prods.length)return;
+  var r=await db.from('products').select('id,name,price,sku,product_images(url,position)').order('name').limit(1500);
+  FE.prods=r.data||[]}
+function feRenderProds(){
+  var q=(document.getElementById('fe-search').value||'').toLowerCase().trim(),el=document.getElementById('fe-prods');
+  var L=FE.prods.filter(function(p){return !q||(p.name+' '+(p.sku||'')).toLowerCase().indexOf(q)>-1});
+  var n=Object.keys(FE.sel).length;document.getElementById('fe-count').textContent=n?'· '+n+' sélectionné'+(n>1?'s':''):'';
+  if(!L.length){el.innerHTML='<div class="loading-box">Aucun produit.</div>';return}
+  el.innerHTML=L.map(function(p){var im=(p.product_images||[]).slice().sort(function(a,b){return a.position-b.position})[0];
+    return '<button type="button" class="fe-p'+(FE.sel[p.id]?' on':'')+'" data-id="'+xe(p.id)+'">'+(im?'<img src="'+xe(im.url)+'" alt="" loading="lazy">':'<img alt="">')+'<span><b>'+xe(p.name)+'</b><small>'+(p.sku?xe(p.sku)+' · ':'')+xm(p.price)+'</small></span><span class="ck"></span></button>'}).join('')}
+document.addEventListener('click',function(e){var b=e.target.closest('#fe-prods .fe-p');if(!b)return;var id=b.getAttribute('data-id');if(FE.sel[id])delete FE.sel[id];else FE.sel[id]=1;b.classList.toggle('on',!!FE.sel[id]);var n=Object.keys(FE.sel).length;document.getElementById('fe-count').textContent=n?'· '+n+' sélectionné'+(n>1?'s':''):''});
+function feTitleInput(){if(!feSlugTouched&&!document.getElementById('fe-orig').value)document.getElementById('fe-slug').value=feSlugify(document.getElementById('fe-title').value)}
+async function feNew(){
+  feSlugTouched=false;['fe-orig','fe-title','fe-emoji','fe-slug','fe-sub','fe-desc','fe-img','fe-start','fe-end'].forEach(function(i){document.getElementById(i).value=''});
+  document.getElementById('fe-accent').value='#e11d48';document.getElementById('fe-active').checked=true;document.getElementById('fe-file').value='';document.getElementById('fe-slug').disabled=false;
+  document.getElementById('feModalTitle').textContent='Nouvelle période de fête';FE.sel={};document.getElementById('fe-search').value='';
+  openModal('feModal');await feEnsureProds();feRenderProds()}
+async function feEdit(slug){
+  var f=FE.list.filter(function(x){return x.slug===slug})[0];if(!f)return;
+  feSlugTouched=true;var g=function(i,v){document.getElementById(i).value=v==null?'':v};
+  g('fe-orig',f.slug);g('fe-title',f.title);g('fe-emoji',f.emoji);g('fe-slug',f.slug);g('fe-sub',f.subtitle);g('fe-desc',f.description);g('fe-img',f.hero_image);g('fe-start',f.starts_on);g('fe-end',f.ends_on);
+  document.getElementById('fe-accent').value=f.accent||'#e11d48';document.getElementById('fe-active').checked=f.is_active!==false;document.getElementById('fe-file').value='';document.getElementById('fe-slug').disabled=true;
+  document.getElementById('feModalTitle').textContent='Modifier la fête';FE.sel={};(f.product_ids||[]).forEach(function(i){FE.sel[i]=1});document.getElementById('fe-search').value='';
+  openModal('feModal');await feEnsureProds();feRenderProds()}
+async function feSave(){
+  var btn=document.getElementById('fe-submit'),g=function(i){return document.getElementById(i).value.trim()};
+  var title=g('fe-title'),slug=feSlugify(g('fe-slug')||title),orig=g('fe-orig');
+  if(!title)return showToast('Le titre est requis',true);
+  if(!/^[a-z0-9-]{2,60}$/.test(slug))return showToast('Adresse invalide (2 à 60 caractères : lettres, chiffres, tirets)',true);
+  if(FE_RESERVED.test(slug))return showToast('Cette adresse est réservée au site : choisissez-en une autre',true);
+  if(!orig&&FE.list.some(function(f){return f.slug===slug}))return showToast('Une fête utilise déjà cette adresse',true);
+  btn.classList.add('loading');
+  var img=g('fe-img'),file=document.getElementById('fe-file').files[0];
+  if(file){var ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,''),path='fetes/'+slug+'/'+Date.now()+'.'+ext;var up=await db.storage.from(BUCKET).upload(path,file,{upsert:true,contentType:file.type});if(up.error){showToast('Image non envoyée : '+up.error.message,true)}else img=db.storage.from(BUCKET).getPublicUrl(path).data.publicUrl}
+  var row={slug:slug,title:title,subtitle:g('fe-sub')||null,description:g('fe-desc')||null,emoji:g('fe-emoji')||null,accent:document.getElementById('fe-accent').value||'#e8192c',hero_image:img||null,starts_on:g('fe-start')||null,ends_on:g('fe-end')||null,product_ids:Object.keys(FE.sel),is_active:document.getElementById('fe-active').checked,updated_at:new Date().toISOString()};
+  var r;
+  if(orig){r=await db.from('fete_pages').update(row).eq('slug',orig)}else{row.position=FE.list.length+1;r=await db.from('fete_pages').insert(row)}
+  btn.classList.remove('loading');
+  if(r.error)return showToast('Erreur : '+r.error.message+(/fete_pages|relation/i.test(r.error.message)?' — exécutez WYK-SQL-partie6.sql':''),true);
+  showToast(orig?'Fête modifiée ✓':'Fête créée ✓ — page en ligne : wykht.com/'+slug);closeModal('feModal');feLoad()}
+async function feDel(slug){
+  if(!confirm('Supprimer cette période de fête et sa page ?'))return;
+  await db.from('page_blocks').delete().eq('page','fete:'+slug);
+  var r=await db.from('fete_pages').delete().eq('slug',slug);if(r.error)return showToast('Erreur : '+r.error.message,true);
+  showToast('Fête supprimée');feLoad()}
+
+/* ── détails restauration (table resto_extras) ── */
+function restoIsCat(){var sel=document.getElementById('prod-category');if(!sel||!sel.value)return false;var c=(typeof catsList!=='undefined'?catsList:[]).filter(function(x){return x.id===sel.value})[0];var nm=c?c.name:(sel.options[sel.selectedIndex]||{}).text||'';return !!(c&&c.is_resto)||/resto\s*lakay|restolakay/i.test(nm)}
+function restoToggle(){var el=document.getElementById('pm-resto');if(el)el.style.display=restoIsCat()?'':'none'}
+function restoClear(){['rx-ing','rx-fla','rx-time','rx-por','rx-all'].forEach(function(i){document.getElementById(i).value=''});document.getElementById('rx-kind').value='plat';document.getElementById('rx-spice').value='0'}
+async function restoLoad(id){restoClear();if(!id)return;try{var r=await db.from('resto_extras').select('*').eq('product_id',id).maybeSingle();var d=r.data;if(!d)return;document.getElementById('rx-kind').value=d.kind||'plat';document.getElementById('rx-spice').value=String(d.spice||0);document.getElementById('rx-ing').value=d.ingredients||'';document.getElementById('rx-fla').value=d.flavors||'';document.getElementById('rx-time').value=d.prep_time||'';document.getElementById('rx-por').value=d.portion||'';document.getElementById('rx-all').value=d.allergens||''}catch(e){}}
+async function restoSave(pid){
+  if(!pid||!restoIsCat())return;var g=function(i){return document.getElementById(i).value.trim()||null};
+  var r=await db.from('resto_extras').upsert({product_id:pid,kind:document.getElementById('rx-kind').value,spice:+document.getElementById('rx-spice').value||0,ingredients:g('rx-ing'),flavors:g('rx-fla'),prep_time:g('rx-time'),portion:g('rx-por'),allergens:g('rx-all'),updated_at:new Date().toISOString()});
+  if(r.error)showToast('Détails restauration non enregistrés : exécutez WYK-SQL-partie6.sql',true)}
 async function saveProduct(){
   var btn=document.getElementById('prod-submit');
   var name=document.getElementById('prod-name').value.trim();var price=document.getElementById('prod-price').value;
@@ -2335,6 +2433,7 @@ async function saveProduct(){
     var imgRows=allUrls.map(function(url,pos){return{product_id:productId,url,position:pos}});
     if(imgRows.length)await db.from('product_images').insert(imgRows);
   }
+  await restoSave(productId);
   showToast(existingId?'Produit modifié ✓':'Produit ajouté ✓');closeModal('productModal');loadProducts();loadAll();
   btn.classList.remove('loading');btn.innerHTML='<svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 13l4 4L19 7"/></svg>Enregistrer le produit';
 }
@@ -2367,7 +2466,7 @@ async function loadCategories(){
     var item=document.createElement('div');item.className='data-item';
     item.innerHTML='<div class="data-item-img" style="background:'+(c.color||'#fff0f1')+'">'+iconHtml+'</div>'
       +'<div class="data-item-body"><div class="data-item-name">'+c.name+'</div><div class="data-item-sub">'+(c.description||'Pas de description')+'</div></div>'
-      +'<div class="data-item-actions"><a class="btn-edit" href="/categorie?c='+encodeURIComponent(c.slug||catSlugify(c.name))+'" target="_blank" rel="noopener" title="Voir la page de la catégorie" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:15px">↗</a><button class="btn-edit" onclick="copyCatLink(\''+c.id+'\')" title="Copier le lien de la page" style="font-size:12px">Lien</button><button class="btn-edit" onclick="editCat(\''+c.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button><button class="btn-del" onclick="deleteCat(\''+c.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></div>';
+      +'<div class="data-item-actions"><a class="btn-edit" href="'+((c.is_resto||/resto\s*lakay|restolakay/i.test(c.name||''))?'/restolakay':'/categorie?c='+encodeURIComponent(c.slug||catSlugify(c.name)))+'" target="_blank" rel="noopener" title="Voir la page de la catégorie" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:15px">↗</a><button class="btn-edit" onclick="copyCatLink(\''+c.id+'\')" title="Copier le lien de la page" style="font-size:12px">Lien</button><button class="btn-edit" onclick="editCat(\''+c.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button><button class="btn-del" onclick="deleteCat(\''+c.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></div>';
     list.appendChild(item);
   });
   el.appendChild(list);
@@ -2383,7 +2482,7 @@ function setCatImgMode(m){document.getElementById('cat-img-up').style.display=m=
 function handleCatImg(input){if(input.files[0]){catImgFile=input.files[0];document.getElementById('cat-image-url').value='';previewCatImage(URL.createObjectURL(catImgFile))}}
 function removeCatImg(){catImgFile=null;document.getElementById('cat-image-url').value='';document.getElementById('cat-image-file').value='';previewCatImage('')}
 function openCatModal(){
-  document.getElementById('cat-id').value='';document.getElementById('cat-name').value='';
+  document.getElementById('cat-id').value='';document.getElementById('cat-name').value='';document.getElementById('cat-resto').checked=false;
   document.getElementById('cat-desc').value='';document.getElementById('cat-color').value='#fff0f1';
   document.getElementById('cat-icon').value='';document.getElementById('cat-icon-url').value='';document.getElementById('cat-image-url').value='';catImgFile=null;setCatImgMode('up');previewCatImage('');document.getElementById('cat-slug').value='';slugTouched=false;updateSlugPrev();
   document.getElementById('catModalTitle').textContent='Nouvelle catégorie';
@@ -2395,7 +2494,7 @@ function editCat(id){
   document.getElementById('catModalTitle').textContent='Modifier la catégorie';
   document.getElementById('cat-id').value=c.id;document.getElementById('cat-name').value=c.name||'';
   document.getElementById('cat-desc').value=c.description||'';document.getElementById('cat-color').value=c.color||'#fff0f1';
-  document.getElementById('cat-icon').value=c.icon||'';
+  document.getElementById('cat-icon').value=c.icon||'';document.getElementById('cat-resto').checked=!!c.is_resto||/resto\s*lakay|restolakay/i.test(c.name||'');
   document.getElementById('cat-image-url').value=c.image_url||'';catImgFile=null;setCatImgMode(c.image_url?'url':'up');previewCatImage(c.image_url||'');document.getElementById('cat-slug').value=c.slug||catSlugify(c.name);slugTouched=!!c.slug;updateSlugPrev();
   selectedIconUrl=c.icon_url||'';
   document.getElementById('cat-icon-url').value=c.icon_url||'';
@@ -2410,7 +2509,7 @@ async function saveCat(){
   if(!name){showToast('Nom requis !',true);return}
   btn.classList.add('loading');
   var iconUrl=document.getElementById('cat-icon-url').value||selectedIconUrl||null;
-  var payload={name,description:document.getElementById('cat-desc').value||null,color:document.getElementById('cat-color').value,icon:document.getElementById('cat-icon').value||null,icon_url:iconUrl};
+  var payload={name,description:document.getElementById('cat-desc').value||null,color:document.getElementById('cat-color').value,icon:document.getElementById('cat-icon').value||null,icon_url:iconUrl,is_resto:document.getElementById('cat-resto').checked};
   var existingId=document.getElementById('cat-id').value;var error;
   var imgVal=(document.getElementById('cat-image-url').value||'').trim()||null;
   var hadImg=existingId&&(catsList.find(function(x){return x.id===existingId})||{}).image_url;
@@ -2422,7 +2521,7 @@ async function saveCat(){
   async function persist(p){if(existingId){return await db.from('categories').update(p).eq('id',existingId)}return await db.from('categories').insert([p]).select()}
   var pres=await persist(payload);error=pres.error;var catId=existingId||(pres.data&&pres.data[0]&&pres.data[0].id);
   var dropped=[];
-  for(var col of ['image_url','slug']){if(error&&new RegExp(col,'i').test(error.message||'')&&payload[col]!==undefined){delete payload[col];dropped.push(col);var pr=await persist(payload);error=pr.error;if(!catId)catId=pr.data&&pr.data[0]&&pr.data[0].id}}
+  for(var col of ['image_url','slug','is_resto']){if(error&&new RegExp(col,'i').test(error.message||'')&&payload[col]!==undefined){delete payload[col];dropped.push(col);var pr=await persist(payload);error=pr.error;if(!catId)catId=pr.data&&pr.data[0]&&pr.data[0].id}}
   if(!error&&dropped.length)showToast('Catégorie enregistrée, mais une colonne manque ('+dropped.join(', ')+') : exécutez le SQL indiqué dans le formulaire',true);
   if(error){showToast('Erreur: '+error.message,true);btn.classList.remove('loading');return}
   if(catImgFile&&catId){var ext=catImgFile.name.split('.').pop();var cpath='categories/'+catId+'/'+Date.now()+'.'+ext;var up=await db.storage.from(BUCKET).upload(cpath,catImgFile,{upsert:true,contentType:catImgFile.type});if(up.error){showToast('Image non envoyée : '+up.error.message,true)}else{var pu=db.storage.from(BUCKET).getPublicUrl(cpath).data.publicUrl;var r3=await db.from('categories').update({image_url:pu}).eq('id',catId);if(r3.error)showToast("Catégorie enregistrée, mais la colonne image_url manque : exécutez le SQL indiqué dans le formulaire",true)}}
