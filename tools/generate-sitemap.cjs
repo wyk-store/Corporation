@@ -16,7 +16,7 @@ const fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, '..'), SITE = 'https://wykht.com', FILE = path.join(ROOT, 'sitemap.xml');
 const SUPA = 'https://byrklytqoucdskzvcoau.supabase.co';
 const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5cmtseXRxb3VjZHNrenZjb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTQ0ODcsImV4cCI6MjA5NDI3MDQ4N30.nH7LKYevuBd9jGmFmv7KMNoJu3X_rDaY1BHXZR1v3wM';
-const STATIC = ['/', '/categories', '/apropos', '/conditions-utilisation', '/confidentiality', '/jeux'];
+const STATIC = ['/', '/categories', '/apropos', '/conditions-utilisation', '/confidentiality', '/jeux', '/ebook', '/restolakay'];
 
 const clean = t => String(t == null ? '' : t).replace(/[\u{1F000}-\u{1FAFF}\u{2190}-\u{21FF}\u{2300}-\u{23FF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/gu, '').replace(/[ \t]{2,}/g, ' ').trim();
 const slug = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
