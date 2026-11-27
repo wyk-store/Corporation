@@ -1572,7 +1572,7 @@ document.addEventListener('click',function(e){var t=e.target,c;
  if(t.closest('[data-dlx]')||t.id==='dlm'){$('#dlm').classList.remove('on');$('#dlm').innerHTML='';return}
  if(c=t.closest('[data-dl]')){dl(c.getAttribute('data-dl'));return}
  if(c=t.closest('[data-fav]')){var fi=c.getAttribute('data-fav'),ix=FAV.indexOf(fi);if(ix>=0)FAV.splice(ix,1);else FAV.push(fi);lw('eb_fav',FAV);document.querySelectorAll('[data-fav="'+fi+'"]').forEach(function(x){x.classList.toggle('on',ix<0)});W.toast(ix<0?'Ajouté aux favoris':'Retiré des favoris');ui();spaceUi();cartUi();return}
- if(c=t.closest('[data-share]')){var si=c.getAttribute('data-share'),sb=bookById(si),su=location.href.split('#')[0]+'#l-'+si;if(navigator.share){navigator.share({title:sb.title,text:sb.title+' — WYK',url:su}).catch(function(){})}else if(navigator.clipboard){navigator.clipboard.writeText(su).then(function(){W.toast('Lien copié')})}return}
+ if(c=t.closest('[data-share]')){var si=c.getAttribute('data-share'),sb=bookById(si),su=(/^https?:\/\/(www\.)?wykht\.com$/i.test(location.origin)?location.origin:'https://wykht.com')+'/livre/'+encodeURIComponent(si);if(navigator.share){navigator.share({title:sb.title,text:sb.title+' — WYK',url:su}).catch(function(){})}else if(navigator.clipboard){navigator.clipboard.writeText(su).then(function(){W.toast('Lien copié')})}return}
  if(t.closest('#spbtn')){favOpen();return}
  if(c=t.closest('[data-sp]')){SP=c.getAttribute('data-sp');spaceUi();return}
  if(c=t.closest('[data-resume]')){var rp=c.getAttribute('data-resume').split('|'),rid=rp[0],pgn=+rp[1]||1,pr=lr('eb_prog',{}),o0=pr[rid]||{};pr[rid]={p:pgn,n:o0.n||9999,t:Date.now()};lw('eb_prog',pr);closeTop();setTimeout(function(){openReader(rid)},220);return}
