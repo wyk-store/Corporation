@@ -24,6 +24,7 @@ const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZ
 const WA = '50940300966';
 const PDIR = path.join(ROOT, 'produit'), ODIR = path.join(ROOT, 'og');
 const MANIFEST = path.join(ODIR, 'manifest.json');
+const LDIR = path.join(ROOT, 'livre'), BMANIFEST = path.join(ODIR, 'livres-manifest.json');
 
 const clean = t => String(t == null ? '' : t).replace(/[\u{1F000}-\u{1FAFF}\u{2190}-\u{21FF}\u{2300}-\u{23FF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/gu, '').replace(/[ \t]{2,}/g, ' ').trim();
 const esc = t => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -218,8 +219,119 @@ ${rel}
 `;
 }
 
+
+/* ───────── Ebook : une page de partage + une image par livre (livre/<id>.html, og/livre-<id>.jpg) ─────────
+   Les livres sont enregistrés dans site_pages (slug « ebook-data »). Le lien à partager est
+   https://wykht.com/livre/<id> : les réseaux y lisent la couverture, les visiteurs sont renvoyés vers /ebook#l-<id>. */
+const TYPES = { book: 'Livre', bd: 'Bande dessinée', manga: 'Manga' };
+async function loadBooks() {
+  try {
+    let j;
+    if (process.env.EBOOK_FILE) j = JSON.parse(fs.readFileSync(process.env.EBOOK_FILE, 'utf8'));
+    else {
+      const r = await fetch(SUPA + '/rest/v1/site_pages?slug=eq.ebook-data&select=content', { headers: { apikey: ANON, Authorization: 'Bearer ' + ANON } });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const rows = await r.json();
+      j = rows && rows[0] && rows[0].content ? JSON.parse(rows[0].content) : { books: [] };
+    }
+    const list = (j.books || []).filter(b => b && !b.demo && b.active !== false && /^[A-Za-z0-9_-]{3,40}$/.test(String(b.id || '')) && clean(b.title)).map(normBook);
+    return { ok: true, list };
+  } catch (e) { console.warn('Livres indisponibles (les pages existantes sont conservées) :', e.message); return { ok: false, list: [] }; }
+}
+function normBook(b) {
+  const price = Number(b.price) || 0, old = Number(b.old) || 0;
+  return {
+    id: String(b.id), type: TYPES[b.type] ? b.type : 'book', title: clean(b.title), author: clean(b.author || ''), series: clean(b.series || ''), tome: clean(b.tome || ''),
+    price, old: old > price ? old : 0, cover: String(b.cover || ''), color: /^#[0-9a-f]{3,8}$/i.test(b.color || '') ? b.color : '#1f3a5f',
+    summary: clean(b.summary || ''), read: !!(b.rd && b.pdf), pages: Number(b.pages) || 0, year: clean(b.year || '')
+  };
+}
+function bookImgHtml(b, photo) {
+  const nameSize = b.title.length > 48 ? 46 : b.title.length > 28 ? 58 : 72;
+  const price = b.price ? esc(fmt(b.price)) : 'Gratuit';
+  const ser = b.series ? b.series + (b.tome ? ' · Tome ' + b.tome : '') : '', sub = [ser, b.author && b.author !== b.series ? b.author : ''].filter(Boolean).join(' — ');
+  return `<!doctype html><html><head><meta charset="utf-8">${FONTS}<style>${BASE_CSS}
+.bg{position:absolute;inset:-60px;background:${photo ? 'center/cover url(' + photo + ')' : b.color};filter:blur(34px) saturate(1.25) brightness(.55);transform:scale(1.15)}
+.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.15),rgba(0,0,0,.62) 55%,rgba(0,0,0,.78))}
+.cv{position:absolute;left:70px;top:50px;width:430px;height:530px;display:flex;align-items:center;justify-content:center}
+.cv img,.cv .ph{max-width:100%;max-height:100%;border-radius:5px 12px 12px 5px;box-shadow:-6px 0 0 rgba(255,255,255,.18),0 30px 60px rgba(0,0,0,.6),0 8px 18px rgba(0,0,0,.4)}
+.cv .ph{width:360px;height:520px;background:${b.color};display:flex;align-items:center;justify-content:center;padding:34px;text-align:center;font-size:44px;font-weight:800;line-height:1.1;color:#fff}
+.right{position:absolute;left:560px;right:56px;top:0;bottom:0;padding:46px 0 42px;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;justify-content:space-between}
+.pill{font-size:22px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#ffe3a3;background:rgba(245,200,66,.16);border:1px solid rgba(245,200,66,.45);padding:8px 18px;border-radius:30px}
+h1{font-size:${nameSize}px;font-weight:800;line-height:1.05;margin-top:34px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.au{margin-top:16px;font-size:31px;font-weight:600;color:rgba(255,255,255,.78);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pr{margin-top:auto;display:flex;align-items:baseline;gap:18px}
+.pr b{font-size:78px;font-weight:800;line-height:1}.pr s{font-size:30px;color:rgba(255,255,255,.5)}
+.cta{margin-top:24px;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.bt{background:#fff;color:#111;font-weight:700;font-size:28px;padding:16px 30px;border-radius:50px;white-space:nowrap}
+.url{font-size:23px;font-weight:600;color:rgba(255,255,255,.6);padding-left:6px}
+</style></head><body><div class="bg"></div><div class="shade"></div>
+<div class="cv">${photo ? '<img src="' + photo + '" alt="">' : '<div class="ph fd">' + esc(b.title) + '</div>'}</div>
+<div class="right"><div class="top"><div class="logo fd">W<b>YK</b></div><div class="pill">${esc(TYPES[b.type])}</div></div>
+<h1 class="fd">${esc(b.title)}</h1>${sub ? '<div class="au">' + esc(sub) + '</div>' : ''}
+<div class="pr"><b class="fd">${price}</b>${b.old ? '<s>' + esc(fmt(b.old)) + '</s>' : ''}</div>
+<div class="cta"><div class="bt">${b.price ? 'À découvrir sur WYK Ebook' : (b.read ? 'À lire gratuitement' : 'Gratuit sur WYK Ebook')}</div><div class="url">wykht.com/ebook</div></div></div>
+</body></html>`;
+}
+function bookPage(b) {
+  const url = SITE + '/livre/' + encodeURIComponent(b.id), img = SITE + '/og/livre-' + encodeURIComponent(b.id) + '.jpg', go = SITE + '/ebook#l-' + encodeURIComponent(b.id);
+  const label = TYPES[b.type], by = b.author ? ' de ' + b.author : '';
+  const title = cut(b.title + by + ' — ' + label + ' | WYK Ebook', 70);
+  const priceTxt = b.price ? fmt(b.price) : 'Gratuit';
+  const desc = cut(label + ' « ' + b.title + ' »' + by + ' — ' + priceTxt + ' sur WYK Ebook.' + (b.summary ? ' ' + b.summary : ''), 300);
+  const ld = { '@context': 'https://schema.org', '@type': 'Book', '@id': url + '#book', url, name: b.title, image: [b.cover, img].filter(Boolean), description: b.summary || desc, inLanguage: 'fr' };
+  if (b.author) ld.author = { '@type': 'Person', name: b.author };
+  if (b.pages) ld.numberOfPages = b.pages;
+  ld.offers = { '@type': 'Offer', url, price: String(b.price), priceCurrency: 'HTG', availability: 'https://schema.org/InStock' };
+  const J = o => JSON.stringify(o).replace(/</g, '\\u003c');
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(desc)}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="${esc(url)}">
+<meta property="og:site_name" content="WYK">
+<meta property="og:type" content="book">
+<meta property="og:locale" content="fr_HT">
+<meta property="og:url" content="${esc(url)}">
+<meta property="og:title" content="${esc(b.title + by + ' — ' + priceTxt)}">
+<meta property="og:description" content="${esc(desc)}">
+<meta property="og:image" content="${esc(img)}">
+<meta property="og:image:secure_url" content="${esc(img)}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${esc('Couverture : ' + b.title)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${esc(b.title + by + ' — ' + priceTxt)}">
+<meta name="twitter:description" content="${esc(desc)}">
+<meta name="twitter:image" content="${esc(img)}">
+<link rel="icon" type="image/png" href="${SITE}/assets/brand/wyk-icon.png">
+<script type="application/ld+json">${J(ld)}</script>
+<script>location.replace(${JSON.stringify('/ebook#l-' + b.id)})</script>
+<style>:root{--bg:#f6f5f2;--card:#fff;--ink:#101010;--mut:rgba(16,16,16,.62);--line:rgba(128,128,128,.22)}@media(prefers-color-scheme:dark){:root{--bg:#0d0d0c;--card:#181817;--ink:#f4f4f2;--mut:rgba(244,244,242,.62);--line:rgba(255,255,255,.12)}}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+.w{max-width:760px;margin:0 auto;padding:24px 18px 48px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;display:grid;grid-template-columns:200px 1fr;gap:22px;align-items:start}
+.card img{width:100%;border-radius:6px 12px 12px 6px;box-shadow:0 14px 30px rgba(0,0,0,.28)}h1{font-size:clamp(22px,4vw,30px);line-height:1.2;margin:0 0 6px}.au{color:var(--mut);margin:0 0 10px}.pr{font-size:24px;font-weight:800;margin:0 0 12px}
+.s{white-space:pre-line;color:var(--mut);font-size:14.5px;margin:0 0 16px}.bt{display:inline-block;padding:12px 22px;border-radius:30px;background:#e8192c;color:#fff;font-weight:700;text-decoration:none}
+@media(max-width:560px){.card{grid-template-columns:1fr}.card img{max-width:220px}}</style>
+</head>
+<body>
+<div class="w"><main><article class="card">
+${b.cover ? `<img src="${esc(b.cover)}" alt="${esc('Couverture : ' + b.title)}" width="200" height="300" decoding="async">` : ''}
+<div><h1>${esc(b.title)}</h1>${b.author ? `<p class="au">${esc(b.author)} · ${esc(label)}</p>` : `<p class="au">${esc(label)}</p>`}<p class="pr">${esc(priceTxt)}</p>${b.summary ? `<p class="s">${esc(cut(b.summary, 500))}</p>` : ''}<a class="bt" href="${esc('/ebook#l-' + b.id)}">Ouvrir dans WYK Ebook</a></div>
+</article></main></div>
+</body>
+</html>
+`;
+}
+
 (async () => {
-  fs.mkdirSync(PDIR, { recursive: true }); fs.mkdirSync(ODIR, { recursive: true });
+  fs.mkdirSync(PDIR, { recursive: true }); fs.mkdirSync(ODIR, { recursive: true }); fs.mkdirSync(LDIR, { recursive: true });
   let browser, page;
   async function shot(html, out) {
     if (!browser) {
@@ -253,8 +365,19 @@ ${rel}
   const todoIds = new Set(todo.map(p => p.id));
   const stale = prods.filter(p => !todoIds.has(p.id) && isOld(p.id));
 
-  /* --plan : n'affiche que le nombre de changements à faire (sert au workflow pour éviter d'installer Chromium pour rien) */
-  if (process.argv.includes('--plan')) { console.log(todo.length + stale.length + goneIds.length); return; }
+  /* livres de l'Ebook */
+  const bk = await loadBooks();
+  let bman = {}; try { bman = JSON.parse(fs.readFileSync(BMANIFEST, 'utf8')); } catch (e) {}
+  const bnext = {}, btodo = [];
+  for (const b of bk.list) {
+    const h = sha(JSON.stringify(b) + '|b1'); bnext[b.id] = h;
+    if (!(bman[b.id] === h && fs.existsSync(path.join(ODIR, 'livre-' + b.id + '.jpg')) && fs.existsSync(path.join(LDIR, b.id + '.html')))) btodo.push(b);
+  }
+  const bgone = bk.ok ? Object.keys(bman).filter(id => !bnext[id]) : [];
+
+  /* --plan-img : nombre d'IMAGES à (re)générer (Chromium n'est installé que si > 0) ; --plan : nombre total de changements */
+  if (process.argv.includes('--plan-img')) { console.log(todo.length + btodo.length); return; }
+  if (process.argv.includes('--plan')) { console.log(todo.length + stale.length + goneIds.length + btodo.length + bgone.length); return; }
 
   for (const p of todo) {
     console.log('→', p.id, p.name);
@@ -268,6 +391,15 @@ ${rel}
   /* anciennes images .png (trop lourdes pour WhatsApp) : supprimées, sauf l'image par défaut */
   for (const f of fs.readdirSync(ODIR)) if (f.endsWith('.png') && f !== 'default.png') try { fs.unlinkSync(path.join(ODIR, f)); } catch (e) {}
   fs.writeFileSync(MANIFEST, JSON.stringify(next, null, 1) + '\n');
+  for (const b of btodo) {
+    console.log('📖', b.id, b.title);
+    const photo = await toDataUri(b.cover);
+    await shot(bookImgHtml(b, photo), path.join(ODIR, 'livre-' + b.id + '.jpg'));
+    fs.writeFileSync(path.join(LDIR, b.id + '.html'), bookPage(b));
+  }
+  for (const id of bgone)
+    for (const f of [path.join(ODIR, 'livre-' + id + '.jpg'), path.join(LDIR, id + '.html')]) try { fs.unlinkSync(f); } catch (e) {}
+  if (bk.ok) fs.writeFileSync(BMANIFEST, JSON.stringify(bnext, null, 1) + '\n');
   if (browser) await browser.close();
   console.log(`Produits : ${prods.length} · générés ${todo.length} · inchangés ${prods.length - todo.length} · supprimés ${goneIds.length}`);
 })().catch(e => { console.error(e); process.exit(1); });
