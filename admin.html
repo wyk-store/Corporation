@@ -581,7 +581,6 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
     <span class="h-badge">ADMIN</span>
   </div>
   <div class="h-right">
-    <a class="h-link" href="/restolakay?edit=1" target="_blank" rel="noopener" title="Ouvrir Resto Lakay en mode éditeur">Resto Lakay</a>
     <button class="theme-btn" onclick="toggleTheme()">
       <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
       <svg class="icon-moon" viewBox="0 0 24 24"><path stroke-linecap="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
@@ -636,6 +635,9 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
   </div>
   <div class="tab" onclick="switchTab('paycfg',this)">
     <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7a2 2 0 012-2h13v4M3 7v11a2 2 0 002 2h15V9H5a2 2 0 01-2-2z"/><circle cx="16.5" cy="14.5" r="1.2"/></svg>Paiement
+  </div>
+  <div class="tab" onclick="switchTab('pages',this)">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4h10l6 6v10H4zM14 4v6h6"/></svg>Pages libres
   </div>
 </div>
 
@@ -781,8 +783,15 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
 <div class="panel" id="panel-fetes">
   <div class="sec-hd"><h2>Périodes de <em>fête</em></h2><button type="button" class="xp-btn" onclick="feNew()">+ Nouvelle fête</button></div>
   <p class="xp-help">Chaque période de fête (Saint-Valentin, Noël, Pâques…) a sa <b>page créée automatiquement</b> à l'adresse <b>wykht.com/nom-de-la-fête</b>. Choisissez les produits, un titre et une description : la page, ses zones d'images et sa mise en page sont prêtes. Connecté en admin, ouvrez la page puis « Mode éditeur » pour modifier les sections.</p>
-  <div class="xp-card" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:200px"><b style="font-size:.9rem">Resto Lakay</b><div style="font-size:.72rem;color:var(--t3)">wykht.com/restolakay — plats, boissons, desserts, spécialités</div></div><a class="xp-btn ghost" href="/restolakay" target="_blank" rel="noopener">Voir la page</a><a class="xp-btn" href="/restolakay?edit=1" target="_blank" rel="noopener">Mode éditeur</a></div>
   <div id="feList" class="xp-list"><div class="loading-box"><div class="spinner"></div>Chargement…</div></div>
+</div>
+
+<!-- ═══════ PAGES LIBRES ═══════ -->
+<div class="panel" id="panel-pages">
+  <div class="sec-hd"><h2>Pages <em>libres</em></h2></div>
+  <p class="xp-help">Ces pages vivent à part du magasin : leurs contenus ne s'affichent pas sur l'accueil. « Mode éditeur » ouvre la page avec les outils de modification (connecté en admin). Les textes, images, annonces et éléments se changent directement sur la page.</p>
+  <div class="xp-card" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:200px"><b style="font-size:.9rem">Resto Lakay</b><div style="font-size:.72rem;color:var(--t3)">wykht.com/restolakay — plats, boissons, desserts, spécialités</div></div><a class="xp-btn ghost" href="/restolakay" target="_blank" rel="noopener">Voir la page</a><a class="xp-btn" href="/restolakay?edit=1" target="_blank" rel="noopener">Mode éditeur</a></div>
+  <div class="xp-card" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:200px"><b style="font-size:.9rem">Ebook</b><div style="font-size:.72rem;color:var(--t3)">wykht.com/ebook — livres, bandes dessinées, mangas, suggestions des lecteurs</div></div><a class="xp-btn ghost" href="/ebook" target="_blank" rel="noopener">Voir la page</a><a class="xp-btn" href="/ebook?edit=1" target="_blank" rel="noopener">Mode éditeur</a></div>
 </div>
 
 <!-- ═══════ MODALE FÊTE ═══════ -->
@@ -1342,6 +1351,8 @@ header{margin:12px 12px 0;border-radius:24px;height:60px;background:var(--bg)!im
       </div>
       <div class="toggle-row" style="margin-bottom:6px"><span class="toggle-lbl">Catégorie restauration (page Resto Lakay)</span><label class="toggle"><input type="checkbox" id="cat-resto"><div class="toggle-track"></div></label></div>
       <div class="form-hint" style="margin-bottom:14px">Activé : ses produits ne s'affichent plus sur l'accueil, seule l'icône mène à <b>wykht.com/restolakay</b>.</div>
+      <div class="toggle-row" style="margin-bottom:6px"><span class="toggle-lbl">Catégorie Ebook (page Ebook)</span><label class="toggle"><input type="checkbox" id="cat-ebook"><div class="toggle-track"></div></label></div>
+      <div class="form-hint" style="margin-bottom:14px">Ebook activé : la catégorie mène à <b>wykht.com/ebook</b> et ses produits ne s'affichent pas sur l'accueil.</div>
       <div class="form-group">
         <label class="form-lbl">Adresse de la page</label>
         <div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;opacity:.65;white-space:nowrap">wykht.com/categorie?c=</span><input class="form-input" type="text" id="cat-slug" placeholder="auto, ex: mode" oninput="slugTouched=true;this.value=catSlugify(this.value);updateSlugPrev()" style="flex:1"></div>
@@ -2340,7 +2351,7 @@ async function backfillSkus(){
 
 /* ═════════ PÉRIODES DE FÊTE ═════════ */
 var FE={list:[],prods:[],sel:{}},feSlugTouched=false;
-var FE_RESERVED=/^(categories|categorie|compte|apropos|jeux|confidentiality|conditions-utilisation|commande|panier|admin|manager|employe|restolakay|fete|index|assets|og|tools|produit)$/;
+var FE_RESERVED=/^(categories|categorie|compte|apropos|jeux|confidentiality|conditions-utilisation|commande|panier|admin|manager|employe|restolakay|ebook|fete|index|assets|og|tools|produit)$/;
 function feSlugify(t){return String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')}
 async function feLoad(){
   var el=document.getElementById('feList');
@@ -2474,7 +2485,7 @@ async function loadCategories(){
     var item=document.createElement('div');item.className='data-item';
     item.innerHTML='<div class="data-item-img" style="background:'+(c.color||'#fff0f1')+'">'+iconHtml+'</div>'
       +'<div class="data-item-body"><div class="data-item-name">'+c.name+'</div><div class="data-item-sub">'+(c.description||'Pas de description')+'</div></div>'
-      +'<div class="data-item-actions"><a class="btn-edit" href="'+((c.is_resto||/resto\s*lakay|restolakay/i.test(c.name||''))?'/restolakay':'/categorie?c='+encodeURIComponent(c.slug||catSlugify(c.name)))+'" target="_blank" rel="noopener" title="Voir la page de la catégorie" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:15px">↗</a><button class="btn-edit" onclick="copyCatLink(\''+c.id+'\')" title="Copier le lien de la page" style="font-size:12px">Lien</button><button class="btn-edit" onclick="editCat(\''+c.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button><button class="btn-del" onclick="deleteCat(\''+c.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></div>';
+      +'<div class="data-item-actions"><a class="btn-edit" href="'+((c.is_resto||/resto\s*lakay|restolakay/i.test(c.name||''))?'/restolakay':(c.is_ebook||/^\s*(e-?books?|livres?\s+num[eé]riques?)\s*$/i.test(c.name||''))?'/ebook':'/categorie?c='+encodeURIComponent(c.slug||catSlugify(c.name)))+'" target="_blank" rel="noopener" title="Voir la page de la catégorie" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:15px">↗</a><button class="btn-edit" onclick="copyCatLink(\''+c.id+'\')" title="Copier le lien de la page" style="font-size:12px">Lien</button><button class="btn-edit" onclick="editCat(\''+c.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button><button class="btn-del" onclick="deleteCat(\''+c.id+'\')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></div>';
     list.appendChild(item);
   });
   el.appendChild(list);
@@ -2483,14 +2494,14 @@ function catSlugify(t){return String(t||'').normalize('NFD').replace(/[\u0300-\u
 var slugTouched=false;
 function updateSlugPrev(){var v=catSlugify(document.getElementById('cat-slug').value||document.getElementById('cat-name').value);document.getElementById('cat-slug-prev').textContent='https://wykht.com/categorie?c='+(v||'…')}
 function onCatNameInput(){if(!slugTouched)document.getElementById('cat-slug').value=catSlugify(document.getElementById('cat-name').value);updateSlugPrev()}
-function copyCatLink(id){var c=catsList.find(function(x){return x.id===id});if(!c)return;var u='https://wykht.com/categorie?c='+encodeURIComponent(c.slug||catSlugify(c.name));try{navigator.clipboard.writeText(u);showToast('Lien copié : '+u)}catch(e){prompt('Copie ce lien',u)}}
+function copyCatLink(id){var c=catsList.find(function(x){return x.id===id});if(!c)return;var u=(c.is_resto||/resto\s*lakay|restolakay/i.test(c.name||''))?'https://wykht.com/restolakay':(c.is_ebook||/^\s*(e-?books?|livres?\s+num[eé]riques?)\s*$/i.test(c.name||''))?'https://wykht.com/ebook':'https://wykht.com/categorie?c='+encodeURIComponent(c.slug||catSlugify(c.name));try{navigator.clipboard.writeText(u);showToast('Lien copié : '+u)}catch(e){prompt('Copie ce lien',u)}}
 var catImgFile=null;
 function previewCatImage(u){var b=document.getElementById('cat-image-prev');if(!b)return;var ok=u&&/^(https?:|blob:)/i.test(u);if(ok){b.style.display='block';b.querySelector('img').src=u}else{b.style.display='none';b.querySelector('img').removeAttribute('src')}var rm=document.getElementById('cat-img-rm');if(rm)rm.style.display=ok?'inline-block':'none'}
 function setCatImgMode(m){document.getElementById('cat-img-up').style.display=m==='up'?'':'none';document.getElementById('cat-image-url').style.display=m==='url'?'':'none';document.querySelectorAll('#cat-img-seg button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-m')===m)})}
 function handleCatImg(input){if(input.files[0]){catImgFile=input.files[0];document.getElementById('cat-image-url').value='';previewCatImage(URL.createObjectURL(catImgFile))}}
 function removeCatImg(){catImgFile=null;document.getElementById('cat-image-url').value='';document.getElementById('cat-image-file').value='';previewCatImage('')}
 function openCatModal(){
-  document.getElementById('cat-id').value='';document.getElementById('cat-name').value='';document.getElementById('cat-resto').checked=false;
+  document.getElementById('cat-id').value='';document.getElementById('cat-name').value='';document.getElementById('cat-resto').checked=false;document.getElementById('cat-ebook').checked=false;
   document.getElementById('cat-desc').value='';document.getElementById('cat-color').value='#fff0f1';
   document.getElementById('cat-icon').value='';document.getElementById('cat-icon-url').value='';document.getElementById('cat-image-url').value='';catImgFile=null;setCatImgMode('up');previewCatImage('');document.getElementById('cat-slug').value='';slugTouched=false;updateSlugPrev();
   document.getElementById('catModalTitle').textContent='Nouvelle catégorie';
@@ -2502,7 +2513,7 @@ function editCat(id){
   document.getElementById('catModalTitle').textContent='Modifier la catégorie';
   document.getElementById('cat-id').value=c.id;document.getElementById('cat-name').value=c.name||'';
   document.getElementById('cat-desc').value=c.description||'';document.getElementById('cat-color').value=c.color||'#fff0f1';
-  document.getElementById('cat-icon').value=c.icon||'';document.getElementById('cat-resto').checked=!!c.is_resto||/resto\s*lakay|restolakay/i.test(c.name||'');
+  document.getElementById('cat-icon').value=c.icon||'';document.getElementById('cat-resto').checked=!!c.is_resto||/resto\s*lakay|restolakay/i.test(c.name||'');document.getElementById('cat-ebook').checked=!!c.is_ebook||/^\s*(e-?books?|livres?\s+num[eé]riques?)\s*$/i.test(c.name||'');
   document.getElementById('cat-image-url').value=c.image_url||'';catImgFile=null;setCatImgMode(c.image_url?'url':'up');previewCatImage(c.image_url||'');document.getElementById('cat-slug').value=c.slug||catSlugify(c.name);slugTouched=!!c.slug;updateSlugPrev();
   selectedIconUrl=c.icon_url||'';
   document.getElementById('cat-icon-url').value=c.icon_url||'';
@@ -2517,7 +2528,7 @@ async function saveCat(){
   if(!name){showToast('Nom requis !',true);return}
   btn.classList.add('loading');
   var iconUrl=document.getElementById('cat-icon-url').value||selectedIconUrl||null;
-  var payload={name,description:document.getElementById('cat-desc').value||null,color:document.getElementById('cat-color').value,icon:document.getElementById('cat-icon').value||null,icon_url:iconUrl,is_resto:document.getElementById('cat-resto').checked};
+  var payload={name,description:document.getElementById('cat-desc').value||null,color:document.getElementById('cat-color').value,icon:document.getElementById('cat-icon').value||null,icon_url:iconUrl,is_resto:document.getElementById('cat-resto').checked,is_ebook:document.getElementById('cat-ebook').checked};
   var existingId=document.getElementById('cat-id').value;var error;
   var imgVal=(document.getElementById('cat-image-url').value||'').trim()||null;
   var hadImg=existingId&&(catsList.find(function(x){return x.id===existingId})||{}).image_url;
@@ -2529,7 +2540,7 @@ async function saveCat(){
   async function persist(p){if(existingId){return await db.from('categories').update(p).eq('id',existingId)}return await db.from('categories').insert([p]).select()}
   var pres=await persist(payload);error=pres.error;var catId=existingId||(pres.data&&pres.data[0]&&pres.data[0].id);
   var dropped=[];
-  for(var col of ['image_url','slug','is_resto']){if(error&&new RegExp(col,'i').test(error.message||'')&&payload[col]!==undefined){delete payload[col];dropped.push(col);var pr=await persist(payload);error=pr.error;if(!catId)catId=pr.data&&pr.data[0]&&pr.data[0].id}}
+  for(var col of ['image_url','slug','is_resto','is_ebook']){if(error&&new RegExp(col,'i').test(error.message||'')&&payload[col]!==undefined){delete payload[col];dropped.push(col);var pr=await persist(payload);error=pr.error;if(!catId)catId=pr.data&&pr.data[0]&&pr.data[0].id}}
   if(!error&&dropped.length)showToast('Catégorie enregistrée, mais une colonne manque ('+dropped.join(', ')+') : exécutez le SQL indiqué dans le formulaire',true);
   if(error){showToast('Erreur: '+error.message,true);btn.classList.remove('loading');return}
   if(catImgFile&&catId){var ext=catImgFile.name.split('.').pop();var cpath='categories/'+catId+'/'+Date.now()+'.'+ext;var up=await db.storage.from(BUCKET).upload(cpath,catImgFile,{upsert:true,contentType:catImgFile.type});if(up.error){showToast('Image non envoyée : '+up.error.message,true)}else{var pu=db.storage.from(BUCKET).getPublicUrl(cpath).data.publicUrl;var r3=await db.from('categories').update({image_url:pu}).eq('id',catId);if(r3.error)showToast("Catégorie enregistrée, mais la colonne image_url manque : exécutez le SQL indiqué dans le formulaire",true)}}
